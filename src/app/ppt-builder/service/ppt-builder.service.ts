@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { PptElementModel, PPtElementEnum } from '../model/ppt-components.enum';
+import { ChartFormatModel } from '../model';
 
 @Injectable()
 export class PPtBuilderService {
-  constructor() {}
+  constructor() {
+    this.pptElements.push({
+      name: 'Chart',
+      type: PPtElementEnum.Chart,
+      format: new ChartFormatModel()
+    });
+  }
 
-  public pptElements: PptElementModel[] = [
-    { type: PPtElementEnum.Table, name: 'Table' },
-    { type: PPtElementEnum.Chart, name: 'Chart' }
-  ];
+  public pptElements: PptElementModel[] = [];
 }

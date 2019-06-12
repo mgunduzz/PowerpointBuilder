@@ -1,0 +1,9 @@
+<ng-container *ngIf="type == elementTypes.TABLE">
+  <div class="example-box" [ngStyle]="{ left: data.x, top: data.y }" [cdkDragBoundary]="'.container'" cdkDrag>
+    {{ data.name }}
+  </div>
+</ng-container>
+
+<ng-container *ngIf="type == elementTypes.CHART">
+  <ppt-chart-element [data]="data"> </ppt-chart-element>
+</ng-container>

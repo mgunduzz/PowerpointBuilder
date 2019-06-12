@@ -1,0 +1,8 @@
+<ng-container *ngFor="let formatInput of element.format.formatInputs">
+  <div *ngIf="formatInput.inputType == 4">
+    <label>
+      <input type="checkbox" [(ngModel)]="formatInput.value" [ngModelOptions]="{ standalone: true }" />
+      {{ formatInput.name }}
+    </label>
+  </div>
+</ng-container>

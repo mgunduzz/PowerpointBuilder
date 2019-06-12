@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
-import { Logger, I18nService, AuthenticationService, untilDestroyed } from '@app/core';
+import { PPtElementEnum } from '@app/ppt-builder/model';
+import { PPtBuilderService } from '@app/ppt-builder/service';
 
 @Component({
   selector: 'ppt-base-element',
@@ -20,13 +19,12 @@ export class BaseElementContainer implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   isLoading = false;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private i18nService: I18nService,
-    private authenticationService: AuthenticationService
-  ) {}
+  elementTypes: any = {};
+
+  constructor() {
+    this.elementTypes.TABLE = PPtElementEnum.Table;
+    this.elementTypes.CHART = PPtElementEnum.Chart;
+  }
 
   ngOnInit() {}
 
