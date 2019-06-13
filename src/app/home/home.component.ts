@@ -17,21 +17,5 @@ export class HomeComponent implements OnInit {
 
   constructor(private quoteService: QuoteService, private _pPtBuilderService: PPtBuilderService) {}
 
-  pptElementList = this._pPtBuilderService.pptElements;
-  done: any[] = [];
-  activeElement: PptElementModel = undefined;
-
-  drop(event: CdkDragDrop<string[]>) {
-    var item = event.item.data;
-    item.x = '50%';
-    item.y = '50%';
-
-    console.log(item);
-
-    this.done.push(item);
-
-    this.activeElement = item;
-  }
-
   ngOnInit() {}
 }

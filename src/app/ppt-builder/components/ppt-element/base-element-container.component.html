@@ -1,9 +1,9 @@
 <ng-container *ngIf="type == elementTypes.TABLE">
-  <div class="example-box" [ngStyle]="{ left: data.x, top: data.y }" [cdkDragBoundary]="'.container'" cdkDrag>
-    {{ data.name }}
+  <div class="example-box" [ngStyle]="{ left: element.x, top: element.y }" [cdkDragBoundary]="'.container'" cdkDrag>
+    {{ element.name }}
   </div>
 </ng-container>
 
 <ng-container *ngIf="type == elementTypes.CHART">
-  <ppt-chart-element [data]="data"> </ppt-chart-element>
+  <ppt-chart-element [element]="element"> </ppt-chart-element>
 </ng-container>
