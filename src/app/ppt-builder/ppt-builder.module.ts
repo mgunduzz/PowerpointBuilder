@@ -9,11 +9,12 @@ import { BaseElementContainer } from './components/ppt-element/base-element-cont
 import { ChartElement } from './components/ppt-element/elements/chart/chart-element.component';
 import { PptFormatCompontent } from './components/ppt-format/ppt-format.component';
 import { FormsModule } from '@angular/forms';
+import { MainContainer as PptMainContainer } from './components/main-container/main-container.component';
 
 @NgModule({
   imports: [CommonModule, DemoMaterialModule, FormsModule],
-  declarations: [BaseElementContainer, ChartElement, PptFormatCompontent],
-  exports: [BaseElementContainer, PptFormatCompontent],
+  declarations: [BaseElementContainer, ChartElement, PptFormatCompontent, PptMainContainer],
+  exports: [BaseElementContainer, PptFormatCompontent, PptMainContainer],
   providers: [PPtBuilderService]
 })
 export class PptBuilderModule {}

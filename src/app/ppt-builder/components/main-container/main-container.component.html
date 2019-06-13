@@ -1,0 +1,25 @@
+<div style="display: flex;width: 100%;padding: 10px;height: 100vh;">
+  <div style="width: 15%; background-color: #d3d3d3;height: 100%;display: flex;flex-direction: column;">
+    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="pptElementList" class="example-list">
+      <div
+        class="example-box"
+        *ngFor="let item of pptElementList"
+        cdkDrag
+        [cdkDragData]="item"
+        (cdkDragDropped)="drop($event)"
+      >
+        {{ item.name }}
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="flex-grow: 1; margin-left: 15px; background-color: #d3d3d3;">
+    <div class="example-list">
+      <ppt-base-element *ngFor="let item of done" [data]="item" [type]="item.type"></ppt-base-element>
+    </div>
+  </div>
+
+  <div style="width: 30%;margin-left: 15px;background-color: #d3d3d3;">
+    <ppt-format *ngIf="activeElement" [element]="activeElement"></ppt-format>
+  </div>
+</div>
