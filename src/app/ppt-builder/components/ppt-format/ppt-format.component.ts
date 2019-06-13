@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
@@ -12,6 +12,10 @@ import { PPtBuilderService } from '@app/ppt-builder/service';
 })
 export class PptFormatCompontent implements OnInit, OnDestroy {
   @Input('element') element: PptElementModel;
+  footerMessageChecked: boolean = false;
+  footerDateChecked: boolean = false;
+  chartTitleChecked: boolean = false;
+  model: {} = {};
 
   constructor() {}
 
