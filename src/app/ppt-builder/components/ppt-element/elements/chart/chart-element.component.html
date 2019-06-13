@@ -1,5 +1,3 @@
 <div class="chart-box" [ngStyle]="{ left: element.x, top: element.y }" [cdkDragBoundary]="'.container'" cdkDrag>
-  {{ element.name }}
-
-  {{ element.format.formatInputs | json }}
+  <canvas id="myChart" width="400" height="400"></canvas>
 </div>

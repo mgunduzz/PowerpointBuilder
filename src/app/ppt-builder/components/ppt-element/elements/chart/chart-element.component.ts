@@ -1,10 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
-
-import { environment } from '@env/environment';
-import { Logger, I18nService, AuthenticationService, untilDestroyed } from '@app/core';
+import { Chart } from 'chart.js';
+import { PptElementModel, PPtFormatInputsEnum, FormatCheckboxInputModel } from '@app/ppt-builder/model';
 
 @Component({
   selector: 'ppt-chart-element',
@@ -12,11 +8,71 @@ import { Logger, I18nService, AuthenticationService, untilDestroyed } from '@app
   styleUrls: ['./chart-element.component.scss']
 })
 export class ChartElement implements OnInit, OnDestroy {
-  @Input('element') element: any;
+  @Input('element') element: PptElementModel;
+  myChart: Chart = undefined;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.element.onFormatChange.subscribe(res => {
+      var formatInput = res as FormatCheckboxInputModel;
+      if (formatInput.inputId == PPtFormatInputsEnum.legend) {
+        (this.myChart as any).options.legend.display = formatInput.value;
+      } else if (formatInput.inputId == PPtFormatInputsEnum.title) {
+        (this.myChart as any).options.title.display = formatInput.value;
+      }
+
+      this.myChart.update();
+    });
+
+    var ctx = (document.getElementById('myChart') as any).getContext('2d');
+
+    this.myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Votes'],
+        datasets: [
+          {
+            label: '# of Votes',
+            backgroundColor: '#000080',
+            data: [80]
+          },
+          {
+            label: '# of Votes2',
+            backgroundColor: '#d3d3d3',
+            data: [90]
+          },
+          {
+            label: '# of Votes3',
+            backgroundColor: '#add8e6',
+            data: [45]
+          }
+        ]
+      },
+      options: {
+        legend: {
+          display: false,
+          position: 'right',
+          labels: {
+            fontColor: '#000080'
+          }
+        },
+        title: {
+          display: false,
+          text: 'example title'
+        },
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true
+              }
+            }
+          ]
+        }
+      }
+    });
+  }
 
   ngOnDestroy() {}
 }
