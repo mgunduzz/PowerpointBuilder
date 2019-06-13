@@ -24,7 +24,7 @@ export class MainContainer implements OnInit, OnDestroy {
 
     this.done.push(item);
 
-    this.activeElement = item;
+    this._pPtBuilderService.activeElementSubscription.next(item);
   }
 
   ngOnInit() {}

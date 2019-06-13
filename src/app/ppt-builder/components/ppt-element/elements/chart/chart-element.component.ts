@@ -12,7 +12,7 @@ import { Logger, I18nService, AuthenticationService, untilDestroyed } from '@app
   styleUrls: ['./chart-element.component.scss']
 })
 export class ChartElement implements OnInit, OnDestroy {
-  @Input('data') data: any;
+  @Input('element') element: any;
 
   constructor() {}
 

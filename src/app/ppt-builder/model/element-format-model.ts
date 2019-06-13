@@ -5,8 +5,14 @@ export enum PPtElementFormatInputTypeEnum {
   checkbox
 }
 
+export enum PPtFormatInputsEnum {
+  title = 1,
+  legend
+}
+
 export class BaseFormatInputModel {
   name: string;
+  inputId: PPtFormatInputsEnum;
   inputType: PPtElementFormatInputTypeEnum;
 }
 
@@ -25,11 +31,20 @@ export class ChartFormatModel extends BaseElementFormatModel {
     this.formatInputs = [];
 
     let title: FormatCheckboxInputModel = {
+      inputId: PPtFormatInputsEnum.title,
       name: 'Title',
       inputType: PPtElementFormatInputTypeEnum.checkbox,
       value: false
     };
 
+    let legend: FormatCheckboxInputModel = {
+      inputId: PPtFormatInputsEnum.legend,
+      name: 'Legend',
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
     this.formatInputs.push(title);
+    this.formatInputs.push(legend);
   }
 }

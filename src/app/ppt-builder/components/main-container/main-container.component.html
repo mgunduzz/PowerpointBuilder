@@ -13,13 +13,13 @@
     </div>
   </div>
 
-  <div class="container" style="flex-grow: 1; margin-left: 15px; background-color: #d3d3d3;">
+  <div style=" display: flex; flex-grow: 1; margin-left: 15px; background-color: #d3d3d3;">
     <div class="example-list">
-      <ppt-base-element *ngFor="let item of done" [data]="item" [type]="item.type"></ppt-base-element>
+      <ppt-base-element *ngFor="let item of done" [element]="item" [type]="item.type"></ppt-base-element>
     </div>
   </div>
 
-  <div style="width: 30%;margin-left: 15px;background-color: #d3d3d3;">
-    <ppt-format *ngIf="activeElement" [element]="activeElement"></ppt-format>
+  <div style="width: 300px;margin-left: 15px;background-color: #d3d3d3;">
+    <ppt-format></ppt-format>
   </div>
 </div>
