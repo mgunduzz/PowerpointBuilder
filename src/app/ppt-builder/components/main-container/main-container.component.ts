@@ -40,19 +40,21 @@ export class MainContainer implements OnInit, OnDestroy {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       }
     );
+  }
 
-    var item = this.pptElementList.filter(item => item.type == PPtElementEnum.Chart)[0];
-
-    item.x = '35%';
-    item.y = '35%';
-
-    console.log(item);
+  onAddChart() {
+    this.onAddBarChart();
   }
 
   onAddBarChart() {
     let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%');
 
     this.done.push(chartEl);
+  }
+
+  onElementClick(item: PptElementModel) {
+    this._pPtBuilderService.activeElementSubscription.next(item);
+    this._pPtBuilderService.setActiveElement(item);
   }
 
   private getDismissReason(reason: any): string {
