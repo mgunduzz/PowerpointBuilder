@@ -20,4 +20,5 @@ export class PptElementModel {
   y?: string;
   format: BaseElementFormatModel;
   onFormatChange: Subject<BaseFormatInputModel>;
+  isActiveElement: boolean;
 }

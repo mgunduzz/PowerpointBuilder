@@ -32,7 +32,7 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
-  checkBoxValueSelectedChange(formatInput: FormatCheckboxInputModel) {
+  onInputValuechange(formatInput: BaseFormatInputModel) {
     this.element.onFormatChange.next(formatInput);
   }
 

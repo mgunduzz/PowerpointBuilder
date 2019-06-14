@@ -10,11 +10,12 @@ import { ChartElement } from './components/ppt-element/elements/chart/chart-elem
 import { PptFormatCompontent } from './components/ppt-format/ppt-format.component';
 import { FormsModule } from '@angular/forms';
 import { MainContainer as PptMainContainer } from './components/main-container/main-container.component';
+import { PptCheckBoxInput } from './components/ppt-format/inputs/checkbox-input.component';
 
 @NgModule({
   imports: [CommonModule, DemoMaterialModule, FormsModule],
-  declarations: [BaseElementContainer, ChartElement, PptFormatCompontent, PptMainContainer],
-  exports: [BaseElementContainer, PptFormatCompontent, PptMainContainer],
+  declarations: [BaseElementContainer, ChartElement, PptFormatCompontent, PptMainContainer, PptCheckBoxInput],
+  exports: [BaseElementContainer, PptFormatCompontent, PptMainContainer, PptCheckBoxInput],
   providers: [PPtBuilderService]
 })
 export class PptBuilderModule {}

@@ -29,18 +29,11 @@ export class MainContainer implements OnInit, OnDestroy {
   }
 
   onElementClick(item: PptElementModel) {
-    this._pPtBuilderService.activeElementSubscription.next(item);
+    this._pPtBuilderService.setActiveElement(item);
   }
 
   onAddBarChart() {
-    var chartEl = new PptElementModel();
-    chartEl.format = new ChartFormatModel();
-    chartEl.name = 'Chart';
-    chartEl.type = PPtElementEnum.Chart;
-    chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
-
-    chartEl.x = '35%';
-    chartEl.y = '35%';
+    let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%');
 
     this.done.push(chartEl);
   }

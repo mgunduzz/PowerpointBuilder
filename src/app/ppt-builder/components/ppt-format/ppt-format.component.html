@@ -1,105 +1,69 @@
 <ng-container *ngIf="element && element.format.formatInputs">
-  <ng-container *ngFor="let formatInput of element.format.formatInputs">
-    <div *ngIf="formatInput.inputType == 4">
-      <label>
-        <input
-          type="checkbox"
-          [(ngModel)]="formatInput.value"
-          (ngModelChange)="checkBoxValueSelectedChange(formatInput)"
-          [ngModelOptions]="{ standalone: true }"
-        />
-        {{ formatInput.name }}
-      </label>
+  <div class="main-format">
+    <div class="format-block">
+      <div class="format-title"><span class="format-title-text">Slide Footer</span></div>
+      <div class="row row-margin">
+        <ppt-checkbox-input [input]="element.format.formatInputs.title" (onValuechange)="onInputValuechange($event)">
+        </ppt-checkbox-input>
+      </div>
+
+      <div class="row row-margin">
+        <ppt-checkbox-input [input]="element.format.formatInputs.legend" (onValuechange)="onInputValuechange($event)">
+        </ppt-checkbox-input>
+      </div>
     </div>
-    <div class="main-format">
-      <div class="format-block">
-        <div class="format-title"><span class="format-title-text">Background</span></div>
-        <div class="format-settings">
-          <div class="row format-settings-dropdown clearfix" style="padding-bottom: 8px !important;">
-            <div class="col-3 y-center">
-              <span class="text">Fill</span>
-            </div>
-            <div class="col-9 right-div">
-              <div class="dropdown">
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Follow Layout
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+
+    <div class="format-block">
+      <div class="format-title"><span class="format-title-text">Background</span></div>
+      <div class="format-settings">
+        <div class="row format-settings-dropdown clearfix" style="padding-bottom: 8px !important;">
+          <div class="col-3 y-center">
+            <span class="text">Fill</span>
+          </div>
+          <div class="col-9 right-div">
+            <div class="dropdown">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Follow Layout
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </div>
           </div>
-          <div class="row clearfix ">
-            <div class="col-12 right-div">
-              <span class="orange-text">Apply To All</span>
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="format-block">
-        <div class="format-title"><span class="format-title-text">Slide Footer</span></div>
-        <div class="row row-margin">
-          <div>
-            <input type="checkbox" id="showSlideNumber" />
-            <label class="form-check-label" for="showSlideNumber"
-              ><span class="text" style="margin-left:10px;">Show Slide Number</span></label
-            >
-          </div>
-        </div>
-        <div class="row row-margin">
-          <div class="flex">
-            <div class="y-center">
-              <input type="checkbox" id="showSlideNumber" [(ngModel)]="footerMessageChecked" />
-            </div>
-            <input
-              type="text"
-              placeholder="Footer Message"
-              class="form-control input-font-size"
-              [disabled]="footerMessageChecked == false"
-            />
-          </div>
-        </div>
-        <div class="row row-margin">
-          <div class="flex">
-            <div class="y-center">
-              <input type="checkbox" id="showSlideNumber" [(ngModel)]="footerDateChecked" />
-              <input
-                type="date"
-                placeholder="Footer Message"
-                class="form-control input-font-size"
-                [disabled]="footerDateChecked == false"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="format-block">
-        <div class="format-title"><span class="format-title-text">Options</span></div>
-        <div class="row row-margin">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitch1" />
-            <label class="custom-control-label" for="customSwitch1"
-              ><span class="text">Hide Slide (During Slideshow)</span></label
-            >
-          </div>
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="customSwitch2" />
-            <label class="custom-control-label" for="customSwitch2"
-              ><span class="text">Lock Slide(s) (From Editing)</span></label
-            >
+        <div class="row clearfix ">
+          <div class="col-12 right-div">
+            <span class="orange-text">Apply To All</span>
           </div>
         </div>
       </div>
     </div>
-  </ng-container>
+
+    <div class="format-block">
+      <div class="format-title"><span class="format-title-text">Options</span></div>
+      <div class="row row-margin">
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="customSwitch1" />
+          <label class="custom-control-label" for="customSwitch1"
+            ><span class="text">Hide Slide (During Slideshow)</span></label
+          >
+        </div>
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="customSwitch2" />
+          <label class="custom-control-label" for="customSwitch2"
+            ><span class="text">Lock Slide(s) (From Editing)</span></label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-container>
