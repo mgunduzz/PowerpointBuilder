@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import { PptElementModel, PPtElementEnum } from '@app/ppt-builder/model';
+import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'ppt-main-container',
@@ -27,17 +28,21 @@ export class MainContainer implements OnInit, OnDestroy {
     this._pPtBuilderService.activeElementSubscription.next(item);
   }
 
-  onAddBarChart() {
-    var item = this.pptElementList.filter(item => item.type == PPtElementEnum.Chart)[0];
-
-    item.x = '35%';
-    item.y = '35%';
-
-    console.log(item);
-
-    this.done.push(item);
-
+  onElementClick(item: PptElementModel) {
     this._pPtBuilderService.activeElementSubscription.next(item);
+  }
+
+  onAddBarChart() {
+    var chartEl = new PptElementModel();
+    chartEl.format = new ChartFormatModel();
+    chartEl.name = 'Chart';
+    chartEl.type = PPtElementEnum.Chart;
+    chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
+
+    chartEl.x = '35%';
+    chartEl.y = '35%';
+
+    this.done.push(chartEl);
   }
 
   ngOnInit() {}
