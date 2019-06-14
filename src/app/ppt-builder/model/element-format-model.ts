@@ -21,7 +21,7 @@ export class FormatCheckboxInputModel extends BaseFormatInputModel {
 }
 
 export class BaseElementFormatModel {
-  formatInputs?: BaseFormatInputModel[];
+  formatInputs?: any = {};
 }
 
 export class ChartFormatModel extends BaseElementFormatModel {
@@ -44,7 +44,7 @@ export class ChartFormatModel extends BaseElementFormatModel {
       value: false
     };
 
-    this.formatInputs.push(title);
-    this.formatInputs.push(legend);
+    this.formatInputs.title = title;
+    this.formatInputs.legend = legend;
   }
 }

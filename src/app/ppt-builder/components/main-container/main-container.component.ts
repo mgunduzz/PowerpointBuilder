@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import { PptElementModel, PPtElementEnum } from '@app/ppt-builder/model';
+import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'ppt-main-container',
@@ -46,10 +47,12 @@ export class MainContainer implements OnInit, OnDestroy {
     item.y = '35%';
 
     console.log(item);
+  }
 
-    this.done.push(item);
+  onAddBarChart() {
+    let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%');
 
-    this._pPtBuilderService.activeElementSubscription.next(item);
+    this.done.push(chartEl);
   }
 
   private getDismissReason(reason: any): string {

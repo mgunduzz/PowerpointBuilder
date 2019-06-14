@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import { PptElementModel, PPtFormatInputsEnum, FormatCheckboxInputModel } from '@app/ppt-builder/model';
 
@@ -9,6 +9,7 @@ import { PptElementModel, PPtFormatInputsEnum, FormatCheckboxInputModel } from '
 })
 export class ChartElement implements OnInit, OnDestroy {
   @Input('element') element: PptElementModel;
+  @ViewChild('myChart') myChartElRef: ElementRef;
   myChart: Chart = undefined;
 
   constructor() {}
@@ -25,7 +26,7 @@ export class ChartElement implements OnInit, OnDestroy {
       this.myChart.update();
     });
 
-    var ctx = (document.getElementById('myChart') as any).getContext('2d');
+    var ctx = (this.myChartElRef.nativeElement as any).getContext('2d');
 
     this.myChart = new Chart(ctx, {
       type: 'bar',

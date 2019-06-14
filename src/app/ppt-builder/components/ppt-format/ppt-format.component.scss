@@ -1,79 +1,80 @@
-.main-format {
+::ng-deep .main-format {
   display: flex;
   flex-direction: column;
-}
-.format-block {
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid #b3b3b3;
-  padding-bottom: 10px;
-  padding: 10px;
-}
 
-.row {
-  margin: 0;
-}
-.row-margin {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-}
+  .format-block {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #b3b3b3;
+    padding-bottom: 10px;
+    padding: 10px;
+  }
 
-.flex {
-  display: flex;
-}
+  .row {
+    margin: 0;
+  }
+  .row-margin {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+  }
 
-.format-title-text {
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(51, 51, 51, 1);
-}
+  .flex {
+    display: flex;
+  }
 
-.format-title {
-  margin-bottom: 5px;
-}
+  .format-title-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(51, 51, 51, 1);
+  }
 
-.format-settings-dropdown {
-  padding: 15px 0;
-}
+  .format-title {
+    margin-bottom: 5px;
+  }
 
-.input-font-size {
-  font-size: 11px;
-  margin-left: 10px;
-}
+  .format-settings-dropdown {
+    padding: 15px 0;
+  }
 
-.dropdown {
-  margin-left: 20px;
-}
+  .input-font-size {
+    font-size: 11px;
+    margin-left: 10px;
+  }
 
-.dropdown-toggle {
-  background-color: #b3b3b3;
-  font-size: 10px;
-}
+  .dropdown {
+    margin-left: 20px;
+  }
 
-.y-center {
-  display: flex;
-  align-items: center;
-}
-.text {
-  font-size: 13px;
-  color: #444;
-}
+  .dropdown-toggle {
+    background-color: #b3b3b3;
+    font-size: 10px;
+  }
 
-.orange-text {
-  color: #e25e49;
-  cursor: pointer;
-  font-size: 11px;
-}
+  .y-center {
+    display: flex;
+    align-items: center;
+  }
+  .text {
+    font-size: 13px;
+    color: #444;
+  }
 
-.right-div {
-  display: flex;
-  flex-direction: row-reverse;
-}
-.flex-row {
-  display: flex;
-}
+  .orange-text {
+    color: #e25e49;
+    cursor: pointer;
+    font-size: 11px;
+  }
 
-.form-check {
-  margin-right: 10px;
+  .right-div {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .flex-row {
+    display: flex;
+  }
+
+  .form-check {
+    margin-right: 10px;
+  }
 }

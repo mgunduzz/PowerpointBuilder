@@ -140,7 +140,12 @@
 
   <div style=" display: flex; flex-grow: 1; margin-left: 15px; background-color: #d3d3d3;">
     <div class="example-list">
-      <ppt-base-element *ngFor="let item of done" [element]="item" [type]="item.type"></ppt-base-element>
+      <ppt-base-element
+        *ngFor="let item of done"
+        (click)="onElementClick(item)"
+        [element]="item"
+        [type]="item.type"
+      ></ppt-base-element>
     </div>
   </div>
 
