@@ -3,15 +3,15 @@
     <i class="fas fa-text-width tools-icon"></i>
     <small class="tools-box-text">Text</small>
   </div>
-  <div class="tools-box" (click)="onAddBarChart()">
+  <div class="tools-box">
     <i class="far fa-image tools-icon"></i>
     <small class="tools-box-text">İmage</small>
   </div>
-  <div class="tools-box" (click)="onAddBarChart()">
+  <div class="tools-box">
     <i class="fas fa-shapes tools-icon"></i>
     <small class="tools-box-text">Shape</small>
   </div>
-  <div class="tools-box" (click)="onAddBarChart()">
+  <div class="tools-box">
     <i class="fas fa-table tools-icon"></i>
     <small class="tools-box-text">Table</small>
   </div>
@@ -19,7 +19,7 @@
     <i class="far fa-chart-bar tools-icon"></i>
     <small class="tools-box-text">Chart</small>
   </div>
-  <div class="tools-box" (click)="onAddBarChart()">
+  <div class="tools-box">
     <i class="fas fa-film tools-icon"></i>
     <small class="tools-box-text">Media</small>
   </div>
@@ -86,9 +86,9 @@
         id="home"
         role="tabpanel"
         aria-labelledby="home-tab"
-        (click)="onAddChart()"
+        (click)="onAddChart(); modal.close()"
       >
-        1
+        <img src="https://img.icons8.com/metro/26/000000/statistics.png" />
       </div>
       <div
         class="tab-pane fade show active"
@@ -96,6 +96,7 @@
         *ngIf="selectTab == 2"
         role="tabpanel"
         aria-labelledby="profile-tab"
+        (click)="onAddChart(); modal.close()"
       >
         2
       </div>
@@ -105,6 +106,7 @@
         *ngIf="selectTab == 3"
         role="tabpanel"
         aria-labelledby="contact-tab"
+        (click)="onAddChart(); modal.close()"
       >
         3
       </div>
@@ -114,6 +116,7 @@
         *ngIf="selectTab == 4"
         role="tabpanel"
         aria-labelledby="contact-tab"
+        (click)="onAddChart(); modal.close()"
       >
         4
       </div>
@@ -141,12 +144,8 @@
 
   <div style=" display: flex; flex-grow: 1; margin-left: 15px; background-color: #d3d3d3;">
     <div class="example-list">
-      <ppt-base-element
-        *ngFor="let item of done"
-        (click)="onElementClick(item)"
-        [element]="item"
-        [type]="item.type"
-      ></ppt-base-element>
+      <ppt-base-element *ngFor="let item of done" (click)="onElementClick(item)" [element]="item" [type]="item.type">
+      </ppt-base-element>
     </div>
   </div>
 
