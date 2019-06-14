@@ -1,8 +1,127 @@
-<div style="height: 30px;background-color: #d3d3d3;display: flex;justify-content: center;">
-  <div style="width: 30px;border: solid 1px red" (click)="onAddBarChart()">
-    Bar
+<div class="tools-container">
+  <div class="tools-box">
+    <i class="fas fa-text-width tools-icon"></i>
+    <small class="tools-box-text">Text</small>
   </div>
+  <div class="tools-box" (click)="onAddBarChart()">
+    <i class="far fa-image tools-icon"></i>
+    <small class="tools-box-text">İmage</small>
+  </div>
+  <div class="tools-box" (click)="onAddBarChart()">
+    <i class="fas fa-shapes tools-icon"></i>
+    <small class="tools-box-text">Shape</small>
+  </div>
+  <div class="tools-box" (click)="onAddBarChart()">
+    <i class="fas fa-table tools-icon"></i>
+    <small class="tools-box-text">Table</small>
+  </div>
+  <div class="tools-box" (click)="openModal(content)">
+    <i class="far fa-chart-bar tools-icon"></i>
+    <small class="tools-box-text">Chart</small>
+  </div>
+  <div class="tools-box" (click)="onAddBarChart()">
+    <i class="fas fa-film tools-icon"></i>
+    <small class="tools-box-text">Media</small>
+  </div>
+
+  <!--  -->
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <ul class="nav " id="myTab" role="tablist" style="    border-bottom: 1px solid #f5f5f5;">
+      <li class="tab-bar-li" (click)="selectTab = 1" [ngClass]="{ 'tab-bar-li-active': selectTab == 1 }">
+        <a
+          class="nav-link"
+          style="color: #495057;"
+          id="home-tab"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="home"
+          aria-selected="true"
+          ><i class="fas fa-chart-pie"></i
+        ></a>
+      </li>
+      <li class="tab-bar-li" (click)="selectTab = 2" [ngClass]="{ 'tab-bar-li-active': selectTab == 2 }">
+        <a
+          class="nav-link"
+          style="color: #495057;"
+          id="profile-tab"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="profile"
+          aria-selected="false"
+          ><i class="fas fa-chart-line"></i
+        ></a>
+      </li>
+      <li class=" tab-bar-li" (click)="selectTab = 3" [ngClass]="{ 'tab-bar-li-active': selectTab == 3 }">
+        <a
+          class="nav-link"
+          style="color: #495057;"
+          id="contact-tab"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="contact"
+          aria-selected="false"
+          ><i class="fas fa-chart-bar"></i
+        ></a>
+      </li>
+      <li class=" tab-bar-li" (click)="selectTab = 4" [ngClass]="{ 'tab-bar-li-active': selectTab == 4 }">
+        <a
+          class="nav-link"
+          style="color: #495057;"
+          id="contact-tab"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="contact"
+          aria-selected="false"
+          ><i class="fas fa-chart-area"></i>
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent" style="    width: 100%;padding: 15px;">
+      <div
+        class="tab-pane fade show active"
+        *ngIf="selectTab == 1"
+        id="home"
+        role="tabpanel"
+        aria-labelledby="home-tab"
+      >
+        1
+      </div>
+      <div
+        class="tab-pane fade show active"
+        id="profile"
+        *ngIf="selectTab == 2"
+        role="tabpanel"
+        aria-labelledby="profile-tab"
+      >
+        2
+      </div>
+      <div
+        class="tab-pane fade show active"
+        id="contact"
+        *ngIf="selectTab == 3"
+        role="tabpanel"
+        aria-labelledby="contact-tab"
+      >
+        3
+      </div>
+      <div
+        class="tab-pane fade show active"
+        id="contact"
+        *ngIf="selectTab == 4"
+        role="tabpanel"
+        aria-labelledby="contact-tab"
+      >
+        4
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
 
 <div style="display: flex;width: 100%;padding: 10px;height: 100vh;">
   <div style="width: 15%; background-color: #d3d3d3;height: 100%;display: flex;flex-direction: column;">
