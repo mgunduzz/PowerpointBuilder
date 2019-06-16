@@ -1,0 +1,27 @@
+.slide-list {
+  border: 1px solid #d3d3d3;
+  padding: 10px;
+  height: 100%;
+
+  .slide {
+    cursor: pointer;
+    height: 150px;
+    border: 1px solid #d3d3d3;
+    margin-bottom: 10px;
+
+    &.active {
+      background-color: #b2b2b2;
+    }
+  }
+
+  .add-slide-button {
+    display: flex;
+    justify-content: center;
+    span {
+      border: 1.2px solid #d3d3d3;
+      padding: 5px 10px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+}

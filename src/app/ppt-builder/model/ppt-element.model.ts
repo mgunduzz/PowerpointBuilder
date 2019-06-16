@@ -22,3 +22,9 @@ export class PptElementModel {
   onFormatChange: Subject<BaseFormatInputModel>;
   isActiveElement: boolean;
 }
+
+export class LoadElementModel {
+  isClear?: boolean;
+  elementList: PptElementModel[];
+  dontAddToSlide?: boolean = false;
+}

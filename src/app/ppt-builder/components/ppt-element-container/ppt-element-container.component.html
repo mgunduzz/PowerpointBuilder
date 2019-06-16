@@ -1,0 +1,4 @@
+<div class="element-list-container">
+  <ppt-base-element *ngFor="let item of elementList" (click)="onElementClick(item)" [element]="item" [type]="item.type">
+  </ppt-base-element>
+</div>

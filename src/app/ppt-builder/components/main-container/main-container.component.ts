@@ -14,22 +14,8 @@ export class MainContainer implements OnInit, OnDestroy {
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {}
 
   closeResult: string;
-  pptElementList = this._pPtBuilderService.pptElements;
-  done: any[] = [];
   activeElement: PptElementModel = undefined;
   selectTab: number = 1;
-
-  drop(event: CdkDragDrop<string[]>) {
-    var item = event.item.data;
-    item.x = '50%';
-    item.y = '50%';
-
-    console.log(item);
-
-    this.done.push(item);
-
-    this._pPtBuilderService.activeElementSubscription.next(item);
-  }
 
   openModal(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
@@ -49,12 +35,7 @@ export class MainContainer implements OnInit, OnDestroy {
   onAddBarChart() {
     let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%');
 
-    this.done.push(chartEl);
-  }
-
-  onElementClick(item: PptElementModel) {
-    this._pPtBuilderService.activeElementSubscription.next(item);
-    this._pPtBuilderService.setActiveElement(item);
+    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [chartEl], dontAddToSlide: false });
   }
 
   private getDismissReason(reason: any): string {

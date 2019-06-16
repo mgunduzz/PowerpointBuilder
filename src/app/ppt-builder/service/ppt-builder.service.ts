@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { PptElementModel, PPtElementEnum } from '../model/ppt-components.enum';
-import { ChartFormatModel, BaseFormatInputModel } from '../model';
+import { ChartFormatModel, BaseFormatInputModel, PptElementModel, PPtElementEnum, LoadElementModel } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
 export class PPtBuilderService {
   constructor() {}
 
-  public pptElements: PptElementModel[] = [];
+  public pptElementsSubscription: BehaviorSubject<LoadElementModel> = new BehaviorSubject<LoadElementModel>(undefined);
+
   public activeElementSubscription = new BehaviorSubject<PptElementModel>(undefined);
 
   setActiveElement(item: PptElementModel) {
@@ -22,8 +22,6 @@ export class PPtBuilderService {
     chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
     chartEl.x = x;
     chartEl.y = y;
-
-    this.pptElements.push(chartEl);
 
     return chartEl;
   }

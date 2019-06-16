@@ -1,0 +1,16 @@
+<div class="slide-list">
+  <div
+    class="slide"
+    (click)="onSlideClick(slide)"
+    *ngFor="let slide of slideList; let i = index"
+    [ngClass]="{ active: slide.isActive }"
+  >
+    {{ i + 1 }}
+  </div>
+
+  <div class="add-slide-button">
+    <span (click)="addSlide()">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+    </span>
+  </div>
+</div>
