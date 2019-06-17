@@ -1,0 +1,10 @@
+<div [cdkDragBoundary]="'.container'" cdkDrag>
+  <div class="table">
+    <div *ngFor="let row of tableBox" style="display: flex;">
+      <div
+        *ngFor="let col of row.cols"
+        style="width: 60px;height: 40px;background-color: rgb(66,195,201);margin: 1px;"
+      ></div>
+    </div>
+  </div>
+</div>

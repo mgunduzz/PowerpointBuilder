@@ -23,6 +23,11 @@ export class PptElementModel {
   isActiveElement: boolean;
 }
 
+export class PptTableElementModel extends PptElementModel {
+  row: number;
+  col: number;
+}
+
 export class LoadElementModel {
   isClear?: boolean;
   elementList: PptElementModel[];

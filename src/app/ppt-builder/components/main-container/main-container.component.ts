@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -16,9 +16,10 @@ export class MainContainer implements OnInit, OnDestroy {
   closeResult: string;
   activeElement: PptElementModel = undefined;
   selectTab: number = 1;
+  tableBox: Array<any>;
 
-  openModal(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+  openModal(content: any, className: string = '') {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', windowClass: className }).result.then(
       result => {
         this.closeResult = `Closed with: ${result}`;
       },
@@ -49,11 +50,49 @@ export class MainContainer implements OnInit, OnDestroy {
   }
 
   selectTabType(e: any) {
-    debugger;
     console.log(e);
   }
 
-  ngOnInit() {}
+  onTableBoxOver() {}
+
+  onTableBoxHover(box: any) {
+    let index = box.index + 1;
+    let row = Math.ceil(index / 8);
+    let col = index % 8;
+
+    if (col == 0) col = 8;
+
+    document.getElementsByClassName('selected-box-index')[0].innerHTML = Math.ceil(row) + ' x ' + col;
+
+    this.tableBox.forEach(item => (item.isActive = false));
+
+    for (let i = 0; i < row; i++) {
+      for (let j = 0; j < col; j++) {
+        this.tableBox[i * 8 + j].isActive = true;
+      }
+    }
+  }
+
+  onBoxClick(box: any) {
+    let index = box.index + 1;
+    let row = Math.ceil(index / 8);
+    let col = index % 8;
+
+    if (col == 0) col = 8;
+
+    let tableEl = this._pPtBuilderService.createTableElement('35%', '35%', row, col);
+    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [tableEl], dontAddToSlide: false });
+    this.modalService.dismissAll();
+  }
+
+  ngOnInit() {
+    let startNumber = 0;
+    this.tableBox = Array(64)
+      .fill({})
+      .map((item, index) => {
+        return { index: index, isActive: false };
+      });
+  }
 
   ngOnDestroy() {}
 }

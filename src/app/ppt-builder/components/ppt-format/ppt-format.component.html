@@ -2,12 +2,12 @@
   <div class="main-format">
     <div class="format-block">
       <div class="format-title"><span class="format-title-text">Slide Footer</span></div>
-      <div class="row row-margin">
+      <div class="row row-margin" *ngIf="element.format.formatInputs.title">
         <ppt-checkbox-input [input]="element.format.formatInputs.title" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>
       </div>
 
-      <div class="row row-margin">
+      <div class="row row-margin" *ngIf="element.format.formatInputs.legend">
         <ppt-checkbox-input [input]="element.format.formatInputs.legend" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>
       </div>

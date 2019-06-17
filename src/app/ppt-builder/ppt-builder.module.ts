@@ -13,6 +13,7 @@ import { MainContainer as PptMainContainer } from './components/main-container/m
 import { PptCheckBoxInput } from './components/ppt-format/inputs/checkbox-input.component';
 import { PptElementContainer } from './components/ppt-element-container/ppt-element-container.component';
 import { PptSlideList } from './components/ppt-slide-list/ppt-slide-list.component';
+import { TableElement } from './components/ppt-element/elements/table/table-element.component';
 
 @NgModule({
   imports: [CommonModule, DemoMaterialModule, FormsModule],
@@ -23,7 +24,8 @@ import { PptSlideList } from './components/ppt-slide-list/ppt-slide-list.compone
     PptMainContainer,
     PptCheckBoxInput,
     PptElementContainer,
-    PptSlideList
+    PptSlideList,
+    TableElement
   ],
   exports: [
     BaseElementContainer,
@@ -31,7 +33,8 @@ import { PptSlideList } from './components/ppt-slide-list/ppt-slide-list.compone
     PptMainContainer,
     PptCheckBoxInput,
     PptElementContainer,
-    PptSlideList
+    PptSlideList,
+    TableElement
   ],
   providers: [PPtBuilderService]
 })

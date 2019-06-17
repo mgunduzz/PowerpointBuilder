@@ -24,11 +24,19 @@ export class BaseElementFormatModel {
   formatInputs?: any = {};
 }
 
+export class TableFormatModel extends BaseElementFormatModel {
+  constructor() {
+    super();
+
+    this.formatInputs = {};
+  }
+}
+
 export class ChartFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
 
-    this.formatInputs = [];
+    this.formatInputs = {};
 
     let title: FormatCheckboxInputModel = {
       inputId: PPtFormatInputsEnum.title,

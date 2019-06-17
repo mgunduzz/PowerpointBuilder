@@ -24,7 +24,6 @@ export class PptElementContainer implements OnInit, OnDestroy {
   }
 
   onElementClick(item: PptElementModel) {
-    this._pPtBuilderService.activeElementSubscription.next(item);
     this._pPtBuilderService.setActiveElement(item);
   }
 

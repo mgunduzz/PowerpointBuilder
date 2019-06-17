@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ChartFormatModel, BaseFormatInputModel, PptElementModel, PPtElementEnum, LoadElementModel } from '../model';
+import {
+  ChartFormatModel,
+  BaseFormatInputModel,
+  PptElementModel,
+  PPtElementEnum,
+  LoadElementModel,
+  PptTableElementModel,
+  TableFormatModel
+} from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
@@ -24,5 +32,19 @@ export class PPtBuilderService {
     chartEl.y = y;
 
     return chartEl;
+  }
+
+  createTableElement(x: string, y: string, row: number, col: number) {
+    var tableEl = new PptTableElementModel();
+    tableEl.format = new TableFormatModel();
+    tableEl.name = 'Table';
+    tableEl.type = PPtElementEnum.Table;
+    tableEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    tableEl.x = x;
+    tableEl.y = y;
+    tableEl.row = row;
+    tableEl.col = col;
+
+    return tableEl;
   }
 }

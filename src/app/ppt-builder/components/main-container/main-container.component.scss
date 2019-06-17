@@ -43,3 +43,27 @@
     color: #e25e49;
   }
 }
+
+.table-box-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 250px;
+
+  .box {
+    width: 25px;
+    height: 25px;
+    margin: 3px;
+    background-color: #e6e6e6;
+
+    &.active {
+      background-color: #a7a7a7 !important;
+    }
+  }
+}
+
+:host ::ng-deep .table-modal {
+  background-color: red;
+  .modal-dialog {
+    width: 285px !important;
+  }
+}
