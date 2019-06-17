@@ -1,11 +1,14 @@
 <div class="slide-list">
   <div
-    class="slide"
+    class="slide-container"
     (click)="onSlideClick(slide)"
     *ngFor="let slide of slideList; let i = index"
     [ngClass]="{ active: slide.isActive }"
   >
-    {{ i + 1 }}
+    <div class="slide-number">
+      <span>{{ i + 1 }}</span>
+    </div>
+    <div class="slide"></div>
   </div>
 
   <div class="add-slide-button">
