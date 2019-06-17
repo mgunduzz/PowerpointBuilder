@@ -78,7 +78,44 @@
           ><i class="fas fa-chart-area"></i>
         </a>
       </li>
+      <li class=" tab-bar-li" (click)="selectTab = 5" [ngClass]="{ 'tab-bar-li-active': selectTab == 5 }">
+        <a
+          class="nav-link"
+          style="color: #495057;"
+          id="contact-tab"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="contact"
+          aria-selected="false"
+          ><i class="fas fa-chart-area"></i>
+        </a>
+      </li>
+      <li class=" tab-bar-li" (click)="selectTab = 6" [ngClass]="{ 'tab-bar-li-active': selectTab == 6 }">
+        <a
+          class="nav-link"
+          style="color: #495057;"
+          id="contact-tab"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="contact"
+          aria-selected="false"
+          ><i class="fas fa-chart-area"></i>
+        </a>
+      </li>
+      <li class=" tab-bar-li" (click)="selectTab = 7" [ngClass]="{ 'tab-bar-li-active': selectTab == 7 }">
+        <a
+          class="nav-link"
+          style="color: #495057;"
+          id="contact-tab"
+          data-toggle="tab"
+          role="tab"
+          aria-controls="contact"
+          aria-selected="false"
+          ><i class="fas fa-chart-area"></i>
+        </a>
+      </li>
     </ul>
+    <div class="tab-content" id="myTabContent" style="    width: 100%;padding: 15px;"></div>
     <div class="tab-content" id="myTabContent" style="    width: 100%;padding: 15px;">
       <div
         class="tab-pane fade show active"
@@ -88,7 +125,26 @@
         aria-labelledby="home-tab"
         (click)="onAddChart(); modal.close()"
       >
-        <img src="https://img.icons8.com/metro/26/000000/statistics.png" />
+        <div class="sub-type-list">
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Clustered Column</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Stacked Column</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>100% Stacked Column</span></div>
+          </div>
+        </div>
       </div>
       <div
         class="tab-pane fade show active"
@@ -98,7 +154,26 @@
         aria-labelledby="profile-tab"
         (click)="onAddChart(); modal.close()"
       >
-        2
+        <div class="sub-type-list">
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Clustered Bar</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Stacked Bar</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>100% Stacked Bar</span></div>
+          </div>
+        </div>
       </div>
       <div
         class="tab-pane fade show active"
@@ -108,7 +183,46 @@
         aria-labelledby="contact-tab"
         (click)="onAddChart(); modal.close()"
       >
-        3
+        <div class="sub-type-list">
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Line</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Stacked Line</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>100% Stacked Line</span></div>
+          </div>
+        </div>
+        <div class="sub-type-list">
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Marked Line</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Stacked Marked Line</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>100% Stacked Marked Line</span></div>
+          </div>
+        </div>
       </div>
       <div
         class="tab-pane fade show active"
@@ -118,12 +232,45 @@
         aria-labelledby="contact-tab"
         (click)="onAddChart(); modal.close()"
       >
-        4
+        <div class="sub-type-list">
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Marked Scatter</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Smooth Marked Scatter</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Straight Line Scatter</span></div>
+          </div>
+        </div>
+        <div class="sub-type-list">
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Straight Marked Scatter</span></div>
+          </div>
+          <div class="sub-type">
+            <div class="sub-type-image-div">
+              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+            </div>
+            <div class="sub-type-text"><span>Straight Lined Scatter</span></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> -->
+    </div>
   </div>
 </ng-template>
 

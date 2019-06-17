@@ -43,3 +43,35 @@
     color: #e25e49;
   }
 }
+
+.sub-type-list {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.sub-type {
+  display: flex;
+  flex-direction: column;
+  width: 33.33%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.sub-type:hover {
+  color: #e25e49;
+}
+
+.sub-type-text {
+  font-size: 11px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.sub-type-image-div {
+  margin: 0 auto;
+}
+.sub-type-image {
+  width: 40px;
+  height: 40px;
+}
