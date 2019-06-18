@@ -29,3 +29,12 @@
 ppt-slide-list {
   height: 100%;
 }
+
+.modal-dialog {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.modal-content {
+  width: fit-content !important;
+}

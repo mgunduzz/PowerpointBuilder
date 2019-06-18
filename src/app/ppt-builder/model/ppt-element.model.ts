@@ -27,6 +27,7 @@ export class PptElementModel {
 export class PptTableElementModel extends PptElementModel {
   row: number;
   col: number;
+  isActive?: boolean = false;
 }
 
 export class PptTextElementModel extends PptElementModel {
