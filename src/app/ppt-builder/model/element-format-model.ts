@@ -1,3 +1,8 @@
+export class KeyValueModel {
+  key: number;
+  value: string;
+}
+
 export enum PPtElementFormatInputTypeEnum {
   text = 1,
   number,
@@ -8,7 +13,11 @@ export enum PPtElementFormatInputTypeEnum {
 export enum PPtFormatInputsEnum {
   title = 1,
   legend,
-  value
+  value,
+  backgroundColor,
+  fontSize,
+  font,
+  list
 }
 
 export class BaseFormatInputModel {
@@ -19,6 +28,18 @@ export class BaseFormatInputModel {
 
 export class FormatCheckboxInputModel extends BaseFormatInputModel {
   value: boolean;
+}
+
+export class FormatTextInputModel extends BaseFormatInputModel {
+  value: string;
+}
+
+export class FormatNumberInputModel extends BaseFormatInputModel {
+  value: number;
+}
+
+export class FormatListInputModel extends BaseFormatInputModel {
+  value: Array<KeyValueModel>;
 }
 
 export class BaseElementFormatModel {
@@ -36,6 +57,32 @@ export class TableFormatModel extends BaseElementFormatModel {
 export class TextFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
+
+    let backgroundColor: FormatTextInputModel = {
+      inputId: PPtFormatInputsEnum.backgroundColor,
+      name: 'Background Color',
+      inputType: PPtElementFormatInputTypeEnum.text,
+      value: '#FFFFFF'
+    };
+
+    let fontSize: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.fontSize,
+      name: 'Font Size',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 12
+    };
+
+    let fontList = new Array<KeyValueModel>();
+    fontList.push({ key: 1, value: 'test' });
+    fontList.push({ key: 2, value: 'test2' });
+    fontList.push({ key: 3, value: 'test3' });
+
+    let font: FormatListInputModel = {
+      inputId: PPtFormatInputsEnum.list,
+      name: 'Font Size',
+      inputType: PPtElementFormatInputTypeEnum.list,
+      value: fontList
+    };
   }
 }
 
