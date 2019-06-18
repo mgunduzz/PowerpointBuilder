@@ -10,12 +10,14 @@ import { ChartElement } from './components/ppt-element/elements/chart/chart-elem
 import { PptFormatCompontent } from './components/ppt-format/ppt-format.component';
 import { FormsModule } from '@angular/forms';
 import { MainContainer as PptMainContainer } from './components/main-container/main-container.component';
-import { PptCheckBoxInput } from './components/ppt-format/inputs/checkbox-input.component';
 import { PptElementContainer } from './components/ppt-element-container/ppt-element-container.component';
 import { PptSlideList } from './components/ppt-slide-list/ppt-slide-list.component';
 import { TableElement } from './components/ppt-element/elements/table/table-element.component';
 import { TextElement } from './components/ppt-element/elements/text/text-element.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { PptCheckBoxInput } from './components/ppt-format/inputs/checkbox/checkbox-input.component';
+import { PptTextInput } from './components/ppt-format/inputs/textInput/text-input.component';
+import { PptNumberInput } from './components/ppt-format/inputs/numberInput/number-input.component';
 
 @NgModule({
   imports: [CommonModule, DemoMaterialModule, FormsModule, FileUploadModule],
@@ -28,7 +30,9 @@ import { FileUploadModule } from 'ng2-file-upload';
     PptElementContainer,
     PptSlideList,
     TableElement,
-    TextElement
+    TextElement,
+    PptTextInput,
+    PptNumberInput
   ],
   exports: [
     BaseElementContainer,
@@ -38,7 +42,9 @@ import { FileUploadModule } from 'ng2-file-upload';
     PptElementContainer,
     PptSlideList,
     TableElement,
-    TextElement
+    TextElement,
+    PptTextInput,
+    PptNumberInput
   ],
   providers: [PPtBuilderService]
 })

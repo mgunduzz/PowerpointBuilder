@@ -53,6 +53,14 @@ export class PPtBuilderService {
   createTextElement(x: string, y: string, text: string) {
     var textEl = new PptTextElementModel();
     textEl.format = new TextFormatModel();
+
+    textEl.color = 'black';
+    textEl.font = 'sans-serif';
+    textEl.fontSize = '12px';
+    textEl.fontWeigth = 100;
+    textEl.backgroundColor = 'transparent';
+    textEl.fontStyle = 'unset';
+
     textEl.name = 'Text';
     textEl.type = PPtElementEnum.Text;
     textEl.onFormatChange = new Subject<BaseFormatInputModel>();

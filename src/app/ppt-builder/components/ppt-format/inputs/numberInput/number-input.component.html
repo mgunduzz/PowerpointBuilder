@@ -1,0 +1,20 @@
+<div>
+  <label
+    class="form-check-label noselect "
+    for="checkBoxInput_{{ generatedId }}"
+    style="cursor: pointer;display: flex;"
+  >
+    <span class="text"> {{ formatInput.name }} </span>
+
+    <input
+      type="number"
+      name="number-input"
+      id="numberInput_{{ generatedId }}"
+      [(ngModel)]="formatInput.value"
+      (ngModelChange)="onValueChange()"
+      placeholder="formatInput.value"
+      [min]="formatInput.min"
+      [max]="formatInput.max"
+    />
+  </label>
+</div>
