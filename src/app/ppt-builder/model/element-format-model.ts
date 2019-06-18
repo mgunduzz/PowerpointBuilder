@@ -7,7 +7,8 @@ export enum PPtElementFormatInputTypeEnum {
 
 export enum PPtFormatInputsEnum {
   title = 1,
-  legend
+  legend,
+  value
 }
 
 export class BaseFormatInputModel {
@@ -58,7 +59,15 @@ export class ChartFormatModel extends BaseElementFormatModel {
       value: false
     };
 
+    let value: FormatCheckboxInputModel = {
+      inputId: PPtFormatInputsEnum.value,
+      name: 'Value',
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
     this.formatInputs.title = title;
     this.formatInputs.legend = legend;
+    this.formatInputs.value = value;
   }
 }
