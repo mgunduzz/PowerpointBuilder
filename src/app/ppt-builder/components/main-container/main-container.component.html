@@ -4,8 +4,8 @@
     <small class="tools-box-text">Text</small>
   </div>
   <div class="tools-box">
-    <i class="far fa-image tools-icon"></i>
-    <small class="tools-box-text">İmage</small>
+    <i class="far fa-image tools-icon" (click)="openModal(imageContent)"></i>
+    <small class="tools-box-text">Image</small>
   </div>
   <div class="tools-box">
     <i class="fas fa-shapes tools-icon"></i>
@@ -292,6 +292,31 @@
 
     <div style="text-align: center;">
       <span class="selected-box-index"> 0 x 0 </span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #imageContent let-modal>
+  <div class="modal-body">
+    <div
+      ng2FileDrop
+      [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }"
+      (fileOver)="fileOverBase($event)"
+      [uploader]="uploader"
+      class="well my-drop-zone"
+      class="dragdrop-upload-area"
+    >
+      <div><i class="far fa-images drop-icon"></i></div>
+      <div>Drag and Drop</div>
+      <div>
+        <input
+          style="font-size: 13px;margin: 20px 0 0 50px;"
+          type="file"
+          ng2FileSelect
+          [uploader]="uploader"
+          multiple
+        />
+      </div>
     </div>
   </div>
 </ng-template>

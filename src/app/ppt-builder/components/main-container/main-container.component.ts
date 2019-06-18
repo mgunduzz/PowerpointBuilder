@@ -3,7 +3,7 @@ import { PPtBuilderService } from '@app/ppt-builder/service';
 import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'ppt-main-container',
@@ -12,11 +12,23 @@ import { Subject } from 'rxjs';
 })
 export class MainContainer implements OnInit, OnDestroy {
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {}
+  URL: any = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
   closeResult: string;
   activeElement: PptElementModel = undefined;
   selectTab: number = 1;
   tableBox: Array<any>;
+  uploader: FileUploader = new FileUploader({ url: this.URL });
+  public hasBaseDropZoneOver: boolean = false;
+  public hasAnotherDropZoneOver: boolean = false;
+
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
+  }
 
   openModal(content: any, className: string = '') {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', windowClass: className }).result.then(

@@ -15,9 +15,10 @@ import { PptElementContainer } from './components/ppt-element-container/ppt-elem
 import { PptSlideList } from './components/ppt-slide-list/ppt-slide-list.component';
 import { TableElement } from './components/ppt-element/elements/table/table-element.component';
 import { TextElement } from './components/ppt-element/elements/text/text-element.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
-  imports: [CommonModule, DemoMaterialModule, FormsModule],
+  imports: [CommonModule, DemoMaterialModule, FormsModule, FileUploadModule],
   declarations: [
     BaseElementContainer,
     ChartElement,
