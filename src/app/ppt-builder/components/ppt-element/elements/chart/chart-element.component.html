@@ -1,3 +1,10 @@
-<div class="chart-box" [ngStyle]="{ left: element.x, top: element.y }" [cdkDragBoundary]="'.container'" cdkDrag>
+<div
+  class="chart-box"
+  [ngStyle]="{ left: element.x, top: element.y }"
+  [ngClass]="{ active: isChartActive }"
+  [cdkDragBoundary]="'.container'"
+  cdkDrag
+  (click)="isChartActive = !isChartActive"
+>
   <canvas id="myChart" #myChart width="400" height="400"></canvas>
 </div>

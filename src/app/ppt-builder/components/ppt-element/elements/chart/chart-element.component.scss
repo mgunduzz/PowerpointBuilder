@@ -4,5 +4,8 @@
   position: absolute;
   width: 300px;
   height: 300px;
-  border: 1px dashed black;
+
+  &.active {
+    border: 1px dashed;
+  }
 }

@@ -1,5 +1,5 @@
 <div [cdkDragBoundary]="'.container'" cdkDrag>
-  <div class="table">
+  <div class="table" [ngClass]="{ active: element.isActive }" (click)="element.isActive = !element.isActive">
     <div *ngFor="let row of tableBox" style="display: flex;">
       <div
         *ngFor="let col of row.cols"
