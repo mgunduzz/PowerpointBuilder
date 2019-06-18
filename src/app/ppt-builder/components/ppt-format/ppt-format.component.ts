@@ -26,7 +26,6 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
 
   constructor(private pPtBuilderService: PPtBuilderService) {
     this.activeElSubscription = this.pPtBuilderService.activeElementSubscription.subscribe(el => {
-      debugger;
       this.element = el;
     });
   }
