@@ -6,4 +6,8 @@
   <ng-container *ngIf="type == elementTypes.TABLE">
     <ppt-table-element [element]="element"> </ppt-table-element>
   </ng-container>
+
+  <ng-container *ngIf="type == elementTypes.TEXT">
+    <ppt-text-element [element]="element"> </ppt-text-element>
+  </ng-container>
 </div>
