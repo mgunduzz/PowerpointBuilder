@@ -29,6 +29,12 @@ export class MainContainer implements OnInit, OnDestroy {
     );
   }
 
+  createTextElemet() {
+    let textEl = this._pPtBuilderService.createTextElement('35%', '35%', 'Metin Giriniz');
+
+    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [textEl], dontAddToSlide: false });
+  }
+
   onAddChart() {
     this.onAddBarChart();
   }

@@ -6,7 +6,9 @@ import {
   PPtElementEnum,
   LoadElementModel,
   PptTableElementModel,
-  TableFormatModel
+  TableFormatModel,
+  PptTextElementModel,
+  TextFormatModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -46,5 +48,18 @@ export class PPtBuilderService {
     tableEl.col = col;
 
     return tableEl;
+  }
+
+  createTextElement(x: string, y: string, text: string) {
+    var textEl = new PptTextElementModel();
+    textEl.format = new TextFormatModel();
+    textEl.name = 'Text';
+    textEl.type = PPtElementEnum.Text;
+    textEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    textEl.x = x;
+    textEl.y = y;
+    textEl.text = text;
+
+    return textEl;
   }
 }

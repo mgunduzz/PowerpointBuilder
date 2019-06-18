@@ -32,6 +32,12 @@ export class TableFormatModel extends BaseElementFormatModel {
   }
 }
 
+export class TextFormatModel extends BaseElementFormatModel {
+  constructor() {
+    super();
+  }
+}
+
 export class ChartFormatModel extends BaseElementFormatModel {
   constructor() {
     super();

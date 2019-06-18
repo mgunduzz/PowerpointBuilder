@@ -24,6 +24,7 @@ export class BaseElementContainer implements OnInit, OnDestroy {
   constructor() {
     this.elementTypes.TABLE = PPtElementEnum.Table;
     this.elementTypes.CHART = PPtElementEnum.Chart;
+    this.elementTypes.TEXT = PPtElementEnum.Text;
   }
 
   ngOnInit() {}

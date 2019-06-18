@@ -5,7 +5,8 @@ import { Subject } from 'rxjs';
 
 export enum PPtElementEnum {
   Table = 1,
-  Chart
+  Chart = 2,
+  Text = 3
 }
 
 export class PptElementModel {
@@ -27,6 +28,10 @@ export class PptTableElementModel extends PptElementModel {
   row: number;
   col: number;
   isActive?: boolean = false;
+}
+
+export class PptTextElementModel extends PptElementModel {
+  text: string;
 }
 
 export class LoadElementModel {
