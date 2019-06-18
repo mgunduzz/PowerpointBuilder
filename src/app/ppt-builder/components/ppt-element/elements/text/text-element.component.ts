@@ -9,7 +9,6 @@ import {
   FormatNumberInputModel
 } from '@app/ppt-builder/model';
 import { element } from '@angular/core/src/render3';
-import { format } from 'path';
 
 @Component({
   selector: 'ppt-text-element',
