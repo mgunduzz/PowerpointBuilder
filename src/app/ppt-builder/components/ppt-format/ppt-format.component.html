@@ -11,6 +11,33 @@
         <ppt-checkbox-input [input]="element.format.formatInputs.legend" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>
       </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.backgroundColor">
+        <ppt-text-input
+          [input]="element.format.formatInputs.backgroundColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-text-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.fontSize">
+        <ppt-number-input [input]="element.format.formatInputs.fontSize" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.color">
+        <ppt-text-input [input]="element.format.formatInputs.color" (onValuechange)="onInputValuechange($event)">
+        </ppt-text-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.isItalic">
+        <ppt-checkbox-input [input]="element.format.formatInputs.isItalic" (onValuechange)="onInputValuechange($event)">
+        </ppt-checkbox-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.isBold">
+        <ppt-checkbox-input [input]="element.format.formatInputs.isBold" (onValuechange)="onInputValuechange($event)">
+        </ppt-checkbox-input>
+      </div>
     </div>
 
     <div class="format-block">

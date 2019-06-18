@@ -16,7 +16,11 @@ export enum PPtFormatInputsEnum {
   backgroundColor = 3,
   fontSize = 4,
   font = 5,
-  list = 6
+  list = 6,
+  isBold = 7,
+  isItalic = 8,
+  color = 9,
+  fontList = 10
 }
 
 export class BaseFormatInputModel {
@@ -35,6 +39,8 @@ export class FormatTextInputModel extends BaseFormatInputModel {
 
 export class FormatNumberInputModel extends BaseFormatInputModel {
   value: number;
+  min: number;
+  max: number;
 }
 
 export class FormatListInputModel extends BaseFormatInputModel {
@@ -64,10 +70,26 @@ export class TextFormatModel extends BaseElementFormatModel {
       value: '#FFFFFF'
     };
 
+    let color: FormatTextInputModel = {
+      inputId: PPtFormatInputsEnum.color,
+      name: 'Color',
+      inputType: PPtElementFormatInputTypeEnum.text,
+      value: 'black'
+    };
+
+    let isBold: FormatCheckboxInputModel = {
+      inputId: PPtFormatInputsEnum.isBold,
+      name: 'Bold',
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
     let fontSize: FormatNumberInputModel = {
       inputId: PPtFormatInputsEnum.fontSize,
       name: 'Font Size',
       inputType: PPtElementFormatInputTypeEnum.number,
+      max: 100,
+      min: 0,
       value: 12
     };
 
@@ -77,11 +99,25 @@ export class TextFormatModel extends BaseElementFormatModel {
     fontList.push({ key: 3, value: 'test3' });
 
     let font: FormatListInputModel = {
-      inputId: PPtFormatInputsEnum.list,
-      name: 'Font Size',
+      inputId: PPtFormatInputsEnum.fontList,
+      name: 'Font',
       inputType: PPtElementFormatInputTypeEnum.list,
       value: fontList
     };
+
+    let isItalic: FormatCheckboxInputModel = {
+      inputId: PPtFormatInputsEnum.isItalic,
+      name: 'Italic',
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
+    this.formatInputs.backgroundColor = backgroundColor;
+    this.formatInputs.fontSize = fontSize;
+    this.formatInputs.font = font;
+    this.formatInputs.color = color;
+    this.formatInputs.isBold = isBold;
+    this.formatInputs.isItalic = isItalic;
   }
 }
 

@@ -32,6 +32,12 @@ export class PptTableElementModel extends PptElementModel {
 
 export class PptTextElementModel extends PptElementModel {
   text: string;
+  backgroundColor: string;
+  fontSize: string;
+  font: string;
+  fontWeigth: number;
+  fontStyle: string;
+  color: string;
 }
 
 export class LoadElementModel {

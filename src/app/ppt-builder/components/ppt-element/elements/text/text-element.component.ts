@@ -4,8 +4,12 @@ import {
   PPtFormatInputsEnum,
   FormatCheckboxInputModel,
   PptTableElementModel,
-  PptTextElementModel
+  PptTextElementModel,
+  FormatTextInputModel,
+  FormatNumberInputModel
 } from '@app/ppt-builder/model';
+import { element } from '@angular/core/src/render3';
+import { format } from 'path';
 
 @Component({
   selector: 'ppt-text-element',
@@ -17,6 +21,40 @@ export class TextElement implements OnInit, OnDestroy {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.element.onFormatChange.subscribe((res: FormatTextInputModel) => {
+      switch (res.inputId) {
+        case PPtFormatInputsEnum.color:
+          this.element.color = res.value;
+          break;
+        case PPtFormatInputsEnum.font:
+          this.element.font = res.value;
+          break;
+        case PPtFormatInputsEnum.backgroundColor:
+          this.element.backgroundColor = res.value;
+          break;
+        case PPtFormatInputsEnum.fontSize:
+          this.element.fontSize = res.value + 'px';
+          break;
+        case PPtFormatInputsEnum.isItalic:
+          if (res.value as any) {
+            this.element.fontStyle = 'italic';
+          } else {
+            this.element.fontStyle = 'unset';
+          }
+          break;
+        case PPtFormatInputsEnum.isBold:
+          if (res.value as any) {
+            this.element.fontWeigth = 600;
+          } else {
+            this.element.fontWeigth = 100;
+          }
+          break;
+          break;
+        default:
+          break;
+      }
+    });
+  }
   ngOnDestroy() {}
 }
