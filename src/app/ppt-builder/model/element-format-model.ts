@@ -1,5 +1,3 @@
-import { FormatInputPathObject } from 'path';
-
 export class KeyValueModel {
   key: number;
   value: string;
