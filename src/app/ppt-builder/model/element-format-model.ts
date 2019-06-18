@@ -20,7 +20,8 @@ export enum PPtFormatInputsEnum {
   isBold = 7,
   isItalic = 8,
   color = 9,
-  fontList = 10
+  fontList = 10,
+  value
 }
 
 export class BaseFormatInputModel {
@@ -141,7 +142,15 @@ export class ChartFormatModel extends BaseElementFormatModel {
       value: false
     };
 
+    let value: FormatCheckboxInputModel = {
+      inputId: PPtFormatInputsEnum.value,
+      name: 'Value',
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
     this.formatInputs.title = title;
     this.formatInputs.legend = legend;
+    this.formatInputs.value = value;
   }
 }

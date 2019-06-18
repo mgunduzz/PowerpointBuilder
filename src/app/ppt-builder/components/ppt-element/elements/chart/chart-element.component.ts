@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import { PptElementModel, PPtFormatInputsEnum, FormatCheckboxInputModel } from '@app/ppt-builder/model';
+import 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'ppt-chart-element',
@@ -18,10 +19,14 @@ export class ChartElement implements OnInit, OnDestroy {
   ngOnInit() {
     this.element.onFormatChange.subscribe(res => {
       var formatInput = res as FormatCheckboxInputModel;
+      let chartRef = this.myChart as any;
+
       if (formatInput.inputId == PPtFormatInputsEnum.legend) {
-        (this.myChart as any).options.legend.display = formatInput.value;
+        chartRef.options.legend.display = formatInput.value;
       } else if (formatInput.inputId == PPtFormatInputsEnum.title) {
-        (this.myChart as any).options.title.display = formatInput.value;
+        chartRef.options.title.display = formatInput.value;
+      } else if (formatInput.inputId == PPtFormatInputsEnum.value) {
+        chartRef.options.plugins.datalabels.display = formatInput.value;
       }
 
       this.myChart.update();
@@ -52,9 +57,19 @@ export class ChartElement implements OnInit, OnDestroy {
         ]
       },
       options: {
+        plugins: {
+          datalabels: {
+            color: 'white',
+            font: {
+              weight: 'bold'
+            },
+            formatter: Math.round,
+            display: false
+          }
+        },
         legend: {
           display: false,
-          position: 'right',
+          position: 'bottom',
           labels: {
             fontColor: '#000080'
           }
