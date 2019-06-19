@@ -6,7 +6,17 @@ import { Subject } from 'rxjs';
 export enum PPtElementEnum {
   Table = 1,
   Chart = 2,
-  Text = 3
+  Text = 3,
+  Image = 4
+}
+
+export enum ChartTypeEnum {
+  ClusteredColumn = 1,
+  StackedColumn,
+  StackedColumn100,
+  ClusteredBar,
+  StackedBar,
+  StackedBar100
 }
 
 export class PptElementModel {
@@ -24,6 +34,10 @@ export class PptElementModel {
   isActiveElement: boolean;
 }
 
+export class PptChartElementModel extends PptElementModel {
+  chartType: ChartTypeEnum;
+}
+
 export class PptTableElementModel extends PptElementModel {
   row: number;
   col: number;
@@ -38,6 +52,12 @@ export class PptTextElementModel extends PptElementModel {
   fontWeigth: number;
   fontStyle: string;
   color: string;
+}
+
+export class PptImageElementModel extends PptElementModel {
+  url: string;
+  width: string;
+  height: string;
 }
 
 export class LoadElementModel {

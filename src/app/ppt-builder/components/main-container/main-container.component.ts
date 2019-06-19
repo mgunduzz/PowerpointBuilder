@@ -1,25 +1,47 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, Input } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
+import {
+  PptElementModel,
+  PPtElementEnum,
+  ChartFormatModel,
+  BaseFormatInputModel,
+  ChartTypeEnum
+} from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
+import { NgbModal, ModalDismissReasons, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'ppt-main-container',
   templateUrl: './main-container.component.html',
   styleUrls: ['./main-container.component.scss']
 })
-export class MainContainer implements OnInit, OnDestroy {
+export class MainContainer implements OnInit, OnDestroy, OnChanges {
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {}
+  URL: any;
 
   closeResult: string;
   activeElement: PptElementModel = undefined;
   selectTab: number = 1;
   tableBox: Array<any>;
+  uploader: FileUploader = new FileUploader({ url: this.URL });
+  chartType = ChartTypeEnum;
+  modalRef: NgbModalRef;
+
+  public hasBaseDropZoneOver: boolean = false;
+  public hasAnotherDropZoneOver: boolean = false;
+
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
+  }
 
   openModal(content: any, className: string = '') {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', windowClass: className }).result.then(
+    this.modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', windowClass: className });
+    this.modalRef.result.then(
       result => {
         this.closeResult = `Closed with: ${result}`;
       },
@@ -35,14 +57,21 @@ export class MainContainer implements OnInit, OnDestroy {
     this._pPtBuilderService.pptElementsSubscription.next({ elementList: [textEl], dontAddToSlide: false });
   }
 
-  onAddChart() {
-    this.onAddBarChart();
+  closeModal() {
+    this.modalRef.dismiss();
   }
 
-  onAddBarChart() {
-    let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%');
+  onAddImageElement() {
+    let imageEl = this._pPtBuilderService.createImageElement('35%', '35%', this.URL);
 
+    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [imageEl], dontAddToSlide: false });
+  }
+
+  onAddChart(type: ChartTypeEnum) {
+    let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%', type);
     this._pPtBuilderService.pptElementsSubscription.next({ elementList: [chartEl], dontAddToSlide: false });
+
+    this.closeModal();
   }
 
   private getDismissReason(reason: any): string {
@@ -100,5 +129,35 @@ export class MainContainer implements OnInit, OnDestroy {
       });
   }
 
+  onFileSelect(ev: any) {
+    this.onFileDropped();
+  }
+
+  onFileDrop(ev: any) {
+    this.onFileDropped();
+  }
+
+  onFileDropped() {
+    this.uploader.queue.forEach((val, i, array) => {
+      let fileReader = new FileReader();
+      fileReader.onloadend = e => {
+        let imageData: any = fileReader.result;
+        let rawData = imageData.split('base64,');
+        if (rawData.length > 1) {
+          rawData = rawData[1];
+          this.uploader.clearQueue();
+          this.URL = imageData;
+
+          this.onAddImageElement();
+          this.modalService.dismissAll();
+        }
+      };
+
+      fileReader.readAsDataURL(val._file);
+    });
+  }
+
   ngOnDestroy() {}
+
+  ngOnChanges() {}
 }
