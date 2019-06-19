@@ -1,12 +1,34 @@
-<div
-  [cdkDragBoundary]="'.container'"
-  cdkDrag
-  [style.background-color]="element.backgroundColor"
-  [style.font-size]="element.fontSize"
-  [style.font-family]="element.font"
-  [style.font-style]="element.fontStyle"
-  [style.font-weight]="element.fontWeigth"
-  [style.color]="element.color"
->
-  <span>text</span>
+<div #insideElement>
+  <pre
+    [hidden]="!showText"
+    class="text-element"
+    style="cursor: text;margin:3px;"
+    [cdkDragBoundary]="'.container'"
+    cdkDrag
+    (cdkDragEnded)="dragEnded($event)"
+    (cdkDragMoved)="dragMoved($event)"
+    [style.background-color]="element.backgroundColor"
+    [style.font-size]="element.fontSize"
+    [style.font-family]="element.font"
+    [style.font-style]="element.fontStyle"
+    [style.font-weight]="element.fontWeigth"
+    [style.color]="element.color"
+    (click)="showEditableText(); $event.stopPropagation()"
+    style="padding:2px"
+    [innerHTML]="element.text"
+  ></pre>
+
+  <div
+    style="cursor: text;"
+    [style.background-color]="element.backgroundColor"
+    [style.font-size]="element.fontSize"
+    [style.font-family]="element.font"
+    [style.font-style]="element.fontStyle"
+    [style.font-weight]="element.fontWeigth"
+    [style.color]="element.color"
+    [hidden]="showText"
+    [style.transform]="'translate3d(' + newPositionX + ', ' + newPositionY + ',0px)'"
+    contenteditable="true"
+    [(ngModel)]="element.text"
+  ></div>
 </div>

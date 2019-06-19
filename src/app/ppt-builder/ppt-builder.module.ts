@@ -18,9 +18,13 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { PptCheckBoxInput } from './components/ppt-format/inputs/checkbox/checkbox-input.component';
 import { PptTextInput } from './components/ppt-format/inputs/textInput/text-input.component';
 import { PptNumberInput } from './components/ppt-format/inputs/numberInput/number-input.component';
+import { ContentEditableFormDirective } from './directives/content-editable-form.directive';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { PptColorPickerInput } from './components/ppt-format/inputs/colorPickerInput/color-picker-input.component';
+import { ImageComponent } from './components/ppt-element/elements/image/image.component';
 
 @NgModule({
-  imports: [CommonModule, DemoMaterialModule, FormsModule, FileUploadModule],
+  imports: [CommonModule, DemoMaterialModule, FormsModule, FileUploadModule, ColorPickerModule],
   declarations: [
     BaseElementContainer,
     ChartElement,
@@ -32,7 +36,10 @@ import { PptNumberInput } from './components/ppt-format/inputs/numberInput/numbe
     TableElement,
     TextElement,
     PptTextInput,
-    PptNumberInput
+    PptNumberInput,
+    ContentEditableFormDirective,
+    PptColorPickerInput,
+    ImageComponent
   ],
   exports: [
     BaseElementContainer,
@@ -44,7 +51,8 @@ import { PptNumberInput } from './components/ppt-format/inputs/numberInput/numbe
     TableElement,
     TextElement,
     PptTextInput,
-    PptNumberInput
+    PptNumberInput,
+    PptColorPickerInput
   ],
   providers: [PPtBuilderService]
 })

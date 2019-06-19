@@ -1,0 +1,19 @@
+<div>
+  <label
+    class="form-check-label noselect "
+    for="checkBoxInput_{{ generatedId }}"
+    style="cursor: pointer;display: flex;"
+  >
+    <span class="text"> {{ formatInput.name }} </span>
+
+    <input
+      name="colorPicker-input"
+      id="colorPickerInput_{{ generatedId }}"
+      [(ngModel)]="formatInput.value"
+      (colorPickerChange)="onValueChange()"
+      [(colorPicker)]="formatInput.value"
+      [style.background]="formatInput.value"
+      [cpPosition]="'left'"
+    />
+  </label>
+</div>

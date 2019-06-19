@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, Input } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import {
   PptElementModel,
@@ -16,9 +16,9 @@ import { FileUploader } from 'ng2-file-upload';
   templateUrl: './main-container.component.html',
   styleUrls: ['./main-container.component.scss']
 })
-export class MainContainer implements OnInit, OnDestroy {
+export class MainContainer implements OnInit, OnDestroy, OnChanges {
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {}
-  URL: any = 'https://evening-anchorage-3159.herokuapp.com/api/';
+  URL: any;
 
   closeResult: string;
   activeElement: PptElementModel = undefined;
@@ -59,6 +59,12 @@ export class MainContainer implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalRef.dismiss();
+  }
+
+  onAddImageElement() {
+    let imageEl = this._pPtBuilderService.createImageElement('35%', '35%', this.URL);
+
+    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [imageEl], dontAddToSlide: false });
   }
 
   onAddChart(type: ChartTypeEnum) {
@@ -123,5 +129,35 @@ export class MainContainer implements OnInit, OnDestroy {
       });
   }
 
+  onFileSelect(ev: any) {
+    this.onFileDropped();
+  }
+
+  onFileDrop(ev: any) {
+    this.onFileDropped();
+  }
+
+  onFileDropped() {
+    this.uploader.queue.forEach((val, i, array) => {
+      let fileReader = new FileReader();
+      fileReader.onloadend = e => {
+        let imageData: any = fileReader.result;
+        let rawData = imageData.split('base64,');
+        if (rawData.length > 1) {
+          rawData = rawData[1];
+          this.uploader.clearQueue();
+          this.URL = imageData;
+
+          this.onAddImageElement();
+          this.modalService.dismissAll();
+        }
+      };
+
+      fileReader.readAsDataURL(val._file);
+    });
+  }
+
   ngOnDestroy() {}
+
+  ngOnChanges() {}
 }

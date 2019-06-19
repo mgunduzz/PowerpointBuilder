@@ -60,6 +60,14 @@ export class TableFormatModel extends BaseElementFormatModel {
   }
 }
 
+export class ImageFormatModel extends BaseElementFormatModel {
+  constructor() {
+    super();
+
+    this.formatInputs = {};
+  }
+}
+
 export class TextFormatModel extends BaseElementFormatModel {
   constructor() {
     super();

@@ -1,0 +1,14 @@
+[contenteditable] {
+  border: 1px dashed #d8d8d8;
+  white-space: pre;
+  outline: 0;
+  padding: 2px;
+}
+
+[contenteditable]:focus {
+  border-color: #b0b0ff;
+}
+
+[hidden] {
+  display: none !important;
+}

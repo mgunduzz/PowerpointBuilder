@@ -13,11 +13,11 @@
       </div>
 
       <div class="row row-margin" *ngIf="element.format.formatInputs.backgroundColor">
-        <ppt-text-input
+        <ppt-color-picker-input
           [input]="element.format.formatInputs.backgroundColor"
           (onValuechange)="onInputValuechange($event)"
         >
-        </ppt-text-input>
+        </ppt-color-picker-input>
       </div>
 
       <div class="row row-margin" *ngIf="element.format.formatInputs.fontSize">
@@ -26,8 +26,11 @@
       </div>
 
       <div class="row row-margin" *ngIf="element.format.formatInputs.color">
-        <ppt-text-input [input]="element.format.formatInputs.color" (onValuechange)="onInputValuechange($event)">
-        </ppt-text-input>
+        <ppt-color-picker-input
+          [input]="element.format.formatInputs.color"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
       </div>
 
       <div class="row row-margin" *ngIf="element.format.formatInputs.isItalic">

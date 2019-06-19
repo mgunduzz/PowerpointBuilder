@@ -6,7 +6,8 @@ import { Subject } from 'rxjs';
 export enum PPtElementEnum {
   Table = 1,
   Chart = 2,
-  Text = 3
+  Text = 3,
+  Image = 4
 }
 
 export enum ChartTypeEnum {
@@ -62,6 +63,12 @@ export class PptTextElementModel extends PptElementModel {
   fontWeigth: number;
   fontStyle: string;
   color: string;
+}
+
+export class PptImageElementModel extends PptElementModel {
+  url: string;
+  width: string;
+  height: string;
 }
 
 export class LoadElementModel {
