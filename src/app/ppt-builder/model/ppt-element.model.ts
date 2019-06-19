@@ -11,7 +11,11 @@ export enum PPtElementEnum {
 
 export enum ChartTypeEnum {
   ClusteredColumn = 1,
-  StackedColumn
+  StackedColumn,
+  StackedColumn100,
+  ClusteredBar,
+  StackedBar,
+  StackedBar100
 }
 
 export class PptElementModel {

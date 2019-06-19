@@ -8,6 +8,7 @@ import {
   ChartTypeEnum
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
+import 'chartjs-plugin-stacked100';
 
 @Component({
   selector: 'ppt-chart-element',
@@ -43,28 +44,24 @@ export class ChartElement implements OnInit, OnDestroy {
     let chartOptions: Chart.ChartConfiguration = {};
 
     chartOptions.data = {
-      labels: ['Votes'],
+      labels: ['Renault', 'Toyota', 'Mercedes', 'Volkswagen', 'Fiat'],
       datasets: [
         {
-          label: '# of Votes',
+          label: 'Olumlu',
           backgroundColor: '#000080',
-          data: [80]
+          data: [80, 50, 23, 56, 43]
         },
         {
-          label: '# of Votes2',
+          label: 'Olumsuz',
           backgroundColor: '#d3d3d3',
-          data: [90]
-        },
-        {
-          label: '# of Votes3',
-          backgroundColor: '#add8e6',
-          data: [45]
+          data: [90, 45, 26, 64, 37]
         }
       ]
     };
 
     chartOptions.options = {
       plugins: {
+        stacked100: { enable: false },
         datalabels: {
           color: 'white',
           font: {
@@ -108,6 +105,24 @@ export class ChartElement implements OnInit, OnDestroy {
       chartOptions.type = 'bar';
       chartOptions.options.scales.xAxes[0].stacked = true;
       chartOptions.options.scales.yAxes[0].stacked = true;
+    } else if (chartType == ChartTypeEnum.StackedColumn100) {
+      chartOptions.type = 'bar';
+      chartOptions.options.scales.xAxes[0].stacked = true;
+      chartOptions.options.scales.yAxes[0].stacked = true;
+      chartOptions.options.plugins.stacked100 = { enable: true, replaceTooltipLabel: false };
+    } else if (chartType == ChartTypeEnum.ClusteredBar) {
+      chartOptions.type = 'horizontalBar';
+    } else if (chartType == ChartTypeEnum.StackedBar) {
+      chartOptions.type = 'horizontalBar';
+
+      chartOptions.options.scales.xAxes[0].stacked = true;
+      chartOptions.options.scales.yAxes[0].stacked = true;
+    } else if (chartType == ChartTypeEnum.StackedBar100) {
+      chartOptions.type = 'horizontalBar';
+
+      chartOptions.options.scales.xAxes[0].stacked = true;
+      chartOptions.options.scales.yAxes[0].stacked = true;
+      chartOptions.options.plugins.stacked100 = { enable: true, replaceTooltipLabel: false };
     }
 
     this.myChart = new Chart(ctx, chartOptions);
