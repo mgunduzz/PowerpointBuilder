@@ -10,7 +10,9 @@ import {
   PptTextElementModel,
   TextFormatModel,
   PptImageElementModel,
-  ImageFormatModel
+  ImageFormatModel,
+  ChartTypeEnum,
+  PptChartElementModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -26,14 +28,15 @@ export class PPtBuilderService {
     this.activeElementSubscription.next(item);
   }
 
-  createChartElement(x: string, y: string): PptElementModel {
-    var chartEl = new PptElementModel();
+  createChartElement(x: string, y: string, type: ChartTypeEnum): PptElementModel {
+    var chartEl = new PptChartElementModel();
     chartEl.format = new ChartFormatModel();
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
     chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
     chartEl.x = x;
     chartEl.y = y;
+    chartEl.chartType = type;
 
     return chartEl;
   }

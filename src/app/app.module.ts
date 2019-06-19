@@ -15,7 +15,7 @@ import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DemoMaterialModule } from './material-module';
 import { MatNativeDateModule, MatCardModule } from '@angular/material';
 
@@ -34,7 +34,8 @@ import { MatNativeDateModule, MatCardModule } from '@angular/material';
     AboutModule,
     LoginModule,
     BrowserAnimationsModule,
-    AppRoutingModule // must be imported as the last module as it contains the fallback route
+    AppRoutingModule,
+    AngularFontAwesomeModule
   ],
   declarations: [AppComponent],
   providers: [],

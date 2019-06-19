@@ -30,115 +30,60 @@
 <ng-template #content let-modal>
   <div class="modal-body">
     <ul class="nav " id="myTab" role="tablist" style="    border-bottom: 1px solid #f5f5f5;">
+      <!-- Clustered Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 1" [ngClass]="{ 'tab-bar-li-active': selectTab == 1 }">
         <a
           class="nav-link"
           style="color: #495057;"
-          id="home-tab"
+          id="clustered-tab"
           data-toggle="tab"
           role="tab"
-          aria-controls="home"
+          aria-controls="clustered"
           aria-selected="true"
-          ><i class="fas fa-chart-pie"></i
+          ><i class="fa fa-bar-chart"></i
         ></a>
       </li>
+
+      <!-- Bar Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 2" [ngClass]="{ 'tab-bar-li-active': selectTab == 2 }">
         <a
           class="nav-link"
           style="color: #495057;"
-          id="profile-tab"
+          id="bar-tab"
           data-toggle="tab"
           role="tab"
-          aria-controls="profile"
-          aria-selected="false"
-          ><i class="fas fa-chart-line"></i
+          aria-controls="bar"
+          aria-selected="true"
+          ><i class="fa fa-bar-chart"></i
         ></a>
-      </li>
-      <li class=" tab-bar-li" (click)="selectTab = 3" [ngClass]="{ 'tab-bar-li-active': selectTab == 3 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="contact-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="contact"
-          aria-selected="false"
-          ><i class="fas fa-chart-bar"></i
-        ></a>
-      </li>
-      <li class=" tab-bar-li" (click)="selectTab = 4" [ngClass]="{ 'tab-bar-li-active': selectTab == 4 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="contact-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="contact"
-          aria-selected="false"
-          ><i class="fas fa-chart-area"></i>
-        </a>
-      </li>
-      <li class=" tab-bar-li" (click)="selectTab = 5" [ngClass]="{ 'tab-bar-li-active': selectTab == 5 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="contact-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="contact"
-          aria-selected="false"
-          ><i class="fas fa-chart-area"></i>
-        </a>
-      </li>
-      <li class=" tab-bar-li" (click)="selectTab = 6" [ngClass]="{ 'tab-bar-li-active': selectTab == 6 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="contact-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="contact"
-          aria-selected="false"
-          ><i class="fas fa-chart-area"></i>
-        </a>
-      </li>
-      <li class=" tab-bar-li" (click)="selectTab = 7" [ngClass]="{ 'tab-bar-li-active': selectTab == 7 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="contact-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="contact"
-          aria-selected="false"
-          ><i class="fas fa-chart-area"></i>
-        </a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent" style="    width: 100%;padding: 15px;"></div>
     <div class="tab-content" id="myTabContent" style="    width: 100%;padding: 15px;">
+      <!-- Clustered Column -->
       <div
         class="tab-pane fade show active"
         *ngIf="selectTab == 1"
-        id="home"
+        id="clustered"
         role="tabpanel"
-        aria-labelledby="home-tab"
-        (click)="onAddChart(); modal.close()"
+        aria-labelledby="clustered-tab"
       >
         <div class="sub-type-list">
-          <div class="sub-type">
+          <div class="sub-type" (click)="onAddChart(chartType.ClusteredColumn)">
             <div class="sub-type-image-div">
               <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Clustered Column</span></div>
           </div>
-          <div class="sub-type">
+
+          <div class="sub-type" (click)="onAddChart(chartType.StackedColumn)">
             <div class="sub-type-image-div">
               <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Stacked Column</span></div>
           </div>
-          <div class="sub-type">
+
+          <div class="sub-type" (click)="onAddChart(chartType.StackedColumn100)">
             <div class="sub-type-image-div">
               <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
             </div>
@@ -146,124 +91,29 @@
           </div>
         </div>
       </div>
-      <div
-        class="tab-pane fade show active"
-        id="profile"
-        *ngIf="selectTab == 2"
-        role="tabpanel"
-        aria-labelledby="profile-tab"
-        (click)="onAddChart(); modal.close()"
-      >
+
+      <!-- Bar Chart -->
+      <div class="tab-pane fade show active" *ngIf="selectTab == 2" id="bar" role="tabpanel" aria-labelledby="bar-tab">
         <div class="sub-type-list">
-          <div class="sub-type">
+          <div class="sub-type" (click)="onAddChart(chartType.ClusteredBar)">
             <div class="sub-type-image-div">
               <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Clustered Bar</span></div>
           </div>
-          <div class="sub-type">
+
+          <div class="sub-type" (click)="onAddChart(chartType.StackedBar)">
             <div class="sub-type-image-div">
               <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Stacked Bar</span></div>
           </div>
-          <div class="sub-type">
+
+          <div class="sub-type" (click)="onAddChart(chartType.StackedBar100)">
             <div class="sub-type-image-div">
               <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>100% Stacked Bar</span></div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tab-pane fade show active"
-        id="contact"
-        *ngIf="selectTab == 3"
-        role="tabpanel"
-        aria-labelledby="contact-tab"
-        (click)="onAddChart(); modal.close()"
-      >
-        <div class="sub-type-list">
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Line</span></div>
-          </div>
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Stacked Line</span></div>
-          </div>
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>100% Stacked Line</span></div>
-          </div>
-        </div>
-        <div class="sub-type-list">
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Marked Line</span></div>
-          </div>
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Stacked Marked Line</span></div>
-          </div>
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>100% Stacked Marked Line</span></div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tab-pane fade show active"
-        id="contact"
-        *ngIf="selectTab == 4"
-        role="tabpanel"
-        aria-labelledby="contact-tab"
-        (click)="onAddChart(); modal.close()"
-      >
-        <div class="sub-type-list">
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Marked Scatter</span></div>
-          </div>
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Smooth Marked Scatter</span></div>
-          </div>
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Straight Line Scatter</span></div>
-          </div>
-        </div>
-        <div class="sub-type-list">
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Straight Marked Scatter</span></div>
-          </div>
-          <div class="sub-type">
-            <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
-            </div>
-            <div class="sub-type-text"><span>Straight Lined Scatter</span></div>
           </div>
         </div>
       </div>

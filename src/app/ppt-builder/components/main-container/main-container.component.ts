@@ -1,8 +1,14 @@
 import { Component, OnInit, OnChanges, OnDestroy, Input } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
+import {
+  PptElementModel,
+  PPtElementEnum,
+  ChartFormatModel,
+  BaseFormatInputModel,
+  ChartTypeEnum
+} from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
 
 @Component({
@@ -19,6 +25,9 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   selectTab: number = 1;
   tableBox: Array<any>;
   uploader: FileUploader = new FileUploader({ url: this.URL });
+  chartType = ChartTypeEnum;
+  modalRef: NgbModalRef;
+
   public hasBaseDropZoneOver: boolean = false;
   public hasAnotherDropZoneOver: boolean = false;
 
@@ -31,7 +40,8 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   openModal(content: any, className: string = '') {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', windowClass: className }).result.then(
+    this.modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', windowClass: className });
+    this.modalRef.result.then(
       result => {
         this.closeResult = `Closed with: ${result}`;
       },
@@ -47,8 +57,8 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     this._pPtBuilderService.pptElementsSubscription.next({ elementList: [textEl], dontAddToSlide: false });
   }
 
-  onAddChart() {
-    this.onAddBarChart();
+  closeModal() {
+    this.modalRef.dismiss();
   }
 
   onAddImageElement() {
@@ -57,10 +67,11 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     this._pPtBuilderService.pptElementsSubscription.next({ elementList: [imageEl], dontAddToSlide: false });
   }
 
-  onAddBarChart() {
-    let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%');
-
+  onAddChart(type: ChartTypeEnum) {
+    let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%', type);
     this._pPtBuilderService.pptElementsSubscription.next({ elementList: [chartEl], dontAddToSlide: false });
+
+    this.closeModal();
   }
 
   private getDismissReason(reason: any): string {

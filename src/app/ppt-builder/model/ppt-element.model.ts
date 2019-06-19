@@ -10,6 +10,15 @@ export enum PPtElementEnum {
   Image = 4
 }
 
+export enum ChartTypeEnum {
+  ClusteredColumn = 1,
+  StackedColumn,
+  StackedColumn100,
+  ClusteredBar,
+  StackedBar,
+  StackedBar100
+}
+
 export class PptElementModel {
   constructor() {
     this.format = new BaseElementFormatModel();
@@ -23,6 +32,10 @@ export class PptElementModel {
   format: BaseElementFormatModel;
   onFormatChange: Subject<BaseFormatInputModel>;
   isActiveElement: boolean;
+}
+
+export class PptChartElementModel extends PptElementModel {
+  chartType: ChartTypeEnum;
 }
 
 export class PptTableElementModel extends PptElementModel {
