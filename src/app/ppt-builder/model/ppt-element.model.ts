@@ -9,6 +9,11 @@ export enum PPtElementEnum {
   Text = 3
 }
 
+export enum ChartTypeEnum {
+  ClusteredColumn = 1,
+  StackedColumn
+}
+
 export class PptElementModel {
   constructor() {
     this.format = new BaseElementFormatModel();
@@ -22,6 +27,10 @@ export class PptElementModel {
   format: BaseElementFormatModel;
   onFormatChange: Subject<BaseFormatInputModel>;
   isActiveElement: boolean;
+}
+
+export class PptChartElementModel extends PptElementModel {
+  chartType: ChartTypeEnum;
 }
 
 export class PptTableElementModel extends PptElementModel {
