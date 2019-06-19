@@ -15,7 +15,18 @@ export enum ChartTypeEnum {
   StackedColumn100,
   ClusteredBar,
   StackedBar,
-  StackedBar100
+  StackedBar100,
+  Line,
+  StackedLine,
+  StackedLine100,
+  MarkedLine,
+  StackedMarkedLine,
+  StackedMarkedLine100,
+  MarkedScatter,
+  SmoothMarkedScatter,
+  SmoothLinedScatter,
+  StraightMarkedScatter,
+  StraightLinedScatter
 }
 
 export class PptElementModel {
