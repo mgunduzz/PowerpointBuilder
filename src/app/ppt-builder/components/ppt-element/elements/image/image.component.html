@@ -1,0 +1,10 @@
+<div
+  class="image-box"
+  [ngStyle]="{ left: element.x, top: element.y }"
+  [ngClass]="{ active: isImageActive }"
+  [cdkDragBoundary]="'.container'"
+  cdkDrag
+  (click)="isImageActive = !isImageActive"
+>
+  <img [src]="_DomSanitizer.bypassSecurityTrustUrl(element.url)" />
+</div>

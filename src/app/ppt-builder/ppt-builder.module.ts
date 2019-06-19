@@ -18,6 +18,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { PptCheckBoxInput } from './components/ppt-format/inputs/checkbox/checkbox-input.component';
 import { PptTextInput } from './components/ppt-format/inputs/textInput/text-input.component';
 import { PptNumberInput } from './components/ppt-format/inputs/numberInput/number-input.component';
+import { ImageComponent } from './components/ppt-element/elements/image/image.component';
 
 @NgModule({
   imports: [CommonModule, DemoMaterialModule, FormsModule, FileUploadModule],
@@ -32,7 +33,8 @@ import { PptNumberInput } from './components/ppt-format/inputs/numberInput/numbe
     TableElement,
     TextElement,
     PptTextInput,
-    PptNumberInput
+    PptNumberInput,
+    ImageComponent
   ],
   exports: [
     BaseElementContainer,

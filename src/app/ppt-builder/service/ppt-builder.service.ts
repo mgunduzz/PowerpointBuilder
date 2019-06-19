@@ -8,7 +8,9 @@ import {
   PptTableElementModel,
   TableFormatModel,
   PptTextElementModel,
-  TextFormatModel
+  TextFormatModel,
+  PptImageElementModel,
+  ImageFormatModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -48,6 +50,19 @@ export class PPtBuilderService {
     tableEl.col = col;
 
     return tableEl;
+  }
+
+  createImageElement(x: string, y: string, url: string) {
+    var imageEl = new PptImageElementModel();
+    imageEl.format = new ImageFormatModel();
+    imageEl.name = 'Image';
+    imageEl.type = PPtElementEnum.Image;
+    imageEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    imageEl.x = x;
+    imageEl.y = y;
+    imageEl.url = url;
+
+    return imageEl;
   }
 
   createTextElement(x: string, y: string, text: string) {
