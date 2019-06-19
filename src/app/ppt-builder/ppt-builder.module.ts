@@ -17,9 +17,12 @@ import { TextElement } from './components/ppt-element/elements/text/text-element
 import { PptCheckBoxInput } from './components/ppt-format/inputs/checkbox/checkbox-input.component';
 import { PptTextInput } from './components/ppt-format/inputs/textInput/text-input.component';
 import { PptNumberInput } from './components/ppt-format/inputs/numberInput/number-input.component';
+import { ContentEditableFormDirective } from './directives/content-editable-form.directive';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { PptColorPickerInput } from './components/ppt-format/inputs/colorPickerInput/color-picker-input.component';
 
 @NgModule({
-  imports: [CommonModule, DemoMaterialModule, FormsModule],
+  imports: [CommonModule, DemoMaterialModule, FormsModule, ColorPickerModule],
   declarations: [
     BaseElementContainer,
     ChartElement,
@@ -31,7 +34,9 @@ import { PptNumberInput } from './components/ppt-format/inputs/numberInput/numbe
     TableElement,
     TextElement,
     PptTextInput,
-    PptNumberInput
+    PptNumberInput,
+    ContentEditableFormDirective,
+    PptColorPickerInput
   ],
   exports: [
     BaseElementContainer,
@@ -43,7 +48,8 @@ import { PptNumberInput } from './components/ppt-format/inputs/numberInput/numbe
     TableElement,
     TextElement,
     PptTextInput,
-    PptNumberInput
+    PptNumberInput,
+    PptColorPickerInput
   ],
   providers: [PPtBuilderService]
 })
