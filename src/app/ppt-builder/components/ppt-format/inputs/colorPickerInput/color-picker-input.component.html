@@ -1,7 +1,7 @@
 <div>
   <label
     class="form-check-label noselect "
-    for="checkBoxInput_{{ generatedId }}"
+    for="colorPickerInput_{{ generatedId }}"
     style="cursor: pointer;display: flex;"
   >
     <span class="text"> {{ formatInput.name }} </span>
@@ -16,4 +16,5 @@
       class="form-control color-palette"
     />
   </label>
+  <small class="note" *ngIf="formatInput.note">{{ formatInput.note }}</small>
 </div>

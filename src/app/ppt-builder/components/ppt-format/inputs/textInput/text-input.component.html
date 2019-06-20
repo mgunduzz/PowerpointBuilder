@@ -1,10 +1,6 @@
 <div>
-  <label
-    class="form-check-label noselect "
-    for="checkBoxInput_{{ generatedId }}"
-    style="cursor: pointer;display: flex;"
-  >
-    <span class="text"> {{ formatInput.name }} </span>
+  <label class="form-check-label noselect " for="textInput_{{ generatedId }}" style="cursor: pointer;display: flex;">
+    <span class="text"> {{ formatInput.name }} dsadsa </span>
 
     <input
       type="text"
@@ -16,4 +12,6 @@
       class="form-control"
     />
   </label>
+
+  <small class="note" *ngIf="formatInput.note">{{ formatInput.note }}</small>
 </div>
