@@ -259,6 +259,55 @@ export class ChartElement implements OnInit, OnDestroy {
       chartOptions.options.scales.xAxes[0].stacked = true;
       chartOptions.options.scales.yAxes[0].stacked = true;
       chartOptions.options.plugins.stacked100 = { enable: true, replaceTooltipLabel: false };
+    } else if (chartType == ChartTypeEnum.Doughnut) {
+      chartOptions.type = 'doughnut';
+      chartOptions.data = pieData;
+    } else if (chartType == ChartTypeEnum.ExplodedDoughnut) {
+      chartOptions.type = 'doughnut';
+      chartOptions.data = pieData;
+      chartOptions.options.elements.arc.borderWidth = 15;
+    } else if (chartType == ChartTypeEnum.Bubble) {
+      chartOptions.type = 'bubble';
+      chartOptions.data = {
+        datasets: [
+          {
+            label: 'John',
+            data: [
+              {
+                x: 3,
+                y: 15,
+                r: 10
+              }
+            ],
+            backgroundColor: '#ffc94a',
+            hoverBackgroundColor: '#ffc94a'
+          },
+          {
+            label: 'Paul',
+            data: [
+              {
+                x: 6,
+                y: 20,
+                r: 14
+              }
+            ],
+            backgroundColor: '#42c3c9',
+            hoverBackgroundColor: '#42c3c9'
+          },
+          {
+            label: 'George',
+            data: [
+              {
+                x: 4,
+                y: 10,
+                r: 30
+              }
+            ],
+            backgroundColor: '#ff6384',
+            hoverBackgroundColor: '#ff6384'
+          }
+        ]
+      };
     }
 
     this.myChart = new Chart(ctx, chartOptions);

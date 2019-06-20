@@ -32,7 +32,10 @@ export enum ChartTypeEnum {
   ExplodedPie,
   Area,
   StackedArea,
-  StackedArea100
+  StackedArea100,
+  Doughnut,
+  ExplodedDoughnut,
+  Bubble
 }
 
 export class PptElementModel {
