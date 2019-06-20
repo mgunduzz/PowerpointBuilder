@@ -22,9 +22,18 @@ import { ContentEditableFormDirective } from './directives/content-editable-form
 import { ColorPickerModule } from 'ngx-color-picker';
 import { PptColorPickerInput } from './components/ppt-format/inputs/colorPickerInput/color-picker-input.component';
 import { ImageComponent } from './components/ppt-element/elements/image/image.component';
+import { PptDropdownInput } from './components/ppt-format/inputs/dropdownInput/dropdown-input.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  imports: [CommonModule, DemoMaterialModule, FormsModule, FileUploadModule, ColorPickerModule],
+  imports: [
+    CommonModule,
+    DemoMaterialModule,
+    FormsModule,
+    FileUploadModule,
+    ColorPickerModule,
+    NgbDropdownModule.forRoot()
+  ],
   declarations: [
     BaseElementContainer,
     ChartElement,
@@ -39,7 +48,8 @@ import { ImageComponent } from './components/ppt-element/elements/image/image.co
     PptNumberInput,
     ContentEditableFormDirective,
     PptColorPickerInput,
-    ImageComponent
+    ImageComponent,
+    PptDropdownInput
   ],
   exports: [
     BaseElementContainer,
@@ -52,7 +62,8 @@ import { ImageComponent } from './components/ppt-element/elements/image/image.co
     TextElement,
     PptTextInput,
     PptNumberInput,
-    PptColorPickerInput
+    PptColorPickerInput,
+    PptDropdownInput
   ],
   providers: [PPtBuilderService]
 })

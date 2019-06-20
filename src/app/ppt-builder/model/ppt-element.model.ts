@@ -71,6 +71,8 @@ export class PptTextElementModel extends PptElementModel {
   fontWeigth: number;
   fontStyle: string;
   color: string;
+  radius: string;
+  width: string;
 }
 
 export class PptImageElementModel extends PptElementModel {
