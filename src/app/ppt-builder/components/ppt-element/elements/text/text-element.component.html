@@ -2,7 +2,7 @@
   <pre
     [hidden]="!showText"
     class="text-element"
-    style="cursor: text;margin:3px;"
+    style="cursor: text;margin:3px;overflow: unset !important;"
     [cdkDragBoundary]="'.container'"
     cdkDrag
     (cdkDragEnded)="dragEnded($event)"
@@ -12,6 +12,8 @@
     [style.font-family]="element.font"
     [style.font-style]="element.fontStyle"
     [style.font-weight]="element.fontWeigth"
+    [style.width]="element.width"
+    [style.border-radius]="element.radius"
     [style.color]="element.color"
     (click)="showEditableText(); $event.stopPropagation()"
     style="padding:2px"
@@ -19,13 +21,15 @@
   ></pre>
 
   <div
-    style="cursor: text;"
+    style="cursor: text;overflow: unset;"
     [style.background-color]="element.backgroundColor"
     [style.font-size]="element.fontSize"
     [style.font-family]="element.font"
     [style.font-style]="element.fontStyle"
     [style.font-weight]="element.fontWeigth"
     [style.color]="element.color"
+    [style.width]="element.width"
+    [style.border-radius]="element.radius"
     [hidden]="showText"
     [style.transform]="'translate3d(' + newPositionX + ', ' + newPositionY + ',0px)'"
     contenteditable="true"

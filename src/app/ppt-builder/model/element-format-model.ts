@@ -7,7 +7,9 @@ export enum PPtElementFormatInputTypeEnum {
   text = 1,
   number,
   list,
-  checkbox
+  checkbox,
+  colorPicker,
+  dropdown
 }
 
 export enum PPtFormatInputsEnum {
@@ -20,8 +22,9 @@ export enum PPtFormatInputsEnum {
   isBold = 7,
   isItalic = 8,
   color = 9,
-  fontList = 10,
-  value
+  value,
+  radius,
+  width
 }
 
 export class BaseFormatInputModel {
@@ -34,6 +37,10 @@ export class FormatCheckboxInputModel extends BaseFormatInputModel {
   value: boolean;
 }
 
+export class FormatColorPickerInputModel extends BaseFormatInputModel {
+  value: string;
+}
+
 export class FormatTextInputModel extends BaseFormatInputModel {
   value: string;
 }
@@ -44,8 +51,12 @@ export class FormatNumberInputModel extends BaseFormatInputModel {
   max: number;
 }
 
-export class FormatListInputModel extends BaseFormatInputModel {
+export class FormatDropdownInputModel extends BaseFormatInputModel {
   value: Array<KeyValueModel>;
+  position: string;
+  autoClose: boolean;
+  container: string;
+  selectedItemKey: number;
 }
 
 export class BaseElementFormatModel {
@@ -72,17 +83,35 @@ export class TextFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
 
-    let backgroundColor: FormatTextInputModel = {
+    let radius: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.radius,
+      name: 'Radius',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      max: 100,
+      min: 0
+    };
+
+    let width: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.width,
+      name: 'Genişlik',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      min: 0,
+      max: 2048
+    };
+
+    let backgroundColor: FormatColorPickerInputModel = {
       inputId: PPtFormatInputsEnum.backgroundColor,
       name: 'Background Color',
-      inputType: PPtElementFormatInputTypeEnum.text,
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
       value: '#FFFFFF'
     };
 
-    let color: FormatTextInputModel = {
+    let color: FormatColorPickerInputModel = {
       inputId: PPtFormatInputsEnum.color,
       name: 'Color',
-      inputType: PPtElementFormatInputTypeEnum.text,
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
       value: 'black'
     };
 
@@ -103,15 +132,19 @@ export class TextFormatModel extends BaseElementFormatModel {
     };
 
     let fontList = new Array<KeyValueModel>();
-    fontList.push({ key: 1, value: 'test' });
-    fontList.push({ key: 2, value: 'test2' });
-    fontList.push({ key: 3, value: 'test3' });
+    fontList.push({ key: 1, value: 'Tahoma' });
+    fontList.push({ key: 2, value: 'Impact' });
+    fontList.push({ key: 3, value: 'Arial' });
 
-    let font: FormatListInputModel = {
-      inputId: PPtFormatInputsEnum.fontList,
+    let font: FormatDropdownInputModel = {
+      inputId: PPtFormatInputsEnum.font,
       name: 'Font',
-      inputType: PPtElementFormatInputTypeEnum.list,
-      value: fontList
+      inputType: PPtElementFormatInputTypeEnum.dropdown,
+      value: fontList,
+      position: 'bottom',
+      autoClose: true,
+      container: 'body',
+      selectedItemKey: 0
     };
 
     let isItalic: FormatCheckboxInputModel = {
@@ -127,6 +160,8 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.color = color;
     this.formatInputs.isBold = isBold;
     this.formatInputs.isItalic = isItalic;
+    this.formatInputs.radius = radius;
+    this.formatInputs.width = width;
   }
 }
 

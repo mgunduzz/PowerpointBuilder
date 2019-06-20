@@ -6,7 +6,9 @@ import {
   PptTableElementModel,
   PptTextElementModel,
   FormatTextInputModel,
-  FormatNumberInputModel
+  FormatNumberInputModel,
+  FormatDropdownInputModel,
+  FormatColorPickerInputModel
 } from '@app/ppt-builder/model';
 import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
@@ -38,34 +40,54 @@ export class TextElement implements OnInit, OnDestroy {
   constructor(public contenteditable: ContentEditableFormDirective) {}
 
   ngOnInit() {
-    this.element.onFormatChange.subscribe((res: FormatTextInputModel) => {
+    this.element.onFormatChange.subscribe((res: any) => {
+      let textInput = res as FormatTextInputModel;
+      let dropdown = res as FormatDropdownInputModel;
+      let checkbox = res as FormatCheckboxInputModel;
+      let numberInput = res as FormatNumberInputModel;
+      let colorPickerInput = res as FormatColorPickerInputModel;
+
       switch (res.inputId) {
         case PPtFormatInputsEnum.color:
-          this.element.color = res.value;
+          this.element.color = textInput.value;
           break;
         case PPtFormatInputsEnum.font:
-          this.element.font = res.value;
+          if (dropdown.selectedItemKey > 0) {
+            let index = dropdown.value.findIndex(o => o.key == dropdown.selectedItemKey);
+            if (index > -1) {
+              this.element.font = dropdown.value[index].value;
+            }
+          }
           break;
         case PPtFormatInputsEnum.backgroundColor:
-          this.element.backgroundColor = res.value;
+          this.element.backgroundColor = colorPickerInput.value;
           break;
         case PPtFormatInputsEnum.fontSize:
-          this.element.fontSize = res.value + 'px';
+          this.element.fontSize = numberInput.value + 'px';
           break;
         case PPtFormatInputsEnum.isItalic:
-          if (res.value as any) {
+          if (checkbox.value) {
             this.element.fontStyle = 'italic';
           } else {
             this.element.fontStyle = 'unset';
           }
           break;
         case PPtFormatInputsEnum.isBold:
-          if (res.value as any) {
+          if (checkbox.value) {
             this.element.fontWeigth = 600;
           } else {
             this.element.fontWeigth = 100;
           }
           break;
+        case PPtFormatInputsEnum.width:
+          if (numberInput.value == 0) {
+            this.element.width = 'auto';
+          } else {
+            this.element.width = numberInput.value + 'px';
+          }
+          break;
+        case PPtFormatInputsEnum.radius:
+          this.element.radius = numberInput.value + 'px';
           break;
         default:
           break;
