@@ -48,13 +48,13 @@ export class ChartElement implements OnInit, OnDestroy {
       datasets: [
         {
           label: 'Olumlu',
-          backgroundColor: '#000080',
+          backgroundColor: '#ffc94a',
           data: [80, 50, 23, 56, 43],
           fill: false
         },
         {
           label: 'Olumsuz',
-          backgroundColor: '#d3d3d3',
+          backgroundColor: '#42c3c9',
           data: [90, 45, 26, 64, 37],
           fill: false
         }
@@ -240,6 +240,25 @@ export class ChartElement implements OnInit, OnDestroy {
       chartOptions.type = 'pie';
       chartOptions.options.elements.arc.borderWidth = 15;
       chartOptions.data = pieData;
+    } else if (chartType == ChartTypeEnum.Area) {
+      chartOptions.type = 'line';
+      chartOptions.data.datasets.forEach(item => (item.fill = true));
+      chartOptions.options.elements.line.tension = 0;
+    } else if (chartType == ChartTypeEnum.StackedArea) {
+      chartOptions.type = 'line';
+      chartOptions.data.datasets.forEach(item => (item.fill = true));
+      chartOptions.options.elements.line.tension = 0;
+
+      chartOptions.options.scales.xAxes[0].stacked = true;
+      chartOptions.options.scales.yAxes[0].stacked = true;
+    } else if (chartType == ChartTypeEnum.StackedArea100) {
+      chartOptions.type = 'line';
+      chartOptions.data.datasets.forEach(item => (item.fill = true));
+      chartOptions.options.elements.line.tension = 0;
+
+      chartOptions.options.scales.xAxes[0].stacked = true;
+      chartOptions.options.scales.yAxes[0].stacked = true;
+      chartOptions.options.plugins.stacked100 = { enable: true, replaceTooltipLabel: false };
     }
 
     this.myChart = new Chart(ctx, chartOptions);
