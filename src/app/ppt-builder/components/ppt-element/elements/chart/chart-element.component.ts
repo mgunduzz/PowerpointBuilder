@@ -68,6 +68,9 @@ export class ChartElement implements OnInit, OnDestroy {
         },
         line: {
           tension: 0.4
+        },
+        arc: {
+          borderWidth: 1
         }
       },
       plugins: {
@@ -123,6 +126,17 @@ export class ChartElement implements OnInit, OnDestroy {
         y: 200
       }
     ];
+
+    let pieData = {
+      labels: ['Africa', 'Asia', 'Europe', 'Latin America'],
+      datasets: [
+        {
+          label: 'Population (millions)',
+          backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9'],
+          data: [478, 267, 734, 784]
+        }
+      ]
+    };
 
     if (chartType == ChartTypeEnum.ClusteredColumn) {
       chartOptions.type = 'bar';
@@ -218,6 +232,14 @@ export class ChartElement implements OnInit, OnDestroy {
       chartOptions.options.showLines = true;
       chartOptions.data.datasets[0].label = 'Scatter Dataset';
       chartOptions.data.datasets[0].data = scatterData;
+    } else if (chartType == ChartTypeEnum.Pie) {
+      chartOptions.type = 'pie';
+      chartOptions.options.elements.arc.borderWidth = -1;
+      chartOptions.data = pieData;
+    } else if (chartType == ChartTypeEnum.ExplodedPie) {
+      chartOptions.type = 'pie';
+      chartOptions.options.elements.arc.borderWidth = 15;
+      chartOptions.data = pieData;
     }
 
     this.myChart = new Chart(ctx, chartOptions);
