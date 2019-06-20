@@ -29,7 +29,13 @@ export enum ChartTypeEnum {
   StraightMarkedScatter,
   StraightLinedScatter,
   Pie,
-  ExplodedPie
+  ExplodedPie,
+  Area,
+  StackedArea,
+  StackedArea100,
+  Doughnut,
+  ExplodedDoughnut,
+  Bubble
 }
 
 export class PptElementModel {
