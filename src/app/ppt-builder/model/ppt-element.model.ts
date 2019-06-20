@@ -27,7 +27,9 @@ export enum ChartTypeEnum {
   SmoothMarkedScatter,
   SmoothLinedScatter,
   StraightMarkedScatter,
-  StraightLinedScatter
+  StraightLinedScatter,
+  Pie,
+  ExplodedPie
 }
 
 export class PptElementModel {

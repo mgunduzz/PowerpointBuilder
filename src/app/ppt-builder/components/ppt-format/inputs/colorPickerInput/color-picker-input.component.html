@@ -9,11 +9,11 @@
     <input
       name="colorPicker-input"
       id="colorPickerInput_{{ generatedId }}"
-      [(ngModel)]="formatInput.value"
       (colorPickerChange)="onValueChange()"
       [(colorPicker)]="formatInput.value"
       [style.background]="formatInput.value"
       [cpPosition]="'left'"
+      class="form-control color-palette"
     />
   </label>
 </div>
