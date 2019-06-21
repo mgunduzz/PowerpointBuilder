@@ -2,9 +2,16 @@
 
 .navbar {
   margin-bottom: 0;
-  background-color: #666;
+  border-bottom: 1px solid whitesmoke;
+  padding-top: unset !important;
+  padding-bottom: unset !important;
 }
 
 .nav-link.dropdown-toggle {
   cursor: pointer;
+}
+
+.nav-link {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
 }
