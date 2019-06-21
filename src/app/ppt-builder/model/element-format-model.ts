@@ -31,6 +31,7 @@ export class BaseFormatInputModel {
   name: string;
   inputId: PPtFormatInputsEnum;
   inputType: PPtElementFormatInputTypeEnum;
+  note?: string;
 }
 
 export class FormatCheckboxInputModel extends BaseFormatInputModel {
@@ -98,7 +99,8 @@ export class TextFormatModel extends BaseElementFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       value: 0,
       min: 0,
-      max: 2048
+      max: 2048,
+      note: '0 değeri otomatik ayarlar'
     };
 
     let backgroundColor: FormatColorPickerInputModel = {
