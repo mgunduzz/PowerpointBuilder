@@ -60,6 +60,13 @@
         <ppt-dropdown-input [input]="element.format.formatInputs.font" (onValuechange)="onInputValuechange($event)">
         </ppt-dropdown-input>
       </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.textAlign">
+        <ppt-radio-button-input
+          [input]="element.format.formatInputs.textAlign"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-radio-button-input>
+      </div>
     </div>
 
     <div class="format-block">
