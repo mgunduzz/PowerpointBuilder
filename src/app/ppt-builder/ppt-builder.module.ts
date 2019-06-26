@@ -24,6 +24,7 @@ import { PptColorPickerInput } from './components/ppt-format/inputs/colorPickerI
 import { ImageComponent } from './components/ppt-element/elements/image/image.component';
 import { PptDropdownInput } from './components/ppt-format/inputs/dropdownInput/dropdown-input.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { PptRadioButtonInput } from './components/ppt-format/inputs/radioButtonInput/radio-button-input.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     ContentEditableFormDirective,
     PptColorPickerInput,
     ImageComponent,
-    PptDropdownInput
+    PptDropdownInput,
+    PptRadioButtonInput
   ],
   exports: [
     BaseElementContainer,
@@ -63,7 +65,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     PptTextInput,
     PptNumberInput,
     PptColorPickerInput,
-    PptDropdownInput
+    PptDropdownInput,
+    PptRadioButtonInput
   ],
   providers: [PPtBuilderService]
 })

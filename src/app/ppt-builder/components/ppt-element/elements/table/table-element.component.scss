@@ -1,2 +1,10 @@
 .table {
 }
+
+.table-element {
+  min-width: 60px;
+  min-height: 40px;
+  background-color: rgb(66, 195, 201);
+  margin: 1px;
+  width: -webkit-fill-available;
+}

@@ -1,0 +1,28 @@
+<div class="d-block my-3">
+  <div style="width:100% !important;border-bottom: 1px solid #ececec;">
+    <span class="text"> {{ formatInput.name }} </span>
+  </div>
+
+  <div class="custom-control custom-radio" *ngFor="let item of formatInput.value">
+    <input
+      type="radio"
+      id="{{ item.key + '_' + generatedId }}"
+      class="custom-control-input"
+      value="{{ item.value }}"
+      [(ngModel)]="selectedItem"
+    />
+    <label
+      placement="top"
+      ngbTooltip="item.tooltip"
+      (click)="setselectedItem(item)"
+      style="cursor: pointer;"
+      class="custom-control-label"
+      id="{{ item.key + '_' + generatedId }}"
+    >
+      <span class="text-radio" *ngIf="item.isText">
+        {{ item.value }}
+      </span>
+      <i *ngIf="!item.isText" class="{{ 'fa ' + item.icon }}"></i>
+    </label>
+  </div>
+</div>

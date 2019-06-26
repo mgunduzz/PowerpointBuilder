@@ -3,13 +3,22 @@ export class KeyValueModel {
   value: string;
 }
 
+export class RadioButtonInputSettings extends KeyValueModel {
+  isText: boolean;
+  icon: string;
+  disabled: boolean;
+  selected: boolean;
+  tooltip: string;
+}
+
 export enum PPtElementFormatInputTypeEnum {
   text = 1,
   number,
   list,
   checkbox,
   colorPicker,
-  dropdown
+  dropdown,
+  radio
 }
 
 export enum PPtFormatInputsEnum {
@@ -27,7 +36,8 @@ export enum PPtFormatInputsEnum {
   width,
   x,
   y,
-  height
+  height,
+  textAlign
 }
 
 export class BaseFormatInputModel {
@@ -78,6 +88,12 @@ export class FormatInputsModel {
   title: FormatCheckboxInputModel;
   legend: FormatCheckboxInputModel;
   value: FormatCheckboxInputModel;
+  textAlign: FormatRadioButtonInputModel;
+}
+
+export class FormatRadioButtonInputModel extends BaseFormatInputModel {
+  value: Array<RadioButtonInputSettings>;
+  selectedItemKey: number;
 }
 
 export class BaseElementFormatModel {
@@ -148,6 +164,43 @@ export class TextFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
 
+    let textAlignList = new Array<RadioButtonInputSettings>();
+
+    textAlignList.push({
+      disabled: false,
+      icon: 'fas fa-align-left',
+      isText: true,
+      value: 'Sol',
+      key: 1,
+      selected: true,
+      tooltip: 'Sola Yasla'
+    });
+    textAlignList.push({
+      disabled: false,
+      icon: 'fas fa-align-center',
+      isText: true,
+      value: 'Orta',
+      key: 2,
+      selected: false,
+      tooltip: 'Ortala'
+    });
+    textAlignList.push({
+      disabled: false,
+      icon: 'fas fa-align-right',
+      isText: false,
+      value: 'Sağ',
+      key: 3,
+      selected: false,
+      tooltip: 'Sağa Yasla'
+    });
+
+    let textAlign: FormatRadioButtonInputModel = {
+      inputId: PPtFormatInputsEnum.textAlign,
+      name: 'Text Align',
+      inputType: PPtElementFormatInputTypeEnum.radio,
+      selectedItemKey: 1,
+      value: textAlignList
+    };
     let radius: FormatNumberInputModel = {
       inputId: PPtFormatInputsEnum.radius,
       name: 'Radius',
@@ -228,6 +281,7 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.isItalic = isItalic;
     this.formatInputs.radius = radius;
     this.formatInputs.width = width;
+    this.formatInputs.textAlign = textAlign;
   }
 }
 
