@@ -1,4 +1,15 @@
-<div>
+<div
+  class="base-element-container"
+  [style.width.px]="element.format.formatInputs.width.value"
+  [style.height.px]="element.format.formatInputs.height.value"
+  [cdkDragBoundary]="'.board'"
+  cdkDrag
+  [ngStyle]="{ left: element.x, top: element.y }"
+  (cdkDragEnded)="dragEnded($event)"
+  (cdkDragMoved)="dragMoved($event)"
+  [ngClass]="{ active: isChartActive }"
+  (click)="isChartActive = !isChartActive"
+>
   <ng-container *ngIf="type == elementTypes.CHART">
     <ppt-chart-element [element]="element"> </ppt-chart-element>
   </ng-container>

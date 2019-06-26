@@ -1,11 +1,4 @@
 .chart-box {
   padding: 5px 10px;
   margin: 5px;
-  position: absolute;
-  width: 300px;
-  height: 300px;
-
-  &.active {
-    border: 1px dashed;
-  }
 }

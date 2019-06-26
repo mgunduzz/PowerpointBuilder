@@ -24,7 +24,10 @@ export enum PPtFormatInputsEnum {
   color = 9,
   value,
   radius,
-  width
+  width,
+  x,
+  y,
+  height
 }
 
 export class BaseFormatInputModel {
@@ -60,23 +63,84 @@ export class FormatDropdownInputModel extends BaseFormatInputModel {
   selectedItemKey: number;
 }
 
+export class FormatInputsModel {
+  x: FormatNumberInputModel;
+  y: FormatNumberInputModel;
+  width: FormatNumberInputModel;
+  height: FormatNumberInputModel;
+  backgroundColor: FormatColorPickerInputModel;
+  fontSize: FormatNumberInputModel;
+  font: FormatDropdownInputModel;
+  color: FormatColorPickerInputModel;
+  isBold: FormatCheckboxInputModel;
+  isItalic: FormatCheckboxInputModel;
+  radius: FormatNumberInputModel;
+  title: FormatCheckboxInputModel;
+  legend: FormatCheckboxInputModel;
+  value: FormatCheckboxInputModel;
+}
+
 export class BaseElementFormatModel {
-  formatInputs?: any = {};
+  /**
+   *
+   */
+  constructor() {
+    this.formatInputs = new FormatInputsModel();
+
+    let x: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.x,
+      name: 'X',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      max: 9999,
+      min: 0
+    };
+
+    let y: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.y,
+      name: 'Y',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      max: 9999,
+      min: 0
+    };
+
+    let width: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.width,
+      name: 'Width',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 400,
+      max: 9999,
+      min: 0
+    };
+
+    let height: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.height,
+      name: 'Height',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 200,
+      max: 9999,
+      min: 0
+    };
+
+    this.formatInputs.x = x;
+    this.formatInputs.y = y;
+    this.formatInputs.width = width;
+    this.formatInputs.height = height;
+  }
+
+  formatInputs?: FormatInputsModel;
 }
 
 export class TableFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
-
-    this.formatInputs = {};
   }
 }
 
 export class ImageFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
-
-    this.formatInputs = {};
   }
 }
 
@@ -170,8 +234,6 @@ export class TextFormatModel extends BaseElementFormatModel {
 export class ChartFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
-
-    this.formatInputs = {};
 
     let title: FormatCheckboxInputModel = {
       inputId: PPtFormatInputsEnum.title,

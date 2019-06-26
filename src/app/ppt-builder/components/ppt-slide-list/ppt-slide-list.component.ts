@@ -19,6 +19,7 @@ import { Subject, Subscription } from 'rxjs';
 export class PptSlideList implements OnInit, OnDestroy {
   slideList: SlideModel[] = [];
   elementSub: Subscription;
+  slideListSub: Subscription;
 
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
     this.elementSub = this._pPtBuilderService.pptElementsSubscription.subscribe(res => {
@@ -31,36 +32,28 @@ export class PptSlideList implements OnInit, OnDestroy {
           }
         }
     });
+
+    this.slideListSub = this._pPtBuilderService.slideListSubscription.subscribe(res => {
+      if (res) this.slideList = res;
+    });
   }
 
-  ngOnInit() {
-    if (this.slideList.length == 0) {
-      this.slideList.push({ elementList: [], isActive: true });
-    }
-  }
+  ngOnInit() {}
 
   getActiveSlide(): SlideModel {
     return this.slideList.filter(item => item.isActive)[0];
   }
 
-  setActiveSlide(slide: SlideModel) {
-    this.slideList.forEach(item => (item.isActive = false));
-    slide.isActive = true;
-    this._pPtBuilderService.pptElementsSubscription.next({
-      elementList: slide.elementList,
-      isClear: true,
-      dontAddToSlide: true
-    });
-  }
-
   addSlide() {
-    this.slideList.push({ elementList: [], isActive: true });
-    this.setActiveSlide(this.slideList[this.slideList.length - 1]);
+    this._pPtBuilderService.addSlide();
   }
 
   onSlideClick(slide: SlideModel) {
-    this.setActiveSlide(slide);
+    this._pPtBuilderService.setActiveSlide(slide);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.elementSub.unsubscribe();
+    this.slideListSub.unsubscribe();
+  }
 }

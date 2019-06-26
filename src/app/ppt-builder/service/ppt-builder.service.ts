@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import {
   ChartFormatModel,
   BaseFormatInputModel,
@@ -12,17 +12,44 @@ import {
   PptImageElementModel,
   ImageFormatModel,
   ChartTypeEnum,
-  PptChartElementModel
+  PptChartElementModel,
+  SlideModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
 export class PPtBuilderService {
-  constructor() {}
+  constructor() {
+    if (this.slideList.length == 0) {
+      this.slideList.push({ elementList: [], isActive: true });
+
+      this.updateSlideList();
+    }
+  }
 
   public pptElementsSubscription: BehaviorSubject<LoadElementModel> = new BehaviorSubject<LoadElementModel>(undefined);
-
   public activeElementSubscription = new BehaviorSubject<PptElementModel>(undefined);
+  public slideListSubscription = new BehaviorSubject<SlideModel[]>(undefined);
+  public slideList: SlideModel[] = [];
+
+  addSlide() {
+    this.slideList.push({ elementList: [], isActive: true });
+    this.setActiveSlide(this.slideList[this.slideList.length - 1]);
+  }
+
+  setActiveSlide(slide: SlideModel) {
+    this.slideList.forEach(item => (item.isActive = false));
+    slide.isActive = true;
+    this.pptElementsSubscription.next({
+      elementList: slide.elementList,
+      isClear: true,
+      dontAddToSlide: true
+    });
+  }
+
+  updateSlideList() {
+    this.slideListSubscription.next(this.slideList);
+  }
 
   setActiveElement(item: PptElementModel) {
     this.activeElementSubscription.next(item);
@@ -87,5 +114,21 @@ export class PPtBuilderService {
     textEl.text = text;
 
     return textEl;
+  }
+
+  export() {
+    const PptxGenJS = require('pptxgenjs');
+
+    const pptx = new PptxGenJS();
+
+    this.slideList.forEach(slideItem => {
+      let slide = pptx.addNewSlide();
+
+      slideItem.elementList.forEach(el => {
+        el.generatePptxItem(pptx, slide);
+      });
+    });
+
+    pptx.save('Sample Presentation');
   }
 }

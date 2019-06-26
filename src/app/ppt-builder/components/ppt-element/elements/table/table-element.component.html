@@ -1,4 +1,4 @@
-<div [cdkDragBoundary]="'.container'" cdkDrag>
+<div class="el-box">
   <div class="table" [ngClass]="{ active: element.isActive }" (click)="element.isActive = !element.isActive">
     <div *ngFor="let row of tableBox" style="display: flex;">
       <div

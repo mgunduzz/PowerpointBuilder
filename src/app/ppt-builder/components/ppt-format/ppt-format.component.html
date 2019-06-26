@@ -1,6 +1,26 @@
 <ng-container *ngIf="element && element.format.formatInputs">
   <div class="main-format">
     <div class="format-block">
+      <div class="format-title"><span class="format-title-text">Position and Size</span></div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.x">
+        <ppt-number-input [input]="element.format.formatInputs.x" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.y">
+        <ppt-number-input [input]="element.format.formatInputs.y" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.width">
+        <ppt-number-input [input]="element.format.formatInputs.width" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.height">
+        <ppt-number-input [input]="element.format.formatInputs.height" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+    </div>
+
+    <div class="format-block">
       <div class="format-title"><span class="format-title-text">Slide Footer</span></div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.title">
         <ppt-checkbox-input [input]="element.format.formatInputs.title" (onValuechange)="onInputValuechange($event)">
@@ -29,11 +49,6 @@
 
       <div class="row row-margin" *ngIf="element.format.formatInputs.fontSize">
         <ppt-number-input [input]="element.format.formatInputs.fontSize" (onValuechange)="onInputValuechange($event)">
-        </ppt-number-input>
-      </div>
-
-      <div class="row row-margin" *ngIf="element.format.formatInputs.width">
-        <ppt-number-input [input]="element.format.formatInputs.width" (onValuechange)="onInputValuechange($event)">
         </ppt-number-input>
       </div>
 
