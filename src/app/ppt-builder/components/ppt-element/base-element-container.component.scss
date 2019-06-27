@@ -1,4 +1,6 @@
 ::ng-deep.base-element-container {
+  width: 100%;
+  height: auto !important ;
   &.active {
     border: 1px dashed;
   }

@@ -1,7 +1,5 @@
 <div
-  class="base-element-container"
-  [style.width.px]="element.format.formatInputs.width.value"
-  [style.height.px]="element.format.formatInputs.height.value"
+  class="base-element-container box"
   [cdkDragBoundary]="'.board'"
   cdkDrag
   [ngStyle]="{ left: element.x, top: element.y }"
@@ -9,20 +7,24 @@
   (cdkDragMoved)="dragMoved($event)"
   [ngClass]="{ active: isChartActive }"
   (click)="isChartActive = !isChartActive"
+  [cdkDragDisabled]="!dragDropStatus"
+  (mouseenter)="dragDropStatus = false"
 >
-  <ng-container *ngIf="type == elementTypes.CHART">
-    <ppt-chart-element [element]="element"> </ppt-chart-element>
-  </ng-container>
+  <div (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
+    <ng-container *ngIf="type == elementTypes.CHART">
+      <ppt-chart-element [element]="element"> </ppt-chart-element>
+    </ng-container>
 
-  <ng-container *ngIf="type == elementTypes.TABLE">
-    <ppt-table-element [element]="element"> </ppt-table-element>
-  </ng-container>
+    <ng-container *ngIf="type == elementTypes.TABLE">
+      <ppt-table-element [element]="element"> </ppt-table-element>
+    </ng-container>
 
-  <ng-container *ngIf="type == elementTypes.TEXT">
-    <ppt-text-element [element]="element"> </ppt-text-element>
-  </ng-container>
+    <ng-container *ngIf="type == elementTypes.TEXT">
+      <ppt-text-element [element]="element"> </ppt-text-element>
+    </ng-container>
 
-  <ng-container *ngIf="type == elementTypes.IMAGE">
-    <ppt-image-element [element]="element"></ppt-image-element>
-  </ng-container>
+    <ng-container *ngIf="type == elementTypes.IMAGE">
+      <ppt-image-element [element]="element"></ppt-image-element>
+    </ng-container>
+  </div>
 </div>
