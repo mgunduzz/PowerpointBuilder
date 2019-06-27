@@ -8,7 +8,8 @@ import {
   ChartTypeEnum,
   FormatNumberInputModel,
   ColumnChartFormatModel,
-  BarChartFormatModel
+  BarChartFormatModel,
+  PieChartFormatModel
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
@@ -51,6 +52,10 @@ export class ChartElement implements OnInit, OnDestroy {
           chartRef.options.scales.yAxes[0].categoryPercentage = formatNumberInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
           chartRef.options.scales.yAxes[0].barPercentage = formatNumberInput.value;
+        }
+      } else if (this.element.format instanceof PieChartFormatModel) {
+        if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+          chartRef.options.rotation = formatNumberInput.value;
         }
       }
 

@@ -39,7 +39,9 @@ export enum PPtFormatInputsEnum {
   height,
   textAlign,
   chartSpaceBetweenCategory,
-  chartSpaceBetweenBar
+  chartSpaceBetweenBar,
+  pieCutoutPercentage,
+  pieRotation
 }
 
 export class BaseFormatInputModel {
@@ -94,6 +96,8 @@ export class FormatInputsModel {
   textAlign: FormatRadioButtonInputModel;
   chartSpaceBetweenCategory: FormatNumberInputModel;
   chartSpaceBetweenBar: FormatNumberInputModel;
+  pieCutoutPercentage: FormatNumberInputModel;
+  pieRotation: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -382,5 +386,35 @@ export class BarChartFormatModel extends BaseElementFormatModel {
 
     this.formatInputs.chartSpaceBetweenCategory = chartGapWidth;
     this.formatInputs.chartSpaceBetweenBar = chartOverlap;
+  }
+}
+
+export class PieChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let pieCutoutPercentage: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.pieCutoutPercentage,
+      name: 'CutoutPercentage',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 405,
+      min: 0,
+      value: 0
+    };
+
+    let pieRotation: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.pieRotation,
+      name: 'Rotation',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 60,
+      min: 0,
+      value: 0,
+      step: 0.1
+    };
+
+    this.formatInputs.pieRotation = pieRotation;
   }
 }

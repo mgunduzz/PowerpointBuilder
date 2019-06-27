@@ -21,6 +21,24 @@
       </div>
     </div>
 
+    <div class="format-block" *ngIf="checkFormatType('PieChartFormatModel')">
+      <div class="format-title"><span class="format-title-text">Pie Chart</span></div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.pieCutoutPercentage">
+        <ppt-number-input
+          [input]="element.format.formatInputs.pieCutoutPercentage"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.pieRotation">
+        <ppt-number-input
+          [input]="element.format.formatInputs.pieRotation"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+    </div>
+
     <div class="format-block">
       <div class="format-title"><span class="format-title-text">Position and Size</span></div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.x">

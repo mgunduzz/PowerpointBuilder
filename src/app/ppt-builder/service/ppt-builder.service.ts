@@ -15,7 +15,8 @@ import {
   PptChartElementModel,
   SlideModel,
   ColumnChartFormatModel,
-  BarChartFormatModel
+  BarChartFormatModel,
+  PieChartFormatModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -73,6 +74,7 @@ export class PPtBuilderService {
       type == ChartTypeEnum.StackedBar100
     )
       chartEl.format = new BarChartFormatModel();
+    else if (type == ChartTypeEnum.Pie || type == ChartTypeEnum.ExplodedPie) chartEl.format = new PieChartFormatModel();
 
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
