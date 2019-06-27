@@ -14,7 +14,8 @@ import {
   ChartTypeEnum,
   PptChartElementModel,
   SlideModel,
-  ColumnChartFormatModel
+  ColumnChartFormatModel,
+  BarChartFormatModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -66,6 +67,12 @@ export class PPtBuilderService {
       type == ChartTypeEnum.StackedColumn100
     )
       chartEl.format = new ColumnChartFormatModel();
+    else if (
+      type == ChartTypeEnum.ClusteredBar ||
+      type == ChartTypeEnum.StackedBar ||
+      type == ChartTypeEnum.StackedBar100
+    )
+      chartEl.format = new BarChartFormatModel();
 
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;

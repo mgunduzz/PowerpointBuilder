@@ -36,6 +36,10 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     this.element.onFormatChange.next(formatInput);
   }
 
+  checkFormatType(formatType: string) {
+    return this.element.format.constructor.name == formatType;
+  }
+
   ngOnDestroy() {
     this.activeElSubscription.unsubscribe();
   }

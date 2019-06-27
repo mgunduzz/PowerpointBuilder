@@ -1,6 +1,9 @@
 <ng-container *ngIf="element && element.format.formatInputs">
   <div class="main-format">
-    <div class="format-block" *ngIf="element.format as ColumnChartFormatModel">
+    <div
+      class="format-block"
+      *ngIf="checkFormatType('ColumnChartFormatModel') || checkFormatType('BarChartFormatModel')"
+    >
       <div class="format-title"><span class="format-title-text">Column Chart</span></div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.chartSpaceBetweenCategory">
         <ppt-number-input
