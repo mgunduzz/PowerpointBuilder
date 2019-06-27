@@ -13,7 +13,8 @@ import {
   ImageFormatModel,
   ChartTypeEnum,
   PptChartElementModel,
-  SlideModel
+  SlideModel,
+  ColumnChartFormatModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -58,6 +59,14 @@ export class PPtBuilderService {
   createChartElement(x: string, y: string, type: ChartTypeEnum): PptElementModel {
     var chartEl = new PptChartElementModel();
     chartEl.format = new ChartFormatModel();
+
+    if (
+      type == ChartTypeEnum.ClusteredColumn ||
+      type == ChartTypeEnum.StackedColumn ||
+      type == ChartTypeEnum.StackedColumn100
+    )
+      chartEl.format = new ColumnChartFormatModel();
+
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
     chartEl.onFormatChange = new Subject<BaseFormatInputModel>();

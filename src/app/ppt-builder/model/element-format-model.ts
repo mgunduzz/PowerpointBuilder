@@ -37,7 +37,9 @@ export enum PPtFormatInputsEnum {
   x,
   y,
   height,
-  textAlign
+  textAlign,
+  chartSpaceBetweenCategory,
+  chartSpaceBetweenBar
 }
 
 export class BaseFormatInputModel {
@@ -63,6 +65,7 @@ export class FormatNumberInputModel extends BaseFormatInputModel {
   value: number;
   min: number;
   max: number;
+  step?: number = 1;
 }
 
 export class FormatDropdownInputModel extends BaseFormatInputModel {
@@ -89,6 +92,8 @@ export class FormatInputsModel {
   legend: FormatCheckboxInputModel;
   value: FormatCheckboxInputModel;
   textAlign: FormatRadioButtonInputModel;
+  chartSpaceBetweenCategory: FormatNumberInputModel;
+  chartSpaceBetweenBar: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -313,5 +318,37 @@ export class ChartFormatModel extends BaseElementFormatModel {
     this.formatInputs.title = title;
     this.formatInputs.legend = legend;
     this.formatInputs.value = value;
+  }
+}
+
+export class ColumnChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let chartGapWidth: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenCategory,
+      name: 'SpaceBetweenCategory',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    let chartOverlap: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenBar,
+      name: 'SpaceBetweenBar',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    this.formatInputs.chartSpaceBetweenCategory = chartGapWidth;
+    this.formatInputs.chartSpaceBetweenBar = chartOverlap;
   }
 }
