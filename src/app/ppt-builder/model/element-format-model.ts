@@ -37,7 +37,11 @@ export enum PPtFormatInputsEnum {
   x,
   y,
   height,
-  textAlign
+  textAlign,
+  chartSpaceBetweenCategory,
+  chartSpaceBetweenBar,
+  pieCutoutPercentage,
+  pieRotation
 }
 
 export class BaseFormatInputModel {
@@ -63,6 +67,7 @@ export class FormatNumberInputModel extends BaseFormatInputModel {
   value: number;
   min: number;
   max: number;
+  step?: number = 1;
 }
 
 export class FormatDropdownInputModel extends BaseFormatInputModel {
@@ -89,6 +94,10 @@ export class FormatInputsModel {
   legend: FormatCheckboxInputModel;
   value: FormatCheckboxInputModel;
   textAlign: FormatRadioButtonInputModel;
+  chartSpaceBetweenCategory: FormatNumberInputModel;
+  chartSpaceBetweenBar: FormatNumberInputModel;
+  pieCutoutPercentage: FormatNumberInputModel;
+  pieRotation: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -313,5 +322,99 @@ export class ChartFormatModel extends BaseElementFormatModel {
     this.formatInputs.title = title;
     this.formatInputs.legend = legend;
     this.formatInputs.value = value;
+  }
+}
+
+export class ColumnChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let chartGapWidth: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenCategory,
+      name: 'SpaceBetweenCategory',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    let chartOverlap: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenBar,
+      name: 'SpaceBetweenBar',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    this.formatInputs.chartSpaceBetweenCategory = chartGapWidth;
+    this.formatInputs.chartSpaceBetweenBar = chartOverlap;
+  }
+}
+
+export class BarChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let chartGapWidth: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenCategory,
+      name: 'SpaceBetweenCategory',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    let chartOverlap: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenBar,
+      name: 'SpaceBetweenBar',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    this.formatInputs.chartSpaceBetweenCategory = chartGapWidth;
+    this.formatInputs.chartSpaceBetweenBar = chartOverlap;
+  }
+}
+
+export class PieChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let pieCutoutPercentage: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.pieCutoutPercentage,
+      name: 'CutoutPercentage',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 405,
+      min: 0,
+      value: 0
+    };
+
+    let pieRotation: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.pieRotation,
+      name: 'Rotation',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 60,
+      min: 0,
+      value: 0,
+      step: 0.1
+    };
+
+    this.formatInputs.pieRotation = pieRotation;
   }
 }

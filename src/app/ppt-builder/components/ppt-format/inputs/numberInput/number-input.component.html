@@ -1,7 +1,6 @@
 <div>
   <label class="form-check-label noselect " for="numberInput_{{ generatedId }}" style="cursor: pointer;display: flex;">
     <span class="text"> {{ formatInput.name }} </span>
-
     <input
       type="number"
       name="number-input"
@@ -12,6 +11,7 @@
       [min]="formatInput.min"
       [max]="formatInput.max"
       class="form-control"
+      [step]="formatInput.step"
     />
   </label>
   <small class="note" *ngIf="formatInput.note">{{ formatInput.note }}</small>
