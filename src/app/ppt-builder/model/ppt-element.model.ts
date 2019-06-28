@@ -1,6 +1,11 @@
 import { BaseElementFormatModel } from '.';
 import { EventEmitter } from 'events';
-import { BaseFormatInputModel, ShapeTypeEnum } from './element-format-model';
+import {
+  BaseFormatInputModel,
+  ShapeTypeEnum,
+  BarChartFormatModel,
+  ColumnChartFormatModel
+} from './element-format-model';
 import { Subject } from 'rxjs';
 
 export enum PPtElementEnum {
@@ -124,36 +129,44 @@ export class PptChartElementModel extends PptElementModel {
     let hRate = ((elH * 100) / boardY / 20).toFixed(2);
 
     chart.Options = { x: xRate, y: yRate, w: wRate, h: hRate };
+    let columnChartFormatModel: ColumnChartFormatModel = this.format as ColumnChartFormatModel;
+    let barChartFormatModel: BarChartFormatModel = this.format as BarChartFormatModel;
 
     switch (this.chartType) {
       //column bar
       case ChartTypeEnum.ClusteredColumn:
         chart.Type = pptx.charts.BAR;
         chart.Options.barGrouping = 'clustered';
+        chart.Options.barGapWidthPct = columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       case ChartTypeEnum.StackedColumn:
         chart.Type = pptx.charts.BAR;
         chart.Options.barGrouping = 'stacked';
+        chart.Options.barGapWidthPct = columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       case ChartTypeEnum.StackedColumn100:
         chart.Type = pptx.charts.BAR;
         chart.Options.barGrouping = 'percentStacked';
+        chart.Options.barGapWidthPct = columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       //horizontal bar
       case ChartTypeEnum.ClusteredBar:
         chart.Type = pptx.charts.BAR;
         chart.Options.barGrouping = 'clustered';
         chart.Options.barDir = 'bar';
+        chart.Options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       case ChartTypeEnum.StackedBar:
         chart.Type = pptx.charts.BAR;
         chart.Options.barGrouping = 'stacked';
         chart.Options.barDir = 'bar';
+        chart.Options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       case ChartTypeEnum.StackedBar100:
         chart.Type = pptx.charts.BAR;
         chart.Options.barGrouping = 'percentStacked';
         chart.Options.barDir = 'bar';
+        chart.Options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       //line
       case ChartTypeEnum.Line:

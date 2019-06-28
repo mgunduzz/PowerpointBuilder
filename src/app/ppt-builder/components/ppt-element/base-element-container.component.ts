@@ -66,7 +66,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    debugger;
     $('.box').resizable({ handles: 'all' });
   }
 

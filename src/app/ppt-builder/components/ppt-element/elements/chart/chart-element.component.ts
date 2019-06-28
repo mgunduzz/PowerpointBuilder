@@ -44,15 +44,27 @@ export class ChartElement implements OnInit, OnDestroy {
 
       if (this.element.format instanceof ColumnChartFormatModel) {
         if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-          chartRef.options.scales.xAxes[0].categoryPercentage = formatNumberInput.value;
+          chartRef.options.scales.xAxes[0].categoryPercentage =
+            (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+            0.1 -
+            formatNumberInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-          chartRef.options.scales.xAxes[0].barPercentage = formatNumberInput.value;
+          chartRef.options.scales.xAxes[0].barPercentage =
+            (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+            0.1 -
+            formatNumberInput.value;
         }
       } else if (this.element.format instanceof BarChartFormatModel) {
         if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-          chartRef.options.scales.yAxes[0].categoryPercentage = formatNumberInput.value;
+          chartRef.options.scales.yAxes[0].categoryPercentage =
+            (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+            0.1 -
+            formatNumberInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-          chartRef.options.scales.yAxes[0].barPercentage = formatNumberInput.value;
+          chartRef.options.scales.yAxes[0].barPercentage =
+            (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+            0.1 -
+            formatNumberInput.value;
         }
       } else if (this.element.format instanceof PieChartFormatModel) {
         if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
