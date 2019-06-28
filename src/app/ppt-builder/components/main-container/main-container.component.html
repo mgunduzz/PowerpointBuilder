@@ -7,7 +7,7 @@
     <i class="far fa-image tools-icon"></i>
     <small class="tools-box-text">Image</small>
   </div>
-  <div class="tools-box">
+  <div class="tools-box" (click)="openModal(shapeContent, '', 'lg')">
     <i class="fas fa-shapes tools-icon"></i>
     <small class="tools-box-text">Shape</small>
   </div>
@@ -370,6 +370,27 @@
 
     <div style="text-align: center;">
       <span class="selected-box-index"> 0 x 0 </span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #shapeContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Shape</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="sub-type-list">
+      <div class="sub-type" (click)="onAddShape(shapeType.line)">
+        <i class="fas fa-arrows-alt-h"></i>
+        <span class="sub-type-text sub-type-image"> Düz Çizgi </span>
+      </div>
+      <div class="sub-type" (click)="onAddShape(shapeType.square)">
+        <i class="far fa-square"></i>
+        <span class="sub-type-text sub-type-image"> Kare </span>
+      </div>
     </div>
   </div>
 </ng-template>

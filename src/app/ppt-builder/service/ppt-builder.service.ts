@@ -12,7 +12,10 @@ import {
   PptImageElementModel,
   ImageFormatModel,
   ChartTypeEnum,
-  PptChartElementModel
+  PptChartElementModel,
+  PptShapeElementModel,
+  ShapeFormatModel,
+  ShapeTypeEnum
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -26,6 +29,19 @@ export class PPtBuilderService {
 
   setActiveElement(item: PptElementModel) {
     this.activeElementSubscription.next(item);
+  }
+
+  createShapeElement(x: string, y: string, type: ShapeTypeEnum): PptElementModel {
+    var chartEl = new PptShapeElementModel();
+    chartEl.format = new ShapeFormatModel();
+    chartEl.name = 'Shape';
+    chartEl.type = PPtElementEnum.Shape;
+    chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    chartEl.x = x;
+    chartEl.y = y;
+    chartEl.shapeType = type;
+
+    return chartEl;
   }
 
   createChartElement(x: string, y: string, type: ChartTypeEnum): PptElementModel {
