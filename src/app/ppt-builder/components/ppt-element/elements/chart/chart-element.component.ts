@@ -9,7 +9,8 @@ import {
   FormatNumberInputModel,
   ColumnChartFormatModel,
   BarChartFormatModel,
-  PieChartFormatModel
+  PieChartFormatModel,
+  DoughnutChartFormatModel
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
@@ -55,6 +56,12 @@ export class ChartElement implements OnInit, OnDestroy {
       } else if (this.element.format instanceof PieChartFormatModel) {
         if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
           chartRef.options.rotation = formatNumberInput.value;
+        }
+      } else if (this.element.format instanceof DoughnutChartFormatModel) {
+        if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+          chartRef.options.rotation = formatNumberInput.value;
+        } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
+          chartRef.options.cutoutPercentage = formatNumberInput.value;
         }
       }
 

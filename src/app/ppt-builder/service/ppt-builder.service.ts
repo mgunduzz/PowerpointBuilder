@@ -13,10 +13,14 @@ import {
   ImageFormatModel,
   ChartTypeEnum,
   PptChartElementModel,
+  PptShapeElementModel,
+  ShapeFormatModel,
+  ShapeTypeEnum,
   SlideModel,
   ColumnChartFormatModel,
   BarChartFormatModel,
-  PieChartFormatModel
+  PieChartFormatModel,
+  DoughnutChartFormatModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -58,6 +62,19 @@ export class PPtBuilderService {
     this.activeElementSubscription.next(item);
   }
 
+  createShapeElement(x: string, y: string, type: ShapeTypeEnum): PptElementModel {
+    var chartEl = new PptShapeElementModel();
+    chartEl.format = new ShapeFormatModel();
+    chartEl.name = 'Shape';
+    chartEl.type = PPtElementEnum.Shape;
+    chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    chartEl.x = x;
+    chartEl.y = y;
+    chartEl.shapeType = type;
+
+    return chartEl;
+  }
+
   createChartElement(x: string, y: string, type: ChartTypeEnum): PptElementModel {
     var chartEl = new PptChartElementModel();
     chartEl.format = new ChartFormatModel();
@@ -75,6 +92,8 @@ export class PPtBuilderService {
     )
       chartEl.format = new BarChartFormatModel();
     else if (type == ChartTypeEnum.Pie || type == ChartTypeEnum.ExplodedPie) chartEl.format = new PieChartFormatModel();
+    else if (type == ChartTypeEnum.Doughnut || type == ChartTypeEnum.ExplodedDoughnut)
+      chartEl.format = new DoughnutChartFormatModel();
 
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
