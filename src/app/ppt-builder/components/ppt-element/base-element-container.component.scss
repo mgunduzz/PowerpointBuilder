@@ -1,7 +1,16 @@
 ::ng-deep.base-element-container {
   width: 100%;
-  height: auto !important ;
+  height: 100% !important;
   &.active {
     border: 1px dashed;
+  }
+}
+
+.drop-icon {
+  padding-left: 1%;
+  display: none;
+
+  &.active {
+    display: flex;
   }
 }

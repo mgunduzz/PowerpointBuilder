@@ -23,7 +23,6 @@ export class ChartElement implements OnInit, OnDestroy {
   @Input('element') element: PptChartElementModel;
   @ViewChild('myChart') myChartElRef: ElementRef;
   myChart: Chart = undefined;
-  isChartActive?: boolean = false;
 
   constructor() {}
 

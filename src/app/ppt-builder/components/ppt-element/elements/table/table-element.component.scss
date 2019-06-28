@@ -1,4 +1,5 @@
 .table {
+  margin-bottom: unset !important;
 }
 
 .table-element {
@@ -7,4 +8,8 @@
   background-color: rgb(66, 195, 201);
   margin: 1px;
   width: -webkit-fill-available;
+}
+
+.table-row {
+  display: flex;
 }
