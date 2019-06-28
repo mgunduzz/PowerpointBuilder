@@ -112,20 +112,19 @@ export class FormatInputsModel {
   chartSpaceBetweenCategory: FormatNumberInputModel;
   chartSpaceBetweenBar: FormatNumberInputModel;
   pieCutoutPercentage: FormatNumberInputModel;
-  pieRotation: FormatNumberInputModel;  
-  rotate : FormatNumberInputModel;
-  lineSize :FormatNumberInputModel;
-  lineStyle :FormatDropdownInputModel;
+  pieRotation: FormatNumberInputModel;
+  rotate: FormatNumberInputModel;
+  lineSize: FormatNumberInputModel;
+  lineStyle: FormatDropdownInputModel;
   isLineArrow: FormatCheckboxInputModel;
-  arrowDirection :FormatDropdownInputModel;
-  isShowText:FormatCheckboxInputModel;
-  text:FormatTextInputModel;
-  shapeBorder:FormatCheckboxInputModel;
-  shapeBorderColor :FormatColorPickerInputModel;
+  arrowDirection: FormatDropdownInputModel;
+  isShowText: FormatCheckboxInputModel;
+  text: FormatTextInputModel;
+  shapeBorder: FormatCheckboxInputModel;
+  shapeBorderColor: FormatColorPickerInputModel;
   shapeBorderSize: FormatNumberInputModel;
-  shapeBorderStyle:FormatDropdownInputModel;
-  textFontSize:FormatNumberInputModel;
-  
+  shapeBorderStyle: FormatDropdownInputModel;
+  textFontSize: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -357,7 +356,6 @@ export class ShapeFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
 
-
     let shapeType: ShapeTypeEnum;
 
     let shapeBorderStyleList = new Array<KeyValueModel>();
@@ -536,7 +534,8 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     this.formatInputs.shapeBorderColor = shapeBorderColor;
     this.formatInputs.shapeBorderSize = shapeBorderSize;
     this.formatInputs.shapeBorderStyle = shapeBorderStyle;
-  }}
+  }
+}
 export class ColumnChartFormatModel extends BaseElementFormatModel {
   /**
    *
