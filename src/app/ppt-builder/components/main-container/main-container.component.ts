@@ -47,8 +47,9 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     this._pPtBuilderService.export();
   }
 
-  openModal(content: any, className: string = '', customSize: 'sm' | 'lg') {
+  openModal(content: any, className: string = '', customSize: 'sm' | 'lg' = 'lg') {
     let size: 'sm' | 'lg' = 'lg';
+
     if (customSize.length > 0) {
       size = customSize;
     }
