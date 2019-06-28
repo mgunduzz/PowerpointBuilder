@@ -27,6 +27,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   newPositionX: string = '0px';
   newPositionY: string = '0px';
   elementTypes: any = {};
+  @Input('isItemActive') isItemActive: string;
 
   constructor() {
     this.elementTypes.TABLE = PPtElementEnum.Table;
@@ -74,6 +75,10 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
   dragDropStatusChange1() {
     this.dragDropStatus = true;
+  }
+
+  selectIndexItem(e: any) {
+    console.log(e);
   }
 
   ngOnDestroy() {}
