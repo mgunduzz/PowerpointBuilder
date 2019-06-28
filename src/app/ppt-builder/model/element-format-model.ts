@@ -49,7 +49,14 @@ export enum PPtFormatInputsEnum {
   text,
   shapeBorder,
   shapeBorderColor,
-  shapeBorderSize
+  shapeBorderSize,
+  x,
+  y,
+  height,
+  chartSpaceBetweenCategory,
+  chartSpaceBetweenBar,
+  pieCutoutPercentage,
+  pieRotation
 }
 
 export class BaseFormatInputModel {
@@ -75,6 +82,7 @@ export class FormatNumberInputModel extends BaseFormatInputModel {
   value: number;
   min: number;
   max: number;
+  step?: number = 1;
 }
 
 export class FormatDropdownInputModel extends BaseFormatInputModel {
@@ -85,28 +93,107 @@ export class FormatDropdownInputModel extends BaseFormatInputModel {
   selectedItemKey: number;
 }
 
+export class FormatInputsModel {
+  x: FormatNumberInputModel;
+  y: FormatNumberInputModel;
+  width: FormatNumberInputModel;
+  height: FormatNumberInputModel;
+  backgroundColor: FormatColorPickerInputModel;
+  fontSize: FormatNumberInputModel;
+  font: FormatDropdownInputModel;
+  color: FormatColorPickerInputModel;
+  isBold: FormatCheckboxInputModel;
+  isItalic: FormatCheckboxInputModel;
+  radius: FormatNumberInputModel;
+  title: FormatCheckboxInputModel;
+  legend: FormatCheckboxInputModel;
+  value: FormatCheckboxInputModel;
+  textAlign: FormatRadioButtonInputModel;
+  chartSpaceBetweenCategory: FormatNumberInputModel;
+  chartSpaceBetweenBar: FormatNumberInputModel;
+  pieCutoutPercentage: FormatNumberInputModel;
+  pieRotation: FormatNumberInputModel;  
+  rotate : FormatNumberInputModel;
+  lineSize :FormatNumberInputModel;
+  lineStyle :FormatDropdownInputModel;
+  isLineArrow: FormatCheckboxInputModel;
+  arrowDirection :FormatDropdownInputModel;
+  isShowText:FormatCheckboxInputModel;
+  text:FormatTextInputModel;
+  shapeBorder:FormatCheckboxInputModel;
+  shapeBorderColor :FormatColorPickerInputModel;
+  shapeBorderSize: FormatNumberInputModel;
+  shapeBorderStyle:FormatDropdownInputModel;
+  textFontSize:FormatNumberInputModel;
+  
+}
+
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
   value: Array<RadioButtonInputSettings>;
   selectedItemKey: number;
 }
 
 export class BaseElementFormatModel {
-  formatInputs?: any = {};
+  /**
+   *
+   */
+  constructor() {
+    this.formatInputs = new FormatInputsModel();
+
+    let x: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.x,
+      name: 'X',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      max: 9999,
+      min: 0
+    };
+
+    let y: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.y,
+      name: 'Y',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      max: 9999,
+      min: 0
+    };
+
+    let width: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.width,
+      name: 'Width',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 400,
+      max: 9999,
+      min: 0
+    };
+
+    let height: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.height,
+      name: 'Height',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 200,
+      max: 9999,
+      min: 0
+    };
+
+    this.formatInputs.x = x;
+    this.formatInputs.y = y;
+    this.formatInputs.width = width;
+    this.formatInputs.height = height;
+  }
+
+  formatInputs?: FormatInputsModel;
 }
 
 export class TableFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
-
-    this.formatInputs = {};
   }
 }
 
 export class ImageFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
-
-    this.formatInputs = {};
   }
 }
 
@@ -239,8 +326,6 @@ export class ChartFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
 
-    this.formatInputs = {};
-
     let title: FormatCheckboxInputModel = {
       inputId: PPtFormatInputsEnum.title,
       name: 'Title',
@@ -272,7 +357,6 @@ export class ShapeFormatModel extends BaseElementFormatModel {
   constructor() {
     super();
 
-    this.formatInputs = {};
 
     let shapeType: ShapeTypeEnum;
 
@@ -452,5 +536,97 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     this.formatInputs.shapeBorderColor = shapeBorderColor;
     this.formatInputs.shapeBorderSize = shapeBorderSize;
     this.formatInputs.shapeBorderStyle = shapeBorderStyle;
+  }}
+export class ColumnChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let chartGapWidth: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenCategory,
+      name: 'SpaceBetweenCategory',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    let chartOverlap: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenBar,
+      name: 'SpaceBetweenBar',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    this.formatInputs.chartSpaceBetweenCategory = chartGapWidth;
+    this.formatInputs.chartSpaceBetweenBar = chartOverlap;
+  }
+}
+
+export class BarChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let chartGapWidth: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenCategory,
+      name: 'SpaceBetweenCategory',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    let chartOverlap: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartSpaceBetweenBar,
+      name: 'SpaceBetweenBar',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 1,
+      min: 0,
+      value: 1,
+      step: 0.1
+    };
+
+    this.formatInputs.chartSpaceBetweenCategory = chartGapWidth;
+    this.formatInputs.chartSpaceBetweenBar = chartOverlap;
+  }
+}
+
+export class PieChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let pieCutoutPercentage: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.pieCutoutPercentage,
+      name: 'CutoutPercentage',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 405,
+      min: 0,
+      value: 0
+    };
+
+    let pieRotation: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.pieRotation,
+      name: 'Rotation',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 60,
+      min: 0,
+      value: 0,
+      step: 0.1
+    };
+
+    this.formatInputs.pieRotation = pieRotation;
   }
 }

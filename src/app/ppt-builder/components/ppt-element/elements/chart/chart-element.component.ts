@@ -5,7 +5,11 @@ import {
   PPtFormatInputsEnum,
   FormatCheckboxInputModel,
   PptChartElementModel,
-  ChartTypeEnum
+  ChartTypeEnum,
+  FormatNumberInputModel,
+  ColumnChartFormatModel,
+  BarChartFormatModel,
+  PieChartFormatModel
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
@@ -26,6 +30,7 @@ export class ChartElement implements OnInit, OnDestroy {
   ngOnInit() {
     this.element.onFormatChange.subscribe(res => {
       var formatInput = res as FormatCheckboxInputModel;
+      var formatNumberInput = res as FormatNumberInputModel;
       let chartRef = this.myChart as any;
 
       if (formatInput.inputId == PPtFormatInputsEnum.legend) {
@@ -34,6 +39,24 @@ export class ChartElement implements OnInit, OnDestroy {
         chartRef.options.title.display = formatInput.value;
       } else if (formatInput.inputId == PPtFormatInputsEnum.value) {
         chartRef.options.plugins.datalabels.display = formatInput.value;
+      }
+
+      if (this.element.format instanceof ColumnChartFormatModel) {
+        if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+          chartRef.options.scales.xAxes[0].categoryPercentage = formatNumberInput.value;
+        } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+          chartRef.options.scales.xAxes[0].barPercentage = formatNumberInput.value;
+        }
+      } else if (this.element.format instanceof BarChartFormatModel) {
+        if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+          chartRef.options.scales.yAxes[0].categoryPercentage = formatNumberInput.value;
+        } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+          chartRef.options.scales.yAxes[0].barPercentage = formatNumberInput.value;
+        }
+      } else if (this.element.format instanceof PieChartFormatModel) {
+        if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+          chartRef.options.rotation = formatNumberInput.value;
+        }
       }
 
       this.myChart.update();

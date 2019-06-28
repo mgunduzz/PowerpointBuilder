@@ -1,7 +1,66 @@
 <ng-container *ngIf="element && element.format.formatInputs">
   <div class="main-format">
+    <div
+      class="format-block"
+      *ngIf="checkFormatType('ColumnChartFormatModel') || checkFormatType('BarChartFormatModel')"
+    >
+      <div class="format-title"><span class="format-title-text">Column Chart</span></div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.chartSpaceBetweenCategory">
+        <ppt-number-input
+          [input]="element.format.formatInputs.chartSpaceBetweenCategory"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.chartSpaceBetweenBar">
+        <ppt-number-input
+          [input]="element.format.formatInputs.chartSpaceBetweenBar"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+    </div>
+
+    <div class="format-block" *ngIf="checkFormatType('PieChartFormatModel')">
+      <div class="format-title"><span class="format-title-text">Pie Chart</span></div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.pieCutoutPercentage">
+        <ppt-number-input
+          [input]="element.format.formatInputs.pieCutoutPercentage"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.pieRotation">
+        <ppt-number-input
+          [input]="element.format.formatInputs.pieRotation"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+    </div>
+
     <div class="format-block">
-      <div class="format-title"><span class="format-title-text">Slide Footer</span></div>
+      <div class="format-title"><span class="format-title-text">Position and Size</span></div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.x">
+        <ppt-number-input [input]="element.format.formatInputs.x" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.y">
+        <ppt-number-input [input]="element.format.formatInputs.y" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.width">
+        <ppt-number-input [input]="element.format.formatInputs.width" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.height">
+        <ppt-number-input [input]="element.format.formatInputs.height" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+    </div>
+
+    <div class="format-block">
+      <div class="format-title"><span class="format-title-text">Data Labels</span></div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.title">
         <ppt-checkbox-input [input]="element.format.formatInputs.title" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>
@@ -29,11 +88,6 @@
 
       <div class="row row-margin" *ngIf="element.format.formatInputs.fontSize">
         <ppt-number-input [input]="element.format.formatInputs.fontSize" (onValuechange)="onInputValuechange($event)">
-        </ppt-number-input>
-      </div>
-
-      <div class="row row-margin" *ngIf="element.format.formatInputs.width">
-        <ppt-number-input [input]="element.format.formatInputs.width" (onValuechange)="onInputValuechange($event)">
         </ppt-number-input>
       </div>
 

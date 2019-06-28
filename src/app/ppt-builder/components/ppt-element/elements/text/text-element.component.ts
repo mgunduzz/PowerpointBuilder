@@ -21,10 +21,6 @@ import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
   providers: [ContentEditableFormDirective]
 })
 export class TextElement implements OnInit, OnDestroy {
-  newPositionXTemp: string = '0px';
-  newPositionYTemp: string = '0px';
-  newPositionX: string = '0px';
-  newPositionY: string = '0px';
   showText: boolean = true;
   @Input('element') element: PptTextElementModel;
 
@@ -98,18 +94,5 @@ export class TextElement implements OnInit, OnDestroy {
 
   showEditableText() {
     this.showText = false;
-  }
-
-  dragEnded(event: CdkDragEnd) {
-    this.newPositionX = this.newPositionXTemp;
-    this.newPositionY = this.newPositionYTemp;
-  }
-
-  dragMoved(event: CdkDragMove) {
-    let x = (event.event as any).layerX - (event.event as any).offsetX;
-    let y = (event.event as any).layerY - (event.event as any).offsetY;
-
-    this.newPositionXTemp = x + 'px';
-    this.newPositionYTemp = y + 'px';
   }
 }

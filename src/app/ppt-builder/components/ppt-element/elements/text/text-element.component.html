@@ -1,12 +1,8 @@
-<div #insideElement>
+<div #insideElement class="el-box">
   <pre
     [hidden]="!showText"
     class="text-element"
     style="cursor: text;margin:3px;overflow: unset !important;"
-    [cdkDragBoundary]="'.container'"
-    cdkDrag
-    (cdkDragEnded)="dragEnded($event)"
-    (cdkDragMoved)="dragMoved($event)"
     [style.background-color]="element.backgroundColor"
     [style.font-size]="element.fontSize"
     [style.font-family]="element.font"
