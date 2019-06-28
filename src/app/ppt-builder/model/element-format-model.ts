@@ -418,3 +418,34 @@ export class PieChartFormatModel extends BaseElementFormatModel {
     this.formatInputs.pieRotation = pieRotation;
   }
 }
+
+export class DoughnutChartFormatModel extends BaseElementFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+
+    let pieRotation: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.pieRotation,
+      name: 'Angle of first slice',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 60,
+      min: 0,
+      value: 0,
+      step: 0.1
+    };
+
+    let pieCutoutPercentage: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.pieCutoutPercentage,
+      name: 'Doughnut hole size',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 90,
+      min: 10,
+      value: 50
+    };
+
+    this.formatInputs.pieRotation = pieRotation;
+    this.formatInputs.pieCutoutPercentage = pieCutoutPercentage;
+  }
+}

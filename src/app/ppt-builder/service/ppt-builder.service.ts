@@ -16,7 +16,8 @@ import {
   SlideModel,
   ColumnChartFormatModel,
   BarChartFormatModel,
-  PieChartFormatModel
+  PieChartFormatModel,
+  DoughnutChartFormatModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -75,6 +76,8 @@ export class PPtBuilderService {
     )
       chartEl.format = new BarChartFormatModel();
     else if (type == ChartTypeEnum.Pie || type == ChartTypeEnum.ExplodedPie) chartEl.format = new PieChartFormatModel();
+    else if (type == ChartTypeEnum.Doughnut || type == ChartTypeEnum.ExplodedDoughnut)
+      chartEl.format = new DoughnutChartFormatModel();
 
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
