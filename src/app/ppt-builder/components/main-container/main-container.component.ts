@@ -5,7 +5,9 @@ import {
   PPtElementEnum,
   ChartFormatModel,
   BaseFormatInputModel,
-  ChartTypeEnum
+  ChartTypeEnum,
+  ShapeFormatModel,
+  ShapeTypeEnum
 } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -26,6 +28,8 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   tableBox: Array<any>;
   uploader: FileUploader = new FileUploader({ url: this.URL });
   chartType = ChartTypeEnum;
+  shapeType = ShapeTypeEnum;
+
   modalRef: NgbModalRef;
 
   public hasBaseDropZoneOver: boolean = false;
@@ -43,8 +47,16 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     this._pPtBuilderService.export();
   }
 
-  openModal(content: any, className: string = '') {
-    this.modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', windowClass: className });
+  openModal(content: any, className: string = '', customSize: 'sm' | 'lg') {
+    let size: 'sm' | 'lg' = 'lg';
+    if (customSize.length > 0) {
+      size = customSize;
+    }
+    this.modalRef = this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      windowClass: className,
+      size: size
+    });
     this.modalRef.result.then(
       result => {
         this.closeResult = `Closed with: ${result}`;
@@ -73,6 +85,13 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
 
   onAddChart(type: ChartTypeEnum) {
     let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%', type);
+    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [chartEl], dontAddToSlide: false });
+
+    this.closeModal();
+  }
+
+  onAddShape(type: ShapeTypeEnum) {
+    let chartEl: PptElementModel = this._pPtBuilderService.createShapeElement('35%', '35%', type);
     this._pPtBuilderService.pptElementsSubscription.next({ elementList: [chartEl], dontAddToSlide: false });
 
     this.closeModal();

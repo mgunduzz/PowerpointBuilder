@@ -1,13 +1,14 @@
 import { BaseElementFormatModel } from '.';
 import { EventEmitter } from 'events';
-import { BaseFormatInputModel } from './element-format-model';
+import { BaseFormatInputModel, ShapeTypeEnum } from './element-format-model';
 import { Subject } from 'rxjs';
 
 export enum PPtElementEnum {
   Table = 1,
   Chart = 2,
   Text = 3,
-  Image = 4
+  Image = 4,
+  Shape
 }
 
 export enum ChartTypeEnum {
@@ -271,6 +272,25 @@ export class PptTextElementModel extends PptElementModel {
   color: string;
   radius: string;
   width: string;
+}
+
+export class PptShapeElementModel extends PptElementModel {
+  shapeType: ShapeTypeEnum;
+  rotate: number;
+  radius: number;
+  lineSize: number;
+  lineStyle: string;
+  isLineArrow: boolean;
+  arrowDirection: string;
+  color: string;
+  isShowText: boolean;
+  textAlign: string;
+  textFontSize: number;
+  text: string;
+  shapeBorder: boolean;
+  shapeBorderColor: string;
+  shapeBorderSize: number;
+  shapeBorderStyle: string;
 }
 
 export class PptImageElementModel extends PptElementModel {

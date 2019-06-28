@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
@@ -6,12 +6,14 @@ import { PPtElementEnum, PptElementModel, FormatNumberInputModel, PPtFormatInput
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 
+declare var $: any;
+
 @Component({
   selector: 'ppt-base-element',
   templateUrl: './base-element-container.component.html',
   styleUrls: ['./base-element-container.component.scss']
 })
-export class BaseElementContainer implements OnInit, OnDestroy {
+export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   @Input('element') element: PptElementModel;
   @Input('type') type: number;
 
@@ -19,7 +21,7 @@ export class BaseElementContainer implements OnInit, OnDestroy {
   error: string | undefined;
   loginForm!: FormGroup;
   isLoading = false;
-
+  dragDropStatus: boolean = true;
   newPositionXTemp: string = '0px';
   newPositionYTemp: string = '0px';
   newPositionX: string = '0px';
@@ -61,6 +63,18 @@ export class BaseElementContainer implements OnInit, OnDestroy {
           break;
       }
     });
+  }
+
+  ngAfterViewInit() {
+    debugger;
+    $('.box').resizable({ handles: 'all' });
+  }
+
+  dragDropStatusChange() {
+    this.dragDropStatus = false;
+  }
+  dragDropStatusChange1() {
+    this.dragDropStatus = true;
   }
 
   ngOnDestroy() {}
