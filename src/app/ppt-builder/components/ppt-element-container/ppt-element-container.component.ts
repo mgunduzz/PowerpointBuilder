@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
@@ -13,10 +13,23 @@ import { Subject, Subscription } from 'rxjs';
 export class PptElementContainer implements OnInit, OnDestroy {
   elementList: any[] = [];
   elementSub: Subscription;
+  activeElementSub: Subscription;
+  activeElement: PptElementModel;
+  elementId: number = 1;
+  elId: number;
 
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
+    this.activeElementSub = this._pPtBuilderService.activeElementSubscription.subscribe(res => {
+      this.activeElement = res;
+    });
+
     this.elementSub = this._pPtBuilderService.pptElementsSubscription.subscribe(res => {
       if (res) {
+        res.elementList.forEach(item => {
+          item.id = this.elementId;
+          this.elementId++;
+        });
+
         if (res.isClear) this.elementList = [];
         this.elementList.push(...res.elementList);
       }
@@ -24,10 +37,37 @@ export class PptElementContainer implements OnInit, OnDestroy {
   }
 
   onElementClick(item: PptElementModel) {
+    // this.elementList.forEach(o => {
+    //   item.isActive = false;
+    // })
+    this.elementList.forEach(element => {
+      if (element.id == item.id) {
+        element.isActive = true;
+      } else {
+        element.isActive = false;
+      }
+    });
+
     this._pPtBuilderService.setActiveElement(item);
+
+    this.elId = item.id;
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  handleDeleteKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Delete') {
+      this.deleteElement(this.activeElement.id);
+    }
+  }
+  deleteElement(id: number) {
+    this.elementList = this.elementList.filter(item => item.id !== id);
+    this._pPtBuilderService.deleteElement(id);
   }
 
   ngOnInit() {}
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.elementSub.unsubscribe();
+    this.activeElementSub.unsubscribe();
+  }
 }

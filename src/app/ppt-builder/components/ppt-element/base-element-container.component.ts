@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit, HostListener } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
@@ -27,7 +27,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   newPositionX: string = '0px';
   newPositionY: string = '0px';
   elementTypes: any = {};
-  @Input('isItemActive') isItemActive: string;
+  elementId: number;
+  @Input('isItemActive') isItemActive: boolean;
 
   constructor() {
     this.elementTypes.TABLE = PPtElementEnum.Table;
@@ -49,7 +50,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.element.format.formatInputs.y.value = y;
 
     this.newPositionXTemp = x + 'px';
-    this.newPositionYTemp = y + 'px';
+    // this.newPositionYTemp = y + 'px';
   }
 
   ngOnInit() {
@@ -67,7 +68,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    $('.box').resizable({ handles: 'all' });
+    $('#box-' + this.element.id).resizable({ handles: 'all' });
   }
 
   dragDropStatusChange() {
@@ -75,10 +76,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
   dragDropStatusChange1() {
     this.dragDropStatus = true;
-  }
-
-  selectIndexItem(e: any) {
-    console.log(e);
   }
 
   ngOnDestroy() {}

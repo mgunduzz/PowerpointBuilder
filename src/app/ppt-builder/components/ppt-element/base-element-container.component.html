@@ -1,5 +1,6 @@
 <div
-  class="base-element-container box"
+  class="base-element-container"
+  id="box-{{ element.id }}"
   [cdkDragBoundary]="'.board'"
   cdkDrag
   [ngStyle]="{ left: element.x, top: element.y }"
@@ -8,17 +9,10 @@
   [ngClass]="{ active: isItemActive }"
   [cdkDragDisabled]="!dragDropStatus"
   (mouseenter)="dragDropStatus = false"
-  (mousedown)="isItemActive = !isItemActive"
-  style="display: flex;flex-direction:column;"
 >
-  <div
-    class="drop-icon"
-    (mouseenter)="dragDropStatus = true"
-    (mouseleave)="dragDropStatus = false"
-    [ngClass]="{ active: isItemActive }"
-  >
-    <i class="fas fa-grip-horizontal" style="color:#a3a3a3;"></i>
-    <img src="../../../../assets/layer-512.png" style="width: 20px;margin-left:auto;" alt="" />
+  <div class="drop-icon active" (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
+    <i class="fas fa-grip-horizontal" style="color:#a3a3a3;" title="Taşı"></i>
+    <img src="../../../../assets/layer-512.png" style="width: 20px;margin-left:auto;" title="Ön plana çıkar" />
   </div>
 
   <div (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
