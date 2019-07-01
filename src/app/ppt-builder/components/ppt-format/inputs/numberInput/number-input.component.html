@@ -10,8 +10,9 @@
       placeholder="formatInput.value"
       [min]="formatInput.min"
       [max]="formatInput.max"
-      class="form-control"
       [step]="formatInput.step"
+      class="form-control col-lg-5"
+      style="margin-left:auto;font-size: 13px;"
     />
   </label>
   <small class="note" *ngIf="formatInput.note">{{ formatInput.note }}</small>
