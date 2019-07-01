@@ -26,7 +26,17 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
 
   constructor(private pPtBuilderService: PPtBuilderService) {
     this.activeElSubscription = this.pPtBuilderService.activeElementSubscription.subscribe(el => {
-      this.element = el;
+      if (el) {
+        this.element = el;
+        let _this = this;
+
+        Object.keys(el.format.formatInputs).forEach(function(key) {
+          let input = el.format.formatInputs[key];
+          if (input) {
+            _this.onInputValuechange(input);
+          }
+        });
+      }
     });
   }
 

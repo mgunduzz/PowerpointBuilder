@@ -549,7 +549,7 @@ export class ColumnChartFormatModel extends BaseElementFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 1,
       min: 0,
-      value: 1,
+      value: 0,
       step: 0.1
     };
 
@@ -559,7 +559,7 @@ export class ColumnChartFormatModel extends BaseElementFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 1,
       min: 0,
-      value: 1,
+      value: 0.3,
       step: 0.1
     };
 
@@ -581,7 +581,7 @@ export class BarChartFormatModel extends BaseElementFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 1,
       min: 0,
-      value: 1,
+      value: 0,
       step: 0.1
     };
 
@@ -591,7 +591,7 @@ export class BarChartFormatModel extends BaseElementFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 1,
       min: 0,
-      value: 1,
+      value: 0.3,
       step: 0.1
     };
 
