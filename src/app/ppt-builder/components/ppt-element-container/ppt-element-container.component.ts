@@ -64,6 +64,16 @@ export class PptElementContainer implements OnInit, OnDestroy {
     this._pPtBuilderService.deleteElement(id);
   }
 
+  changeHighlight(elId: PptElementModel) {
+    this.elementList.forEach(element => {
+      if (elId == element.id) {
+        element.z = 999;
+      } else {
+        element.z = 0;
+      }
+    });
+  }
+
   ngOnInit() {}
 
   ngOnDestroy() {

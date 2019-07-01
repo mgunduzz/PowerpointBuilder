@@ -67,6 +67,7 @@ export class PptElementModel implements PptxGenerator {
   isActiveElement: boolean;
   id: number;
   isActive: boolean;
+  z: number = 0;
 }
 
 export class PptChartElementModel extends PptElementModel {
