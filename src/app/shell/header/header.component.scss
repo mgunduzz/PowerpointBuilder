@@ -15,3 +15,32 @@
   padding-top: 5px !important;
   padding-bottom: 5px !important;
 }
+
+.dropdown-item {
+  font-size: 12px;
+  color: #111;
+}
+
+.dropdown-toggle::after {
+  margin: 9px 0 0 9px;
+}
+
+.dropdown-style {
+  border: 1px solid #ccc;
+  float: left;
+  line-height: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.left130 {
+  left: -130px !important;
+}
+
+.dropdown-item:hover {
+  color: #e25e49;
+}
