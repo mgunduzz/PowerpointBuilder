@@ -65,6 +65,8 @@
   display: flex;
   width: 100%;
   margin-bottom: 20px;
+  max-width: 320px;
+  flex-wrap: wrap;
 }
 
 .sub-type {
@@ -73,6 +75,7 @@
   width: 33.33%;
   text-align: center;
   cursor: pointer;
+  margin-bottom: 15px;
 }
 
 .sub-type:hover {
@@ -89,8 +92,7 @@
   margin: 0 auto;
 }
 .sub-type-image {
-  width: 30px;
-  height: 30px;
+  width: 36px;
 }
 
 .board {
