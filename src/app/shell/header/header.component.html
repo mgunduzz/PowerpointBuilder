@@ -22,14 +22,41 @@
           <span translate>About</span>
         </a>
       </div> -->
-
+      <i class="fas fa-parking"></i>
       <div class="nav-item dropdown-style" ngbDropdown placement="bottom-right">
         <a id="language-dropdown" style="color:#000" ngbDropdownToggle>FILE</a>
         <div ngbDropdownMenu aria-labelledby="language-dropdown">
           <button ngbDropdownItem>New</button>
-          <button ngbDropdownItem>Open...</button>
+          <button ngbDropdownItem (click)="openModal(imageContent)">Open...</button>
         </div>
       </div>
+
+      <ng-template #imageContent let-modal>
+        <div class="modal-body">
+          <!-- <div
+            ng2FileDrop
+            (onFileDrop)="onFileDrop($event)"
+            [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }"
+            (fileOver)="fileOverBase($event)"
+            [uploader]="uploader"
+            class="well my-drop-zone"
+            class="dragdrop-upload-area"
+          >
+            <div><i class="far fa-images drop-icon"></i></div>
+            <div>Drag and Drop</div>
+            <div>
+              <input
+                style="font-size: 13px;margin: 20px 0 0 50px;"
+                type="file"
+                ng2FileSelect
+                [uploader]="uploader"
+                (onFileSelected)="onFileSelect($event)"
+                multiple
+              />
+            </div>
+          </div> -->
+        </div>
+      </ng-template>
 
       <div class="navbar-nav ml-auto" style="font-size: 15px;">
         <div

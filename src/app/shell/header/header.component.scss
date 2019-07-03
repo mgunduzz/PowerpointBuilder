@@ -44,3 +44,33 @@
 .dropdown-item:hover {
   color: #e25e49;
 }
+
+.dropdown-item:active {
+  background-color: unset !important;
+}
+
+.fa-parking {
+  font-size: 23px;
+  margin-right: 10px;
+  color: #e25e49;
+  cursor: pointer;
+}
+
+.dragdrop-upload-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 50px;
+  border: 1px dashed #b1b1b1;
+}
+
+.drop-icon {
+  font-size: 50px;
+  color: #c5c5c5;
+}
+
+.modal-body {
+  width: 400px;
+  height: 400px;
+}
