@@ -14,6 +14,7 @@
     (click)="showEditableText(); $event.stopPropagation()"
     style="padding:2px"
     [innerHTML]="element.text"
+    style="margin-bottom: unset !important"
   ></pre>
 
   <div
@@ -29,5 +30,6 @@
     [hidden]="showText"
     contenteditable="true"
     [(ngModel)]="element.text"
+    style="margin-bottom: unset !important"
   ></div>
 </div>

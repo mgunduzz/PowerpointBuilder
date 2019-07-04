@@ -6,7 +6,7 @@
   [ngStyle]="{ left: element.x, top: element.y, 'z-index': element.z }"
   (cdkDragEnded)="dragEnded($event)"
   (cdkDragMoved)="dragMoved($event)"
-  [ngClass]="{ active: isItemActive }"
+  [ngClass]="{ active: isItemActive, 'text-active': element.type == elementTypes.TEXT }"
   [cdkDragDisabled]="!dragDropStatus"
   (mouseenter)="dragDropStatus = false"
 >
@@ -22,7 +22,7 @@
     />
   </div>
 
-  <div (mouseenter)="dragDropStatus = true" style="width:100%;height:100%;" (mouseleave)="dragDropStatus = false">
+  <div style="width:100%;height:100%;">
     <ng-container *ngIf="type == elementTypes.CHART">
       <ppt-chart-element [element]="element"> </ppt-chart-element>
     </ng-container>
