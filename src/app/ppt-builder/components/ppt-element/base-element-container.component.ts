@@ -27,7 +27,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   newPositionX: string = '0px';
   newPositionY: string = '0px';
   elementTypes: any = {};
-  @Input('isItemActive') isItemActive: string;
+  @Input('isItemActive') isItemActive: boolean;
 
   constructor() {
     this.elementTypes.TABLE = PPtElementEnum.Table;
