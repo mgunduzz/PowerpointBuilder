@@ -108,12 +108,6 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  selectTabType(e: any) {
-    console.log(e);
-  }
-
-  onTableBoxOver() {}
-
   onTableBoxHover(box: any) {
     let index = box.index + 1;
     let row = Math.ceil(index / 8);
@@ -164,6 +158,14 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   onFileDropped() {
     this.uploader.queue.forEach((val, i, array) => {
       let fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        // when file has loaded
+        var img = new Image();
+
+        img.onload = () => {};
+      };
+
       fileReader.onloadend = e => {
         let imageData: any = fileReader.result;
         let rawData = imageData.split('base64,');
@@ -171,7 +173,6 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
           rawData = rawData[1];
           this.uploader.clearQueue();
           this.URL = imageData;
-
           this.onAddImageElement();
           this.modalService.dismissAll();
         }

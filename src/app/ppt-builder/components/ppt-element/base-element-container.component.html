@@ -7,16 +7,16 @@
   [ngStyle]="{ 'z-index': element.z }"
   (cdkDragEnded)="dragEnded($event)"
   (cdkDragMoved)="dragMoved($event)"
-  [ngClass]="{ active: isItemActive }"
+  [ngClass]="{ active: isItemActive, 'text-active': element.type == elementTypes.TEXT }"
   [cdkDragDisabled]="!dragDropStatus"
   (mouseenter)="dragDropStatus = false"
 >
   <div class="drop-icon active" (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
     <i class="fas fa-grip-horizontal" title="Taşı"></i>
-    <i class="fas fa-undo"></i>
+    <i class="fas fa-undo" (click)="setElementNaturalSize()"></i>
     <img
       src="../../../../assets/layer-512.png"
-      style="width: 20px;margin-left:auto;cursor: pointer;"
+      class="element-highlight"
       [ngClass]="{ active: elHighlight }"
       (click)="highlightElement(element.id)"
       title="Ön plana çıkar"
@@ -24,6 +24,7 @@
   </div>
 
   <div
+    class="container-size"
     (mouseenter)="dragDropStatus = true"
     style="width:100%;height: calc(100% - 20px);"
     (mouseleave)="dragDropStatus = false"

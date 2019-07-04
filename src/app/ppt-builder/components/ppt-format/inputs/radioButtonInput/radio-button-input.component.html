@@ -1,5 +1,5 @@
 <div class="d-block my-3">
-  <div style="width:100% !important;border-bottom: 1px solid #ececec;">
+  <div class="format-input-div">
     <span class="text"> {{ formatInput.name }} </span>
   </div>
 
@@ -15,7 +15,6 @@
       placement="top"
       ngbTooltip="item.tooltip"
       (click)="setselectedItem(item)"
-      style="cursor: pointer;"
       class="custom-control-label"
       id="{{ item.key + '_' + generatedId }}"
     >

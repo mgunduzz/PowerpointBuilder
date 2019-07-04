@@ -1,3 +1,4 @@
-<div class="image-box el-box">
-  <img (click)="getNaturalWidth()" [src]="_DomSanitizer.bypassSecurityTrustUrl(element.url)" />
+<div class="image-box el-box" #content>
+  <img id="img-{{ element.id }}" [src]="_DomSanitizer.bypassSecurityTrustUrl(element.url)" />
 </div>
+<img id="img-example" />
