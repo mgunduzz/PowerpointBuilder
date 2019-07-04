@@ -52,7 +52,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.element.format.formatInputs.y.value = y;
 
     this.newPositionXTemp = x + 'px';
-    // this.newPositionYTemp = y + 'px';
+    this.newPositionYTemp = y + 'px';
   }
 
   ngOnInit() {

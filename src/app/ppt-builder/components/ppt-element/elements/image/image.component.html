@@ -1,3 +1,3 @@
 <div class="image-box el-box">
-  <img [src]="_DomSanitizer.bypassSecurityTrustUrl(element.url)" />
+  <img (click)="getNaturalWidth()" [src]="_DomSanitizer.bypassSecurityTrustUrl(element.url)" />
 </div>

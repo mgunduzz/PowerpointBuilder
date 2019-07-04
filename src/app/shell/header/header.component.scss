@@ -74,3 +74,19 @@
   width: 400px;
   height: 400px;
 }
+
+.language-dropdown {
+  padding-left: 0px;
+  padding-right: 0px;
+  height: min-content;
+  margin: 5px 10px;
+  padding: 2px 9px;
+}
+
+.language-dropdown {
+  color: #000;
+}
+.nav-link.dropdown-toggle {
+  padding-right: unset !important;
+  padding-left: unset !important;
+}

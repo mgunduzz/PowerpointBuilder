@@ -59,17 +59,8 @@
       </ng-template>
 
       <div class="navbar-nav ml-auto" style="font-size: 15px;">
-        <div
-          class="nav-item dropdown-style"
-          style="padding-left: 0px;
-        padding-right: 0px;
-        height: min-content;
-        margin: 5px 10px;
-    padding: 2px 9px;"
-          ngbDropdown
-          placement="bottom-right"
-        >
-          <a id="language-dropdown" style="color:#000" ngbDropdownToggle>Language</a>
+        <div class="nav-item dropdown-style language-dropdown" ngbDropdown placement="bottom-right">
+          <a id="language-dropdown" ngbDropdownToggle>Language</a>
           <div ngbDropdownMenu aria-labelledby="language-dropdown">
             <!-- <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
               {{ language }}

@@ -11,17 +11,18 @@
   (mouseenter)="dragDropStatus = false"
 >
   <div class="drop-icon active" (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
-    <i class="fas fa-grip-horizontal" style="color:#a3a3a3;" title="Taşı"></i>
+    <i class="fas fa-grip-horizontal" title="Taşı"></i>
+    <i class="fas fa-undo"></i>
     <img
       src="../../../../assets/layer-512.png"
-      style="width: 20px;margin-left:auto;"
+      style="width: 20px;margin-left:auto;cursor: pointer;"
       [ngClass]="{ active: elHighlight }"
       (click)="highlightElement(element.id)"
       title="Ön plana çıkar"
     />
   </div>
 
-  <div (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
+  <div (mouseenter)="dragDropStatus = true" style="width:100%;height:100%;" (mouseleave)="dragDropStatus = false">
     <ng-container *ngIf="type == elementTypes.CHART">
       <ppt-chart-element [element]="element"> </ppt-chart-element>
     </ng-container>

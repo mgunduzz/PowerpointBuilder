@@ -24,7 +24,7 @@
     <small class="tools-box-text">Media</small>
   </div>
 
-  <div class="tools-box" style="margin-left: 30px;" (click)="onExport()">
+  <div class="tools-box box-export" (click)="onExport()">
     <i class="fas fa-file-export tools-icon"></i>
     <small class="tools-box-text">Export</small>
   </div>
@@ -39,97 +39,54 @@
       <li class="tab-bar-li" (click)="selectTab = 1" [ngClass]="{ 'tab-bar-li-active': selectTab == 1 }">
         <a
           class="nav-link"
-          style="color: #495057;"
           id="clustered-tab"
           data-toggle="tab"
           role="tab"
           aria-controls="clustered"
           aria-selected="true"
-          ><img src="../../../../assets/icons/1.png" style="width:18px"
+          ><img src="../../../../assets/icons/1.png" class="icon-class"
         /></a>
       </li>
 
       <!-- Bar Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 2" [ngClass]="{ 'tab-bar-li-active': selectTab == 2 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><img src="../../../../assets/icons/2.png" style="width:18px"
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/2.png" class="icon-class"
         /></a>
       </li>
 
       <!-- Line Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 3" [ngClass]="{ 'tab-bar-li-active': selectTab == 3 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><img src="../../../../assets/icons/6.png" style="width:18px"
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/6.png" class="icon-class"
         /></a>
       </li>
 
       <!-- Scatter Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 4" [ngClass]="{ 'tab-bar-li-active': selectTab == 4 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><img src="../../../../assets/icons/5.png" style="width:18px"
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/5.png" class="icon-class"
         /></a>
       </li>
 
       <!-- Pie Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 5" [ngClass]="{ 'tab-bar-li-active': selectTab == 5 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><img src="../../../../assets/icons/asdwe.png" style="width:18px"
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/asdwe.png" class="icon-class"
         /></a>
       </li>
 
       <!-- Area Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 6" [ngClass]="{ 'tab-bar-li-active': selectTab == 6 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><img src="../../../../assets/icons/asd.png" style="width:18px"
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/asd.png" class="icon-class"
         /></a>
       </li>
 
       <!-- Area Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 7" [ngClass]="{ 'tab-bar-li-active': selectTab == 7 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><img src="../../../../assets/icons/11.png" style="width:18px"
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/11.png" class="icon-class"
         /></a>
       </li>
     </ul>
