@@ -24,7 +24,7 @@
     <small class="tools-box-text">Media</small>
   </div>
 
-  <div class="tools-box" style="margin-left: 30px;" (click)="onExport()">
+  <div class="tools-box box-export" (click)="onExport()">
     <i class="fas fa-file-export tools-icon"></i>
     <small class="tools-box-text">Export</small>
   </div>
@@ -39,98 +39,55 @@
       <li class="tab-bar-li" (click)="selectTab = 1" [ngClass]="{ 'tab-bar-li-active': selectTab == 1 }">
         <a
           class="nav-link"
-          style="color: #495057;"
           id="clustered-tab"
           data-toggle="tab"
           role="tab"
           aria-controls="clustered"
           aria-selected="true"
-          ><i class="fa fa-bar-chart"></i
-        ></a>
+          ><img src="../../../../assets/icons/1.png" class="icon-class"
+        /></a>
       </li>
 
       <!-- Bar Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 2" [ngClass]="{ 'tab-bar-li-active': selectTab == 2 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><i class="fa fa-bar-chart"></i
-        ></a>
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/2.png" class="icon-class"
+        /></a>
       </li>
 
       <!-- Line Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 3" [ngClass]="{ 'tab-bar-li-active': selectTab == 3 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><i class="fa fa-bar-chart"></i
-        ></a>
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/6.png" class="icon-class"
+        /></a>
       </li>
 
       <!-- Scatter Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 4" [ngClass]="{ 'tab-bar-li-active': selectTab == 4 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><i class="fa fa-bar-chart"></i
-        ></a>
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/5.png" class="icon-class"
+        /></a>
       </li>
 
       <!-- Pie Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 5" [ngClass]="{ 'tab-bar-li-active': selectTab == 5 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><i class="fa fa-bar-chart"></i
-        ></a>
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/asdwe.png" class="icon-class"
+        /></a>
       </li>
 
       <!-- Area Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 6" [ngClass]="{ 'tab-bar-li-active': selectTab == 6 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><i class="fa fa-bar-chart"></i
-        ></a>
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/asd.png" class="icon-class"
+        /></a>
       </li>
 
       <!-- Area Charts Tab  -->
       <li class="tab-bar-li" (click)="selectTab = 7" [ngClass]="{ 'tab-bar-li-active': selectTab == 7 }">
-        <a
-          class="nav-link"
-          style="color: #495057;"
-          id="bar-tab"
-          data-toggle="tab"
-          role="tab"
-          aria-controls="bar"
-          aria-selected="true"
-          ><i class="fa fa-bar-chart"></i
-        ></a>
+        <a class="nav-link" id="bar-tab" data-toggle="tab" role="tab" aria-controls="bar" aria-selected="true"
+          ><img src="../../../../assets/icons/11.png" class="icon-class"
+        /></a>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent" style="    width: 100%;padding: 15px;"></div>
@@ -146,21 +103,21 @@
         <div class="sub-type-list">
           <div class="sub-type" (click)="onAddChart(chartType.ClusteredColumn)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/004-analysis-3.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Clustered Column</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedColumn)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/013-bar-chart-3.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Stacked Column</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedColumn100)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/3.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>100% Stacked Column</span></div>
           </div>
@@ -172,21 +129,21 @@
         <div class="sub-type-list">
           <div class="sub-type" (click)="onAddChart(chartType.ClusteredBar)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/012-bar-chart-2.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Clustered Bar</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedBar)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/010-charts-14.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Stacked Bar</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedBar100)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/010-charts-14.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>100% Stacked Bar</span></div>
           </div>
@@ -198,42 +155,42 @@
         <div class="sub-type-list">
           <div class="sub-type" (click)="onAddChart(chartType.Line)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/026-line-graph-1.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Line</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedLine)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/026-line-graph-1.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Stacked Line</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedLine100)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/026-line-graph-1.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>100% Stacked Line</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.MarkedLine)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/027-line-graph-2.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Marked Line</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedMarkedLine)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/027-line-graph-2.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Stacked Marked Line</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedMarkedLine100)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/027-line-graph-2.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>100% Stacked Marked Line</span></div>
           </div>
@@ -245,35 +202,35 @@
         <div class="sub-type-list">
           <div class="sub-type" (click)="onAddChart(chartType.MarkedScatter)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Marked Scatter</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.SmoothMarkedScatter)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Smooth Marked Scatter</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.SmoothLinedScatter)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Smooth Lined Scatter</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StraightMarkedScatter)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Straight Marked Scatter</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StraightLinedScatter)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Straight Lined Scatter</span></div>
           </div>
@@ -285,14 +242,14 @@
         <div class="sub-type-list">
           <div class="sub-type" (click)="onAddChart(chartType.Pie)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/031-pie-chart-1.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Pie</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.ExplodedPie)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/032-pie-chart-2.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Exploded Pie</span></div>
           </div>
@@ -304,21 +261,21 @@
         <div class="sub-type-list">
           <div class="sub-type" (click)="onAddChart(chartType.Area)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/003-analysis-2.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Area</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedArea)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/003-analysis-2.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Stacked Area</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedArea100)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/003-analysis-2.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>100% Stacked Area</span></div>
           </div>
@@ -330,30 +287,30 @@
         <div class="sub-type-list">
           <div class="sub-type" (click)="onAddChart(chartType.Doughnut)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/016-circular-chart-1.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Doughnut</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.ExplodedDoughnut)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/016-circular-chart-1.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Exploded Doughnut</span></div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.Bubble)">
             <div class="sub-type-image-div">
-              <img src="https://img.icons8.com/metro/26/000000/statistics.png" class="sub-type-image" />
+              <img src="../../../../assets/icons/016-circular-chart-1.png" class="sub-type-image" />
             </div>
             <div class="sub-type-text"><span>Bubble</span></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> -->
-    </div>
+    <!-- <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div> -->
   </div>
 </ng-template>
 

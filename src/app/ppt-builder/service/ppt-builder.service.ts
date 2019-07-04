@@ -29,7 +29,7 @@ export class PPtBuilderService {
   constructor() {
     if (this.slideList.length == 0) {
       this.slideList.push({ elementList: [], isActive: true });
-
+      this.activeSlide = this.slideList[0];
       this.updateSlideList();
     }
   }
@@ -38,6 +38,7 @@ export class PPtBuilderService {
   public activeElementSubscription = new BehaviorSubject<PptElementModel>(undefined);
   public slideListSubscription = new BehaviorSubject<SlideModel[]>(undefined);
   public slideList: SlideModel[] = [];
+  public activeSlide: SlideModel;
 
   addSlide() {
     this.slideList.push({ elementList: [], isActive: true });
@@ -46,6 +47,7 @@ export class PPtBuilderService {
 
   setActiveSlide(slide: SlideModel) {
     this.slideList.forEach(item => (item.isActive = false));
+    this.activeSlide = slide;
     slide.isActive = true;
     this.pptElementsSubscription.next({
       elementList: slide.elementList,
@@ -71,6 +73,7 @@ export class PPtBuilderService {
     chartEl.x = x;
     chartEl.y = y;
     chartEl.shapeType = type;
+    chartEl.isActive = false;
 
     return chartEl;
   }
@@ -101,6 +104,7 @@ export class PPtBuilderService {
     chartEl.x = x;
     chartEl.y = y;
     chartEl.chartType = type;
+    chartEl.isActive = false;
 
     return chartEl;
   }
@@ -115,6 +119,7 @@ export class PPtBuilderService {
     tableEl.y = y;
     tableEl.row = row;
     tableEl.col = col;
+    tableEl.isActive = false;
 
     return tableEl;
   }
@@ -128,6 +133,7 @@ export class PPtBuilderService {
     imageEl.x = x;
     imageEl.y = y;
     imageEl.url = url;
+    imageEl.isActive = false;
 
     return imageEl;
   }
@@ -149,8 +155,14 @@ export class PPtBuilderService {
     textEl.x = x;
     textEl.y = y;
     textEl.text = text;
+    textEl.isActive = false;
 
     return textEl;
+  }
+
+  deleteElement(id: number) {
+    this.pptElementsSubscription.value.elementList.splice(id, 1);
+    this.activeSlide.elementList = this.activeSlide.elementList.filter(item => item.id !== id);
   }
 
   export() {

@@ -15,3 +15,78 @@
   padding-top: 5px !important;
   padding-bottom: 5px !important;
 }
+
+.dropdown-item {
+  font-size: 12px;
+  color: #111;
+}
+
+.dropdown-toggle::after {
+  margin: 9px 0 0 9px;
+}
+
+.dropdown-style {
+  border: 1px solid #ccc;
+  float: left;
+  line-height: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.left130 {
+  left: -130px !important;
+}
+
+.dropdown-item:hover {
+  color: #e25e49;
+}
+
+.dropdown-item:active {
+  background-color: unset !important;
+}
+
+.fa-parking {
+  font-size: 23px;
+  margin-right: 10px;
+  color: #e25e49;
+  cursor: pointer;
+}
+
+.dragdrop-upload-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 50px;
+  border: 1px dashed #b1b1b1;
+}
+
+.drop-icon {
+  font-size: 50px;
+  color: #c5c5c5;
+}
+
+.modal-body {
+  width: 400px;
+  height: 400px;
+}
+
+.language-dropdown {
+  padding-left: 0px;
+  padding-right: 0px;
+  height: min-content;
+  margin: 5px 10px;
+  padding: 2px 9px;
+}
+
+.language-dropdown {
+  color: #000;
+}
+.nav-link.dropdown-toggle {
+  padding-right: unset !important;
+  padding-left: unset !important;
+}

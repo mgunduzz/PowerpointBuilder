@@ -22,20 +22,58 @@
           <span translate>About</span>
         </a>
       </div> -->
+      <i class="fas fa-parking"></i>
+      <div class="nav-item dropdown-style" ngbDropdown placement="bottom-right">
+        <a id="language-dropdown" style="color:#000" ngbDropdownToggle>FILE</a>
+        <div ngbDropdownMenu aria-labelledby="language-dropdown">
+          <button ngbDropdownItem>New</button>
+          <button ngbDropdownItem (click)="openModal(imageContent)">Open...</button>
+        </div>
+      </div>
+
+      <ng-template #imageContent let-modal>
+        <div class="modal-body">
+          <!-- <div
+            ng2FileDrop
+            (onFileDrop)="onFileDrop($event)"
+            [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }"
+            (fileOver)="fileOverBase($event)"
+            [uploader]="uploader"
+            class="well my-drop-zone"
+            class="dragdrop-upload-area"
+          >
+            <div><i class="far fa-images drop-icon"></i></div>
+            <div>Drag and Drop</div>
+            <div>
+              <input
+                style="font-size: 13px;margin: 20px 0 0 50px;"
+                type="file"
+                ng2FileSelect
+                [uploader]="uploader"
+                (onFileSelected)="onFileSelect($event)"
+                multiple
+              />
+            </div>
+          </div> -->
+        </div>
+      </ng-template>
+
       <div class="navbar-nav ml-auto" style="font-size: 15px;">
-        <div class="nav-item" ngbDropdown placement="bottom-right">
-          <a id="language-dropdown" class="nav-link" style="color:#000" ngbDropdownToggle>{{ currentLanguage }}</a>
+        <div class="nav-item dropdown-style language-dropdown" ngbDropdown placement="bottom-right">
+          <a id="language-dropdown" ngbDropdownToggle>Language</a>
           <div ngbDropdownMenu aria-labelledby="language-dropdown">
-            <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
+            <!-- <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
               {{ language }}
-            </button>
+            </button> -->
+            <button ngbDropdownItem>English</button>
+            <button ngbDropdownItem>Türkçe</button>
           </div>
         </div>
         <div class="nav-item" ngbDropdown placement="bottom-right">
           <a id="user-dropdown" class="nav-link" ngbDropdownToggle>
             <i class="fas fa-user-circle" style="color:#000"></i>
           </a>
-          <div ngbDropdownMenu aria-labelledby="user-dropdown">
+          <div ngbDropdownMenu class="left130" aria-labelledby="user-dropdown">
             <h6 class="dropdown-header">
               <span translate>Logged in as</span> <b>{{ username }}</b>
             </h6>

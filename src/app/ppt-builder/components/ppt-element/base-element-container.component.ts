@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit, HostListener, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
@@ -16,7 +16,7 @@ declare var $: any;
 export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   @Input('element') element: PptElementModel;
   @Input('type') type: number;
-
+  @Output() highlightChange = new EventEmitter();
   version: string = environment.version;
   error: string | undefined;
   loginForm!: FormGroup;
@@ -27,6 +27,9 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   newPositionX: string = '0px';
   newPositionY: string = '0px';
   elementTypes: any = {};
+  elementId: number;
+  elHighlight: boolean = false;
+
   @Input('isItemActive') isItemActive: boolean;
 
   constructor() {
@@ -67,7 +70,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    $('.box').resizable({ handles: 'all' });
+    $('#box-' + this.element.id).resizable({ handles: 'all' });
   }
 
   dragDropStatusChange() {
@@ -77,8 +80,9 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.dragDropStatus = true;
   }
 
-  selectIndexItem(e: any) {
-    console.log(e);
+  highlightElement(id: number) {
+    this.element.z = 999;
+    this.highlightChange.emit(id);
   }
 
   ngOnDestroy() {}

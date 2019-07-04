@@ -65,6 +65,9 @@ export class PptElementModel implements PptxGenerator {
   format: BaseElementFormatModel;
   onFormatChange: Subject<BaseFormatInputModel>;
   isActiveElement: boolean;
+  id: number;
+  isActive: boolean;
+  z: number = 0;
 }
 
 export class PptChartElementModel extends PptElementModel {
@@ -272,7 +275,6 @@ export class PptChartElementModel extends PptElementModel {
 export class PptTableElementModel extends PptElementModel {
   row: number;
   col: number;
-  isActive?: boolean = false;
 }
 
 export class PptTextElementModel extends PptElementModel {
