@@ -1,5 +1,5 @@
 <div>
-  <label class="form-check-label noselect " for="textInput_{{ generatedId }}" style="cursor: pointer;display: flex;">
+  <label class="form-check-label noselect " for="textInput_{{ generatedId }}">
     <span class="text"> {{ formatInput.name }} dsadsa </span>
 
     <input
@@ -9,8 +9,7 @@
       [(ngModel)]="formatInput.value"
       (ngModelChange)="onValueChange()"
       placeholder="formatInput.value"
-      class="form-control col-lg-4"
-      style="margin-left:auto;"
+      class="form-control col-lg-4 input-text"
     />
   </label>
 

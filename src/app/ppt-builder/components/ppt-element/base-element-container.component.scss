@@ -28,4 +28,16 @@
 
 .text-active {
   height: auto !important;
+  min-width: auto !important;
+}
+
+.container-size {
+  width: 100%;
+  height: 100%;
+}
+
+.element-highlight {
+  width: 20px;
+  margin-left: auto;
+  cursor: pointer;
 }

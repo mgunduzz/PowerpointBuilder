@@ -16,3 +16,11 @@
 .text-element {
   overflow: unset !important;
 }
+
+.text-margin {
+  margin-bottom: unset !important;
+  cursor: text;
+  overflow: unset;
+  margin: 3px;
+  padding: 0px 15px 10px 0;
+}

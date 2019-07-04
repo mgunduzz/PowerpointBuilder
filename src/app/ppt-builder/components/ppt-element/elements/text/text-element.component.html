@@ -2,7 +2,6 @@
   <pre
     [hidden]="!showText"
     class="text-element"
-    style="cursor: text;margin:3px;overflow: unset !important;"
     [style.background-color]="element.backgroundColor"
     [style.font-size]="element.fontSize"
     [style.font-family]="element.font"
@@ -12,13 +11,11 @@
     [style.border-radius]="element.radius"
     [style.color]="element.color"
     (click)="showEditableText(); $event.stopPropagation()"
-    style="padding:2px"
     [innerHTML]="element.text"
-    style="margin-bottom: unset !important"
+    class="text-margin"
   ></pre>
 
   <div
-    style="cursor: text;overflow: unset;"
     [style.background-color]="element.backgroundColor"
     [style.font-size]="element.fontSize"
     [style.font-family]="element.font"
@@ -30,6 +27,6 @@
     [hidden]="showText"
     contenteditable="true"
     [(ngModel)]="element.text"
-    style="margin-bottom: unset !important"
+    class="text-margin"
   ></div>
 </div>
