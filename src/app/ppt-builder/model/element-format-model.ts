@@ -125,6 +125,8 @@ export class FormatInputsModel {
   shapeBorderSize: FormatNumberInputModel;
   shapeBorderStyle: FormatDropdownInputModel;
   textFontSize: FormatNumberInputModel;
+  naturalWidth: FormatNumberInputModel;
+  naturalHeight: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
