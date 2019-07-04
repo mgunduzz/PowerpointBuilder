@@ -64,22 +64,53 @@ export class PPtBuilderService {
     this.activeElementSubscription.next(item);
   }
 
-  createShapeElement(x: string, y: string, type: ShapeTypeEnum): PptElementModel {
+  createElement(elType: PPtElementEnum, options: any): PptElementModel {
+    let el: PptElementModel = new PptElementModel();
+    el.format.formatInputs.x.value = options.x;
+    el.format.formatInputs.y.value = options.y;
+
+    switch (elType) {
+      case PPtElementEnum.Table:
+        el = this.createTableElement(el, options.row, options.col);
+        break;
+      case PPtElementEnum.Shape:
+        el = this.createShapeElement(el, options.type);
+        break;
+      case PPtElementEnum.Chart:
+        el = this.createChartElement(el, options.type);
+        break;
+      case PPtElementEnum.Text:
+        el = this.createTextElement(el, options.text);
+        break;
+      case PPtElementEnum.Image:
+        el = this.createImageElement(el, options.url);
+        break;
+
+      default:
+        break;
+    }
+
+    this.pptElementsSubscription.next({ elementList: [el], dontAddToSlide: false });
+
+    this.activeElementSubscription.next(el);
+
+    return el;
+  }
+
+  createShapeElement(el: PptElementModel, type: ShapeTypeEnum): PptElementModel {
     var chartEl = new PptShapeElementModel();
-    chartEl.format = new ShapeFormatModel();
+    chartEl.format = new ShapeFormatModel(el.format);
     chartEl.name = 'Shape';
     chartEl.type = PPtElementEnum.Shape;
     chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
-    chartEl.x = x;
-    chartEl.y = y;
     chartEl.shapeType = type;
     chartEl.isActive = false;
 
     return chartEl;
   }
 
-  createChartElement(x: string, y: string, type: ChartTypeEnum): PptElementModel {
-    var chartEl = new PptChartElementModel();
+  createChartElement(el: PptElementModel, type: ChartTypeEnum): PptElementModel {
+    var chartEl = new PptChartElementModel(el);
     chartEl.format = new ChartFormatModel();
 
     if (
@@ -101,22 +132,19 @@ export class PPtBuilderService {
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
     chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
-    chartEl.x = x;
-    chartEl.y = y;
     chartEl.chartType = type;
     chartEl.isActive = false;
 
     return chartEl;
   }
 
-  createTableElement(x: string, y: string, row: number, col: number) {
+  createTableElement(el: PptElementModel, row: number, col: number) {
     var tableEl = new PptTableElementModel();
-    tableEl.format = new TableFormatModel();
+    tableEl.format = new TableFormatModel(el.format);
+
     tableEl.name = 'Table';
     tableEl.type = PPtElementEnum.Table;
     tableEl.onFormatChange = new Subject<BaseFormatInputModel>();
-    tableEl.x = x;
-    tableEl.y = y;
     tableEl.row = row;
     tableEl.col = col;
     tableEl.isActive = false;
@@ -124,23 +152,21 @@ export class PPtBuilderService {
     return tableEl;
   }
 
-  createImageElement(x: string, y: string, url: string) {
+  createImageElement(el: PptElementModel, url: string) {
     var imageEl = new PptImageElementModel();
-    imageEl.format = new ImageFormatModel();
+    imageEl.format = new ImageFormatModel(el.format);
     imageEl.name = 'Image';
     imageEl.type = PPtElementEnum.Image;
     imageEl.onFormatChange = new Subject<BaseFormatInputModel>();
-    imageEl.x = x;
-    imageEl.y = y;
     imageEl.url = url;
     imageEl.isActive = false;
 
     return imageEl;
   }
 
-  createTextElement(x: string, y: string, text: string) {
+  createTextElement(el: PptElementModel, text: string) {
     var textEl = new PptTextElementModel();
-    textEl.format = new TextFormatModel();
+    textEl.format = new TextFormatModel(el.format);
 
     textEl.color = 'black';
     textEl.font = 'sans-serif';
@@ -152,8 +178,6 @@ export class PPtBuilderService {
     textEl.name = 'Text';
     textEl.type = PPtElementEnum.Text;
     textEl.onFormatChange = new Subject<BaseFormatInputModel>();
-    textEl.x = x;
-    textEl.y = y;
     textEl.text = text;
     textEl.isActive = false;
 

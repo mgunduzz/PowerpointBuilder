@@ -7,7 +7,9 @@ import {
   BaseFormatInputModel,
   ChartTypeEnum,
   ShapeFormatModel,
-  ShapeTypeEnum
+  ShapeTypeEnum,
+  PptTableElementModel,
+  PptShapeElementModel
 } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -69,9 +71,11 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   createTextElemet() {
-    let textEl = this._pPtBuilderService.createTextElement('35%', '35%', 'Metin Giriniz');
-
-    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [textEl], dontAddToSlide: false });
+    let textEl = this._pPtBuilderService.createElement(PPtElementEnum.Text, {
+      x: '35',
+      y: '35',
+      text: 'Metin Giriniz'
+    });
   }
 
   closeModal() {
@@ -79,21 +83,17 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   onAddImageElement() {
-    let imageEl = this._pPtBuilderService.createImageElement('35%', '35%', this.URL);
-
-    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [imageEl], dontAddToSlide: false });
+    let imageEl = this._pPtBuilderService.createElement(PPtElementEnum.Image, { x: '35', y: '35', url: this.URL });
   }
 
   onAddChart(type: ChartTypeEnum) {
-    let chartEl: PptElementModel = this._pPtBuilderService.createChartElement('35%', '35%', type);
-    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [chartEl], dontAddToSlide: false });
+    let chartEl = this._pPtBuilderService.createElement(PPtElementEnum.Chart, { x: '35', y: '35', type });
 
     this.closeModal();
   }
 
   onAddShape(type: ShapeTypeEnum) {
-    let chartEl: PptElementModel = this._pPtBuilderService.createShapeElement('35%', '35%', type);
-    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [chartEl], dontAddToSlide: false });
+    let shapeEl = this._pPtBuilderService.createElement(PPtElementEnum.Shape, { x: '35', y: '35', type });
 
     this.closeModal();
   }
@@ -139,8 +139,8 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
 
     if (col == 0) col = 8;
 
-    let tableEl = this._pPtBuilderService.createTableElement('35%', '35%', row, col);
-    this._pPtBuilderService.pptElementsSubscription.next({ elementList: [tableEl], dontAddToSlide: false });
+    let tableEl = this._pPtBuilderService.createElement(PPtElementEnum.Table, { x: '35', y: '35', row, col });
+
     this.modalService.dismissAll();
   }
 

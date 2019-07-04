@@ -1,8 +1,25 @@
-import { Component, OnInit, OnDestroy, Input, AfterViewInit, HostListener, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  AfterViewInit,
+  HostListener,
+  EventEmitter,
+  Output,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
-import { PPtElementEnum, PptElementModel, FormatNumberInputModel, PPtFormatInputsEnum } from '@app/ppt-builder/model';
+import {
+  PPtElementEnum,
+  PptElementModel,
+  FormatNumberInputModel,
+  PPtFormatInputsEnum,
+  BaseFormatInputModel
+} from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 
@@ -17,6 +34,9 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   @Input('element') element: PptElementModel;
   @Input('type') type: number;
   @Output() highlightChange = new EventEmitter();
+
+  @ViewChild('baseElementCont') elementContainer: ElementRef;
+
   version: string = environment.version;
   error: string | undefined;
   loginForm!: FormGroup;
@@ -45,33 +65,82 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   dragMoved(event: CdkDragMove) {
-    let x = (event.event as any).layerX - (event.event as any).offsetX;
-    let y = (event.event as any).layerY - (event.event as any).offsetY;
+    var childPos = $('.base-element-container').offset();
+    var parentPos = $('.base-element-container')
+      .parent()
+      .offset();
+
+    let x = +(childPos.left - parentPos.left).toFixed(0);
+    let y = +(childPos.top - parentPos.top).toFixed(0);
 
     this.element.format.formatInputs.x.value = x;
     this.element.format.formatInputs.y.value = y;
-
-    this.newPositionXTemp = x + 'px';
-    this.newPositionYTemp = y + 'px';
   }
 
   ngOnInit() {
     this.element.onFormatChange.subscribe(res => {
-      let numberInput = res as FormatNumberInputModel;
+      this.updateFormats(res);
+    });
 
-      switch (res.inputId) {
-        case PPtFormatInputsEnum.width:
-          break;
+    this.updateFormats(this.element.format.formatInputs.x);
+    this.updateFormats(this.element.format.formatInputs.y);
+    this.updateFormats(this.element.format.formatInputs.width);
+    this.updateFormats(this.element.format.formatInputs.height);
+  }
 
-        default:
-          break;
+  updateContainerPosition(x: number, y: number) {}
+
+  updateFormats(formatInput: BaseFormatInputModel) {
+    let numberInput = formatInput as FormatNumberInputModel;
+
+    switch (formatInput.inputId) {
+      case PPtFormatInputsEnum.x:
+        var results = $('.base-element-container')
+          .css('transform')
+          .replace(/[^0-9\-.,]/g, '')
+          .split(',');
+        var x = results[12] || results[4];
+        var y = results[13] || results[5];
+
+        this.elementContainer.nativeElement.style.transform = `translate3d(${numberInput.value}px, ${y}px, 0px)`;
+        break;
+      case PPtFormatInputsEnum.y:
+        var results = $('.base-element-container')
+          .css('transform')
+          .replace(/[^0-9\-.,]/g, '')
+          .split(',');
+        var x = results[12] || results[4];
+        var y = results[13] || results[5];
+
+        this.elementContainer.nativeElement.style.transform = `translate3d(${x}px, ${numberInput.value}px, 0px)`;
+        break;
+      case PPtFormatInputsEnum.width:
+        this.elementContainer.nativeElement.style.width = `${numberInput.value}px`;
+        break;
+      case PPtFormatInputsEnum.height:
+        this.elementContainer.nativeElement.style.height = `${numberInput.value}px`;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  ngAfterViewInit() {
+    let _this = this;
+    $('#box-' + this.element.id).resizable({
+      handles: 'all',
+      stop: function(e: any, ui: any) {
+        let width = ui.size.width;
+        let height = ui.size.height;
+
+        _this.element.format.formatInputs.width.value = width;
+        _this.element.format.formatInputs.height.value = height;
       }
     });
   }
 
-  ngAfterViewInit() {
-    $('#box-' + this.element.id).resizable({ handles: 'all' });
-  }
+  elementResized() {}
 
   dragDropStatusChange() {
     this.dragDropStatus = false;

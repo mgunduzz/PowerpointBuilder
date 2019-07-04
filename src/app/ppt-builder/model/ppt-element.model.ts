@@ -53,15 +53,17 @@ export class PptElementModel implements PptxGenerator {
     return;
   }
 
-  constructor() {
+  constructor(el?: PptElementModel) {
     this.format = new BaseElementFormatModel();
     this.onFormatChange = new Subject<BaseFormatInputModel>();
+
+    if (el) {
+      this.format = el.format;
+    }
   }
 
   type: PPtElementEnum;
   name: string;
-  x?: string;
-  y?: string;
   format: BaseElementFormatModel;
   onFormatChange: Subject<BaseFormatInputModel>;
   isActiveElement: boolean;
@@ -71,6 +73,13 @@ export class PptElementModel implements PptxGenerator {
 }
 
 export class PptChartElementModel extends PptElementModel {
+  /**
+   *
+   */
+  constructor(el: PptElementModel) {
+    super(el);
+  }
+
   chartType: ChartTypeEnum;
 
   generatePptxItem(pptx: any, slide: any) {

@@ -1,9 +1,10 @@
 <div
+  #baseElementCont
   class="base-element-container"
   id="box-{{ element.id }}"
   [cdkDragBoundary]="'.board'"
   cdkDrag
-  [ngStyle]="{ left: element.x, top: element.y, 'z-index': element.z }"
+  [ngStyle]="{ 'z-index': element.z }"
   (cdkDragEnded)="dragEnded($event)"
   (cdkDragMoved)="dragMoved($event)"
   [ngClass]="{ active: isItemActive }"
@@ -22,7 +23,11 @@
     />
   </div>
 
-  <div (mouseenter)="dragDropStatus = true" style="width:100%;height:100%;" (mouseleave)="dragDropStatus = false">
+  <div
+    (mouseenter)="dragDropStatus = true"
+    style="width:100%;height: calc(100% - 20px);"
+    (mouseleave)="dragDropStatus = false"
+  >
     <ng-container *ngIf="type == elementTypes.CHART">
       <ppt-chart-element [element]="element"> </ppt-chart-element>
     </ng-container>

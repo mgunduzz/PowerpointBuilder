@@ -1,7 +1,17 @@
 <div class="el-box">
-  <div class="table" [ngClass]="{ active: element.isActive }" (click)="element.isActive = !element.isActive">
-    <div *ngFor="let row of tableBox" class="table-row">
-      <div *ngFor="let col of row.cols" class="table-element"></div>
+  <div
+    class="table"
+    #tableContainer
+    [ngClass]="{ active: element.isActive }"
+    (click)="element.isActive = !element.isActive"
+  >
+    <div *ngFor="let row of tableBox" class="table-row" [ngStyle]="{ height: 'calc(100%/' + tableBox.length + ')' }">
+      <div
+        *ngFor="let col of row.cols"
+        class="table-element"
+        #tableElement
+        [ngStyle]="{ width: 'calc(100%/' + row.cols.length + ')' }"
+      ></div>
     </div>
   </div>
 </div>

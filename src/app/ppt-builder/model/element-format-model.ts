@@ -136,7 +136,7 @@ export class BaseElementFormatModel {
   /**
    *
    */
-  constructor() {
+  constructor(format?: BaseElementFormatModel) {
     this.formatInputs = new FormatInputsModel();
 
     let x: FormatNumberInputModel = {
@@ -179,26 +179,31 @@ export class BaseElementFormatModel {
     this.formatInputs.y = y;
     this.formatInputs.width = width;
     this.formatInputs.height = height;
+
+    if (format) {
+      this.formatInputs.x = format.formatInputs.x;
+      this.formatInputs.y = format.formatInputs.y;
+    }
   }
 
   formatInputs?: FormatInputsModel;
 }
 
 export class TableFormatModel extends BaseElementFormatModel {
-  constructor() {
-    super();
+  constructor(format?: BaseElementFormatModel) {
+    super(format);
   }
 }
 
 export class ImageFormatModel extends BaseElementFormatModel {
-  constructor() {
-    super();
+  constructor(format?: BaseElementFormatModel) {
+    super(format);
   }
 }
 
 export class TextFormatModel extends BaseElementFormatModel {
-  constructor() {
-    super();
+  constructor(format?: BaseElementFormatModel) {
+    super(format);
 
     let textAlignList = new Array<RadioButtonInputSettings>();
 
@@ -322,8 +327,8 @@ export class TextFormatModel extends BaseElementFormatModel {
 }
 
 export class ChartFormatModel extends BaseElementFormatModel {
-  constructor() {
-    super();
+  constructor(format?: BaseElementFormatModel) {
+    super(format);
 
     let title: FormatCheckboxInputModel = {
       inputId: PPtFormatInputsEnum.title,
@@ -353,8 +358,8 @@ export class ChartFormatModel extends BaseElementFormatModel {
 }
 
 export class ShapeFormatModel extends BaseElementFormatModel {
-  constructor() {
-    super();
+  constructor(format: BaseElementFormatModel) {
+    super(format);
 
     let shapeType: ShapeTypeEnum;
 
@@ -536,6 +541,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     this.formatInputs.shapeBorderStyle = shapeBorderStyle;
   }
 }
+
 export class ColumnChartFormatModel extends BaseElementFormatModel {
   /**
    *
