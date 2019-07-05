@@ -276,16 +276,6 @@ export class TextFormatModel extends BaseElementFormatModel {
       min: 0
     };
 
-    let width: FormatNumberInputModel = {
-      inputId: PPtFormatInputsEnum.width,
-      name: 'Genişlik',
-      inputType: PPtElementFormatInputTypeEnum.number,
-      value: 0,
-      min: 0,
-      max: 2048,
-      note: '0 değeri otomatik ayarlar'
-    };
-
     let backgroundColor: FormatColorPickerInputModel = {
       inputId: PPtFormatInputsEnum.backgroundColor,
       name: 'Background Color',
@@ -297,7 +287,7 @@ export class TextFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.color,
       name: 'Color',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let isBold: FormatCheckboxInputModel = {
@@ -339,6 +329,8 @@ export class TextFormatModel extends BaseElementFormatModel {
       value: false
     };
 
+    this.formatInputs.width.value = 200;
+
     this.formatInputs.backgroundColor = backgroundColor;
     this.formatInputs.fontSize = fontSize;
     this.formatInputs.font = font;
@@ -346,7 +338,6 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.isBold = isBold;
     this.formatInputs.isItalic = isItalic;
     this.formatInputs.radius = radius;
-    this.formatInputs.width = width;
     this.formatInputs.textAlign = textAlign;
   }
 }

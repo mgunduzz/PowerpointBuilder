@@ -17,7 +17,8 @@ import {
   FormatTextInputModel,
   FormatNumberInputModel,
   FormatDropdownInputModel,
-  FormatColorPickerInputModel
+  FormatColorPickerInputModel,
+  FormatRadioButtonInputModel
 } from '@app/ppt-builder/model';
 import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
@@ -55,6 +56,7 @@ export class TextElement implements OnInit, OnDestroy {
       let checkbox = res as FormatCheckboxInputModel;
       let numberInput = res as FormatNumberInputModel;
       let colorPickerInput = res as FormatColorPickerInputModel;
+      let radioInput = res as FormatRadioButtonInputModel;
 
       switch (res.inputId) {
         case PPtFormatInputsEnum.color:
@@ -97,6 +99,22 @@ export class TextElement implements OnInit, OnDestroy {
           break;
         case PPtFormatInputsEnum.radius:
           this.element.radius = numberInput.value + 'px';
+          break;
+        case PPtFormatInputsEnum.textAlign:
+          switch (radioInput.selectedItemKey) {
+            case 1:
+              this.element.textAlign = 'left';
+              break;
+            case 2:
+              this.element.textAlign = 'center';
+              break;
+            case 3:
+              this.element.textAlign = 'right';
+              break;
+            default:
+              break;
+          }
+
           break;
         default:
           break;

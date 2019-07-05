@@ -4,7 +4,8 @@ import {
   BaseFormatInputModel,
   ShapeTypeEnum,
   BarChartFormatModel,
-  ColumnChartFormatModel
+  ColumnChartFormatModel,
+  TextFormatModel
 } from './element-format-model';
 import { Subject } from 'rxjs';
 
@@ -303,13 +304,39 @@ export class PptTextElementModel extends PptElementModel {
   color: string;
   radius: string;
   width: string;
+  textAlign: string;
 
   generatePptxItem(pptx: any, slide: any) {
     super.generatePptxItem(pptx, slide);
 
     let pptxTextItem: any = {};
-    pptxTextItem.options = this.options;
+    let textFormat = this.format as TextFormatModel;
+
     pptxTextItem.text = this.text;
+    pptxTextItem.options = this.options;
+    pptxTextItem.options.color = this.color.replace('#', '');
+    pptxTextItem.options.fill = this.backgroundColor.replace('#', '');
+    pptxTextItem.options.fontSize = this.fontSize.replace('px', '');
+    pptxTextItem.options.rectRadius = this.radius;
+    pptxTextItem.options.italic = this.fontStyle == 'italic';
+    pptxTextItem.options.bold = this.fontWeigth == 600;
+
+    let align = textFormat.formatInputs.textAlign.value.find(item => item.selected).key;
+
+    switch (align) {
+      case 1:
+        pptxTextItem.options.align = 'left';
+        break;
+      case 2:
+        pptxTextItem.options.align = 'center';
+        break;
+      case 3:
+        pptxTextItem.options.align = 'right';
+        break;
+
+      default:
+        break;
+    }
 
     slide.addText(pptxTextItem.text, pptxTextItem.options);
   }
@@ -336,8 +363,6 @@ export class PptShapeElementModel extends PptElementModel {
 
 export class PptImageElementModel extends PptElementModel {
   url: string;
-  width: string;
-  height: string;
 
   generatePptxItem(pptx: any, slide: any) {
     super.generatePptxItem(pptx, slide);
