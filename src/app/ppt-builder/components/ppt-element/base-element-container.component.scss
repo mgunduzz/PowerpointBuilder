@@ -1,5 +1,5 @@
 ::ng-deep.base-element-container {
-  position: absolute;
+  position: absolute !important;
   min-width: 150px;
   &.active {
     border: 1px dashed;

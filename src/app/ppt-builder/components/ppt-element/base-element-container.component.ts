@@ -65,18 +65,20 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   dragMoved(event: CdkDragMove) {
-    var childPos = $('.base-element-container').offset();
-    var parentPos = $('.base-element-container')
-      .parent()
+    var childPos = $('#box-' + this.element.id).offset();
+    var parentPos = $('#box-' + this.element.id)
+      .closest('.element-list-container')
       .offset();
 
-    let x = +(childPos.left - parentPos.left).toFixed(0);
-    let y = +(childPos.top - parentPos.top).toFixed(0);
+    if (childPos && parentPos) {
+      let x = +(childPos.left - parentPos.left).toFixed(0);
+      let y = +(childPos.top - parentPos.top).toFixed(0);
 
-    console.log({ x, y });
+      console.log({ x, y });
 
-    this.element.format.formatInputs.x.value = x;
-    this.element.format.formatInputs.y.value = y;
+      this.element.format.formatInputs.x.value = x;
+      this.element.format.formatInputs.y.value = y;
+    }
   }
 
   ngOnInit() {
@@ -92,29 +94,37 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
   updateContainerPosition(x: number, y: number) {}
 
+  getElementTransform(el: string) {
+    let result = $(el).css('transform');
+
+    if (result) return result.replace(/[^0-9\-.,]/g, '').split(',');
+
+    return false;
+  }
+
   updateFormats(formatInput: BaseFormatInputModel) {
     let numberInput = formatInput as FormatNumberInputModel;
 
     switch (formatInput.inputId) {
       case PPtFormatInputsEnum.x:
-        var results = $('.base-element-container')
-          .css('transform')
-          .replace(/[^0-9\-.,]/g, '')
-          .split(',');
-        var x = results[12] || results[4];
-        var y = results[13] || results[5];
+        var results = this.getElementTransform('#box-' + this.element.id);
 
-        this.elementContainer.nativeElement.style.transform = `translate3d(${numberInput.value}px, ${y}px, 0px)`;
+        if (results) {
+          var x = results[12] || results[4];
+          var y = results[13] || results[5];
+
+          $('#box-' + this.element.id).css('transform', `translate3d(${numberInput.value}px, ${y}px, 0px)`);
+        }
         break;
       case PPtFormatInputsEnum.y:
-        var results = $('.base-element-container')
-          .css('transform')
-          .replace(/[^0-9\-.,]/g, '')
-          .split(',');
-        var x = results[12] || results[4];
-        var y = results[13] || results[5];
+        var results = this.getElementTransform('#box-' + this.element.id);
 
-        this.elementContainer.nativeElement.style.transform = `translate3d(${x}px, ${numberInput.value}px, 0px)`;
+        if (results) {
+          var x = results[12] || results[4];
+          var y = results[13] || results[5];
+
+          $('#box-' + this.element.id).css('transform', `translate3d(${x}px, ${numberInput.value}px, 0px)`);
+        }
         break;
       case PPtFormatInputsEnum.width:
         this.elementContainer.nativeElement.style.width = `${numberInput.value}px`;
