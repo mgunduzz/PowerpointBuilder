@@ -17,6 +17,21 @@ export class PptElementContainer implements OnInit, OnDestroy {
   activeElement: PptElementModel;
   elementId: number = 1;
   elId: number;
+  isMoving: boolean = false;
+
+  @HostListener('mousemove', ['$event'])
+  onMousemove(event: MouseEvent) {
+    let item = this.elementList.find(o => o.isActive);
+
+    if (item != null)
+      if (item.isActive == true) {
+        this.isMoving = true;
+        item.isActive = true;
+      } else {
+        this.isMoving = false;
+        item.isActive = false;
+      }
+  }
 
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
     this.activeElementSub = this._pPtBuilderService.activeElementSubscription.subscribe(res => {
@@ -40,6 +55,7 @@ export class PptElementContainer implements OnInit, OnDestroy {
     // this.elementList.forEach(o => {
     //   item.isActive = false;
     // })
+
     this.elementList.forEach(element => {
       if (element.id == item.id) {
         element.isActive = true;
@@ -53,9 +69,11 @@ export class PptElementContainer implements OnInit, OnDestroy {
     this.elId = item.id;
   }
   onNoneActiveElement() {
-    this.elementList.forEach(element => {
-      element.isActive = false;
-    });
+    if (!this.isMoving) {
+      this.elementList.forEach(element => {
+        element.isActive = false;
+      });
+    }
   }
 
   @HostListener('document:keyup', ['$event'])

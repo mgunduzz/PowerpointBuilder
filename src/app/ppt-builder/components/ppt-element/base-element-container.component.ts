@@ -83,9 +83,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.element.onFormatChange.subscribe(res => {
-      this.updateFormats(res);
-    });
+    // this.element.onFormatChange.subscribe(res => {
+
+    //   // this.updateFormats(res);
+
+    // });
 
     this.updateFormats(this.element.format.formatInputs.x);
     this.updateFormats(this.element.format.formatInputs.y);
@@ -142,6 +144,9 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   setElementNaturalSize() {
     this.element.format.formatInputs.width.value = this.element.format.formatInputs.naturalWidth as any;
     this.element.format.formatInputs.height.value = this.element.format.formatInputs.naturalHeight as any;
+
+    this.updateFormats(this.element.format.formatInputs.width);
+    this.updateFormats(this.element.format.formatInputs.height);
   }
 
   ngAfterViewInit() {
