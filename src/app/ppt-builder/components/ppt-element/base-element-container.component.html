@@ -7,20 +7,23 @@
   [ngStyle]="{ 'z-index': element.z }"
   (cdkDragEnded)="dragEnded($event)"
   (cdkDragMoved)="dragMoved($event)"
-  [ngClass]="{ active: isItemActive, 'text-active': element.type == elementTypes.TEXT }"
+  [ngClass]="{ active: isItemActive && isContainerActive, 'text-active': element.type == elementTypes.TEXT }"
   [cdkDragDisabled]="!dragDropStatus"
   (mouseenter)="dragDropStatus = false"
+  (mouseover)="isContainerActive = true"
 >
   <div class="drop-icon active" (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
-    <i class="fas fa-grip-horizontal" title="Taşı"></i>
-    <i class="fas fa-undo" (click)="setElementNaturalSize()"></i>
-    <img
-      src="../../../../assets/layer-512.png"
-      class="element-highlight"
-      [ngClass]="{ active: elHighlight }"
-      (click)="highlightElement(element.id)"
-      title="Ön plana çıkar"
-    />
+    <div class="i-group" [ngClass]="{ 'dp-none': !(isItemActive && isContainerActive) }">
+      <i class="fas fa-grip-horizontal" title="Taşı"></i>
+      <i class="fas fa-undo cursor-p" (click)="setElementNaturalSize()" title="İlk boyutuna döndür"></i>
+      <img
+        src="../../../../assets/layer-512.png"
+        class="element-highlight"
+        [ngClass]="{ active: elHighlight }"
+        (click)="highlightElement(element.id)"
+        title="Ön plana çıkar"
+      />
+    </div>
   </div>
 
   <div class="container-size" style="width:100%;height: calc(100% - 20px);">
