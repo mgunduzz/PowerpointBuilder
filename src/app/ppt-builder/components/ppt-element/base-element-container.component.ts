@@ -49,6 +49,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   elementTypes: any = {};
   elementId: number;
   elHighlight: boolean = false;
+  isContainerActive: boolean = false;
 
   @Input('isItemActive') isItemActive: boolean;
 
@@ -139,8 +140,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setElementNaturalSize() {
-    this.element.format.formatInputs.x.value = this.element.format.formatInputs.naturalWidth as any;
-    this.element.format.formatInputs.y.value = this.element.format.formatInputs.naturalHeight as any;
+    this.element.format.formatInputs.width.value = this.element.format.formatInputs.naturalWidth as any;
+    this.element.format.formatInputs.height.value = this.element.format.formatInputs.naturalHeight as any;
   }
 
   ngAfterViewInit() {

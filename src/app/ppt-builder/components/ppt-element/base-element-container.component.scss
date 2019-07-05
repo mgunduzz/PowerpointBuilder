@@ -13,6 +13,8 @@
 .drop-icon {
   padding-left: 1%;
   display: none;
+  height: 22px;
+  width: 100%;
 
   &.active {
     display: flex;
@@ -22,7 +24,6 @@
 .fa-undo {
   color: #a3a3a3;
   font-size: 13px;
-  margin-top: 2px;
   margin-left: 5px;
 }
 
@@ -37,6 +38,7 @@
 }
 .text-active {
   height: auto !important;
+  width: inherit !important;
 }
 
 .container-size {
@@ -46,6 +48,11 @@
 
 .element-highlight {
   width: 20px;
-  margin-left: auto;
+  float: right;
   cursor: pointer;
+  margin-top: 3px;
+}
+
+.i-group {
+  width: 100%;
 }

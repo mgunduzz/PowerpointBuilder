@@ -56,7 +56,9 @@ export enum PPtFormatInputsEnum {
   chartSpaceBetweenCategory,
   chartSpaceBetweenBar,
   pieCutoutPercentage,
-  pieRotation
+  pieRotation,
+  naturalWidth,
+  naturalHeight
 }
 
 export class BaseFormatInputModel {
@@ -200,6 +202,27 @@ export class TableFormatModel extends BaseElementFormatModel {
 export class ImageFormatModel extends BaseElementFormatModel {
   constructor(format?: BaseElementFormatModel) {
     super(format);
+
+    let naturalWidth: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.naturalWidth,
+      name: 'naturalWidth',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      min: 0,
+      max: 9999
+    };
+
+    let naturalHeight: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.naturalHeight,
+      name: 'naturalHeight',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      min: 0,
+      max: 9999
+    };
+
+    this.formatInputs.naturalWidth = naturalWidth;
+    this.formatInputs.naturalHeight = naturalHeight;
   }
 }
 
