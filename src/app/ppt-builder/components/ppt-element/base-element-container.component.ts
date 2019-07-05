@@ -57,6 +57,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.elementTypes.CHART = PPtElementEnum.Chart;
     this.elementTypes.TEXT = PPtElementEnum.Text;
     this.elementTypes.IMAGE = PPtElementEnum.Image;
+    this.elementTypes.SHAPE = PPtElementEnum.Shape;
   }
 
   dragEnded(event: CdkDragEnd) {

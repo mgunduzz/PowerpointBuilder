@@ -39,5 +39,9 @@
     <ng-container *ngIf="type == elementTypes.IMAGE">
       <ppt-image-element [element]="element"></ppt-image-element>
     </ng-container>
+
+    <ng-container *ngIf="type == elementTypes.SHAPE">
+      <ppt-shape-element [element]="element"></ppt-shape-element>
+    </ng-container>
   </div>
 </div>

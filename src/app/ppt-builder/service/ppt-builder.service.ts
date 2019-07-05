@@ -97,14 +97,46 @@ export class PPtBuilderService {
     return el;
   }
 
+  squareShapeElementFormat(chartEl: PptShapeElementModel) {
+    chartEl.isLineArrow = false;
+    chartEl.shapeBorder = false;
+    chartEl.shapeBorderColor = 'false';
+    chartEl.shapeBorderSize = 1;
+    chartEl.shapeBorderStyle = 'false';
+    chartEl.shapeType = ShapeTypeEnum.square;
+    return chartEl;
+  }
+
+  lineShapeElementFormat(chartEl: PptShapeElementModel) {
+    chartEl.lineSize = 0;
+    chartEl.isLineArrow = true;
+    chartEl.lineStyle = '';
+    chartEl.shapeType = ShapeTypeEnum.line;
+
+    return chartEl;
+  }
+
   createShapeElement(el: PptElementModel, type: ShapeTypeEnum): PptElementModel {
     var chartEl = new PptShapeElementModel();
     chartEl.format = new ShapeFormatModel(el.format);
     chartEl.name = 'Shape';
     chartEl.type = PPtElementEnum.Shape;
     chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
-    chartEl.shapeType = type;
     chartEl.isActive = false;
+    chartEl.rotate = 0;
+    chartEl.radius = 0;
+    chartEl.arrowDirection = 'false';
+    chartEl.color = 'false';
+    chartEl.isShowText = false;
+    chartEl.textAlign = 'false';
+    chartEl.textFontSize = 0;
+    chartEl.text = 'false';
+
+    if (type == ShapeTypeEnum.line) {
+      chartEl = this.lineShapeElementFormat(chartEl);
+    } else if (type == ShapeTypeEnum.square) {
+      chartEl = this.squareShapeElementFormat(chartEl);
+    }
 
     return chartEl;
   }
