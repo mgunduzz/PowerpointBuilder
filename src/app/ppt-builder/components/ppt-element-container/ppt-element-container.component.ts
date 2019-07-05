@@ -52,6 +52,11 @@ export class PptElementContainer implements OnInit, OnDestroy {
 
     this.elId = item.id;
   }
+  onNoneActiveElement() {
+    this.elementList.forEach(element => {
+      element.isActive = false;
+    });
+  }
 
   @HostListener('document:keyup', ['$event'])
   handleDeleteKeyboardEvent(event: KeyboardEvent) {
