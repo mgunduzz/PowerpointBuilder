@@ -33,8 +33,12 @@ export class ImageComponent implements OnInit, AfterViewInit {
     $('#img-example') // Make in memory copy of image to avoid css issues
       .attr('src', $(img).attr('src'))
       .on('load', function() {
-        _this.element.format.formatInputs.naturalWidth = this.width; // Note: $(this).width() will not
-        _this.element.format.formatInputs.naturalWidth = this.height; // work for in memory images.
+        _this.element.format.formatInputs.width.value = this.width; // Note: $(this).width() will not
+        _this.element.format.formatInputs.height.value = this.height; // work for in memory images.
+
+        _this.element.onFormatChange.next(_this.element.format.formatInputs.width);
+        _this.element.onFormatChange.next(_this.element.format.formatInputs.height);
+
         $('#img-example').remove();
       });
   }
