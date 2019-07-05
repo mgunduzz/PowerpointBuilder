@@ -27,6 +27,7 @@
     [hidden]="showText"
     contenteditable="true"
     [(ngModel)]="element.text"
+    (change)="elementTextChanged()"
     class="text-margin"
   ></div>
 </div>

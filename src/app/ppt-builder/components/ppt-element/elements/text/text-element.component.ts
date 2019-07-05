@@ -1,4 +1,13 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ViewChild,
+  ElementRef,
+  HostListener,
+  ChangeDetectorRef
+} from '@angular/core';
 import {
   PptElementModel,
   PPtFormatInputsEnum,
@@ -33,7 +42,11 @@ export class TextElement implements OnInit, OnDestroy {
     }
   }
 
-  constructor(public contenteditable: ContentEditableFormDirective) {}
+  constructor(public contenteditable: ContentEditableFormDirective, private cdr: ChangeDetectorRef) {}
+
+  elementTextChanged() {
+    this.cdr.detectChanges();
+  }
 
   ngOnInit() {
     this.element.onFormatChange.subscribe((res: any) => {

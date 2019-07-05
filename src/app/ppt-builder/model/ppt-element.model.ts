@@ -300,6 +300,16 @@ export class PptTextElementModel extends PptElementModel {
   color: string;
   radius: string;
   width: string;
+
+  generatePptxItem(pptx: any, slide: any) {
+    super.generatePptxItem(pptx, slide);
+
+    let text: any = {};
+    text.options = this.options;
+    text.text = this.text;
+
+    slide.addText(text.text, text.options);
+  }
 }
 
 export class PptShapeElementModel extends PptElementModel {
