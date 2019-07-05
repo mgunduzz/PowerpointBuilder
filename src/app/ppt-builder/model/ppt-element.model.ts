@@ -50,6 +50,27 @@ interface PptxGenerator {
 
 export class PptElementModel implements PptxGenerator {
   generatePptxItem(pptx: any, slide: any) {
+    let elX = this.format.formatInputs.x.value;
+    let elY = this.format.formatInputs.y.value;
+    let boardEl: any = document.getElementsByClassName('board');
+    let boardW = boardEl[0].offsetWidth;
+    let boardY = boardEl[0].offsetHeight;
+
+    elX = elX < 0 ? 0 : elX;
+    elY = elY < 0 ? 0 : elY;
+
+    let xRate = ((elX * 100) / boardW / 10).toFixed(2);
+    let yRate = ((elY * 100) / boardY / 20).toFixed(2);
+
+    let elW = this.format.formatInputs.width.value;
+    let elH = this.format.formatInputs.height.value;
+    elW = elW < 0 ? 0 : elW;
+    elH = elH < 0 ? 0 : elH;
+
+    let wRate = ((elW * 100) / boardW / 10).toFixed(2);
+    let hRate = ((elH * 100) / boardY / 20).toFixed(2);
+
+    this.options = { x: xRate, y: yRate, w: wRate, h: hRate };
     return;
   }
 
@@ -70,6 +91,7 @@ export class PptElementModel implements PptxGenerator {
   id: number;
   isActive: boolean;
   z: number = 0;
+  options?: any;
 }
 
 export class PptChartElementModel extends PptElementModel {
@@ -83,7 +105,10 @@ export class PptChartElementModel extends PptElementModel {
   chartType: ChartTypeEnum;
 
   generatePptxItem(pptx: any, slide: any) {
+    super.generatePptxItem(pptx, slide);
+
     let chart: any = {};
+    chart.Options = this.options;
 
     let dataChartAreaLine = [
       {
@@ -120,27 +145,6 @@ export class PptChartElementModel extends PptElementModel {
 
     chart.Data = dataChartAreaLine;
 
-    let elX = this.format.formatInputs.x.value;
-    let elY = this.format.formatInputs.y.value;
-    let boardEl: any = document.getElementsByClassName('board');
-    let boardW = boardEl[0].offsetWidth;
-    let boardY = boardEl[0].offsetHeight;
-
-    elX = elX < 0 ? 0 : elX;
-    elY = elY < 0 ? 0 : elY;
-
-    let xRate = ((elX * 100) / boardW / 10).toFixed(2);
-    let yRate = ((elY * 100) / boardY / 20).toFixed(2);
-
-    let elW = this.format.formatInputs.width.value;
-    let elH = this.format.formatInputs.height.value;
-    elW = elW < 0 ? 0 : elW;
-    elH = elH < 0 ? 0 : elH;
-
-    let wRate = ((elW * 100) / boardW / 10).toFixed(2);
-    let hRate = ((elH * 100) / boardY / 20).toFixed(2);
-
-    chart.Options = { x: xRate, y: yRate, w: wRate, h: hRate };
     let columnChartFormatModel: ColumnChartFormatModel = this.format as ColumnChartFormatModel;
     let barChartFormatModel: BarChartFormatModel = this.format as BarChartFormatModel;
 
