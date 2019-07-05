@@ -4,7 +4,8 @@ import {
   BaseFormatInputModel,
   ShapeTypeEnum,
   BarChartFormatModel,
-  ColumnChartFormatModel
+  ColumnChartFormatModel,
+  TextFormatModel
 } from './element-format-model';
 import { Subject } from 'rxjs';
 
@@ -50,6 +51,27 @@ interface PptxGenerator {
 
 export class PptElementModel implements PptxGenerator {
   generatePptxItem(pptx: any, slide: any) {
+    let elX = this.format.formatInputs.x.value;
+    let elY = this.format.formatInputs.y.value;
+    let boardEl: any = document.getElementsByClassName('board');
+    let boardW = boardEl[0].offsetWidth;
+    let boardY = boardEl[0].offsetHeight;
+
+    elX = elX < 0 ? 0 : elX;
+    elY = elY < 0 ? 0 : elY;
+
+    let xRate = ((elX * 100) / boardW / 10).toFixed(2);
+    let yRate = ((elY * 100) / boardY / 20).toFixed(2);
+
+    let elW = this.format.formatInputs.width.value;
+    let elH = this.format.formatInputs.height.value;
+    elW = elW < 0 ? 0 : elW;
+    elH = elH < 0 ? 0 : elH;
+
+    let wRate = ((elW * 100) / boardW / 10).toFixed(2);
+    let hRate = ((elH * 100) / boardY / 20).toFixed(2);
+
+    this.options = { x: xRate, y: yRate, w: wRate, h: hRate };
     return;
   }
 
@@ -70,6 +92,7 @@ export class PptElementModel implements PptxGenerator {
   id: number;
   isActive: boolean;
   z: number = 0;
+  options?: any;
 }
 
 export class PptChartElementModel extends PptElementModel {
@@ -83,7 +106,10 @@ export class PptChartElementModel extends PptElementModel {
   chartType: ChartTypeEnum;
 
   generatePptxItem(pptx: any, slide: any) {
-    let chart: any = {};
+    super.generatePptxItem(pptx, slide);
+
+    let pptxChartItem: any = {};
+    pptxChartItem.options = this.options;
 
     let dataChartAreaLine = [
       {
@@ -118,166 +144,148 @@ export class PptChartElementModel extends PptElementModel {
       { name: 'Y-Value 2', values: [5, 3, 2, 7, 2, 10], sizes: [9, 7, 9, 2, 4, 8] }
     ];
 
-    chart.Data = dataChartAreaLine;
+    pptxChartItem.data = dataChartAreaLine;
 
-    let elX = this.format.formatInputs.x.value;
-    let elY = this.format.formatInputs.y.value;
-    let boardEl: any = document.getElementsByClassName('board');
-    let boardW = boardEl[0].offsetWidth;
-    let boardY = boardEl[0].offsetHeight;
-
-    elX = elX < 0 ? 0 : elX;
-    elY = elY < 0 ? 0 : elY;
-
-    let xRate = ((elX * 100) / boardW / 10).toFixed(2);
-    let yRate = ((elY * 100) / boardY / 20).toFixed(2);
-
-    let elW = this.format.formatInputs.width.value;
-    let elH = this.format.formatInputs.height.value;
-    elW = elW < 0 ? 0 : elW;
-    elH = elH < 0 ? 0 : elH;
-
-    let wRate = ((elW * 100) / boardW / 10).toFixed(2);
-    let hRate = ((elH * 100) / boardY / 20).toFixed(2);
-
-    chart.Options = { x: xRate, y: yRate, w: wRate, h: hRate };
     let columnChartFormatModel: ColumnChartFormatModel = this.format as ColumnChartFormatModel;
     let barChartFormatModel: BarChartFormatModel = this.format as BarChartFormatModel;
 
     switch (this.chartType) {
       //column bar
       case ChartTypeEnum.ClusteredColumn:
-        chart.Type = pptx.charts.BAR;
-        chart.Options.barGrouping = 'clustered';
-        chart.Options.barGapWidthPct = columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
+        pptxChartItem.type = pptx.charts.BAR;
+        pptxChartItem.options.barGrouping = 'clustered';
+        pptxChartItem.options.barGapWidthPct =
+          columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       case ChartTypeEnum.StackedColumn:
-        chart.Type = pptx.charts.BAR;
-        chart.Options.barGrouping = 'stacked';
-        chart.Options.barGapWidthPct = columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
+        pptxChartItem.type = pptx.charts.BAR;
+        pptxChartItem.options.barGrouping = 'stacked';
+        pptxChartItem.options.barGapWidthPct =
+          columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       case ChartTypeEnum.StackedColumn100:
-        chart.Type = pptx.charts.BAR;
-        chart.Options.barGrouping = 'percentStacked';
-        chart.Options.barGapWidthPct = columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
+        pptxChartItem.type = pptx.charts.BAR;
+        pptxChartItem.options.barGrouping = 'percentStacked';
+        pptxChartItem.options.barGapWidthPct =
+          columnChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       //horizontal bar
       case ChartTypeEnum.ClusteredBar:
-        chart.Type = pptx.charts.BAR;
-        chart.Options.barGrouping = 'clustered';
-        chart.Options.barDir = 'bar';
-        chart.Options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
+        pptxChartItem.type = pptx.charts.BAR;
+        pptxChartItem.options.barGrouping = 'clustered';
+        pptxChartItem.options.barDir = 'bar';
+        pptxChartItem.options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       case ChartTypeEnum.StackedBar:
-        chart.Type = pptx.charts.BAR;
-        chart.Options.barGrouping = 'stacked';
-        chart.Options.barDir = 'bar';
-        chart.Options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
+        pptxChartItem.type = pptx.charts.BAR;
+        pptxChartItem.options.barGrouping = 'stacked';
+        pptxChartItem.options.barDir = 'bar';
+        pptxChartItem.options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       case ChartTypeEnum.StackedBar100:
-        chart.Type = pptx.charts.BAR;
-        chart.Options.barGrouping = 'percentStacked';
-        chart.Options.barDir = 'bar';
-        chart.Options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
+        pptxChartItem.type = pptx.charts.BAR;
+        pptxChartItem.options.barGrouping = 'percentStacked';
+        pptxChartItem.options.barDir = 'bar';
+        pptxChartItem.options.barGapWidthPct = barChartFormatModel.formatInputs.chartSpaceBetweenCategory.value * 100;
         break;
       //line
       case ChartTypeEnum.Line:
-        chart.Type = pptx.charts.LINE;
+        pptxChartItem.type = pptx.charts.LINE;
         break;
       case ChartTypeEnum.StackedLine:
-        chart.Type = pptx.charts.LINE;
-        chart.Options.barGrouping = 'stacked';
+        pptxChartItem.type = pptx.charts.LINE;
+        pptxChartItem.options.barGrouping = 'stacked';
         break;
       case ChartTypeEnum.StackedLine100:
-        chart.Type = pptx.charts.LINE;
-        chart.Options.barGrouping = 'percentStacked';
+        pptxChartItem.type = pptx.charts.LINE;
+        pptxChartItem.options.barGrouping = 'percentStacked';
         break;
       case ChartTypeEnum.MarkedLine:
-        chart.Type = pptx.charts.LINE;
+        pptxChartItem.type = pptx.charts.LINE;
         break;
       case ChartTypeEnum.StackedMarkedLine:
-        chart.Type = pptx.charts.LINE;
-        chart.Options.barGrouping = 'stacked';
+        pptxChartItem.type = pptx.charts.LINE;
+        pptxChartItem.options.barGrouping = 'stacked';
         break;
       case ChartTypeEnum.StackedMarkedLine100:
-        chart.Type = pptx.charts.LINE;
-        chart.Options.barGrouping = 'percentStacked';
+        pptxChartItem.type = pptx.charts.LINE;
+        pptxChartItem.options.barGrouping = 'percentStacked';
         break;
       //Scatter
       case ChartTypeEnum.MarkedScatter:
-        chart.Type = pptx.charts.SCATTER;
-        chart.Data = scatterData;
-        chart.Options.lineSize = 0;
-        chart.Options.lineDataSymbolSize = 15;
+        pptxChartItem.type = pptx.charts.SCATTER;
+        pptxChartItem.data = scatterData;
+        pptxChartItem.options.lineSize = 0;
+        pptxChartItem.options.lineDataSymbolSize = 15;
         break;
       case ChartTypeEnum.SmoothMarkedScatter:
-        chart.Type = pptx.charts.SCATTER;
-        chart.Data = scatterData;
-        chart.Options.lineSize = 2;
-        chart.Options.lineSmooth = true;
+        pptxChartItem.type = pptx.charts.SCATTER;
+        pptxChartItem.data = scatterData;
+        pptxChartItem.options.lineSize = 2;
+        pptxChartItem.options.lineSmooth = true;
         break;
       case ChartTypeEnum.SmoothMarkedScatter:
-        chart.Type = pptx.charts.SCATTER;
-        chart.Data = scatterData;
-        chart.Options.lineSize = 2;
-        chart.Options.lineSmooth = true;
-        chart.Options.lineDataSymbolSize = 0;
+        pptxChartItem.type = pptx.charts.SCATTER;
+        pptxChartItem.data = scatterData;
+        pptxChartItem.options.lineSize = 2;
+        pptxChartItem.options.lineSmooth = true;
+        pptxChartItem.options.lineDataSymbolSize = 0;
         break;
       case ChartTypeEnum.StraightMarkedScatter:
-        chart.Type = pptx.charts.SCATTER;
-        chart.Data = scatterData;
-        chart.Options.lineSize = 2;
-        chart.Options.lineSmooth = false;
+        pptxChartItem.type = pptx.charts.SCATTER;
+        pptxChartItem.data = scatterData;
+        pptxChartItem.options.lineSize = 2;
+        pptxChartItem.options.lineSmooth = false;
         break;
       case ChartTypeEnum.StraightLinedScatter:
-        chart.Type = pptx.charts.SCATTER;
-        chart.Data = scatterData;
-        chart.Options.lineSize = 2;
-        chart.Options.lineSmooth = false;
-        chart.Options.lineDataSymbolSize = 0;
+        pptxChartItem.type = pptx.charts.SCATTER;
+        pptxChartItem.data = scatterData;
+        pptxChartItem.options.lineSize = 2;
+        pptxChartItem.options.lineSmooth = false;
+        pptxChartItem.options.lineDataSymbolSize = 0;
         break;
       //PIE
       case ChartTypeEnum.Pie:
-        chart.Type = pptx.charts.PIE;
-        chart.Data = pieData;
+        pptxChartItem.type = pptx.charts.PIE;
+        pptxChartItem.data = pieData;
         break;
       case ChartTypeEnum.ExplodedPie:
-        chart.Type = pptx.charts.PIE;
-        chart.Data = pieData;
+        pptxChartItem.type = pptx.charts.PIE;
+        pptxChartItem.data = pieData;
         break;
       //AREA
       case ChartTypeEnum.Area:
-        chart.Type = pptx.charts.AREA;
-        chart.Data = dataChartAreaLine;
+        pptxChartItem.type = pptx.charts.AREA;
+        pptxChartItem.data = dataChartAreaLine;
         break;
       case ChartTypeEnum.StackedArea:
-        chart.Type = pptx.charts.AREA;
-        chart.Data = dataChartAreaLine;
-        chart.Options.barGrouping = 'stacked';
+        pptxChartItem.type = pptx.charts.AREA;
+        pptxChartItem.data = dataChartAreaLine;
+        pptxChartItem.options.barGrouping = 'stacked';
         break;
       case ChartTypeEnum.StackedArea100:
-        chart.Type = pptx.charts.AREA;
-        chart.Data = dataChartAreaLine;
-        chart.Options.barGrouping = 'percentStacked';
+        pptxChartItem.type = pptx.charts.AREA;
+        pptxChartItem.data = dataChartAreaLine;
+        pptxChartItem.options.barGrouping = 'percentStacked';
         break;
       //Doughnut
       case ChartTypeEnum.Doughnut:
-        chart.Type = pptx.charts.DOUGHNUT;
-        chart.Data = dataChartAreaLine;
+        pptxChartItem.type = pptx.charts.DOUGHNUT;
+        pptxChartItem.data = dataChartAreaLine;
         break;
       case ChartTypeEnum.ExplodedDoughnut:
-        chart.Type = pptx.charts.DOUGHNUT;
-        chart.Data = dataChartAreaLine;
+        pptxChartItem.type = pptx.charts.DOUGHNUT;
+        pptxChartItem.data = dataChartAreaLine;
         break;
       case ChartTypeEnum.Bubble:
-        chart.Type = pptx.charts.BUBBLE;
-        chart.Data = bubbleData;
+        pptxChartItem.type = pptx.charts.BUBBLE;
+        pptxChartItem.data = bubbleData;
         break;
       default:
         break;
     }
 
-    slide.addChart(chart.Type, chart.Data, chart.Options);
+    slide.addChart(pptxChartItem.type, pptxChartItem.data, pptxChartItem.options);
   }
 }
 
@@ -296,6 +304,42 @@ export class PptTextElementModel extends PptElementModel {
   color: string;
   radius: string;
   width: string;
+  textAlign: string;
+
+  generatePptxItem(pptx: any, slide: any) {
+    super.generatePptxItem(pptx, slide);
+
+    let pptxTextItem: any = {};
+    let textFormat = this.format as TextFormatModel;
+
+    pptxTextItem.text = this.text;
+    pptxTextItem.options = this.options;
+    pptxTextItem.options.color = this.color.replace('#', '');
+    pptxTextItem.options.fill = this.backgroundColor.replace('#', '');
+    pptxTextItem.options.fontSize = this.fontSize.replace('px', '');
+    pptxTextItem.options.rectRadius = this.radius;
+    pptxTextItem.options.italic = this.fontStyle == 'italic';
+    pptxTextItem.options.bold = this.fontWeigth == 600;
+
+    let align = textFormat.formatInputs.textAlign.value.find(item => item.selected).key;
+
+    switch (align) {
+      case 1:
+        pptxTextItem.options.align = 'left';
+        break;
+      case 2:
+        pptxTextItem.options.align = 'center';
+        break;
+      case 3:
+        pptxTextItem.options.align = 'right';
+        break;
+
+      default:
+        break;
+    }
+
+    slide.addText(pptxTextItem.text, pptxTextItem.options);
+  }
 }
 
 export class PptShapeElementModel extends PptElementModel {
@@ -319,8 +363,16 @@ export class PptShapeElementModel extends PptElementModel {
 
 export class PptImageElementModel extends PptElementModel {
   url: string;
-  width: string;
-  height: string;
+
+  generatePptxItem(pptx: any, slide: any) {
+    super.generatePptxItem(pptx, slide);
+
+    let pptxImageItem: any = {};
+    pptxImageItem.Options = this.options;
+    pptxImageItem.Options.data = this.url;
+
+    slide.addImage(pptxImageItem.Options);
+  }
 }
 
 export class LoadElementModel {

@@ -1,4 +1,4 @@
-<div #insideElement class="el-box">
+<div #insideElement class="el-box" [style.text-align]="element.textAlign">
   <pre
     [hidden]="!showText"
     class="text-element"
@@ -27,6 +27,7 @@
     [hidden]="showText"
     contenteditable="true"
     [(ngModel)]="element.text"
+    (ngModelChange)="elementTextChanged()"
     class="text-margin"
   ></div>
 </div>
