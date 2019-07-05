@@ -325,6 +325,16 @@ export class PptImageElementModel extends PptElementModel {
   url: string;
   width: string;
   height: string;
+
+  generatePptxItem(pptx: any, slide: any) {
+    super.generatePptxItem(pptx, slide);
+
+    let image: any = {};
+    image.Options = this.options;
+    image.Options.data = this.url;
+
+    slide.addImage(image.Options);
+  }
 }
 
 export class LoadElementModel {
