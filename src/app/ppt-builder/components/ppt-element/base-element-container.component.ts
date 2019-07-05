@@ -73,6 +73,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     let x = +(childPos.left - parentPos.left).toFixed(0);
     let y = +(childPos.top - parentPos.top).toFixed(0);
 
+    console.log({ x, y });
+
     this.element.format.formatInputs.x.value = x;
     this.element.format.formatInputs.y.value = y;
   }
