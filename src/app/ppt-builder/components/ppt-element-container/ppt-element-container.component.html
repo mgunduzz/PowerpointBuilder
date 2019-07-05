@@ -1,4 +1,4 @@
-<div class="element-list-container">
+<div class="element-list-container w-h-100">
   <ppt-base-element
     *ngFor="let item of elementList"
     (click)="onElementClick(item)"
@@ -6,6 +6,7 @@
     [type]="item.type"
     [isItemActive]="item.isActive"
     (highlightChange)="changeHighlight($event)"
+    class="p-absolute"
   >
   </ppt-base-element>
 </div>

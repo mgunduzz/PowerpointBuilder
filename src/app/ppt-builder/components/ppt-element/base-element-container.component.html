@@ -23,12 +23,7 @@
     />
   </div>
 
-  <div
-    class="container-size"
-    (mouseenter)="dragDropStatus = true"
-    style="width:100%;height: calc(100% - 20px);"
-    (mouseleave)="dragDropStatus = false"
-  >
+  <div class="container-size" style="width:100%;height: calc(100% - 20px);">
     <ng-container *ngIf="type == elementTypes.CHART">
       <ppt-chart-element [element]="element"> </ppt-chart-element>
     </ng-container>

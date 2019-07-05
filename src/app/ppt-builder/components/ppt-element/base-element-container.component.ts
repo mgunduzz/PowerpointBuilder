@@ -129,7 +129,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setElementNaturalSize() {
-    debugger;
     this.element.format.formatInputs.x.value = this.element.format.formatInputs.naturalWidth as any;
     this.element.format.formatInputs.y.value = this.element.format.formatInputs.naturalHeight as any;
   }
