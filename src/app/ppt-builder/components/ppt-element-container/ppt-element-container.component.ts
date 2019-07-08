@@ -1,16 +1,17 @@
-import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, HostListener, OnChanges, AfterViewInit } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, Subscription } from 'rxjs';
+declare var $: any;
 
 @Component({
   selector: 'ppt-element-container',
   templateUrl: './ppt-element-container.component.html',
   styleUrls: ['./ppt-element-container.component.scss']
 })
-export class PptElementContainer implements OnInit, OnDestroy {
+export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   elementList: any[] = [];
   elementSub: Subscription;
   activeElementSub: Subscription;
@@ -64,10 +65,13 @@ export class PptElementContainer implements OnInit, OnDestroy {
       }
     });
 
-    this._pPtBuilderService.setActiveElement(item);
+    if (this._pPtBuilderService.activeElement) {
+      if (this._pPtBuilderService.activeElement.id != item.id) this._pPtBuilderService.setActiveElement(item);
+    } else this._pPtBuilderService.setActiveElement(item);
 
     this.elId = item.id;
   }
+
   onNoneActiveElement() {
     this.elementList.forEach(element => {
       element.isActive = false;
@@ -100,5 +104,13 @@ export class PptElementContainer implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.elementSub.unsubscribe();
     this.activeElementSub.unsubscribe();
+  }
+
+  ngOnChanges(): void {
+    // $(".element-list-container").get(0), 0, 0, 100, 100, function (data : any) {
+    //   // in the data variable there is the base64 image
+    //   // exmaple for displaying the image in an <img>
+    //   $(".slide-preview").attr("src", "data:image/png;base64," + data);
+    // }
   }
 }

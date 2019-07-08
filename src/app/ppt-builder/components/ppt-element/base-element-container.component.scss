@@ -61,3 +61,7 @@
   width: 100%;
   position: relative;
 }
+
+::ng-deep.ui-resizable-handle {
+  background-color: white !important;
+}

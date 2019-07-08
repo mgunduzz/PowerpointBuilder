@@ -8,7 +8,9 @@ import {
   EventEmitter,
   Output,
   ViewChild,
-  ElementRef
+  ElementRef,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -53,7 +55,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
   @Input('isItemActive') isItemActive: boolean;
 
-  constructor() {
+  constructor(private pPtBuilderService: PPtBuilderService) {
     this.elementTypes.TABLE = PPtElementEnum.Table;
     this.elementTypes.CHART = PPtElementEnum.Chart;
     this.elementTypes.TEXT = PPtElementEnum.Text;
@@ -64,6 +66,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   dragEnded(event: CdkDragEnd) {
     this.newPositionX = this.newPositionXTemp;
     this.newPositionY = this.newPositionYTemp;
+
+    this.pPtBuilderService.setSlidePreview();
   }
 
   dragMoved(event: CdkDragMove) {
@@ -76,8 +80,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
       let x = +(childPos.left - parentPos.left).toFixed(0);
       let y = +(childPos.top - parentPos.top).toFixed(0);
 
-      console.log({ x, y });
-
       this.element.format.formatInputs.x.value = x;
       this.element.format.formatInputs.y.value = y;
     }
@@ -85,10 +87,10 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     // this.element.onFormatChange.subscribe(res => {
-
-    //   // this.updateFormats(res);
-
+    //   this.updateFormats(res);
     // });
+
+    let _this = this;
 
     this.updateFormats(this.element.format.formatInputs.x);
     this.updateFormats(this.element.format.formatInputs.y);
@@ -160,8 +162,14 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
         _this.element.format.formatInputs.width.value = width;
         _this.element.format.formatInputs.height.value = height;
+
+        _this.pPtBuilderService.setSlidePreview();
       }
     });
+
+    setTimeout(() => {
+      this.pPtBuilderService.setSlidePreview();
+    }, 1000);
   }
 
   elementResized() {}
@@ -178,5 +186,9 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.highlightChange.emit(id);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    setTimeout(() => {
+      this.pPtBuilderService.setSlidePreview();
+    }, 1000);
+  }
 }

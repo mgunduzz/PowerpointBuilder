@@ -8,7 +8,9 @@
     <div class="slide-number">
       <span>{{ i + 1 }}</span>
     </div>
-    <div class="slide" [ngClass]="{ active: slide.isActive }"></div>
+    <div class="slide" [ngClass]="{ active: slide.isActive }">
+      <img *ngIf="slide.previewImage" class="slide-preview" [src]="slide.previewImage" style="width: 100%;" />
+    </div>
   </div>
 
   <div class="add-slide-button">

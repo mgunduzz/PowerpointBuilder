@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { Chart } from 'chart.js';
 import {
   PptElementModel,
@@ -10,22 +10,27 @@ import {
   ColumnChartFormatModel,
   BarChartFormatModel,
   PieChartFormatModel,
-  DoughnutChartFormatModel
+  DoughnutChartFormatModel,
+  AppComponentBase
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
+import { $ } from 'protractor';
+import { PPtBuilderService } from '@app/ppt-builder/service';
 
 @Component({
   selector: 'ppt-chart-element',
   templateUrl: './chart-element.component.html',
   styleUrls: ['./chart-element.component.scss']
 })
-export class ChartElement implements OnInit, OnDestroy {
+export class ChartElement implements OnInit, OnDestroy, OnChanges {
   @Input('element') element: PptChartElementModel;
   @ViewChild('myChart') myChartElRef: ElementRef;
   myChart: Chart = undefined;
 
-  constructor() {}
+  constructor(pPtBuilderService: PPtBuilderService) {}
+
+  ngOnChanges(changes: import('@angular/core').SimpleChanges): void {}
 
   ngOnInit() {
     this.element.onFormatChange.subscribe(res => {
@@ -354,5 +359,7 @@ export class ChartElement implements OnInit, OnDestroy {
     this.myChart = new Chart(ctx, chartOptions);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    super.ngOnDestroy();
+  }
 }

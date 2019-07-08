@@ -11,6 +11,8 @@
   [cdkDragDisabled]="!dragDropStatus"
   (mouseenter)="dragDropStatus = false"
   (mouseover)="isContainerActive = true"
+  [style.width]="element.format.formatInputs.width.value + 'px'"
+  [style.height]="element.format.formatInputs.height.value + 'px'"
 >
   <div class="drop-icon active" (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
     <div class="i-group" [ngClass]="{ 'dp-none': !(isItemActive && isContainerActive) }">

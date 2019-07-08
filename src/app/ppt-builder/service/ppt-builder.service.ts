@@ -23,6 +23,9 @@ import {
   DoughnutChartFormatModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
+declare var $: any;
+
+import * as html2canvas from 'html2canvas';
 
 @Injectable()
 export class PPtBuilderService {
@@ -39,6 +42,28 @@ export class PPtBuilderService {
   public slideListSubscription = new BehaviorSubject<SlideModel[]>(undefined);
   public slideList: SlideModel[] = [];
   public activeSlide: SlideModel;
+  public activeElement: PptElementModel;
+
+  private isPreviewActive: boolean = true;
+
+  setSlidePreview() {
+    if (this.isPreviewActive) {
+      this.isPreviewActive = false;
+      let _this = this;
+
+      let mainEl = document.getElementsByClassName('element-list-container')[0] as HTMLElement;
+
+      html2canvas(mainEl).then(canvas => {
+        var imgData: string = canvas.toDataURL('image/png');
+
+        this.activeSlide.previewImage = imgData;
+
+        setTimeout(() => {
+          _this.isPreviewActive = true;
+        }, 100);
+      });
+    }
+  }
 
   addSlide() {
     this.slideList.push({ elementList: [], isActive: true });
@@ -61,6 +86,7 @@ export class PPtBuilderService {
   }
 
   setActiveElement(item: PptElementModel) {
+    this.activeElement = item;
     this.activeElementSubscription.next(item);
   }
 
