@@ -69,11 +69,9 @@ export class PptElementContainer implements OnInit, OnDestroy {
     this.elId = item.id;
   }
   onNoneActiveElement() {
-    if (!this.isMoving) {
-      this.elementList.forEach(element => {
-        element.isActive = false;
-      });
-    }
+    this.elementList.forEach(element => {
+      element.isActive = false;
+    });
   }
 
   @HostListener('document:keyup', ['$event'])
