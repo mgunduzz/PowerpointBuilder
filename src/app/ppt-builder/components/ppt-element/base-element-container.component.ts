@@ -92,8 +92,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
     let _this = this;
 
-    this.updateFormats(this.element.format.formatInputs.x);
-    this.updateFormats(this.element.format.formatInputs.y);
+    // this.updateFormats(this.element.format.formatInputs.x);
+    // this.updateFormats(this.element.format.formatInputs.y);
     this.updateFormats(this.element.format.formatInputs.width);
     this.updateFormats(this.element.format.formatInputs.height);
   }
@@ -166,6 +166,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         _this.pPtBuilderService.setSlidePreview();
       }
     });
+
+    $('#box-' + this.element.id).css(
+      'transform',
+      `translate3d(${this.element.format.formatInputs.x.value.toString()}px, ${this.element.format.formatInputs.y.value.toString()}px, 0px)`
+    );
 
     setTimeout(() => {
       this.pPtBuilderService.setSlidePreview();
