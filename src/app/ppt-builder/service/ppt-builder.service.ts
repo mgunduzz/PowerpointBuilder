@@ -25,7 +25,8 @@ import {
 import { BehaviorSubject, Subject } from 'rxjs';
 declare var $: any;
 
-import * as html2canvas from 'html2canvas';
+// import * as html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas';
 
 @Injectable()
 export class PPtBuilderService {
