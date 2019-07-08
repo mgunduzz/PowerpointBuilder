@@ -53,7 +53,7 @@ export class PPtBuilderService {
 
       let mainEl = document.getElementsByClassName('element-list-container')[0] as HTMLElement;
 
-      html2canvas(mainEl).then(canvas => {
+      html2canvas(mainEl).then((canvas: any) => {
         var imgData: string = canvas.toDataURL('image/png');
 
         this.activeSlide.previewImage = imgData;

@@ -359,7 +359,5 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
     this.myChart = new Chart(ctx, chartOptions);
   }
 
-  ngOnDestroy() {
-    super.ngOnDestroy();
-  }
+  ngOnDestroy() {}
 }
