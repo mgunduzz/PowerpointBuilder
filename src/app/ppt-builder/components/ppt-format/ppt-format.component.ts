@@ -6,7 +6,8 @@ import {
   PPtElementEnum,
   PptElementModel,
   BaseFormatInputModel,
-  FormatCheckboxInputModel
+  FormatCheckboxInputModel,
+  FormatChangeModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -45,7 +46,12 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   onInputValuechange(formatInput: BaseFormatInputModel, isInit: boolean = false) {
-    this.element.onFormatChange.next(formatInput);
+    let changeModel = new FormatChangeModel();
+    changeModel.formatInput = formatInput;
+    changeModel.updateComponent = true;
+
+    this.element.onFormatChange.next(changeModel);
+    console.log('inputChange ' + changeModel.formatInput.name);
 
     if (!isInit) this.pPtBuilderService.setSlidePreview();
   }

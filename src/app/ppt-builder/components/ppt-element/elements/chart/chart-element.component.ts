@@ -34,8 +34,8 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     this.element.onFormatChange.subscribe(res => {
-      var formatInput = res as FormatCheckboxInputModel;
-      var formatNumberInput = res as FormatNumberInputModel;
+      var formatInput = res.formatInput as FormatCheckboxInputModel;
+      var formatNumberInput = res.formatInput as FormatNumberInputModel;
       let chartRef = this.myChart as any;
 
       if (formatInput.inputId == PPtFormatInputsEnum.legend) {
