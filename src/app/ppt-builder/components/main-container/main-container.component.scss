@@ -67,6 +67,7 @@
   margin-bottom: 20px;
   max-width: 320px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .sub-type {
@@ -76,6 +77,7 @@
   text-align: center;
   cursor: pointer;
   margin-bottom: 15px;
+  align-items: center;
 }
 
 .sub-type:hover {
