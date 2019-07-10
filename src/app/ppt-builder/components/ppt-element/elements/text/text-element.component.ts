@@ -33,6 +33,7 @@ import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 export class TextElement implements OnInit, OnDestroy {
   showText: boolean = true;
   @Input('element') element: PptTextElementModel;
+  asd: boolean = false;
 
   @ViewChild('insideElement') insideElement: ElementRef;
   @HostListener('document:click', ['$event.target'])
@@ -51,14 +52,14 @@ export class TextElement implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.element.onFormatChange.subscribe((res: any) => {
-      let textInput = res as FormatTextInputModel;
-      let dropdown = res as FormatDropdownInputModel;
-      let checkbox = res as FormatCheckboxInputModel;
-      let numberInput = res as FormatNumberInputModel;
-      let colorPickerInput = res as FormatColorPickerInputModel;
-      let radioInput = res as FormatRadioButtonInputModel;
+      let textInput = res.formatInput as FormatTextInputModel;
+      let dropdown = res.formatInput as FormatDropdownInputModel;
+      let checkbox = res.formatInput as FormatCheckboxInputModel;
+      let numberInput = res.formatInput as FormatNumberInputModel;
+      let colorPickerInput = res.formatInput as FormatColorPickerInputModel;
+      let radioInput = res.formatInput as FormatRadioButtonInputModel;
 
-      switch (res.inputId) {
+      switch (res.formatInput.inputId) {
         case PPtFormatInputsEnum.color:
           this.element.color = textInput.value;
           break;
@@ -76,11 +77,26 @@ export class TextElement implements OnInit, OnDestroy {
         case PPtFormatInputsEnum.fontSize:
           this.element.fontSize = numberInput.value + 'px';
           break;
+        case PPtFormatInputsEnum.textIndent:
+          this.element.indent = numberInput.value + 'px';
+          break;
         case PPtFormatInputsEnum.isItalic:
           if (checkbox.value) {
             this.element.fontStyle = 'italic';
           } else {
             this.element.fontStyle = 'unset';
+          }
+          break;
+        case PPtFormatInputsEnum.strokeColor:
+          if (colorPickerInput.value) {
+            this.element.stroke = '3px solid' + colorPickerInput.value;
+          } else this.element.stroke = '3px solid transparent';
+          break;
+        case PPtFormatInputsEnum.isStroke:
+          if (checkbox.value) {
+            this.element.stroke = '3px solid black';
+          } else {
+            this.element.stroke = '3px solid transparent';
           }
           break;
         case PPtFormatInputsEnum.isBold:
@@ -120,6 +136,8 @@ export class TextElement implements OnInit, OnDestroy {
           break;
       }
     });
+
+    console.log(this.element);
   }
   ngOnDestroy() {}
 

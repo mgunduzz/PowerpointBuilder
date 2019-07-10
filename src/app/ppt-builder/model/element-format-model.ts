@@ -58,7 +58,10 @@ export enum PPtFormatInputsEnum {
   pieCutoutPercentage,
   pieRotation,
   naturalWidth,
-  naturalHeight
+  naturalHeight,
+  isStroke,
+  strokeColor,
+  textIndent
 }
 
 export class BaseFormatInputModel {
@@ -130,6 +133,9 @@ export class FormatInputsModel {
   textFontSize: FormatNumberInputModel;
   naturalWidth: FormatNumberInputModel;
   naturalHeight: FormatNumberInputModel;
+  isStroke: FormatCheckboxInputModel;
+  strokeColor: FormatColorPickerInputModel;
+  textIndent: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -291,6 +297,22 @@ export class TextFormatModel extends BaseElementFormatModel {
       value: '#000000'
     };
 
+    let strokeColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.strokeColor,
+      name: '',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: 'transparent'
+    };
+
+    let textIndent: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.textIndent,
+      name: 'Text Indent',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      max: 100,
+      min: 0
+    };
+
     let isBold: FormatCheckboxInputModel = {
       inputId: PPtFormatInputsEnum.isBold,
       name: 'Bold',
@@ -330,6 +352,13 @@ export class TextFormatModel extends BaseElementFormatModel {
       value: false
     };
 
+    let isStroke: FormatCheckboxInputModel = {
+      name: 'Stroke',
+      inputId: PPtFormatInputsEnum.isStroke,
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
     this.formatInputs.width.value = 200;
 
     this.formatInputs.backgroundColor = backgroundColor;
@@ -340,6 +369,9 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.isItalic = isItalic;
     this.formatInputs.radius = radius;
     this.formatInputs.textAlign = textAlign;
+    this.formatInputs.isStroke = isStroke;
+    this.formatInputs.strokeColor = strokeColor;
+    this.formatInputs.textIndent = textIndent;
   }
 }
 
