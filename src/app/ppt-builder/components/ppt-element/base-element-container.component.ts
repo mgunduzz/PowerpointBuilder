@@ -20,7 +20,8 @@ import {
   PptElementModel,
   FormatNumberInputModel,
   PPtFormatInputsEnum,
-  BaseFormatInputModel
+  BaseFormatInputModel,
+  FormatChangeModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
@@ -67,10 +68,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.newPositionX = this.newPositionXTemp;
     this.newPositionY = this.newPositionYTemp;
 
-    this.pPtBuilderService.setSlidePreview();
-  }
-
-  dragMoved(event: CdkDragMove) {
     var childPos = $('#box-' + this.element.id).offset();
     var parentPos = $('#box-' + this.element.id)
       .closest('.element-list-container')
@@ -82,20 +79,36 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
       this.element.format.formatInputs.x.value = x;
       this.element.format.formatInputs.y.value = y;
+
+      this.element.onFormatChange.next({
+        formatInput: this.element.format.formatInputs.x,
+        updateComponent: false
+      });
+
+      this.element.onFormatChange.next({
+        formatInput: this.element.format.formatInputs.y,
+        updateComponent: false
+      });
     }
+
+    this.pPtBuilderService.setSlidePreview();
   }
 
+  dragMoved(event: CdkDragMove) {}
+
   ngOnInit() {
-    // this.element.onFormatChange.subscribe(res => {
-    //   this.updateFormats(res);
-    // });
+    this.element.onFormatChange.subscribe(res => {
+      if (res.updateComponent) this.updateFormats(res.formatInput);
+
+      console.log('elementFormatChange ' + res.formatInput.name + ' : ' + (res.formatInput as any).value);
+    });
 
     let _this = this;
 
     // this.updateFormats(this.element.format.formatInputs.x);
     // this.updateFormats(this.element.format.formatInputs.y);
-    this.updateFormats(this.element.format.formatInputs.width);
-    this.updateFormats(this.element.format.formatInputs.height);
+    // this.updateFormats(this.element.format.formatInputs.width);
+    // this.updateFormats(this.element.format.formatInputs.height);
   }
 
   updateContainerPosition(x: number, y: number) {}
@@ -162,6 +175,16 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
         _this.element.format.formatInputs.width.value = width;
         _this.element.format.formatInputs.height.value = height;
+
+        _this.element.onFormatChange.next({
+          formatInput: _this.element.format.formatInputs.width,
+          updateComponent: false
+        });
+
+        _this.element.onFormatChange.next({
+          formatInput: _this.element.format.formatInputs.height,
+          updateComponent: false
+        });
 
         _this.pPtBuilderService.setSlidePreview();
       }

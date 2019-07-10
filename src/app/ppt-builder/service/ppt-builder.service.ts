@@ -20,7 +20,8 @@ import {
   ColumnChartFormatModel,
   BarChartFormatModel,
   PieChartFormatModel,
-  DoughnutChartFormatModel
+  DoughnutChartFormatModel,
+  FormatChangeModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 declare var $: any;
@@ -148,7 +149,7 @@ export class PPtBuilderService {
     chartEl.format = new ShapeFormatModel(el.format);
     chartEl.name = 'Shape';
     chartEl.type = PPtElementEnum.Shape;
-    chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    chartEl.onFormatChange = new Subject<FormatChangeModel>();
     chartEl.isActive = false;
     chartEl.rotate = 0;
     chartEl.radius = 0;
@@ -190,7 +191,7 @@ export class PPtBuilderService {
 
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
-    chartEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    chartEl.onFormatChange = new Subject<FormatChangeModel>();
     chartEl.chartType = type;
     chartEl.isActive = false;
 
@@ -203,7 +204,7 @@ export class PPtBuilderService {
 
     tableEl.name = 'Table';
     tableEl.type = PPtElementEnum.Table;
-    tableEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    tableEl.onFormatChange = new Subject<FormatChangeModel>();
     tableEl.row = row;
     tableEl.col = col;
     tableEl.isActive = false;
@@ -216,7 +217,7 @@ export class PPtBuilderService {
     imageEl.format = new ImageFormatModel(el.format);
     imageEl.name = 'Image';
     imageEl.type = PPtElementEnum.Image;
-    imageEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    imageEl.onFormatChange = new Subject<FormatChangeModel>();
     imageEl.url = url;
     imageEl.isActive = false;
 
@@ -236,7 +237,7 @@ export class PPtBuilderService {
 
     textEl.name = 'Text';
     textEl.type = PPtElementEnum.Text;
-    textEl.onFormatChange = new Subject<BaseFormatInputModel>();
+    textEl.onFormatChange = new Subject<FormatChangeModel>();
     textEl.text = text;
     textEl.isActive = false;
 
