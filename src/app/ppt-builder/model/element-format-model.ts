@@ -60,7 +60,8 @@ export enum PPtFormatInputsEnum {
   naturalWidth,
   naturalHeight,
   isStroke,
-  strokeColor
+  strokeColor,
+  textIndent
 }
 
 export class BaseFormatInputModel {
@@ -133,6 +134,7 @@ export class FormatInputsModel {
   naturalHeight: FormatNumberInputModel;
   isStroke: FormatCheckboxInputModel;
   strokeColor: FormatColorPickerInputModel;
+  textIndent: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -296,9 +298,18 @@ export class TextFormatModel extends BaseElementFormatModel {
 
     let strokeColor: FormatColorPickerInputModel = {
       inputId: PPtFormatInputsEnum.strokeColor,
-      name: 'Stroke Color',
+      name: '',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
       value: 'transparent'
+    };
+
+    let textIndent: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.textIndent,
+      name: 'Text Indent',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      max: 100,
+      min: 0
     };
 
     let isBold: FormatCheckboxInputModel = {
@@ -359,6 +370,7 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.textAlign = textAlign;
     this.formatInputs.isStroke = isStroke;
     this.formatInputs.strokeColor = strokeColor;
+    this.formatInputs.textIndent = textIndent;
   }
 }
 

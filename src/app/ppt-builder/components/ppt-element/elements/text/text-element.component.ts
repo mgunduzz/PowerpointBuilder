@@ -33,6 +33,7 @@ import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 export class TextElement implements OnInit, OnDestroy {
   showText: boolean = true;
   @Input('element') element: PptTextElementModel;
+  asd: boolean = false;
 
   @ViewChild('insideElement') insideElement: ElementRef;
   @HostListener('document:click', ['$event.target'])
@@ -75,6 +76,9 @@ export class TextElement implements OnInit, OnDestroy {
           break;
         case PPtFormatInputsEnum.fontSize:
           this.element.fontSize = numberInput.value + 'px';
+          break;
+        case PPtFormatInputsEnum.textIndent:
+          this.element.indent = numberInput.value + 'px';
           break;
         case PPtFormatInputsEnum.isItalic:
           if (checkbox.value) {

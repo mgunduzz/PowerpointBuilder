@@ -125,20 +125,30 @@
         </ppt-checkbox-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.isStroke">
-        <ppt-checkbox-input [input]="element.format.formatInputs.isStroke" (onValuechange)="onInputValuechange($event)">
-        </ppt-checkbox-input>
-      </div>
-
       <div
         class="row row-margin"
-        *ngIf="element.format.formatInputs.strokeColor && element.format.formatInputs.isStroke.value"
+        *ngIf="element.format.formatInputs.isStroke"
+        style="display: flex;flex-direction: row !important;justify-content: space-between;align-items: center;"
       >
-        <ppt-color-picker-input
-          [input]="element.format.formatInputs.strokeColor"
-          (onValuechange)="onInputValuechange($event)"
-        >
-        </ppt-color-picker-input>
+        <div>
+          <ppt-checkbox-input
+            [input]="element.format.formatInputs.isStroke"
+            (onValuechange)="onInputValuechange($event)"
+          >
+          </ppt-checkbox-input>
+        </div>
+        <div *ngIf="element.format.formatInputs.strokeColor && element.format.formatInputs.isStroke.value">
+          <ppt-color-picker-input
+            [input]="element.format.formatInputs.strokeColor"
+            (onValuechange)="onInputValuechange($event)"
+          >
+          </ppt-color-picker-input>
+        </div>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.textIndent">
+        <ppt-number-input [input]="element.format.formatInputs.textIndent" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
       </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.value">
         <ppt-checkbox-input [input]="element.format.formatInputs.value" (onValuechange)="onInputValuechange($event)">
