@@ -305,6 +305,7 @@ export class PptTextElementModel extends PptElementModel {
   radius: string;
   width: string;
   textAlign: string;
+  stroke: string;
 
   generatePptxItem(pptx: any, slide: any) {
     super.generatePptxItem(pptx, slide);
@@ -320,6 +321,7 @@ export class PptTextElementModel extends PptElementModel {
     pptxTextItem.options.rectRadius = this.radius;
     pptxTextItem.options.italic = this.fontStyle == 'italic';
     pptxTextItem.options.bold = this.fontWeigth == 600;
+    pptxTextItem.options.stroke = this.stroke == 'unset !important';
 
     let align = textFormat.formatInputs.textAlign.value.find(item => item.selected).key;
 

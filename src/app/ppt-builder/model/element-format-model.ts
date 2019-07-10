@@ -58,7 +58,8 @@ export enum PPtFormatInputsEnum {
   pieCutoutPercentage,
   pieRotation,
   naturalWidth,
-  naturalHeight
+  naturalHeight,
+  isStroke
 }
 
 export class BaseFormatInputModel {
@@ -129,6 +130,7 @@ export class FormatInputsModel {
   textFontSize: FormatNumberInputModel;
   naturalWidth: FormatNumberInputModel;
   naturalHeight: FormatNumberInputModel;
+  isStroke: FormatCheckboxInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -329,6 +331,13 @@ export class TextFormatModel extends BaseElementFormatModel {
       value: false
     };
 
+    let isStroke: FormatCheckboxInputModel = {
+      name: 'Stroke',
+      inputId: PPtFormatInputsEnum.isStroke,
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
     this.formatInputs.width.value = 200;
 
     this.formatInputs.backgroundColor = backgroundColor;
@@ -339,6 +348,7 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.isItalic = isItalic;
     this.formatInputs.radius = radius;
     this.formatInputs.textAlign = textAlign;
+    this.formatInputs.isStroke = isStroke;
   }
 }
 

@@ -83,6 +83,11 @@ export class TextElement implements OnInit, OnDestroy {
             this.element.fontStyle = 'unset';
           }
           break;
+        case PPtFormatInputsEnum.isStroke:
+          if (checkbox.value) {
+            this.element.stroke = '4px solid red ';
+          } else this.element.stroke = '5px solid transparent';
+          break;
         case PPtFormatInputsEnum.isBold:
           if (checkbox.value) {
             this.element.fontWeigth = 600;
