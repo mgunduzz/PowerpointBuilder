@@ -47,14 +47,16 @@ export class ImageComponent implements OnInit, AfterViewInit {
           _this.element.format.formatInputs.height = _this.element.format.formatInputs.naturalHeight;
         }
 
-        _this.element.onFormatChange.next({
-          formatInput: _this.element.format.formatInputs.width,
-          updateComponent: true
-        });
-        _this.element.onFormatChange.next({
-          formatInput: _this.element.format.formatInputs.height,
-          updateComponent: true
-        });
+        _this.element.onFormatChange.next([
+          {
+            formatInput: _this.element.format.formatInputs.width,
+            updateComponent: true
+          },
+          {
+            formatInput: _this.element.format.formatInputs.height,
+            updateComponent: true
+          }
+        ]);
 
         $('#img-example').remove();
       });

@@ -29,7 +29,9 @@ export class PptNumberInput implements OnInit {
     this.generatedId = random.toString();
   }
 
-  onValueChange() {
+  onValueChange(ev: any) {
+    this.formatInput.oldValue = this.formatInput.value;
+    this.formatInput.value = ev;
     this.onValuechange.emit(this.formatInput);
   }
 }
