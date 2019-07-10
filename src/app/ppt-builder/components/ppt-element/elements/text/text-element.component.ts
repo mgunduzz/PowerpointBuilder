@@ -51,14 +51,14 @@ export class TextElement implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.element.onFormatChange.subscribe((res: any) => {
-      let textInput = res as FormatTextInputModel;
-      let dropdown = res as FormatDropdownInputModel;
-      let checkbox = res as FormatCheckboxInputModel;
-      let numberInput = res as FormatNumberInputModel;
-      let colorPickerInput = res as FormatColorPickerInputModel;
-      let radioInput = res as FormatRadioButtonInputModel;
+      let textInput = res.formatInput as FormatTextInputModel;
+      let dropdown = res.formatInput as FormatDropdownInputModel;
+      let checkbox = res.formatInput as FormatCheckboxInputModel;
+      let numberInput = res.formatInput as FormatNumberInputModel;
+      let colorPickerInput = res.formatInput as FormatColorPickerInputModel;
+      let radioInput = res.formatInput as FormatRadioButtonInputModel;
 
-      switch (res.inputId) {
+      switch (res.formatInput.inputId) {
         case PPtFormatInputsEnum.color:
           this.element.color = textInput.value;
           break;
@@ -83,10 +83,17 @@ export class TextElement implements OnInit, OnDestroy {
             this.element.fontStyle = 'unset';
           }
           break;
+        case PPtFormatInputsEnum.strokeColor:
+          if (colorPickerInput.value) {
+            this.element.stroke = '3px solid' + colorPickerInput.value;
+          } else this.element.stroke = '3px solid transparent';
+          break;
         case PPtFormatInputsEnum.isStroke:
           if (checkbox.value) {
-            this.element.stroke = '4px solid red ';
-          } else this.element.stroke = '5px solid transparent';
+            this.element.stroke = '3px solid black';
+          } else {
+            this.element.stroke = '3px solid transparent';
+          }
           break;
         case PPtFormatInputsEnum.isBold:
           if (checkbox.value) {
@@ -125,6 +132,8 @@ export class TextElement implements OnInit, OnDestroy {
           break;
       }
     });
+
+    console.log(this.element);
   }
   ngOnDestroy() {}
 

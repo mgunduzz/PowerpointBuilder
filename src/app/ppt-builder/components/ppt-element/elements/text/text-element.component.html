@@ -1,4 +1,4 @@
-<div #insideElement class="el-box" [style.text-align]="element.textAlign" [style.border]="element.stroke">
+<div #insideElement class="el-box" [style.text-align]="element.textAlign">
   <pre
     [hidden]="!showText"
     class="text-element"
@@ -13,6 +13,7 @@
     (click)="showEditableText(); $event.stopPropagation()"
     [innerHTML]="element.text"
     class="text-margin"
+    [style.border]="element.stroke"
   ></pre>
 
   <div
