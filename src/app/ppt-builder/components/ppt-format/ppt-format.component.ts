@@ -7,7 +7,8 @@ import {
   PptElementModel,
   BaseFormatInputModel,
   FormatCheckboxInputModel,
-  FormatChangeModel
+  FormatChangeModel,
+  FormatInputsModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -33,12 +34,16 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
         this.element = el;
         let _this = this;
 
+        let inputs = Array<BaseFormatInputModel>();
+
         Object.keys(el.format.formatInputs).forEach(function(key) {
           let input = el.format.formatInputs[key];
           if (input) {
-            _this.onInputValuechange(input, true);
+            inputs.push(input);
           }
         });
+
+        this.onInputsValuechange(inputs);
       }
     });
   }
@@ -49,11 +54,30 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     let changeModel = new FormatChangeModel();
     changeModel.formatInput = formatInput;
     changeModel.updateComponent = true;
+    changeModel.addToHistory = !isInit;
 
-    this.element.onFormatChange.next(changeModel);
-    console.log('inputChange ' + changeModel.formatInput.name);
+    this.element.onFormatChange.next([changeModel]);
+    // console.log('inputChange ' + changeModel.formatInput.name);
 
     if (!isInit) this.pPtBuilderService.setSlidePreview();
+  }
+
+  onInputsValuechange(formatInputs: Array<BaseFormatInputModel>, isInit: boolean = false) {
+    let formatChanges = Array<FormatChangeModel>();
+
+    formatInputs.forEach(formatInput => {
+      let changeModel = new FormatChangeModel();
+      changeModel.formatInput = formatInput;
+      changeModel.updateComponent = true;
+      changeModel.addToHistory = !isInit;
+
+      // console.log('inputChange ' + changeModel.formatInput.name);
+      formatChanges.push(changeModel);
+
+      if (!isInit) this.pPtBuilderService.setSlidePreview();
+    });
+
+    this.element.onFormatChange.next(formatChanges);
   }
 
   checkFormatType(formatType: string) {

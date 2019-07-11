@@ -21,7 +21,9 @@ import {
   BarChartFormatModel,
   PieChartFormatModel,
   DoughnutChartFormatModel,
-  FormatChangeModel
+  FormatChangeModel,
+  SlideFormatChangeHistory,
+  FormatChangeInputModel
 } from '../model';
 import { BehaviorSubject, Subject } from 'rxjs';
 declare var $: any;
@@ -67,8 +69,92 @@ export class PPtBuilderService {
     }
   }
 
+  setFormatInputChangeToActiveSlideHistory(elementId: number, formatInputs: Array<BaseFormatInputModel>) {
+    if (formatInputs.length == 0) return false;
+
+    if (!this.activeSlide.formatChangeHistory) this.activeSlide.formatChangeHistory = [];
+
+    if (this.activeSlide.historyActiveIndex == undefined) this.activeSlide.historyActiveIndex = -1;
+
+    this.activeSlide.historyActiveIndex++;
+
+    this.activeSlide.formatChangeHistory.splice(
+      this.activeSlide.historyActiveIndex,
+      this.activeSlide.formatChangeHistory.length
+    );
+
+    let historyFormatInputs = formatInputs.map(item => {
+      return { inputId: item.inputId, value: (item as any).value } as FormatChangeInputModel;
+    });
+
+    this.activeSlide.formatChangeHistory.push({ elementId: elementId, inputs: historyFormatInputs });
+
+    console.log({ addIndex: this.activeSlide.historyActiveIndex });
+    console.log(
+      formatInputs
+        .map(item => {
+          return item.name + ' : ' + (item as any).value;
+        })
+        .join(',  ')
+    );
+    console.log('----');
+  }
+
+  undoActiveSlideFormatChange() {
+    if (this.activeSlide.formatChangeHistory.length > 0 && this.activeSlide.historyActiveIndex > 0) {
+      this.activeSlide.historyActiveIndex--;
+      let changeHistory = this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex];
+
+      this.undoRedoUpdate(changeHistory);
+    }
+  }
+
+  redoActiveSlideFormatChange() {
+    if (
+      this.activeSlide.formatChangeHistory.length > 0 &&
+      this.activeSlide.historyActiveIndex < this.activeSlide.formatChangeHistory.length - 1
+    ) {
+      this.activeSlide.historyActiveIndex++;
+
+      let changeHistory = this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex];
+
+      this.undoRedoUpdate(changeHistory);
+    }
+  }
+
+  undoRedoUpdate(changeHistory: SlideFormatChangeHistory) {
+    let element = this.activeSlide.elementList.find(item => item.id == changeHistory.elementId);
+
+    if (element) {
+      let changedFormats = Array<FormatChangeModel>();
+
+      changeHistory.inputs.forEach(input => {
+        let elFormatInput = Object.values(element.format.formatInputs).find(
+          item => item.inputId == input.inputId
+        ) as BaseFormatInputModel;
+        (elFormatInput as any).value = input.value;
+
+        changedFormats.push({ updateComponent: true, formatInput: elFormatInput, addToHistory: false });
+      });
+
+      console.log({ index: this.activeSlide.historyActiveIndex });
+      console.log(
+        changedFormats
+          .map(item => {
+            return item.formatInput.name + ' : ' + (item.formatInput as any).value;
+          })
+          .join(',  ')
+      );
+
+      element.onFormatChange.next(changedFormats);
+    }
+  }
+
   addSlide() {
-    this.slideList.push({ elementList: [], isActive: true });
+    let newSlide = new SlideModel();
+    newSlide.isActive = true;
+
+    this.slideList.push(newSlide);
     this.setActiveSlide(this.slideList[this.slideList.length - 1]);
   }
 
@@ -149,7 +235,7 @@ export class PPtBuilderService {
     chartEl.format = new ShapeFormatModel(el.format);
     chartEl.name = 'Shape';
     chartEl.type = PPtElementEnum.Shape;
-    chartEl.onFormatChange = new Subject<FormatChangeModel>();
+    chartEl.onFormatChange = new Subject<Array<FormatChangeModel>>();
     chartEl.isActive = false;
     chartEl.rotate = 0;
     chartEl.radius = 0;
@@ -191,7 +277,7 @@ export class PPtBuilderService {
 
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
-    chartEl.onFormatChange = new Subject<FormatChangeModel>();
+    chartEl.onFormatChange = new Subject<Array<FormatChangeModel>>();
     chartEl.chartType = type;
     chartEl.isActive = false;
 
@@ -204,7 +290,7 @@ export class PPtBuilderService {
 
     tableEl.name = 'Table';
     tableEl.type = PPtElementEnum.Table;
-    tableEl.onFormatChange = new Subject<FormatChangeModel>();
+    tableEl.onFormatChange = new Subject<Array<FormatChangeModel>>();
     tableEl.row = row;
     tableEl.col = col;
     tableEl.isActive = false;
@@ -217,7 +303,7 @@ export class PPtBuilderService {
     imageEl.format = new ImageFormatModel(el.format);
     imageEl.name = 'Image';
     imageEl.type = PPtElementEnum.Image;
-    imageEl.onFormatChange = new Subject<FormatChangeModel>();
+    imageEl.onFormatChange = new Subject<Array<FormatChangeModel>>();
     imageEl.url = url;
     imageEl.isActive = false;
 
@@ -237,7 +323,7 @@ export class PPtBuilderService {
 
     textEl.name = 'Text';
     textEl.type = PPtElementEnum.Text;
-    textEl.onFormatChange = new Subject<FormatChangeModel>();
+    textEl.onFormatChange = new Subject<Array<FormatChangeModel>>();
     textEl.text = text;
     textEl.isActive = false;
 

@@ -31,6 +31,11 @@
         </div>
       </div>
 
+      <div>
+        <button (click)="undoChanges()">Undo</button>
+        <button (click)="redoChanges()" style="margin-left: 10px;">Redo</button>
+      </div>
+
       <ng-template #imageContent let-modal>
         <div class="modal-body">
           <!-- <div

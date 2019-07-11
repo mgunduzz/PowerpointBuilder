@@ -77,7 +77,7 @@ export class PptElementModel implements PptxGenerator {
 
   constructor(el?: PptElementModel) {
     this.format = new BaseElementFormatModel();
-    this.onFormatChange = new Subject<FormatChangeModel>();
+    this.onFormatChange = new Subject<Array<FormatChangeModel>>();
 
     if (el) {
       this.format = el.format;
@@ -87,7 +87,7 @@ export class PptElementModel implements PptxGenerator {
   type: PPtElementEnum;
   name: string;
   format: BaseElementFormatModel;
-  onFormatChange: Subject<FormatChangeModel>;
+  onFormatChange: Subject<Array<FormatChangeModel>>;
   isActiveElement: boolean;
   id: number;
   isActive: boolean;
@@ -97,7 +97,8 @@ export class PptElementModel implements PptxGenerator {
 
 export class FormatChangeModel {
   formatInput: BaseFormatInputModel;
-  updateComponent: boolean = false;
+  updateComponent?: boolean = false;
+  addToHistory?: boolean = false;
 }
 
 export class PptChartElementModel extends PptElementModel {
