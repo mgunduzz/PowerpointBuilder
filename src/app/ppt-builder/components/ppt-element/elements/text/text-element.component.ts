@@ -6,7 +6,8 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  AfterViewInit
 } from '@angular/core';
 import {
   PptElementModel,
@@ -23,7 +24,7 @@ import {
 import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
-
+declare var $: any;
 @Component({
   selector: 'ppt-text-element',
   templateUrl: './text-element.component.html',
@@ -33,7 +34,6 @@ import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 export class TextElement implements OnInit, OnDestroy {
   showText: boolean = true;
   @Input('element') element: PptTextElementModel;
-  asd: boolean = false;
 
   @ViewChild('insideElement') insideElement: ElementRef;
   @HostListener('document:click', ['$event.target'])
@@ -79,6 +79,25 @@ export class TextElement implements OnInit, OnDestroy {
           break;
         case PPtFormatInputsEnum.textIndent:
           this.element.indent = numberInput.value + 'px';
+          break;
+        case PPtFormatInputsEnum.firstLineIndent:
+          // this.element.firstLineIndent = numberInput.value + 'px';
+          // let _this = this;
+          // var px = parseInt(this.element.indent) + parseInt(this.element.firstLineIndent);
+          // $("#text-pre")
+          //   .contents()
+          //   .filter(function () {
+          //     return !!$.trim(this.innerHTML || this.data);
+          //   })
+          //   .first().css('padding-left', px + 'px');
+          //   console.log(px+'px')
+
+          //   $("#text-input")
+          //   .contents()
+          //   .filter(function () {
+          //     return !!$.trim(this.innerHTML || this.data);
+          //   })
+          //   .first().css('padding-left',px);
           break;
         case PPtFormatInputsEnum.isItalic:
           if (checkbox.value) {
@@ -136,9 +155,8 @@ export class TextElement implements OnInit, OnDestroy {
           break;
       }
     });
-
-    console.log(this.element);
   }
+
   ngOnDestroy() {}
 
   showEditableText() {
