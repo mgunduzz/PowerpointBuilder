@@ -115,34 +115,42 @@
         <ppt-number-input [input]="element.format.formatInputs.radius" (onValuechange)="onInputValuechange($event)">
         </ppt-number-input>
       </div>
-
-      <div class="row row-margin" *ngIf="element.format.formatInputs.isItalic">
-        <ppt-checkbox-input [input]="element.format.formatInputs.isItalic" (onValuechange)="onInputValuechange($event)">
-        </ppt-checkbox-input>
-      </div>
-      <div class="row row-margin" *ngIf="element.format.formatInputs.isBold">
-        <ppt-checkbox-input [input]="element.format.formatInputs.isBold" (onValuechange)="onInputValuechange($event)">
-        </ppt-checkbox-input>
-      </div>
-
-      <div
-        class="row row-margin"
-        *ngIf="element.format.formatInputs.isStroke"
-        style="display: flex;flex-direction: row !important;justify-content: space-between;align-items: center;"
-      >
-        <div>
+      <div class="d-flex" style="margin-top: 20px;align-items: center;justify-content: center;">
+        <div class="row-margin" *ngIf="element.format.formatInputs.isItalic">
           <ppt-checkbox-input
-            [input]="element.format.formatInputs.isStroke"
+            [input]="element.format.formatInputs.isItalic"
             (onValuechange)="onInputValuechange($event)"
           >
           </ppt-checkbox-input>
         </div>
-        <div *ngIf="element.format.formatInputs.strokeColor && element.format.formatInputs.isStroke.value">
-          <ppt-color-picker-input
-            [input]="element.format.formatInputs.strokeColor"
-            (onValuechange)="onInputValuechange($event)"
+        <div class="row-margin" *ngIf="element.format.formatInputs.isBold">
+          <ppt-checkbox-input [input]="element.format.formatInputs.isBold" (onValuechange)="onInputValuechange($event)">
+          </ppt-checkbox-input>
+        </div>
+
+        <div
+          class="row row-margin"
+          *ngIf="element.format.formatInputs.isStroke"
+          style="display: flex;flex-direction: row !important;justify-content: space-between;align-items: center;"
+        >
+          <div>
+            <ppt-checkbox-input
+              [input]="element.format.formatInputs.isStroke"
+              (onValuechange)="onInputValuechange($event)"
+            >
+            </ppt-checkbox-input>
+          </div>
+          <div
+            *ngIf="element.format.formatInputs.strokeColor && element.format.formatInputs.isStroke.value"
+            style="margin-left:15px;    position: absolute;
+          right: 20px;"
           >
-          </ppt-color-picker-input>
+            <ppt-color-picker-input
+              [input]="element.format.formatInputs.strokeColor"
+              (onValuechange)="onInputValuechange($event)"
+            >
+            </ppt-color-picker-input>
+          </div>
         </div>
       </div>
 
@@ -165,7 +173,7 @@
         <ppt-dropdown-input [input]="element.format.formatInputs.font" (onValuechange)="onInputValuechange($event)">
         </ppt-dropdown-input>
       </div>
-      <div class="row row-margin" *ngIf="element.format.formatInputs.textAlign">
+      <div class="row row-margin" style="display: flex;" *ngIf="element.format.formatInputs.textAlign">
         <ppt-radio-button-input
           [input]="element.format.formatInputs.textAlign"
           (onValuechange)="onInputValuechange($event)"
