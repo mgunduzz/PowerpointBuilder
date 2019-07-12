@@ -63,12 +63,12 @@ export class ImageComponent implements OnInit, AfterViewInit {
   }
 
   // ngAfterViewInit(){
-  //   debugger;
+  //
   //     let _this = this;
   //     var img = $('#img-'+_this.element.id)[0];
   //     $('.image-box').prepend('<img id="theImg" />')
   //      .attr("src", $(img).attr("src")).on('load',function() {
-  //        debugger;
+  //
   //       _this.element.naturalWidth = this.width;
   //       _this.element.naturalHeight = this.height;
   //     })

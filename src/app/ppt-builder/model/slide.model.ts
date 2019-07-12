@@ -9,6 +9,7 @@ export class SlideModel {
     this.formatChangeHistory = new Array<SlideFormatChangeHistory>();
   }
 
+  id: number = -1;
   elementList: Array<PptElementModel>;
   isActive?: boolean;
   previewImage?: string;

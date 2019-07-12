@@ -31,7 +31,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
   constructor(private sanitizer: DomSanitizer) {
     // this.element.onFormatChange.subscribe(res => {
-    //   debugger;
+    //
     // });
   }
 

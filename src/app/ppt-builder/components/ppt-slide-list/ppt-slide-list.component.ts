@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import {
   PptElementModel,
@@ -20,8 +20,14 @@ export class PptSlideList implements OnInit, OnDestroy {
   slideList: SlideModel[] = [];
   elementSub: Subscription;
   slideListSub: Subscription;
+  activeSlideSub: Subscription;
+  activeSlide: SlideModel;
+  slideIdCount = 0;
 
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
+    this.activeSlideSub = this._pPtBuilderService.activeSlideSubscription.subscribe(res => {
+      this.activeSlide = res;
+    });
     this.elementSub = this._pPtBuilderService.pptElementsSubscription.subscribe(res => {
       if (res)
         if (!res.dontAddToSlide) {
@@ -34,8 +40,25 @@ export class PptSlideList implements OnInit, OnDestroy {
     });
 
     this.slideListSub = this._pPtBuilderService.slideListSubscription.subscribe(res => {
-      if (res) this.slideList = res;
+      if (res) {
+        res.forEach(item => {
+          if (item.id > 0) {
+          } else {
+            this.slideIdCount++;
+            item.id = this.slideIdCount;
+          }
+        });
+
+        this.slideList = res;
+      }
     });
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  handleDeleteKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Delete') {
+      this.deleteSlide(this.activeSlide);
+    }
   }
 
   ngOnInit() {}
@@ -44,12 +67,24 @@ export class PptSlideList implements OnInit, OnDestroy {
     return this.slideList.filter(item => item.isActive)[0];
   }
 
+  deleteSlide(slide: SlideModel) {
+    this._pPtBuilderService.deleteSlide(slide);
+  }
+
   addSlide() {
     this._pPtBuilderService.addSlide();
   }
 
   onSlideClick(slide: SlideModel) {
-    this._pPtBuilderService.setActiveSlide(slide);
+    // this._pPtBuilderService.setActiveSlide(slide);
+
+    if (this._pPtBuilderService.activeSlide) {
+      if (this._pPtBuilderService.activeSlide.id != slide.id) {
+        this._pPtBuilderService.setActiveSlide(slide);
+      }
+    } else {
+      this._pPtBuilderService.setActiveSlide(slide);
+    }
   }
 
   ngOnDestroy() {

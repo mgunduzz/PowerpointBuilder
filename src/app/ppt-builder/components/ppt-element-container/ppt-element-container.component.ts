@@ -84,6 +84,7 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
       this.deleteElement(this.activeElement.id);
     }
   }
+
   deleteElement(id: number) {
     this.elementList = this.elementList.filter(item => item.id !== id);
     this._pPtBuilderService.deleteElement(id);

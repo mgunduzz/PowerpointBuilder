@@ -35,14 +35,16 @@ import html2canvas from 'html2canvas';
 export class PPtBuilderService {
   constructor() {
     if (this.slideList.length == 0) {
-      this.slideList.push({ elementList: [], isActive: true });
+      this.slideList.push({ elementList: [], isActive: true, id: -1 });
       this.activeSlide = this.slideList[0];
+      this.setActiveSlide(this.activeSlide);
       this.updateSlideList();
     }
   }
 
   public pptElementsSubscription: BehaviorSubject<LoadElementModel> = new BehaviorSubject<LoadElementModel>(undefined);
   public activeElementSubscription = new BehaviorSubject<PptElementModel>(undefined);
+  public activeSlideSubscription = new BehaviorSubject<SlideModel>(undefined);
   public slideListSubscription = new BehaviorSubject<SlideModel[]>(undefined);
   public slideList: SlideModel[] = [];
   public activeSlide: SlideModel;
@@ -153,19 +155,28 @@ export class PPtBuilderService {
   addSlide() {
     let newSlide = new SlideModel();
     newSlide.isActive = true;
+    newSlide.id = -1;
+    newSlide.elementList = [];
 
     this.slideList.push(newSlide);
-    this.setActiveSlide(this.slideList[this.slideList.length - 1]);
+    this.setActiveSlide(newSlide);
   }
 
   setActiveSlide(slide: SlideModel) {
-    this.slideList.forEach(item => (item.isActive = false));
     this.activeSlide = slide;
-    slide.isActive = true;
+
+    this.slideList.forEach(el => {
+      el.isActive = false;
+    });
+
+    this.activeSlide.isActive = true;
+    this.activeSlideSubscription.next(slide);
+    this.updateSlideList();
+
     this.pptElementsSubscription.next({
-      elementList: slide.elementList,
-      isClear: true,
-      dontAddToSlide: true
+      elementList: this.activeSlide.elementList,
+      dontAddToSlide: true,
+      isClear: true
     });
   }
 
@@ -333,6 +344,19 @@ export class PPtBuilderService {
   deleteElement(id: number) {
     this.pptElementsSubscription.value.elementList.splice(id, 1);
     this.activeSlide.elementList = this.activeSlide.elementList.filter(item => item.id !== id);
+  }
+
+  deleteSlide(slide: SlideModel) {
+    if (this.slideList.length > 1) {
+      let index = this.slideList.findIndex(item => item.id == slide.id);
+
+      this.slideList.splice(index, 1);
+
+      if (index > 0) index--;
+
+      this.updateSlideList();
+      this.setActiveSlide(this.slideList[index]);
+    }
   }
 
   export() {
