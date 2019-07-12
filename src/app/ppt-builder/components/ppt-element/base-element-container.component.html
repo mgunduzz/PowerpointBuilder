@@ -17,7 +17,12 @@
   <div class="drop-icon active" (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
     <div class="i-group" [ngClass]="{ 'dp-none': !(isItemActive && isContainerActive) }">
       <i class="fas fa-grip-horizontal" title="Taşı"></i>
-      <i class="fas fa-undo cursor-p" (click)="setElementNaturalSize()" title="İlk boyutuna döndür"></i>
+      <img
+        src="../../../../assets/icons/orginal-size-icon.png"
+        class="fas fa-undo cursor-p"
+        (click)="setElementNaturalSize()"
+        title="İlk boyutuna döndür"
+      />
       <img
         src="../../../../assets/layer-512.png"
         class="element-highlight"
