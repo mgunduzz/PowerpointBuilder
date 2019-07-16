@@ -1,11 +1,24 @@
-<div *ngIf="element.shapeType == shapeType.line">
-  <span>
-    line
-  </span>
-</div>
+<!-- <div style="position: relative;">
+    <div  class="left-arrow right-arrow"
+    *ngIf="element.shapeType == shapeType.line"
+     [ngClass]="{'left-arrow':(element.isLineArrow && element.arrowDirection=='left') ,'right-arrow':(element.isLineArrow && element.arrowDirection=='right')}"
+     [style.border-bottom]="borderSettings"
+     [style.rotate]="element.rotate">
+      <span 
+      [style.color]="element.color"
+      [style.text-align]="element.textAlign"
+      [style.font-size]="element.textFontSize"
+    
+       *ngIf="element.isShowText">
+        {{element.text}}
+      </span>
+    </div>
+    
+    <div *ngIf="element.shapeType == shapeType.square">
+      <span>
+        square
+      </span>
+    </div>
+</div> -->
 
-<div *ngIf="element.shapeType == shapeType.square">
-  <span>
-    square
-  </span>
-</div>
+<canvas id="myCanvas" width="400" height="400"></canvas>

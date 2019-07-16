@@ -233,9 +233,9 @@ export class PPtBuilderService {
   }
 
   lineShapeElementFormat(chartEl: PptShapeElementModel) {
-    chartEl.lineSize = 0;
+    chartEl.lineSize = 1;
     chartEl.isLineArrow = true;
-    chartEl.lineStyle = '';
+    chartEl.lineStyle = 'solid';
     chartEl.shapeType = ShapeTypeEnum.line;
 
     return chartEl;
@@ -250,12 +250,12 @@ export class PPtBuilderService {
     chartEl.isActive = false;
     chartEl.rotate = 0;
     chartEl.radius = 0;
-    chartEl.arrowDirection = 'false';
-    chartEl.color = 'false';
+    chartEl.arrowDirection = 'none';
+    chartEl.color = 'black';
     chartEl.isShowText = false;
-    chartEl.textAlign = 'false';
-    chartEl.textFontSize = 0;
-    chartEl.text = 'false';
+    chartEl.textAlign = 'center';
+    chartEl.textFontSize = 10;
+    chartEl.text = 'Test Metin';
 
     if (type == ShapeTypeEnum.line) {
       chartEl = this.lineShapeElementFormat(chartEl);

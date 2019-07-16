@@ -180,6 +180,94 @@
         >
         </ppt-radio-button-input>
       </div>
+
+      <!-- shape -->
+      <div class="row row-margin" *ngIf="element.format.formatInputs.rotate">
+        <ppt-number-input [input]="element.format.formatInputs.rotate" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.lineSize">
+        <ppt-number-input [input]="element.format.formatInputs.lineSize" (onValuechange)="onInputValuechange($event)">
+        </ppt-number-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.lineStyle">
+        <ppt-dropdown-input
+          [input]="element.format.formatInputs.lineStyle"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-dropdown-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.isLineArrow">
+        <ppt-checkbox-input
+          [input]="element.format.formatInputs.isLineArrow"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-checkbox-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.arrowDirection">
+        <ppt-dropdown-input
+          [input]="element.format.formatInputs.arrowDirection"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-dropdown-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.isShowText">
+        <ppt-checkbox-input
+          [input]="element.format.formatInputs.isShowText"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-checkbox-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.textFontSize">
+        <ppt-number-input
+          [input]="element.format.formatInputs.textFontSize"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.text">
+        <ppt-text-input [input]="element.format.formatInputs.text" (onValuechange)="onInputValuechange($event)">
+        </ppt-text-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.shapeBorder">
+        <ppt-checkbox-input
+          [input]="element.format.formatInputs.shapeBorder"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-checkbox-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.shapeBorderColor">
+        <ppt-color-picker-input
+          [input]="element.format.formatInputs.shapeBorderColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.shapeBorderSize">
+        <ppt-number-input
+          [input]="element.format.formatInputs.shapeBorderSize"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.shapeBorderStyle">
+        <ppt-dropdown-input
+          [input]="element.format.formatInputs.shapeBorderStyle"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-dropdown-input>
+      </div>
     </div>
 
     <!-- <div class="format-block">

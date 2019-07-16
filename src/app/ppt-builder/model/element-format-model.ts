@@ -532,12 +532,13 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     arrowDirectionList.push({ key: 1, value: 'Sol' });
     arrowDirectionList.push({ key: 2, value: 'Sağ' });
     arrowDirectionList.push({ key: 3, value: 'Sol-Sağ' });
+    arrowDirectionList.push({ key: 4, value: 'Yok' });
 
     let arrowDirection: FormatDropdownInputModel = {
       inputId: PPtFormatInputsEnum.arrowDirection,
       name: 'Arrow Direction',
       inputType: PPtElementFormatInputTypeEnum.dropdown,
-      selectedItemKey: 1,
+      selectedItemKey: 0,
       value: arrowDirectionList,
       position: 'bottom',
       autoClose: true,
@@ -552,7 +553,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.lineStyle,
       name: 'Line Style',
       inputType: PPtElementFormatInputTypeEnum.dropdown,
-      selectedItemKey: 1,
+      selectedItemKey: 2,
       value: lineStyleList,
       position: 'bottom',
       autoClose: true,
@@ -579,7 +580,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.lineSize,
       name: 'lineSize',
       inputType: PPtElementFormatInputTypeEnum.number,
-      value: 0,
+      value: 1,
       min: 0,
       max: 100
     };
