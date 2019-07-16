@@ -1,7 +1,6 @@
 <div #insideElement class="el-box" [style.text-align]="element.textAlign">
   <pre
     [hidden]="!showText"
-    class="text-element"
     [style.background-color]="element.backgroundColor"
     [style.font-size]="element.fontSize"
     [style.font-family]="element.font"
@@ -13,9 +12,12 @@
     (click)="showEditableText(); $event.stopPropagation()"
     [innerHTML]="element.text"
     class="text-margin"
+    [style.border]="element.stroke"
+    [style.paddingLeft]="element.indent"
+    id="element1"
   ></pre>
 
-  <div
+  <pre
     [style.background-color]="element.backgroundColor"
     [style.font-size]="element.fontSize"
     [style.font-family]="element.font"
@@ -28,6 +30,7 @@
     contenteditable="true"
     [(ngModel)]="element.text"
     (ngModelChange)="elementTextChanged()"
-    class="text-margin"
-  ></div>
+    class="text-margin text-element"
+    [style.paddingLeft]="element.indent"
+  ></pre>
 </div>

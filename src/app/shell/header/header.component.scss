@@ -102,3 +102,26 @@
 .language-dropdown {
   color: #000;
 }
+
+.undo-redo-div {
+  .icon-button {
+    padding: 1px 4px;
+    font-size: 14px;
+
+    &:first-child {
+      margin-left: 10px;
+    }
+
+    &:hover {
+      background: #ebeef1;
+      box-shadow: unset !important;
+      transition: all 0.2s linear;
+    }
+
+    &:focus {
+      background: #ebeef1;
+      transition: all 0.2s linear;
+      box-shadow: unset !important;
+    }
+  }
+}

@@ -19,10 +19,10 @@
     <i class="far fa-chart-bar tools-icon"></i>
     <small class="tools-box-text">Chart</small>
   </div>
-  <div class="tools-box">
+  <!-- <div class="tools-box">
     <i class="fas fa-film tools-icon"></i>
     <small class="tools-box-text">Media</small>
-  </div>
+  </div> -->
 
   <div class="tools-box box-export" (click)="onExport()">
     <i class="fas fa-file-export tools-icon"></i>
@@ -320,7 +320,7 @@
 
 <ng-template #tableContent let-modal>
   <div class="modal-body">
-    <div class="table-box-list" (mouseleave)="onTableBoxOver()">
+    <div class="table-box-list">
       <div
         class="box"
         (click)="onBoxClick(box)"

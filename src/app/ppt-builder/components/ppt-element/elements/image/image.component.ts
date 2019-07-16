@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
-import { PptImageElementModel } from '@app/ppt-builder/model';
+import { PptImageElementModel, FormatChangeModel } from '@app/ppt-builder/model';
 declare var $: any;
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -47,20 +47,28 @@ export class ImageComponent implements OnInit, AfterViewInit {
           _this.element.format.formatInputs.height = _this.element.format.formatInputs.naturalHeight;
         }
 
-        _this.element.onFormatChange.next(_this.element.format.formatInputs.width);
-        _this.element.onFormatChange.next(_this.element.format.formatInputs.height);
+        _this.element.onFormatChange.next([
+          {
+            formatInput: _this.element.format.formatInputs.width,
+            updateComponent: true
+          },
+          {
+            formatInput: _this.element.format.formatInputs.height,
+            updateComponent: true
+          }
+        ]);
 
         $('#img-example').remove();
       });
   }
 
   // ngAfterViewInit(){
-  //   debugger;
+  //
   //     let _this = this;
   //     var img = $('#img-'+_this.element.id)[0];
   //     $('.image-box').prepend('<img id="theImg" />')
   //      .attr("src", $(img).attr("src")).on('load',function() {
-  //        debugger;
+  //
   //       _this.element.naturalWidth = this.width;
   //       _this.element.naturalHeight = this.height;
   //     })

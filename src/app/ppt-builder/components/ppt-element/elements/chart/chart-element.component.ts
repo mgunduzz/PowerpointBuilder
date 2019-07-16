@@ -33,56 +33,58 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {}
 
   ngOnInit() {
-    this.element.onFormatChange.subscribe(res => {
-      var formatInput = res as FormatCheckboxInputModel;
-      var formatNumberInput = res as FormatNumberInputModel;
-      let chartRef = this.myChart as any;
+    this.element.onFormatChange.subscribe(changeResponse => {
+      changeResponse.forEach(res => {
+        var formatInput = res.formatInput as FormatCheckboxInputModel;
+        var formatNumberInput = res.formatInput as FormatNumberInputModel;
+        let chartRef = this.myChart as any;
 
-      if (formatInput.inputId == PPtFormatInputsEnum.legend) {
-        chartRef.options.legend.display = formatInput.value;
-      } else if (formatInput.inputId == PPtFormatInputsEnum.title) {
-        chartRef.options.title.display = formatInput.value;
-      } else if (formatInput.inputId == PPtFormatInputsEnum.value) {
-        chartRef.options.plugins.datalabels.display = formatInput.value;
-      }
+        if (formatInput.inputId == PPtFormatInputsEnum.legend) {
+          chartRef.options.legend.display = formatInput.value;
+        } else if (formatInput.inputId == PPtFormatInputsEnum.title) {
+          chartRef.options.title.display = formatInput.value;
+        } else if (formatInput.inputId == PPtFormatInputsEnum.value) {
+          chartRef.options.plugins.datalabels.display = formatInput.value;
+        }
 
-      if (this.element.format instanceof ColumnChartFormatModel) {
-        if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-          chartRef.options.scales.xAxes[0].categoryPercentage =
-            (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
-            0.1 -
-            formatNumberInput.value;
-        } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-          chartRef.options.scales.xAxes[0].barPercentage =
-            (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
-            0.1 -
-            formatNumberInput.value;
+        if (this.element.format instanceof ColumnChartFormatModel) {
+          if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+            chartRef.options.scales.xAxes[0].categoryPercentage =
+              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+              0.1 -
+              formatNumberInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+            chartRef.options.scales.xAxes[0].barPercentage =
+              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+              0.1 -
+              formatNumberInput.value;
+          }
+        } else if (this.element.format instanceof BarChartFormatModel) {
+          if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+            chartRef.options.scales.yAxes[0].categoryPercentage =
+              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+              0.1 -
+              formatNumberInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+            chartRef.options.scales.yAxes[0].barPercentage =
+              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+              0.1 -
+              formatNumberInput.value;
+          }
+        } else if (this.element.format instanceof PieChartFormatModel) {
+          if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+            chartRef.options.rotation = formatNumberInput.value;
+          }
+        } else if (this.element.format instanceof DoughnutChartFormatModel) {
+          if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+            chartRef.options.rotation = formatNumberInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
+            chartRef.options.cutoutPercentage = formatNumberInput.value;
+          }
         }
-      } else if (this.element.format instanceof BarChartFormatModel) {
-        if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-          chartRef.options.scales.yAxes[0].categoryPercentage =
-            (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
-            0.1 -
-            formatNumberInput.value;
-        } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-          chartRef.options.scales.yAxes[0].barPercentage =
-            (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
-            0.1 -
-            formatNumberInput.value;
-        }
-      } else if (this.element.format instanceof PieChartFormatModel) {
-        if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
-          chartRef.options.rotation = formatNumberInput.value;
-        }
-      } else if (this.element.format instanceof DoughnutChartFormatModel) {
-        if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
-          chartRef.options.rotation = formatNumberInput.value;
-        } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
-          chartRef.options.cutoutPercentage = formatNumberInput.value;
-        }
-      }
 
-      this.myChart.update();
+        this.myChart.update();
+      });
     });
 
     let chartType = this.element.chartType;

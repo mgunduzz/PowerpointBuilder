@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService, CredentialsService, I18nService } from '@app/core';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
+import { PPtBuilderService } from '@app/ppt-builder/service';
 
 @Component({
   selector: 'app-header',
@@ -32,10 +33,19 @@ export class HeaderComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private credentialsService: CredentialsService,
     private i18nService: I18nService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private pptBuilderService: PPtBuilderService
   ) {}
 
   ngOnInit() {}
+
+  undoChanges() {
+    this.pptBuilderService.undoActiveSlideFormatChange();
+  }
+
+  redoChanges() {
+    this.pptBuilderService.redoActiveSlideFormatChange();
+  }
 
   toggleMenu() {
     this.menuHidden = !this.menuHidden;

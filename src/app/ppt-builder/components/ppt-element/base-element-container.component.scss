@@ -4,6 +4,12 @@
   &.active {
     border: 1px dashed;
   }
+
+  // border: 5px dashed transparent;
+
+  // &.active {
+  //   border-color: black !important;
+  // }
 }
 
 .auto-width {
@@ -24,8 +30,8 @@
   color: #a3a3a3;
   position: absolute;
   left: 20px;
-  font-size: 12px;
-  top: 2px;
+  height: 13px;
+  top: 1px;
 }
 
 .fa-grip-horizontal {
@@ -62,6 +68,6 @@
   position: relative;
 }
 
-::ng-deep.ui-resizable-handle {
-  background-color: white !important;
-}
+// ::ng-deep.ui-resizable-handle {
+//   // background-color: white !important;
+// }

@@ -77,7 +77,7 @@ export class PptElementModel implements PptxGenerator {
 
   constructor(el?: PptElementModel) {
     this.format = new BaseElementFormatModel();
-    this.onFormatChange = new Subject<BaseFormatInputModel>();
+    this.onFormatChange = new Subject<Array<FormatChangeModel>>();
 
     if (el) {
       this.format = el.format;
@@ -87,12 +87,18 @@ export class PptElementModel implements PptxGenerator {
   type: PPtElementEnum;
   name: string;
   format: BaseElementFormatModel;
-  onFormatChange: Subject<BaseFormatInputModel>;
+  onFormatChange: Subject<Array<FormatChangeModel>>;
   isActiveElement: boolean;
   id: number;
   isActive: boolean;
   z: number = 0;
   options?: any;
+}
+
+export class FormatChangeModel {
+  formatInput: BaseFormatInputModel;
+  updateComponent?: boolean = false;
+  addToHistory?: boolean = false;
 }
 
 export class PptChartElementModel extends PptElementModel {
@@ -305,6 +311,9 @@ export class PptTextElementModel extends PptElementModel {
   radius: string;
   width: string;
   textAlign: string;
+  stroke: string;
+  indent: string;
+  firstLineIndent: string;
 
   generatePptxItem(pptx: any, slide: any) {
     super.generatePptxItem(pptx, slide);
@@ -320,6 +329,9 @@ export class PptTextElementModel extends PptElementModel {
     pptxTextItem.options.rectRadius = this.radius;
     pptxTextItem.options.italic = this.fontStyle == 'italic';
     pptxTextItem.options.bold = this.fontWeigth == 600;
+    pptxTextItem.options.stroke = this.stroke == 'unset !important';
+    pptxTextItem.options.indent = this.indent == 'unset';
+    pptxTextItem.options.firstLineIndent = this.firstLineIndent == 'unset';
 
     let align = textFormat.formatInputs.textAlign.value.find(item => item.selected).key;
 

@@ -20,7 +20,8 @@ import {
   PptElementModel,
   FormatNumberInputModel,
   PPtFormatInputsEnum,
-  BaseFormatInputModel
+  BaseFormatInputModel,
+  FormatChangeModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
@@ -63,39 +64,30 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.elementTypes.SHAPE = PPtElementEnum.Shape;
   }
 
-  dragEnded(event: CdkDragEnd) {
-    this.newPositionX = this.newPositionXTemp;
-    this.newPositionY = this.newPositionYTemp;
-
-    this.pPtBuilderService.setSlidePreview();
-  }
-
-  dragMoved(event: CdkDragMove) {
-    var childPos = $('#box-' + this.element.id).offset();
-    var parentPos = $('#box-' + this.element.id)
-      .closest('.element-list-container')
-      .offset();
-
-    if (childPos && parentPos) {
-      let x = +(childPos.left - parentPos.left).toFixed(0);
-      let y = +(childPos.top - parentPos.top).toFixed(0);
-
-      this.element.format.formatInputs.x.value = x;
-      this.element.format.formatInputs.y.value = y;
-    }
-  }
-
   ngOnInit() {
-    // this.element.onFormatChange.subscribe(res => {
-    //   this.updateFormats(res);
-    // });
+    this.element.onFormatChange.subscribe(res => {
+      let historyInputs = Array<BaseFormatInputModel>();
+
+      res.forEach(item => {
+        if (item.updateComponent) {
+          this.updateFormats(item.formatInput);
+        }
+
+        if (item.addToHistory) historyInputs.push(item.formatInput);
+
+        // console.log('elementFormatChange ' + res.formatInput.name + ' : ' + (res.formatInput as any).value);
+      });
+
+      if (historyInputs.length > 0)
+        this.pPtBuilderService.setFormatInputChangeToActiveSlideHistory(this.element.id, historyInputs);
+    });
 
     let _this = this;
 
     // this.updateFormats(this.element.format.formatInputs.x);
     // this.updateFormats(this.element.format.formatInputs.y);
-    this.updateFormats(this.element.format.formatInputs.width);
-    this.updateFormats(this.element.format.formatInputs.height);
+    // this.updateFormats(this.element.format.formatInputs.width);
+    // this.updateFormats(this.element.format.formatInputs.height);
   }
 
   updateContainerPosition(x: number, y: number) {}
@@ -113,6 +105,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
     switch (formatInput.inputId) {
       case PPtFormatInputsEnum.x:
+        this.element.format.formatInputs.x.value = numberInput.value;
         var results = this.getElementTransform('#box-' + this.element.id);
 
         if (results) {
@@ -123,6 +116,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         }
         break;
       case PPtFormatInputsEnum.y:
+        this.element.format.formatInputs.y.value = numberInput.value;
+
         var results = this.getElementTransform('#box-' + this.element.id);
 
         if (results) {
@@ -160,8 +155,24 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         let width = ui.size.width;
         let height = ui.size.height;
 
+        _this.element.format.formatInputs.width.oldValue = _this.element.format.formatInputs.width.value;
+        _this.element.format.formatInputs.height.oldValue = _this.element.format.formatInputs.height.value;
+
         _this.element.format.formatInputs.width.value = width;
         _this.element.format.formatInputs.height.value = height;
+
+        _this.element.onFormatChange.next([
+          {
+            formatInput: _this.element.format.formatInputs.width,
+            updateComponent: false,
+            addToHistory: true
+          },
+          {
+            formatInput: _this.element.format.formatInputs.height,
+            updateComponent: false,
+            addToHistory: true
+          }
+        ]);
 
         _this.pPtBuilderService.setSlidePreview();
       }
@@ -176,6 +187,44 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
       this.pPtBuilderService.setSlidePreview();
     }, 1000);
   }
+
+  dragEnded(event: CdkDragEnd) {
+    this.newPositionX = this.newPositionXTemp;
+    this.newPositionY = this.newPositionYTemp;
+
+    var childPos = $('#box-' + this.element.id).offset();
+    var parentPos = $('#box-' + this.element.id)
+      .closest('.element-list-container')
+      .offset();
+
+    if (childPos && parentPos) {
+      let x = +(childPos.left - parentPos.left).toFixed(0);
+      let y = +(childPos.top - parentPos.top).toFixed(0);
+
+      this.element.format.formatInputs.x.oldValue = this.element.format.formatInputs.x.value;
+      this.element.format.formatInputs.y.oldValue = this.element.format.formatInputs.y.value;
+
+      this.element.format.formatInputs.x.value = x;
+      this.element.format.formatInputs.y.value = y;
+
+      this.element.onFormatChange.next([
+        {
+          formatInput: this.element.format.formatInputs.x,
+          updateComponent: false,
+          addToHistory: true
+        },
+        {
+          formatInput: this.element.format.formatInputs.y,
+          updateComponent: false,
+          addToHistory: true
+        }
+      ]);
+    }
+
+    this.pPtBuilderService.setSlidePreview();
+  }
+
+  dragMoved(event: CdkDragMove) {}
 
   elementResized() {}
 
