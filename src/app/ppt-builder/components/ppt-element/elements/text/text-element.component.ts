@@ -6,7 +6,8 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  AfterViewInit
 } from '@angular/core';
 import {
   PptElementModel,
@@ -23,7 +24,7 @@ import {
 import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
-
+declare var $: any;
 @Component({
   selector: 'ppt-text-element',
   templateUrl: './text-element.component.html',
@@ -33,7 +34,6 @@ import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 export class TextElement implements OnInit, OnDestroy {
   showText: boolean = true;
   @Input('element') element: PptTextElementModel;
-  asd: boolean = false;
 
   @ViewChild('insideElement') insideElement: ElementRef;
   @HostListener('document:click', ['$event.target'])
@@ -138,9 +138,8 @@ export class TextElement implements OnInit, OnDestroy {
         }
       });
     });
-
-    console.log(this.element);
   }
+
   ngOnDestroy() {}
 
   showEditableText() {

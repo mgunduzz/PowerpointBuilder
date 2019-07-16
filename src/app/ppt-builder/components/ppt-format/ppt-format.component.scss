@@ -43,12 +43,20 @@
   }
 
   .dropdown {
-    margin-left: 20px;
+    margin-left: auto;
+  }
+
+  .dropdown-menu {
+    left: -48px !important;
   }
 
   .dropdown-toggle {
-    background-color: #b3b3b3;
     font-size: 10px;
+    box-shadow: unset !important;
+  }
+
+  .dropdown-item {
+    font-size: 12px;
   }
 
   .y-center {
@@ -93,4 +101,13 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
+}
+.d-flex {
+  height: 40px;
+  .row-margin {
+    margin-right: 15px;
+  }
+}
+.form-check-label {
+  align-items: center;
 }

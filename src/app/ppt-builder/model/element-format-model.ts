@@ -61,7 +61,8 @@ export enum PPtFormatInputsEnum {
   naturalHeight,
   isStroke,
   strokeColor,
-  textIndent
+  textIndent,
+  firstLineIndent
 }
 
 export class BaseFormatInputModel {
@@ -136,6 +137,7 @@ export class FormatInputsModel {
   isStroke: FormatCheckboxInputModel;
   strokeColor: FormatColorPickerInputModel;
   textIndent: FormatNumberInputModel;
+  firstLineIndent: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -242,7 +244,7 @@ export class TextFormatModel extends BaseElementFormatModel {
     textAlignList.push({
       disabled: false,
       icon: 'fas fa-align-left',
-      isText: true,
+      isText: false,
       value: 'Sol',
       key: 1,
       selected: true,
@@ -251,7 +253,7 @@ export class TextFormatModel extends BaseElementFormatModel {
     textAlignList.push({
       disabled: false,
       icon: 'fas fa-align-center',
-      isText: true,
+      isText: false,
       value: 'Orta',
       key: 2,
       selected: false,
@@ -307,6 +309,14 @@ export class TextFormatModel extends BaseElementFormatModel {
     let textIndent: FormatNumberInputModel = {
       inputId: PPtFormatInputsEnum.textIndent,
       name: 'Text Indent',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      max: 100,
+      min: 0
+    };
+    let firstLineIndent: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.firstLineIndent,
+      name: 'First Line Indent',
       inputType: PPtElementFormatInputTypeEnum.number,
       value: 0,
       max: 100,
@@ -372,6 +382,7 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.isStroke = isStroke;
     this.formatInputs.strokeColor = strokeColor;
     this.formatInputs.textIndent = textIndent;
+    this.formatInputs.firstLineIndent = firstLineIndent;
   }
 }
 

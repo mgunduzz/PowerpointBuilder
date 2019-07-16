@@ -2,26 +2,31 @@
   <div class="format-input-div">
     <span class="text"> {{ formatInput.name }} </span>
   </div>
-
-  <div class="custom-control custom-radio" *ngFor="let item of formatInput.value">
-    <input
-      type="radio"
-      id="{{ item.key + '_' + generatedId }}"
-      class="custom-control-input"
-      value="{{ item.value }}"
-      [(ngModel)]="selectedItem"
-    />
-    <label
-      placement="top"
-      ngbTooltip="item.tooltip"
-      (click)="setselectedItem(item)"
-      class="custom-control-label"
-      id="{{ item.key + '_' + generatedId }}"
-    >
-      <span class="text-radio" *ngIf="item.isText">
-        {{ item.value }}
-      </span>
-      <i *ngIf="!item.isText" class="{{ 'fa ' + item.icon }}"></i>
-    </label>
+  <div
+    style="    display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;"
+  >
+    <div class="custom-control custom-radio" *ngFor="let item of formatInput.value">
+      <input
+        type="radio"
+        id="{{ item.key + '_' + generatedId }}"
+        class="custom-control-input"
+        value="{{ item.value }}"
+        [(ngModel)]="selectedItem"
+      />
+      <label
+        placement="top"
+        ngbTooltip="item.tooltip"
+        (click)="setselectedItem(item)"
+        class="custom-control-label"
+        id="{{ item.key + '_' + generatedId }}"
+      >
+        <span class="text-radio" *ngIf="item.isText">
+          {{ item.value }}
+        </span>
+        <i *ngIf="!item.isText" class="{{ 'fa ' + item.icon }}"></i>
+      </label>
+    </div>
   </div>
 </div>
