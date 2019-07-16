@@ -155,9 +155,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         let width = ui.size.width;
         let height = ui.size.height;
 
-        _this.element.format.formatInputs.width.oldValue = _this.element.format.formatInputs.width.value;
-        _this.element.format.formatInputs.height.oldValue = _this.element.format.formatInputs.height.value;
-
         _this.element.format.formatInputs.width.value = width;
         _this.element.format.formatInputs.height.value = height;
 
@@ -200,9 +197,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     if (childPos && parentPos) {
       let x = +(childPos.left - parentPos.left).toFixed(0);
       let y = +(childPos.top - parentPos.top).toFixed(0);
-
-      this.element.format.formatInputs.x.oldValue = this.element.format.formatInputs.x.value;
-      this.element.format.formatInputs.y.oldValue = this.element.format.formatInputs.y.value;
 
       this.element.format.formatInputs.x.value = x;
       this.element.format.formatInputs.y.value = y;

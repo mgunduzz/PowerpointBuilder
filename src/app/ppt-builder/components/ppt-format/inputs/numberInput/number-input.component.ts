@@ -30,7 +30,6 @@ export class PptNumberInput implements OnInit {
   }
 
   onValueChange(ev: any) {
-    this.formatInput.oldValue = this.formatInput.value;
     this.formatInput.value = ev;
     this.onValuechange.emit(this.formatInput);
   }
