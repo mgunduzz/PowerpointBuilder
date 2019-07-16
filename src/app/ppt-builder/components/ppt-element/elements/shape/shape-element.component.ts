@@ -36,107 +36,48 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
     this.shapeType.square = ShapeTypeEnum.square;
     this.borderSettings = '1px solid black';
 
-    this.element.onFormatChange.subscribe((res: any) => {
-      let textInput = res as FormatTextInputModel;
-      let dropdown = res as FormatDropdownInputModel;
-      let checkbox = res as FormatCheckboxInputModel;
-      let numberInput = res as FormatNumberInputModel;
-      let colorPickerInput = res as FormatColorPickerInputModel;
+    this.element.onFormatChange.subscribe(response => {
       let selectedItem: any = {};
-      switch (res.inputId) {
-        case PPtFormatInputsEnum.color:
-          this.element.color = textInput.value;
-          this.drawArrow(
-            this.ctx,
-            0,
-            50,
-            this.element.format.formatInputs.width.value,
-            50,
-            1,
-            0,
-            20,
-            10,
-            this.element.color,
-            4
-          );
-          break;
-        case PPtFormatInputsEnum.lineStyle:
-          selectedItem = dropdown.value.find(o => o.key == dropdown.selectedItemKey);
-          this.borderSettings = this.element.lineSize + 'px ' + selectedItem.value + ' ' + this.element.color;
-          break;
-        case PPtFormatInputsEnum.lineSize:
-          this.borderSettings = numberInput.value + 'px ' + this.element.lineStyle + ' ' + this.element.color;
-          break;
-        case PPtFormatInputsEnum.isLineArrow:
-          this.element.isLineArrow = checkbox.value;
-          if (this.element.isLineArrow)
-            this.drawArrow(
-              this.ctx,
-              0,
-              50,
-              this.element.format.formatInputs.width.value,
-              50,
-              1,
-              3,
-              20,
-              10,
-              this.element.color,
-              4
-            );
-          else
-            this.drawArrow(
-              this.ctx,
-              0,
-              50,
-              this.element.format.formatInputs.width.value,
-              50,
-              1,
-              0,
-              20,
-              10,
-              this.element.color,
-              4
-            );
+      response.forEach((resItem: any) => {
+        let res = resItem.formatInput;
+        let textInput = res as FormatTextInputModel;
+        let dropdown = res as FormatDropdownInputModel;
+        let checkbox = res as FormatCheckboxInputModel;
+        let numberInput = res as FormatNumberInputModel;
+        let colorPickerInput = res as FormatColorPickerInputModel;
 
-          break;
-        case PPtFormatInputsEnum.arrowDirection:
-          if (this.element.isLineArrow) {
+        switch (res.inputId) {
+          case PPtFormatInputsEnum.color:
+            this.element.color = textInput.value;
+            this.drawArrow(
+              this.ctx,
+              0,
+              50,
+              this.element.format.formatInputs.width.value,
+              50,
+              1,
+              0,
+              20,
+              10,
+              this.element.color,
+              4
+            );
+            break;
+          case PPtFormatInputsEnum.lineStyle:
             selectedItem = dropdown.value.find(o => o.key == dropdown.selectedItemKey);
-            debugger;
-            if (selectedItem.key == 1) {
+            this.borderSettings = this.element.lineSize + 'px ' + selectedItem.value + ' ' + this.element.color;
+            break;
+          case PPtFormatInputsEnum.lineSize:
+            this.borderSettings = numberInput.value + 'px ' + this.element.lineStyle + ' ' + this.element.color;
+            break;
+          case PPtFormatInputsEnum.isLineArrow:
+            this.element.isLineArrow = checkbox.value;
+            if (this.element.isLineArrow)
               this.drawArrow(
                 this.ctx,
-                10,
+                0,
                 50,
-                this.element.format.formatInputs.width.value - 10,
-                50,
-                1,
-                1,
-                20,
-                10,
-                this.element.color,
-                4
-              );
-            } else if (selectedItem.key == 2) {
-              this.drawArrow(
-                this.ctx,
-                1,
-                50,
-                this.element.format.formatInputs.width.value - 10,
-                50,
-                1,
-                2,
-                20,
-                10,
-                this.element.color,
-                4
-              );
-            } else if (selectedItem.key == 3) {
-              this.drawArrow(
-                this.ctx,
-                10,
-                50,
-                this.element.format.formatInputs.width.value - 10,
+                this.element.format.formatInputs.width.value,
                 50,
                 1,
                 3,
@@ -145,7 +86,7 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
                 this.element.color,
                 4
               );
-            } else {
+            else
               this.drawArrow(
                 this.ctx,
                 0,
@@ -159,12 +100,75 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
                 this.element.color,
                 4
               );
+
+            break;
+          case PPtFormatInputsEnum.arrowDirection:
+            if (this.element.isLineArrow) {
+              selectedItem = dropdown.value.find(o => o.key == dropdown.selectedItemKey);
+              debugger;
+              if (selectedItem.key == 1) {
+                this.drawArrow(
+                  this.ctx,
+                  10,
+                  50,
+                  this.element.format.formatInputs.width.value - 10,
+                  50,
+                  1,
+                  1,
+                  20,
+                  10,
+                  this.element.color,
+                  4
+                );
+              } else if (selectedItem.key == 2) {
+                this.drawArrow(
+                  this.ctx,
+                  1,
+                  50,
+                  this.element.format.formatInputs.width.value - 10,
+                  50,
+                  1,
+                  2,
+                  20,
+                  10,
+                  this.element.color,
+                  4
+                );
+              } else if (selectedItem.key == 3) {
+                this.drawArrow(
+                  this.ctx,
+                  10,
+                  50,
+                  this.element.format.formatInputs.width.value - 10,
+                  50,
+                  1,
+                  3,
+                  20,
+                  10,
+                  this.element.color,
+                  4
+                );
+              } else {
+                this.drawArrow(
+                  this.ctx,
+                  0,
+                  50,
+                  this.element.format.formatInputs.width.value,
+                  50,
+                  1,
+                  0,
+                  20,
+                  10,
+                  this.element.color,
+                  4
+                );
+              }
             }
-          }
-          break;
-        default:
-          break;
-      }
+            break;
+          default:
+            break;
+        }
+      });
     });
   }
 
@@ -192,9 +196,10 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
     angle: number,
     d: number,
     color: string,
-    width: number
+    width: number,
+    clear: boolean = true
   ) {
-    this.clearCanvas(ctx, this.myCanvas);
+    if (clear) this.clearCanvas(ctx, this.myCanvas);
     if (typeof x1 == 'string') {
       x1 = parseInt(x1);
     }
@@ -353,7 +358,20 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
     this.ctx = this.myCanvas.getContext('2d');
     this.myCanvas.width = this.element.format.formatInputs.width.value;
     this.myCanvas.height = this.element.format.formatInputs.height.value;
-    // this.drawScreen();
+    this.drawArrow(
+      this.ctx,
+      0,
+      50,
+      this.element.format.formatInputs.width.value,
+      50,
+      1,
+      0,
+      20,
+      10,
+      this.element.color,
+      4,
+      false
+    );
   }
   ngOnDestroy() {}
 }
