@@ -166,3 +166,27 @@
   width: 100%;
   padding: 15px;
 }
+
+.tabs {
+  display: flex;
+
+  .tab {
+    width: 50%;
+    text-align: center;
+    padding: 10px 0;
+    border: 0.1px solid #d3d3d3;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:first-of-type {
+      border-right: none;
+    }
+
+    &.active {
+      border-bottom: none !important;
+    }
+  }
+}
+
+.active-tab-content {
+}

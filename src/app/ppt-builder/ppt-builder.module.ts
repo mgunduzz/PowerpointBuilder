@@ -26,6 +26,7 @@ import { PptDropdownInput } from './components/ppt-format/inputs/dropdownInput/d
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PptRadioButtonInput } from './components/ppt-format/inputs/radioButtonInput/radio-button-input.component';
 import { ShapeElement } from './components/ppt-element/elements/shape/shape-element.component';
+import { PptDataCompontent } from './components/ppt-data/ppt-data.component';
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { ShapeElement } from './components/ppt-element/elements/shape/shape-elem
     ImageComponent,
     PptDropdownInput,
     PptRadioButtonInput,
-    ShapeElement
+    ShapeElement,
+    PptDataCompontent
   ],
   exports: [
     BaseElementContainer,
@@ -69,7 +71,8 @@ import { ShapeElement } from './components/ppt-element/elements/shape/shape-elem
     PptColorPickerInput,
     PptDropdownInput,
     PptRadioButtonInput,
-    ShapeElement
+    ShapeElement,
+    PptDataCompontent
   ],
   providers: [PPtBuilderService]
 })

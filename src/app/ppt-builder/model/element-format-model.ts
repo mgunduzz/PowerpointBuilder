@@ -602,7 +602,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
   }
 }
 
-export class ColumnChartFormatModel extends BaseElementFormatModel {
+export class ColumnChartFormatModel extends ChartFormatModel {
   /**
    *
    */
@@ -634,7 +634,7 @@ export class ColumnChartFormatModel extends BaseElementFormatModel {
   }
 }
 
-export class BarChartFormatModel extends BaseElementFormatModel {
+export class BarChartFormatModel extends ChartFormatModel {
   /**
    *
    */
@@ -666,7 +666,16 @@ export class BarChartFormatModel extends BaseElementFormatModel {
   }
 }
 
-export class PieChartFormatModel extends BaseElementFormatModel {
+export class LineChartFormatModel extends ChartFormatModel {
+  /**
+   *
+   */
+  constructor() {
+    super();
+  }
+}
+
+export class PieChartFormatModel extends ChartFormatModel {
   /**
    *
    */
@@ -696,7 +705,7 @@ export class PieChartFormatModel extends BaseElementFormatModel {
   }
 }
 
-export class DoughnutChartFormatModel extends BaseElementFormatModel {
+export class DoughnutChartFormatModel extends ChartFormatModel {
   /**
    *
    */

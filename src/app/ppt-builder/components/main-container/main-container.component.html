@@ -396,6 +396,23 @@
   </div>
 
   <div class="ppt-format-container">
-    <ppt-format></ppt-format>
+    <div class="tabs">
+      <div class="tab" [ngClass]="{ active: !secondTabActive }" (click)="secondTabActive = false">
+        STYLE
+      </div>
+      <div class="tab" [ngClass]="{ active: secondTabActive }" (click)="secondTabActive = true">
+        DATA
+      </div>
+    </div>
+
+    <div class="active-tab-content">
+      <div [hidden]="secondTabActive">
+        <ppt-format></ppt-format>
+      </div>
+
+      <div [hidden]="!secondTabActive">
+        <ppt-data></ppt-data>
+      </div>
+    </div>
   </div>
 </div>

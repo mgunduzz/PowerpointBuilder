@@ -4,19 +4,23 @@ import {
   PptElementModel,
   PPtFormatInputsEnum,
   FormatCheckboxInputModel,
-  PptChartElementModel,
+  PptBaseChartElementModel,
   ChartTypeEnum,
   FormatNumberInputModel,
   ColumnChartFormatModel,
   BarChartFormatModel,
   PieChartFormatModel,
   DoughnutChartFormatModel,
-  AppComponentBase
+  AppComponentBase,
+  PptDefaultChartElementModel,
+  PptDefaultChartDataModel,
+  PptAreaChartElementModel
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
 import { $ } from 'protractor';
 import { PPtBuilderService } from '@app/ppt-builder/service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ppt-chart-element',
@@ -24,16 +28,47 @@ import { PPtBuilderService } from '@app/ppt-builder/service';
   styleUrls: ['./chart-element.component.scss']
 })
 export class ChartElement implements OnInit, OnDestroy, OnChanges {
-  @Input('element') element: PptChartElementModel;
+  @Input('element') element: PptBaseChartElementModel;
   @ViewChild('myChart') myChartElRef: ElementRef;
   myChart: Chart = undefined;
 
   constructor(pPtBuilderService: PPtBuilderService) {}
 
+  onFormatChangeSub: Subscription;
+  onDataChangeSub: Subscription;
+
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {}
 
   ngOnInit() {
-    this.element.onFormatChange.subscribe(changeResponse => {
+    this.onDataChangeSub = this.element.onDataChange.subscribe(data => {
+      if (data) {
+        if (this.element instanceof PptDefaultChartElementModel) {
+          this.element.dataModal = new PptDefaultChartDataModel();
+          this.element.dataModal.labels = data.labels;
+          this.element.dataModal.dataSets = data.dataSets;
+        }
+      }
+
+      if (this.element instanceof PptDefaultChartElementModel) {
+        let chartRef = this.myChart as any;
+
+        chartRef.data = {};
+        chartRef.data.labels = this.element.dataModal.labels;
+        chartRef.data.datasets = this.element.dataModal.dataSets;
+
+        this.myChart.update();
+      } else if (this.element instanceof PptAreaChartElementModel) {
+        let chartRef = this.myChart as any;
+
+        chartRef.data = {};
+        chartRef.data.labels = this.element.dataModal.labels;
+        chartRef.data.datasets = this.element.dataModal.dataSets;
+
+        this.myChart.update();
+      }
+    });
+
+    this.onFormatChangeSub = this.element.onFormatChange.subscribe(changeResponse => {
       changeResponse.forEach(res => {
         var formatInput = res.formatInput as FormatCheckboxInputModel;
         var formatNumberInput = res.formatInput as FormatNumberInputModel;
@@ -160,7 +195,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       }
     };
 
-    let scatterData = [
+    let scatterDataOlumlu = [
       {
         x: 10,
         y: 20
@@ -171,6 +206,21 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       },
       {
         x: 150,
+        y: 200
+      }
+    ];
+
+    let scatterDataOlumsuz = [
+      {
+        x: 30,
+        y: 10
+      },
+      {
+        x: 30,
+        y: 50
+      },
+      {
+        x: 50,
         y: 200
       }
     ];
@@ -245,23 +295,32 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       chartOptions.options.elements.point.radius = 7;
       chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.showLines = false;
-      chartOptions.data.datasets[0].label = 'Scatter Dataset';
-      chartOptions.data.datasets[0].data = scatterData;
+      chartOptions.data.datasets[0].label = 'Olumlu';
+      chartOptions.data.datasets[0].data = scatterDataOlumlu;
+
+      chartOptions.data.datasets[1].label = 'Olumsuz';
+      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
     } else if (chartType == ChartTypeEnum.SmoothMarkedScatter) {
       chartOptions.type = 'scatter';
 
       chartOptions.options.elements.point.radius = 7;
       chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.showLines = true;
-      chartOptions.data.datasets[0].label = 'Scatter Dataset';
-      chartOptions.data.datasets[0].data = scatterData;
+      chartOptions.data.datasets[0].label = 'Olumlu';
+      chartOptions.data.datasets[0].data = scatterDataOlumlu;
+
+      chartOptions.data.datasets[1].label = 'Olumsuz';
+      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
     } else if (chartType == ChartTypeEnum.SmoothLinedScatter) {
       chartOptions.type = 'scatter';
 
       chartOptions.options.elements.point.radius = 0;
       chartOptions.options.showLines = true;
-      chartOptions.data.datasets[0].label = 'Scatter Dataset';
-      chartOptions.data.datasets[0].data = scatterData;
+      chartOptions.data.datasets[0].label = 'Olumlu';
+      chartOptions.data.datasets[0].data = scatterDataOlumlu;
+
+      chartOptions.data.datasets[1].label = 'Olumsuz';
+      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
     } else if (chartType == ChartTypeEnum.StraightMarkedScatter) {
       chartOptions.type = 'scatter';
 
@@ -269,8 +328,11 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       chartOptions.options.showLines = true;
       chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.elements.line.tension = 0;
-      chartOptions.data.datasets[0].label = 'Scatter Dataset';
-      chartOptions.data.datasets[0].data = scatterData;
+      chartOptions.data.datasets[0].label = 'Olumlu';
+      chartOptions.data.datasets[0].data = scatterDataOlumlu;
+
+      chartOptions.data.datasets[1].label = 'Olumsuz';
+      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
     } else if (chartType == ChartTypeEnum.StraightLinedScatter) {
       chartOptions.type = 'scatter';
 
@@ -278,8 +340,11 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.elements.line.tension = 0;
       chartOptions.options.showLines = true;
-      chartOptions.data.datasets[0].label = 'Scatter Dataset';
-      chartOptions.data.datasets[0].data = scatterData;
+      chartOptions.data.datasets[0].label = 'Olumlu';
+      chartOptions.data.datasets[0].data = scatterDataOlumlu;
+
+      chartOptions.data.datasets[1].label = 'Olumsuz';
+      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
     } else if (chartType == ChartTypeEnum.Pie) {
       chartOptions.type = 'pie';
       chartOptions.options.elements.arc.borderWidth = -1;
@@ -359,7 +424,12 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
     }
 
     this.myChart = new Chart(ctx, chartOptions);
+
+    this.element.onDataChange.next();
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.onDataChangeSub.unsubscribe();
+    this.onFormatChangeSub.unsubscribe();
+  }
 }

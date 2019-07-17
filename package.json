@@ -36,6 +36,7 @@
     "@ng-bootstrap/ng-bootstrap": "^4.2.1",
     "@ngx-translate/core": "^11.0.1",
     "@types/chart.js": "^2.7.53",
+    "@types/underscore": "^1.9.2",
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^4.1.1",
     "bootstrap-datepicker": "^1.9.0",
@@ -56,6 +57,7 @@
     "pptxgenjs": "^2.5.0",
     "rxjs": "^6.4.0",
     "stream": "0.0.2",
+    "underscore": "^1.9.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
