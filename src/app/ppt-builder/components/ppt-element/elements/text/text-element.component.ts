@@ -31,7 +31,7 @@ declare var $: any;
   styleUrls: ['./text-element.component.scss'],
   providers: [ContentEditableFormDirective]
 })
-export class TextElement implements OnInit, OnDestroy {
+export class TextElement implements OnInit, AfterViewInit, OnDestroy {
   showText: boolean = true;
   @Input('element') element: PptTextElementModel;
 
@@ -80,6 +80,9 @@ export class TextElement implements OnInit, OnDestroy {
             break;
           case PPtFormatInputsEnum.textIndent:
             this.element.indent = numberInput.value + 'px';
+            break;
+          case PPtFormatInputsEnum.firstLineIndent:
+            this.element.firstLineIndent = numberInput.value + 'px';
             break;
           case PPtFormatInputsEnum.isItalic:
             if (checkbox.value) {
@@ -138,6 +141,15 @@ export class TextElement implements OnInit, OnDestroy {
         }
       });
     });
+  }
+
+  ngAfterViewInit() {
+    // $("#element1")
+    //   .contents()
+    //   .filter(function () {
+    //     return !!$.trim(this.innerHTML || this.data);
+    //   })
+    //   .first().css('margin-left','100px');
   }
 
   ngOnDestroy() {}

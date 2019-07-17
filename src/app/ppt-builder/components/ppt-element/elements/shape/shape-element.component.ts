@@ -27,6 +27,7 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
 
   shapeType: any = {};
   borderSettings: string;
+  isDashed: boolean = false;
   myCanvas: any = {};
   ctx: any;
   constructor() {}
@@ -56,114 +57,93 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
               this.element.format.formatInputs.width.value,
               50,
               1,
-              0,
+              this.element.arrowDirection,
               20,
               10,
               this.element.color,
-              4
+              4,
+              true,
+              this.element.isDashed
             );
-            break;
-          case PPtFormatInputsEnum.lineStyle:
-            selectedItem = dropdown.value.find(o => o.key == dropdown.selectedItemKey);
-            this.borderSettings = this.element.lineSize + 'px ' + selectedItem.value + ' ' + this.element.color;
             break;
           case PPtFormatInputsEnum.lineSize:
             this.borderSettings = numberInput.value + 'px ' + this.element.lineStyle + ' ' + this.element.color;
             break;
           case PPtFormatInputsEnum.isLineArrow:
             this.element.isLineArrow = checkbox.value;
-            if (this.element.isLineArrow)
-              this.drawArrow(
-                this.ctx,
-                0,
-                50,
-                this.element.format.formatInputs.width.value,
-                50,
-                1,
-                3,
-                20,
-                10,
-                this.element.color,
-                4
-              );
-            else
-              this.drawArrow(
-                this.ctx,
-                0,
-                50,
-                this.element.format.formatInputs.width.value,
-                50,
-                1,
-                0,
-                20,
-                10,
-                this.element.color,
-                4
-              );
+            if (this.element.isLineArrow) this.element.arrowDirection = 3;
+            else this.element.arrowDirection = 3;
+
+            this.drawArrow(
+              this.ctx,
+              0,
+              50,
+              this.element.format.formatInputs.width.value,
+              50,
+              1,
+              this.element.arrowDirection,
+              20,
+              10,
+              this.element.color,
+              4,
+              true,
+              this.element.isDashed
+            );
 
             break;
           case PPtFormatInputsEnum.arrowDirection:
             if (this.element.isLineArrow) {
               selectedItem = dropdown.value.find(o => o.key == dropdown.selectedItemKey);
-              debugger;
               if (selectedItem.key == 1) {
-                this.drawArrow(
-                  this.ctx,
-                  10,
-                  50,
-                  this.element.format.formatInputs.width.value - 10,
-                  50,
-                  1,
-                  1,
-                  20,
-                  10,
-                  this.element.color,
-                  4
-                );
+                this.element.arrowDirection = 2;
               } else if (selectedItem.key == 2) {
-                this.drawArrow(
-                  this.ctx,
-                  1,
-                  50,
-                  this.element.format.formatInputs.width.value - 10,
-                  50,
-                  1,
-                  2,
-                  20,
-                  10,
-                  this.element.color,
-                  4
-                );
+                this.element.arrowDirection = 1;
               } else if (selectedItem.key == 3) {
-                this.drawArrow(
-                  this.ctx,
-                  10,
-                  50,
-                  this.element.format.formatInputs.width.value - 10,
-                  50,
-                  1,
-                  3,
-                  20,
-                  10,
-                  this.element.color,
-                  4
-                );
+                this.element.arrowDirection = 3;
               } else {
-                this.drawArrow(
-                  this.ctx,
-                  0,
-                  50,
-                  this.element.format.formatInputs.width.value,
-                  50,
-                  1,
-                  0,
-                  20,
-                  10,
-                  this.element.color,
-                  4
-                );
+                this.element.arrowDirection = 0;
               }
+              this.drawArrow(
+                this.ctx,
+                0,
+                50,
+                this.element.format.formatInputs.width.value,
+                50,
+                1,
+                this.element.arrowDirection,
+                20,
+                10,
+                this.element.color,
+                4,
+                true,
+                this.element.isDashed
+              );
             }
+            break;
+          case PPtFormatInputsEnum.lineStyle:
+            selectedItem = dropdown.value.find(o => o.key == dropdown.selectedItemKey);
+            if (selectedItem.key == 1) {
+              this.element.isDashed = true;
+            } else {
+              this.element.isDashed = false;
+            }
+
+            this.drawArrow(
+              this.ctx,
+              0,
+              50,
+              this.element.format.formatInputs.width.value,
+              50,
+              1,
+              this.element.arrowDirection,
+              20,
+              10,
+              this.element.color,
+              4,
+              true,
+              this.element.isDashed
+            );
+
             break;
           default:
             break;
@@ -197,7 +177,8 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
     d: number,
     color: string,
     width: number,
-    clear: boolean = true
+    clear: boolean = true,
+    isDashed: boolean = false
   ) {
     if (clear) this.clearCanvas(ctx, this.myCanvas);
     if (typeof x1 == 'string') {
@@ -241,6 +222,7 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
     ctx.beginPath();
     ctx.strokeStyle = color;
     ctx.lineWidth = width;
+    if (isDashed) ctx.setLineDash([10, 10]);
     ctx.moveTo(fromx, fromy);
     ctx.lineTo(tox, toy);
     ctx.stroke();
@@ -370,7 +352,8 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
       10,
       this.element.color,
       4,
-      false
+      false,
+      this.element.isDashed
     );
   }
   ngOnDestroy() {}

@@ -242,6 +242,8 @@ export class PPtBuilderService {
     chartEl.isLineArrow = true;
     chartEl.lineStyle = 'solid';
     chartEl.shapeType = ShapeTypeEnum.line;
+    chartEl.arrowDirection = 0;
+    chartEl.isDashed = false;
 
     return chartEl;
   }
@@ -255,7 +257,6 @@ export class PPtBuilderService {
     chartEl.isActive = false;
     chartEl.rotate = 0;
     chartEl.radius = 0;
-    chartEl.arrowDirection = 'none';
     chartEl.color = 'black';
     chartEl.isShowText = false;
     chartEl.textAlign = 'center';
