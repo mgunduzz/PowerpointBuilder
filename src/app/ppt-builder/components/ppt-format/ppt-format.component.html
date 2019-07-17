@@ -159,11 +159,13 @@
         </ppt-number-input>
       </div>
 
-      <!-- <div class="row row-margin" *ngIf="element.format.formatInputs.firstLineIndent">
-        <ppt-number-input [input]="element.format.formatInputs.firstLineIndent"
-          (onValuechange)="onInputValuechange($event)">
+      <div class="row row-margin" *ngIf="element.format.formatInputs.firstLineIndent">
+        <ppt-number-input
+          [input]="element.format.formatInputs.firstLineIndent"
+          (onValuechange)="onInputValuechange($event)"
+        >
         </ppt-number-input>
-      </div> -->
+      </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.value">
         <ppt-checkbox-input [input]="element.format.formatInputs.value" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>
