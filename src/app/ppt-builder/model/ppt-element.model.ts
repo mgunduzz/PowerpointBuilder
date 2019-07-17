@@ -361,7 +361,7 @@ export class PptShapeElementModel extends PptElementModel {
   lineSize: number;
   lineStyle: string;
   isLineArrow: boolean;
-  arrowDirection: string;
+  arrowDirection: number; //2sağ 1sol 3 sağsol 0 yok
   color: string;
   isShowText: boolean;
   textAlign: string;
@@ -371,6 +371,7 @@ export class PptShapeElementModel extends PptElementModel {
   shapeBorderColor: string;
   shapeBorderSize: number;
   shapeBorderStyle: string;
+  isDashed: boolean;
 }
 
 export class PptImageElementModel extends PptElementModel {
