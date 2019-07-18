@@ -35,6 +35,33 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
   ctx: any;
   constructor() {}
 
+  crateArrow() {
+    this.drawArrow(
+      this.ctx,
+      0,
+      30,
+      this.element.lineWidth,
+      30,
+      1,
+      this.element.arrowDirection,
+      20,
+      this.element.arrowSize,
+      this.element.color,
+      this.element.lineSize,
+      true,
+      this.element.isDashed
+    );
+  }
+
+  createBorder() {
+    if (this.element.isShapeBorder) {
+      this.element.shapeBorder =
+        this.element.shapeBorderSize + 'px ' + this.element.shapeBorderStyle + ' ' + this.element.shapeBorderColor;
+    } else {
+      this.element.shapeBorder = 'unset';
+    }
+  }
+
   ngOnInit() {
     this.shapeType.line = ShapeTypeEnum.line;
     this.shapeType.square = ShapeTypeEnum.square;
@@ -51,83 +78,48 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
         let radioButtonInput = res as FormatRadioButtonInputModel;
 
         switch (res.inputId) {
+          case PPtFormatInputsEnum.shapeBorder:
+            this.element.isShapeBorder = checkbox.value;
+            this.createBorder();
+            break;
+          case PPtFormatInputsEnum.shapeBorderColor:
+            this.element.shapeBorderColor = colorPickerInput.value;
+            this.createBorder();
+            break;
+
+          case PPtFormatInputsEnum.shapeBorderSize:
+            this.element.shapeBorderSize = numberInput.value;
+            this.createBorder();
+            break;
+
           case PPtFormatInputsEnum.width:
             this.element.lineWidth = res.value;
-            $('#' + this.element.id).attr('width', res.value);
-            this.drawArrow(
-              this.ctx,
-              0,
-              30,
-              this.element.lineWidth,
-              30,
-              1,
-              this.element.arrowDirection,
-              20,
-              this.element.arrowSize,
-              this.element.color,
-              this.element.lineSize,
-              true,
-              this.element.isDashed
-            );
+
+            if (this.element.shapeType == ShapeTypeEnum.line) {
+              $('#' + this.element.id).attr('width', res.value);
+              this.crateArrow();
+            }
             break;
           case PPtFormatInputsEnum.color:
             this.element.color = colorPickerInput.value;
-            this.drawArrow(
-              this.ctx,
-              0,
-              30,
-              this.element.format.formatInputs.width.value,
-              30,
-              1,
-              this.element.arrowDirection,
-              20,
-              this.element.arrowSize,
-              this.element.color,
-              this.element.lineSize,
-              true,
-              this.element.isDashed
-            );
+            if (this.element.shapeType == ShapeTypeEnum.line) {
+              this.crateArrow();
+            }
             break;
           case PPtFormatInputsEnum.lineSize:
             this.element.lineSize = numberInput.value;
             this.element.arrowSize = numberInput.value / 2 + 5;
-
-            this.drawArrow(
-              this.ctx,
-              0,
-              30,
-              this.element.format.formatInputs.width.value,
-              30,
-              1,
-              this.element.arrowDirection,
-              20,
-              this.element.arrowSize,
-              this.element.color,
-              this.element.lineSize,
-              true,
-              this.element.isDashed
-            );
+            if (this.element.shapeType == ShapeTypeEnum.line) {
+              this.crateArrow();
+            }
             break;
           case PPtFormatInputsEnum.isLineArrow:
             this.element.isLineArrow = checkbox.value;
             if (this.element.isLineArrow) this.element.arrowDirection = 3;
             else this.element.arrowDirection = 0;
-
-            this.drawArrow(
-              this.ctx,
-              0,
-              30,
-              this.element.format.formatInputs.width.value,
-              30,
-              1,
-              this.element.arrowDirection,
-              20,
-              this.element.arrowSize,
-              this.element.color,
-              this.element.lineSize,
-              true,
-              this.element.isDashed
-            );
+            if (this.element.shapeType == ShapeTypeEnum.line) {
+              this.crateArrow();
+            }
 
             break;
           case PPtFormatInputsEnum.arrowDirection:
@@ -142,21 +134,9 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
               } else {
                 this.element.arrowDirection = 0;
               }
-              this.drawArrow(
-                this.ctx,
-                0,
-                30,
-                this.element.format.formatInputs.width.value,
-                30,
-                1,
-                this.element.arrowDirection,
-                20,
-                this.element.arrowSize,
-                this.element.color,
-                this.element.lineSize,
-                true,
-                this.element.isDashed
-              );
+              if (this.element.shapeType == ShapeTypeEnum.line) {
+                this.crateArrow();
+              }
             }
             break;
           case PPtFormatInputsEnum.lineStyle:
@@ -167,21 +147,9 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
               this.element.isDashed = false;
             }
 
-            this.drawArrow(
-              this.ctx,
-              0,
-              30,
-              this.element.format.formatInputs.width.value,
-              30,
-              1,
-              this.element.arrowDirection,
-              20,
-              this.element.arrowSize,
-              this.element.color,
-              this.element.lineSize,
-              true,
-              this.element.isDashed
-            );
+            if (this.element.shapeType == ShapeTypeEnum.line) {
+              this.crateArrow();
+            }
 
             break;
           case PPtFormatInputsEnum.rotate:
@@ -194,7 +162,18 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
             } else if (selectedItem.key == 2) {
               this.element.textAlign = 'center';
             } else {
-              this.element.textAlign = 'end';
+              if (this.element.shapeType == ShapeTypeEnum.line) this.element.textAlign = 'end';
+              else this.element.textAlign = 'flex-end';
+            }
+            break;
+          case PPtFormatInputsEnum.textVerticalAlign:
+            selectedItem = radioButtonInput.value.find(o => o.key == radioButtonInput.selectedItemKey);
+            if (selectedItem.key == 1) {
+              this.element.textVerticalAlign = 'normal';
+            } else if (selectedItem.key == 2) {
+              this.element.textVerticalAlign = 'center';
+            } else {
+              this.element.textVerticalAlign = 'flex-end';
             }
             break;
           case PPtFormatInputsEnum.isShowText:
@@ -202,6 +181,9 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
             break;
           case PPtFormatInputsEnum.fontSize:
             this.element.textFontSize = numberInput.value;
+            break;
+          case PPtFormatInputsEnum.fontColor:
+            this.element.fontColor = colorPickerInput.value;
             break;
           default:
             break;
@@ -394,25 +376,13 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.myCanvas = document.getElementById(this.element.id.toString());
-    this.ctx = this.myCanvas.getContext('2d');
-    this.myCanvas.width = this.element.format.formatInputs.width.value;
-    this.myCanvas.height = this.element.format.formatInputs.height.value;
-    this.drawArrow(
-      this.ctx,
-      0,
-      30,
-      this.element.format.formatInputs.width.value,
-      30,
-      1,
-      0,
-      20,
-      this.element.arrowSize,
-      this.element.color,
-      this.element.lineSize,
-      false,
-      this.element.isDashed
-    );
+    if (this.element.shapeType == ShapeTypeEnum.line) {
+      this.myCanvas = document.getElementById(this.element.id.toString());
+      this.ctx = this.myCanvas.getContext('2d');
+      this.myCanvas.width = this.element.format.formatInputs.width.value;
+      this.myCanvas.height = this.element.format.formatInputs.height.value;
+      this.crateArrow();
+    }
   }
   ngOnDestroy() {}
 }

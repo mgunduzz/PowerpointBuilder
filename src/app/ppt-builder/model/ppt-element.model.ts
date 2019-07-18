@@ -499,6 +499,7 @@ export class PptTextElementModel extends PptElementModel {
 }
 
 export class PptShapeElementModel extends PptElementModel {
+  textVerticalAlign: string;
   shapeType: ShapeTypeEnum;
   rotate: number;
   radius: number;
@@ -511,13 +512,15 @@ export class PptShapeElementModel extends PptElementModel {
   textAlign: string;
   textFontSize: number;
   text: string;
-  shapeBorder: boolean;
+  shapeBorder: string;
   shapeBorderColor: string;
   shapeBorderSize: number;
   shapeBorderStyle: string;
   isDashed: boolean;
   arrowSize: number;
   lineWidth: number;
+  fontColor: string;
+  isShapeBorder: boolean;
 }
 
 export class PptImageElementModel extends PptElementModel {

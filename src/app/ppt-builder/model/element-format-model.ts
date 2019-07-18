@@ -63,7 +63,9 @@ export enum PPtFormatInputsEnum {
   strokeColor,
   textIndent,
   firstLineIndent,
-  shapeBorderStyle
+  shapeBorderStyle,
+  fontColor,
+  textVerticalAlign
 }
 
 export class BaseFormatInputModel {
@@ -138,6 +140,8 @@ export class FormatInputsModel {
   strokeColor: FormatColorPickerInputModel;
   textIndent: FormatNumberInputModel;
   firstLineIndent: FormatNumberInputModel;
+  fontColor: FormatColorPickerInputModel;
+  textVerticalAlign: FormatRadioButtonInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -529,7 +533,43 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       selectedItemKey: 1,
       value: textAlignList
     };
+    let textVerticalAlignList = new Array<RadioButtonInputSettings>();
 
+    textVerticalAlignList.push({
+      disabled: false,
+      icon: 'fas fa-align-left',
+      isText: true,
+      value: 'Yukarıda',
+      key: 1,
+      selected: true,
+      tooltip: 'Sola Yasla'
+    });
+    textVerticalAlignList.push({
+      disabled: false,
+      icon: 'fas fa-align-center',
+      isText: true,
+      value: 'Ortada',
+      key: 2,
+      selected: false,
+      tooltip: 'Ortala'
+    });
+    textVerticalAlignList.push({
+      disabled: false,
+      icon: 'fas fa-align-right',
+      isText: true,
+      value: 'Aşağıda',
+      key: 3,
+      selected: false,
+      tooltip: 'Sağa Yasla'
+    });
+
+    let textVerticalAlign: FormatRadioButtonInputModel = {
+      inputId: PPtFormatInputsEnum.textVerticalAlign,
+      name: 'textVerticalAlign',
+      inputType: PPtElementFormatInputTypeEnum.radio,
+      selectedItemKey: 1,
+      value: textVerticalAlignList
+    };
     let isShowText: FormatCheckboxInputModel = {
       inputId: PPtFormatInputsEnum.isShowText,
       name: 'isShowText',
@@ -540,6 +580,13 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     let color: FormatColorPickerInputModel = {
       inputId: PPtFormatInputsEnum.color,
       name: 'Color',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: 'black'
+    };
+
+    let fontColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.fontColor,
+      name: 'FontColor',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
       value: 'black'
     };
@@ -600,6 +647,8 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     this.formatInputs.shapeBorderColor = shapeBorderColor;
     this.formatInputs.shapeBorderSize = shapeBorderSize;
     this.formatInputs.shapeBorderStyle = shapeBorderStyle;
+    this.formatInputs.fontColor = fontColor;
+    this.formatInputs.textVerticalAlign = textVerticalAlign;
   }
 }
 

@@ -229,10 +229,10 @@ export class PPtBuilderService {
 
   squareShapeElementFormat(chartEl: PptShapeElementModel) {
     chartEl.isLineArrow = false;
-    chartEl.shapeBorder = false;
-    chartEl.shapeBorderColor = 'false';
-    chartEl.shapeBorderSize = 1;
-    chartEl.shapeBorderStyle = 'false';
+    chartEl.shapeBorder = 'unset';
+    chartEl.shapeBorderColor = 'red';
+    chartEl.shapeBorderSize = 2;
+    chartEl.shapeBorderStyle = 'dashed';
     chartEl.shapeType = ShapeTypeEnum.square;
     return chartEl;
   }
