@@ -204,6 +204,9 @@ export class BaseElementFormatModel {
 export class TableFormatModel extends BaseElementFormatModel {
   constructor(format?: BaseElementFormatModel) {
     super(format);
+
+    this.formatInputs.width.value = 900;
+    this.formatInputs.height.value = 400;
   }
 }
 

@@ -440,8 +440,16 @@ export class PptScatterChartElementModel extends PptBaseChartElementModel {
 }
 
 export class PptTableElementModel extends PptElementModel {
+  constructor() {
+    super();
+
+    this.onMergeCells = new Subject<any>();
+  }
+
   row: number;
   col: number;
+
+  onMergeCells = new Subject<any>();
 }
 
 export class PptTextElementModel extends PptElementModel {

@@ -63,6 +63,14 @@
       </div>
     </div>
 
+    <div class="format-block" *ngIf="checkFormatType('TableFormatModel')">
+      <div class="format-title"><span class="format-title-text">Table</span></div>
+
+      <div class="row row-margin">
+        <button (click)="onMergeTableCells()">Merge Cells</button>
+      </div>
+    </div>
+
     <div class="format-block">
       <div class="format-title"><span class="format-title-text">Position and Size</span></div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.x">

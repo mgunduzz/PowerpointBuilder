@@ -8,7 +8,8 @@ import {
   BaseFormatInputModel,
   FormatCheckboxInputModel,
   FormatChangeModel,
-  FormatInputsModel
+  FormatInputsModel,
+  PptTableElementModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -82,6 +83,10 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
 
   checkFormatType(formatType: string) {
     return this.element.format.constructor.name == formatType;
+  }
+
+  onMergeTableCells() {
+    (this.element as PptTableElementModel).onMergeCells.next();
   }
 
   ngOnDestroy() {

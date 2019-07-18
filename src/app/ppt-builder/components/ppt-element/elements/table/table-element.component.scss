@@ -2,11 +2,25 @@
   margin-bottom: unset !important;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
-.table-element {
+.table-cell {
   background-color: rgb(66, 195, 201);
-  margin: 1px;
+  border: 1px solid white;
+  position: absolute;
+
+  &.selected {
+    background-color: #a7a7a7 !important;
+  }
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 .table-row {

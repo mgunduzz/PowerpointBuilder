@@ -5,13 +5,23 @@
     [ngClass]="{ active: element.isActive }"
     (click)="element.isActive = !element.isActive"
   >
-    <div *ngFor="let row of tableBox" class="table-row" [ngStyle]="{ height: 'calc(100%/' + tableBox.length + ')' }">
-      <div
-        *ngFor="let col of row.cols"
-        class="table-element"
-        #tableElement
-        [ngStyle]="{ width: 'calc(100%/' + row.cols.length + ')' }"
-      ></div>
+    <div
+      *ngFor="let col of tableBox"
+      (mousedown)="onTableMouseDown($event, col.rowIndex, col.colIndex)"
+      (mouseover)="onTableMouseMove($event, col.rowIndex, col.colIndex)"
+      (mouseup)="onTableMouseUp($event, col.rowIndex, col.colIndex)"
+      class="table-cell"
+      id="cell-{{ col.rowIndex }}-{{ col.colIndex }}"
+      #tableCell
+      [ngClass]="{ selected: col.isSelected }"
+      [style.width]="col.width + 'px'"
+      [style.height]="col.height + 'px'"
+      [style.left]="col.left + 'px'"
+      [style.top]="col.top + 'px'"
+      [style.line-height]="col.height + 'px'"
+      style="text-align: center;"
+    >
+      {{ col.rowIndex }} , {{ col.colIndex }} , {{ col.width }} , {{ col.height }}
     </div>
   </div>
 </div>
