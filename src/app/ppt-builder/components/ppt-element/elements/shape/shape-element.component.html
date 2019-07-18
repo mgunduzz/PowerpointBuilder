@@ -20,15 +20,28 @@
       </span>
     </div>
 </div> -->
-<div [style.transform]="'rotate(' + element.rotate + 'deg)'">
+<div *ngIf="element.shapeType == shapeType.line" [style.transform]="'rotate(' + element.rotate + 'deg)'">
   <span
     *ngIf="element.isShowText"
     style="position: absolute; width: 100%;padding-left: 5px;padding-right: 5px;"
     [style.text-align]="element.textAlign"
-    [style.color]="element.color"
+    [style.color]="element.fontColor"
     [style.font-size]="element.textFontSize + 'pt'"
   >
     {{ element.text }}
   </span>
   <canvas id="{{ element.id }}"></canvas>
+</div>
+
+<div
+  *ngIf="element.shapeType == shapeType.square"
+  [style.background-color]="element.color"
+  style="width: 100%;height: 100%;display:flex;"
+  [style.align-items]="element.textVerticalAlign"
+  [style.justify-content]="element.textAlign"
+  [style.border]="element.shapeBorder"
+>
+  <span *ngIf="element.isShowText" [style.color]="element.fontColor" [style.font-size]="element.textFontSize + 'pt'">
+    {{ element.text }}
+  </span>
 </div>
