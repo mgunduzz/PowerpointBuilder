@@ -20,5 +20,15 @@
       </span>
     </div>
 </div> -->
-
-<canvas id="myCanvas" width="400" height="400"></canvas>
+<div [style.transform]="'rotate(' + element.rotate + 'deg)'">
+  <span
+    *ngIf="element.isShowText"
+    style="position: absolute; width: 100%;padding-left: 5px;padding-right: 5px;"
+    [style.text-align]="element.textAlign"
+    [style.color]="element.color"
+    [style.font-size]="element.textFontSize + 'pt'"
+  >
+    {{ element.text }}
+  </span>
+  <canvas id="{{ element.id }}"></canvas>
+</div>

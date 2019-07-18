@@ -372,6 +372,8 @@ export class PptShapeElementModel extends PptElementModel {
   shapeBorderSize: number;
   shapeBorderStyle: string;
   isDashed: boolean;
+  arrowSize: number;
+  lineWidth: number;
 }
 
 export class PptImageElementModel extends PptElementModel {
