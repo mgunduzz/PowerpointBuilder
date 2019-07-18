@@ -12,7 +12,7 @@ import {
   PptImageElementModel,
   ImageFormatModel,
   ChartTypeEnum,
-  PptChartElementModel,
+  PptBaseChartElementModel,
   PptShapeElementModel,
   ShapeFormatModel,
   ShapeTypeEnum,
@@ -23,9 +23,14 @@ import {
   DoughnutChartFormatModel,
   FormatChangeModel,
   SlideFormatChangeHistory,
-  FormatChangeInputModel
+  FormatChangeInputModel,
+  PptDefaultChartElementModel,
+  AnalyseApiDataModel,
+  LineChartFormatModel,
+  PptScatterChartElementModel,
+  PptAreaChartElementModel
 } from '../model';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
 declare var $: any;
 
 // import * as html2canvas from 'html2canvas';
@@ -269,24 +274,57 @@ export class PPtBuilderService {
   }
 
   createChartElement(el: PptElementModel, type: ChartTypeEnum): PptElementModel {
-    var chartEl = new PptChartElementModel(el);
+    let chartEl = new PptBaseChartElementModel(el);
     chartEl.format = new ChartFormatModel();
 
     if (
       type == ChartTypeEnum.ClusteredColumn ||
       type == ChartTypeEnum.StackedColumn ||
       type == ChartTypeEnum.StackedColumn100
-    )
+    ) {
+      chartEl = new PptDefaultChartElementModel(el);
       chartEl.format = new ColumnChartFormatModel();
-    else if (
+    } else if (
       type == ChartTypeEnum.ClusteredBar ||
       type == ChartTypeEnum.StackedBar ||
       type == ChartTypeEnum.StackedBar100
-    )
+    ) {
+      chartEl = new PptDefaultChartElementModel(el);
       chartEl.format = new BarChartFormatModel();
-    else if (type == ChartTypeEnum.Pie || type == ChartTypeEnum.ExplodedPie) chartEl.format = new PieChartFormatModel();
-    else if (type == ChartTypeEnum.Doughnut || type == ChartTypeEnum.ExplodedDoughnut)
+    } else if (
+      type == ChartTypeEnum.Line ||
+      type == ChartTypeEnum.StackedLine ||
+      type == ChartTypeEnum.StackedLine100 ||
+      type == ChartTypeEnum.MarkedLine ||
+      type == ChartTypeEnum.StackedMarkedLine ||
+      type == ChartTypeEnum.StackedMarkedLine100
+    ) {
+      chartEl = new PptDefaultChartElementModel(el);
+      chartEl.format = new LineChartFormatModel();
+    } else if (type == ChartTypeEnum.Pie || type == ChartTypeEnum.ExplodedPie) {
+      chartEl = new PptDefaultChartElementModel(el);
+
+      chartEl.format = new PieChartFormatModel();
+    } else if (type == ChartTypeEnum.Doughnut || type == ChartTypeEnum.ExplodedDoughnut) {
+      chartEl = new PptDefaultChartElementModel(el);
       chartEl.format = new DoughnutChartFormatModel();
+    } else if (
+      type == ChartTypeEnum.MarkedScatter ||
+      type == ChartTypeEnum.SmoothMarkedScatter ||
+      type == ChartTypeEnum.SmoothLinedScatter ||
+      type == ChartTypeEnum.StraightMarkedScatter ||
+      type == ChartTypeEnum.StraightLinedScatter
+    ) {
+      chartEl = new PptScatterChartElementModel(el);
+      chartEl.format = new ChartFormatModel();
+    } else if (
+      type == ChartTypeEnum.Area ||
+      type == ChartTypeEnum.StackedArea ||
+      type == ChartTypeEnum.StackedArea100
+    ) {
+      chartEl = new PptAreaChartElementModel(el);
+      chartEl.format = new LineChartFormatModel();
+    }
 
     chartEl.name = 'Chart';
     chartEl.type = PPtElementEnum.Chart;
@@ -375,5 +413,19 @@ export class PPtBuilderService {
     });
 
     pptx.save('Sample Presentation');
+  }
+
+  getElementData(): Observable<Array<AnalyseApiDataModel>> {
+    let data = Array<AnalyseApiDataModel>();
+
+    let customerNames = ['Renault', 'Toyota', 'Mercedes', 'Volkswagen', 'Fiat', 'Tofaş', 'Ferrari', 'Lamborghini'];
+    customerNames.splice(2, Math.floor(Math.random() * (customerNames.length - 1)));
+
+    customerNames.forEach(custoName => {
+      data.push({ customerName: custoName, analyseType: 'Olumlu', value: Math.floor(Math.random() * 202) + 50 });
+      data.push({ customerName: custoName, analyseType: 'Olumsuz', value: Math.floor(Math.random() * 202) + 50 });
+    });
+
+    return of(data);
   }
 }

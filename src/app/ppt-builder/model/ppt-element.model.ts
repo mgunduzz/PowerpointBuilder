@@ -8,6 +8,7 @@ import {
   TextFormatModel
 } from './element-format-model';
 import { Subject } from 'rxjs';
+import * as _ from 'underscore';
 
 export enum PPtElementEnum {
   Table = 1,
@@ -78,6 +79,7 @@ export class PptElementModel implements PptxGenerator {
   constructor(el?: PptElementModel) {
     this.format = new BaseElementFormatModel();
     this.onFormatChange = new Subject<Array<FormatChangeModel>>();
+    this.onDataChange = new Subject<PptDefaultChartDataModel>();
 
     if (el) {
       this.format = el.format;
@@ -87,6 +89,7 @@ export class PptElementModel implements PptxGenerator {
   type: PPtElementEnum;
   name: string;
   format: BaseElementFormatModel;
+  onDataChange: Subject<PptDefaultChartDataModel>;
   onFormatChange: Subject<Array<FormatChangeModel>>;
   isActiveElement: boolean;
   id: number;
@@ -101,7 +104,7 @@ export class FormatChangeModel {
   addToHistory?: boolean = false;
 }
 
-export class PptChartElementModel extends PptElementModel {
+export class PptBaseChartElementModel extends PptElementModel {
   /**
    *
    */
@@ -295,6 +298,147 @@ export class PptChartElementModel extends PptElementModel {
   }
 }
 
+export class PptDefaultChartDataSetModel {
+  constructor() {
+    this.data = new Array<number>();
+  }
+
+  label: string;
+  data: Array<number>;
+  fill: boolean = false;
+  backgroundColor: string;
+}
+
+export class PptDefaultChartDataModel {
+  constructor() {
+    this.labels = new Array<string>();
+    this.dataSets = new Array<PptDefaultChartDataSetModel>();
+  }
+
+  labels: Array<string>;
+  dataSets: Array<PptDefaultChartDataSetModel>;
+}
+
+export class PptDefaultChartElementModel extends PptBaseChartElementModel {
+  constructor(el: PptElementModel) {
+    super(el);
+
+    this.dataModal = new PptDefaultChartDataModel();
+    this.dataModal.labels = ['Renault', 'Toyota', 'Mercedes', 'Volkswagen', 'Fiat'];
+    this.dataModal.dataSets = [
+      { label: 'Olumlu', fill: false, data: [80, 50, 23, 56, 43], backgroundColor: '#ffc94a' },
+      { label: 'Olumsuz', fill: false, data: [90, 45, 26, 64, 37], backgroundColor: '#42c3c9' }
+    ];
+  }
+
+  dataModal: PptDefaultChartDataModel;
+
+  setData(data: Array<AnalyseApiDataModel>) {
+    this.dataModal.labels = [];
+    this.dataModal.dataSets = [];
+
+    let gorupedData = _.groupBy(data, 'customerName');
+
+    Object.keys(gorupedData).forEach(key => {
+      this.dataModal.labels.push(key);
+      let custoDatas = gorupedData[key];
+
+      custoDatas.forEach(custoData => {
+        let analyseType = custoData.analyseType;
+        let value = custoData.value;
+
+        let dataSetModel = new PptDefaultChartDataSetModel();
+        dataSetModel.label = analyseType;
+        dataSetModel.data = [];
+        dataSetModel.backgroundColor = '#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
+
+        let foundedDataSetIndex = this.dataModal.dataSets.findIndex(item => item.label == analyseType);
+
+        if (foundedDataSetIndex >= 0) {
+          this.dataModal.dataSets[foundedDataSetIndex].data.push(custoData.value);
+        } else {
+          dataSetModel.data.push(custoData.value);
+          this.dataModal.dataSets.push(dataSetModel);
+        }
+      });
+    });
+  }
+}
+
+export class PptAreaChartElementModel extends PptDefaultChartElementModel {
+  constructor(el: PptElementModel) {
+    super(el);
+
+    this.dataModal.dataSets.forEach(item => (item.fill = true));
+  }
+
+  setData(data: Array<AnalyseApiDataModel>) {
+    super.setData(data);
+
+    this.dataModal.dataSets.forEach(item => (item.fill = true));
+  }
+}
+
+export class PptScatterChartDataSetModel {
+  constructor() {
+    this.data = new Array<number>();
+  }
+
+  label: string;
+  data: Array<any>;
+  fill: boolean = false;
+  backgroundColor: string;
+}
+
+export class PptScatterChartDataModel {
+  constructor() {
+    this.labels = new Array<string>();
+    this.dataSets = new Array<PptScatterChartDataSetModel>();
+  }
+
+  labels: Array<string>;
+  dataSets: Array<PptScatterChartDataSetModel>;
+}
+
+export class PptScatterChartElementModel extends PptBaseChartElementModel {
+  constructor(el: PptElementModel) {
+    super(el);
+
+    this.dataModal = new PptScatterChartDataModel();
+    this.dataModal.labels = ['Renault', 'Toyota', 'Mercedes', 'Volkswagen', 'Fiat'];
+    this.dataModal.dataSets = [
+      {
+        label: 'Olumlu',
+        fill: false,
+        data: [
+          {
+            x: 10,
+            y: 20
+          },
+          {
+            x: 50,
+            y: 40
+          },
+          {
+            x: 150,
+            y: 200
+          }
+        ],
+        backgroundColor: '#ffc94a'
+      }
+    ];
+  }
+
+  dataModal: PptScatterChartDataModel;
+
+  setData(data: Array<AnalyseApiDataModel>) {
+    this.dataModal.labels = [];
+    this.dataModal.dataSets = [];
+
+    let gorupedData = _.groupBy(data, 'customerName');
+  }
+}
+
 export class PptTableElementModel extends PptElementModel {
   row: number;
   col: number;
@@ -394,4 +538,10 @@ export class LoadElementModel {
   isClear?: boolean;
   elementList: PptElementModel[];
   dontAddToSlide?: boolean = false;
+}
+
+export class AnalyseApiDataModel {
+  customerName: string;
+  analyseType: string;
+  value: number;
 }

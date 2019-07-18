@@ -1,4 +1,4 @@
-<div #insideElement class="el-box" [style.text-align]="element.textAlign">
+<div #insideElement class="el-box " [style.text-align]="element.textAlign">
   <pre
     [hidden]="!showText"
     [style.background-color]="element.backgroundColor"
@@ -11,10 +11,10 @@
     [style.color]="element.color"
     (click)="showEditableText(); $event.stopPropagation()"
     [innerHTML]="element.text"
-    class="text-margin"
+    class="text-margin first-line-padding "
     [style.border]="element.stroke"
     [style.paddingLeft]="element.indent"
-    id="element1"
+    [style.text-indent]="element.firstLineIndent"
   ></pre>
 
   <pre
@@ -30,7 +30,8 @@
     contenteditable="true"
     [(ngModel)]="element.text"
     (ngModelChange)="elementTextChanged()"
-    class="text-margin text-element"
+    class="text-margin first-line-padding text-element "
     [style.paddingLeft]="element.indent"
+    [style.text-indent]="element.firstLineIndent"
   ></pre>
 </div>
