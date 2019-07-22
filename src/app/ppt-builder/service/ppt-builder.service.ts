@@ -229,21 +229,22 @@ export class PPtBuilderService {
 
   squareShapeElementFormat(chartEl: PptShapeElementModel) {
     chartEl.isLineArrow = false;
-    chartEl.shapeBorder = false;
-    chartEl.shapeBorderColor = 'false';
-    chartEl.shapeBorderSize = 1;
-    chartEl.shapeBorderStyle = 'false';
+    chartEl.shapeBorder = 'unset';
+    chartEl.shapeBorderColor = 'red';
+    chartEl.shapeBorderSize = 2;
+    chartEl.shapeBorderStyle = 'dashed';
     chartEl.shapeType = ShapeTypeEnum.square;
     return chartEl;
   }
 
   lineShapeElementFormat(chartEl: PptShapeElementModel) {
-    chartEl.lineSize = 1;
+    chartEl.lineSize = 4;
     chartEl.isLineArrow = true;
     chartEl.lineStyle = 'solid';
     chartEl.shapeType = ShapeTypeEnum.line;
     chartEl.arrowDirection = 0;
     chartEl.isDashed = false;
+    chartEl.arrowSize = 0;
 
     return chartEl;
   }
@@ -259,10 +260,10 @@ export class PPtBuilderService {
     chartEl.radius = 0;
     chartEl.color = 'black';
     chartEl.isShowText = false;
-    chartEl.textAlign = 'center';
+    chartEl.textAlign = 'left';
     chartEl.textFontSize = 10;
     chartEl.text = 'Test Metin';
-
+    chartEl.lineWidth = 400;
     if (type == ShapeTypeEnum.line) {
       chartEl = this.lineShapeElementFormat(chartEl);
     } else if (type == ShapeTypeEnum.square) {

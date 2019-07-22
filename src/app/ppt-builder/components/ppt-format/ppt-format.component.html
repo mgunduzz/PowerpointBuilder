@@ -102,7 +102,13 @@
         <ppt-checkbox-input [input]="element.format.formatInputs.legend" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>
       </div>
-
+      <div class="row row-margin" *ngIf="element.format.formatInputs.fontColor">
+        <ppt-color-picker-input
+          [input]="element.format.formatInputs.fontColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
+      </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.backgroundColor">
         <ppt-color-picker-input
           [input]="element.format.formatInputs.backgroundColor"
@@ -187,6 +193,14 @@
         <ppt-dropdown-input [input]="element.format.formatInputs.font" (onValuechange)="onInputValuechange($event)">
         </ppt-dropdown-input>
       </div>
+      <div class="row row-margin" style="display: flex;" *ngIf="element.format.formatInputs.textVerticalAlign">
+        <ppt-radio-button-input
+          [input]="element.format.formatInputs.textVerticalAlign"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-radio-button-input>
+      </div>
+
       <div class="row row-margin" style="display: flex;" *ngIf="element.format.formatInputs.textAlign">
         <ppt-radio-button-input
           [input]="element.format.formatInputs.textAlign"
