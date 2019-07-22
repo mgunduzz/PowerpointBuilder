@@ -14,7 +14,8 @@ import {
   PptElementModel,
   PPtFormatInputsEnum,
   FormatCheckboxInputModel,
-  PptTableElementModel
+  PptTableElementModel,
+  FormatNumberInputModel
 } from '@app/ppt-builder/model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -35,13 +36,44 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   mergeCellSub: Subscription;
   tableBox: Array<any>;
 
-  constructor(private sanitizer: DomSanitizer, private renderer: Renderer) {
-    // this.element.onFormatChange.subscribe(res => {
-    //
-    // });
-  }
+  oldWidth: number;
+  oldHeight: number;
+
+  constructor(private sanitizer: DomSanitizer, private renderer: Renderer) {}
 
   ngOnInit() {
+    this.element.onFormatChange.subscribe(res => {
+      res.forEach(item => {
+        var formatInput = item.formatInput as FormatNumberInputModel;
+
+        if (formatInput.inputId == PPtFormatInputsEnum.width) {
+          if (this.oldWidth) {
+            let newWidth = formatInput.value;
+            let ratio = newWidth / this.oldWidth;
+
+            this.tableBox.forEach((piece, index) => {
+              piece.width = piece.width * ratio;
+              piece.left = piece.left * ratio;
+            });
+          }
+
+          this.oldWidth = formatInput.value;
+        } else if (formatInput.inputId == PPtFormatInputsEnum.height) {
+          if (this.oldHeight) {
+            let newHeight = formatInput.value;
+            let ratio = newHeight / this.oldHeight;
+
+            this.tableBox.forEach((piece, index) => {
+              piece.height = piece.height * ratio;
+              piece.top = piece.top * ratio;
+            });
+          }
+
+          this.oldHeight = formatInput.value;
+        }
+      });
+    });
+
     this.mergeCellSub = this.element.onMergeCells.subscribe(res => {
       this.mergeSelectedCells();
     });
@@ -164,8 +196,6 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
         if (coor.y > maxY) maxY = coor.y;
       });
-
-      debugger;
 
       var bottomLeftY = selectedPieceCoordinates
         .filter(item => item.x == minX)
