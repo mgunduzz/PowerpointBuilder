@@ -313,8 +313,13 @@ export class PptDefaultChartDataModel {
   constructor() {
     this.labels = new Array<string>();
     this.dataSets = new Array<PptDefaultChartDataSetModel>();
+    this.dataSource = {
+      series: {},
+      categories: []
+    };
   }
 
+  dataSource?: any;
   labels: Array<string>;
   dataSets: Array<PptDefaultChartDataSetModel>;
 }
@@ -337,29 +342,31 @@ export class PptDefaultChartElementModel extends PptBaseChartElementModel {
     this.dataModal.labels = [];
     this.dataModal.dataSets = [];
 
-    let gorupedData = _.groupBy(data, 'customerName');
+    let dataSource = this.dataModal.dataSource;
 
+    let gorupedData = _.groupBy(data, dataSource.series.name);
     Object.keys(gorupedData).forEach(key => {
       this.dataModal.labels.push(key);
       let custoDatas = gorupedData[key];
 
       custoDatas.forEach(custoData => {
-        let analyseType = custoData.analyseType;
-        let value = custoData.value;
+        dataSource.categories.forEach((cat: any) => {
+          let selectedCat = cat.selectedProp;
 
-        let dataSetModel = new PptDefaultChartDataSetModel();
-        dataSetModel.label = analyseType;
-        dataSetModel.data = [];
-        dataSetModel.backgroundColor = '#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
+          let dataSetModel = new PptDefaultChartDataSetModel();
+          dataSetModel.label = selectedCat.friendlyName;
+          dataSetModel.data = [];
+          dataSetModel.backgroundColor = '#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
 
-        let foundedDataSetIndex = this.dataModal.dataSets.findIndex(item => item.label == analyseType);
+          let foundedDataSetIndex = this.dataModal.dataSets.findIndex(item => item.label == selectedCat.friendlyName);
 
-        if (foundedDataSetIndex >= 0) {
-          this.dataModal.dataSets[foundedDataSetIndex].data.push(custoData.value);
-        } else {
-          dataSetModel.data.push(custoData.value);
-          this.dataModal.dataSets.push(dataSetModel);
-        }
+          if (foundedDataSetIndex >= 0) {
+            this.dataModal.dataSets[foundedDataSetIndex].data.push(custoData[selectedCat.name]);
+          } else {
+            dataSetModel.data.push(custoData[selectedCat.name]);
+            this.dataModal.dataSets.push(dataSetModel);
+          }
+        });
       });
     });
   }
@@ -553,6 +560,6 @@ export class LoadElementModel {
 
 export class AnalyseApiDataModel {
   customerName: string;
-  analyseType: string;
-  value: number;
+  positive: number;
+  negative: number;
 }

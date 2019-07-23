@@ -1,3 +1,52 @@
-<div class="element-data">
+<div class="element-data" *ngIf="element">
+  <div ngbDropdown class="d-inline-block" [autoClose]="true">
+    <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>Data Source</button>
+    <div ngbDropdownMenu aria-labelledby="dropDownInput">
+      <button ngbDropdownItem *ngFor="let source of dataSources" (click)="onSelectDataSource(source)">
+        {{ source.name }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isChartElement()">
+    <div *ngIf="selectedDataSource" style="margin: 10px 0;">
+      <div ngbDropdown class="d-inline-block" [autoClose]="true">
+        <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>
+          Series <span *ngIf="selectedSeries">({{ selectedSeries.friendlyName }})</span>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropDownInput">
+          <button ngbDropdownItem *ngFor="let property of dataSourceProperties" (click)="onSelectSeries(property)">
+            {{ property.friendlyName }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedDataSource" style="margin: 10px 0;">
+      <div style="display: flex;" *ngFor="let cat of categories">
+        <div ngbDropdown class="d-inline-block" [autoClose]="true">
+          <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>
+            cat <span *ngIf="cat.selectedProp">({{ cat.selectedProp.friendlyName }})</span>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropDownInput">
+            <button
+              ngbDropdownItem
+              *ngFor="let property of dataSourceProperties"
+              (click)="onCategorySelected(cat, property)"
+            >
+              {{ property.friendlyName }}
+            </button>
+          </div>
+        </div>
+
+        <button style="margin-left: 10px;" (click)="deleteCatProp(cat)">Sil</button>
+      </div>
+
+      <div style="margin: 10px 0;text-align: center;" (click)="addCategory()" style="cursor: pointer;">
+        Kategori Ekle
+      </div>
+    </div>
+  </div>
+
   <button (click)="onUpdateElementDataClick()">Data Yükle</button>
 </div>

@@ -422,8 +422,11 @@ export class PPtBuilderService {
     customerNames.splice(2, Math.floor(Math.random() * (customerNames.length - 1)));
 
     customerNames.forEach(custoName => {
-      data.push({ customerName: custoName, analyseType: 'Olumlu', value: Math.floor(Math.random() * 202) + 50 });
-      data.push({ customerName: custoName, analyseType: 'Olumsuz', value: Math.floor(Math.random() * 202) + 50 });
+      data.push({
+        customerName: custoName,
+        positive: Math.floor(Math.random() * 202) + 50,
+        negative: Math.floor(Math.random() * 202) + 50
+      });
     });
 
     return of(data);
