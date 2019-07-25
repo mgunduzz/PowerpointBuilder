@@ -65,7 +65,10 @@ export enum PPtFormatInputsEnum {
   firstLineIndent,
   shapeBorderStyle,
   fontColor,
-  textVerticalAlign
+  textVerticalAlign,
+  cellFontColor,
+  cellBackgroundColor,
+  cellFontSize
 }
 
 export class BaseFormatInputModel {
@@ -142,6 +145,9 @@ export class FormatInputsModel {
   firstLineIndent: FormatNumberInputModel;
   fontColor: FormatColorPickerInputModel;
   textVerticalAlign: FormatRadioButtonInputModel;
+  cellFontColor: FormatColorPickerInputModel;
+  cellBackgroundColor: FormatColorPickerInputModel;
+  cellFontSize: FormatNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -212,6 +218,33 @@ export class TableFormatModel extends BaseElementFormatModel {
 
     this.formatInputs.width.value = 900;
     this.formatInputs.height.value = 400;
+
+    let cellFontColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.cellFontColor,
+      name: 'CellFontColor',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: '#000000'
+    };
+
+    let cellBackgroundColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.cellBackgroundColor,
+      name: 'CellBackgroundColor',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: '#42c3c9'
+    };
+
+    let cellFontSize: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.cellFontSize,
+      name: 'CellFontSize',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 100,
+      min: 0,
+      value: 14
+    };
+
+    this.formatInputs.cellFontColor = cellFontColor;
+    this.formatInputs.cellBackgroundColor = cellBackgroundColor;
+    this.formatInputs.cellFontSize = cellFontSize;
   }
 }
 

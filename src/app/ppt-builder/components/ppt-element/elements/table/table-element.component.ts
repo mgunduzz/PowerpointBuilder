@@ -16,7 +16,9 @@ import {
   FormatCheckboxInputModel,
   PptTableElementModel,
   FormatNumberInputModel,
-  TableCellModel
+  TableCellModel,
+  FormatColorPickerInputModel,
+  FormatChangeModel
 } from '@app/ppt-builder/model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -36,6 +38,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   lastMouseDownEvent: MouseEvent;
   lastRowCol: any;
   mergeCellSub: Subscription;
+  onFormatChangeSub: Subscription;
 
   oldWidth: number;
   oldHeight: number;
@@ -43,9 +46,10 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   constructor(private sanitizer: DomSanitizer, private renderer: Renderer) {}
 
   ngOnInit() {
-    this.element.onFormatChange.subscribe(res => {
+    this.onFormatChangeSub = this.element.onFormatChange.subscribe(res => {
       res.forEach(item => {
         var formatInput = item.formatInput as FormatNumberInputModel;
+        var colorFormatInput = item.formatInput as FormatColorPickerInputModel;
 
         if (formatInput.inputId == PPtFormatInputsEnum.width) {
           if (this.oldWidth) {
@@ -71,6 +75,24 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
           }
 
           this.oldHeight = formatInput.value;
+        } else if (colorFormatInput.inputId == PPtFormatInputsEnum.cellBackgroundColor) {
+          this.element.cells.forEach(item => {
+            if (item.isSelected) {
+              item.bgColor = colorFormatInput.value;
+            }
+          });
+        } else if (colorFormatInput.inputId == PPtFormatInputsEnum.cellFontColor) {
+          this.element.cells.forEach(item => {
+            if (item.isSelected) {
+              item.fontColor = colorFormatInput.value;
+            }
+          });
+        } else if (colorFormatInput.inputId == PPtFormatInputsEnum.cellFontSize) {
+          this.element.cells.forEach(item => {
+            if (item.isSelected) {
+              item.fontSize = formatInput.value;
+            }
+          });
         }
       });
     });
@@ -90,19 +112,23 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
       cellX = 0;
 
       for (let cIndex = 0; cIndex < this.element.col; cIndex++) {
-        this.element.cells.push({
-          isSelected: false,
-          rowIndex: rIndex,
-          colIndex: cIndex,
-          width: cellWidth,
-          height: cellHeight,
-          left: cellX,
-          top: cellY,
-          isHeader: rIndex == 0,
-          isMerged: false,
-          id: rIndex + '-' + cIndex,
-          isDragOver: false
-        });
+        let newCell = new TableCellModel();
+        newCell.isSelected = false;
+        newCell.rowIndex = rIndex;
+        newCell.colIndex = cIndex;
+        newCell.width = cellWidth;
+        newCell.height = cellHeight;
+        newCell.left = cellX;
+        newCell.top = cellY;
+        newCell.isHeader = rIndex == 0;
+        newCell.isMerged = false;
+        newCell.isDragOver = false;
+        newCell.id = +('1' + rIndex + cIndex);
+        newCell.bgColor = '#42c3c9';
+        newCell.fontColor = '#000000';
+        newCell.fontSize = 14;
+
+        this.element.cells.push(newCell);
 
         cellX += cellWidth;
       }
@@ -225,52 +251,59 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
           return founded == undefined;
         });
 
-        this.element.cells.push({
-          id: firstCell.rowIndex + '-' + firstCell.colIndex,
-          isMerged: true,
-          isSelected: false,
-          rowIndex: firstCell.rowIndex,
-          colIndex: firstCell.colIndex,
-          width: totalWidth,
-          height: totalHeight,
-          left: firstCell.left,
-          top: firstCell.top,
-          isHeader: firstCell.isHeader
-        });
+        let newCell = new TableCellModel();
+        newCell.isSelected = false;
+        newCell.rowIndex = firstCell.rowIndex;
+        newCell.colIndex = firstCell.colIndex;
+        newCell.width = totalWidth;
+        newCell.height = totalHeight;
+        newCell.left = firstCell.left;
+        newCell.top = firstCell.top;
+        newCell.isHeader = firstCell.isHeader;
+        newCell.isMerged = true;
+        newCell.isDragOver = false;
+        newCell.id = firstCell.id;
+        newCell.fontColor = firstCell.fontColor;
+        newCell.fontSize = firstCell.fontSize;
+        newCell.bgColor = firstCell.bgColor;
+        newCell.headerData = firstCell.headerData;
+        newCell.value = firstCell.value;
+
+        this.element.cells.push(newCell);
 
         this.element.cells = this.element.cells;
       }
     }
   }
 
-  calculteSelecteds(rowIndex: number, colIndex: number) {
-    // this.calculateSelectedTablePiece(this.lastMouseDownEvent.clientX, this.lastMouseDownEvent.clientY, ev.clientX, ev.clientY);
-    let i = this.lastRowCol.rowIndex;
-    let j = this.lastRowCol.colIndex;
+  // calculteSelecteds(rowIndex: number, colIndex: number) {
+  //   // this.calculateSelectedTablePiece(this.lastMouseDownEvent.clientX, this.lastMouseDownEvent.clientY, ev.clientX, ev.clientY);
+  //   let i = this.lastRowCol.rowIndex;
+  //   let j = this.lastRowCol.colIndex;
 
-    if (rowIndex < i) i = rowIndex;
+  //   if (rowIndex < i) i = rowIndex;
 
-    if (colIndex < j) j = colIndex;
+  //   if (colIndex < j) j = colIndex;
 
-    let h = i + Math.abs(this.lastRowCol.rowIndex - rowIndex);
-    let w = j + Math.abs(this.lastRowCol.colIndex - colIndex);
+  //   let h = i + Math.abs(this.lastRowCol.rowIndex - rowIndex);
+  //   let w = j + Math.abs(this.lastRowCol.colIndex - colIndex);
 
-    console.log({ i, j, w, h });
+  //   console.log({ i, j, w, h });
 
-    this.element.cells.forEach(col => {
-      col.isSelected = false;
-    });
+  //   this.element.cells.forEach(col => {
+  //     col.isSelected = false;
+  //   });
 
-    for (let rIndex = i; rIndex <= h; rIndex++) {
-      for (let cIndex = j; cIndex <= w; cIndex++) {
-        console.log({ rIndex, colIndex });
+  //   for (let rIndex = i; rIndex <= h; rIndex++) {
+  //     for (let cIndex = j; cIndex <= w; cIndex++) {
+  //       console.log({ rIndex, colIndex });
 
-        let item = this.element.cells.find(colItem => colItem.rowIndex == rIndex && colItem.colIndex == cIndex);
+  //       let item = this.element.cells.find(colItem => colItem.rowIndex == rIndex && colItem.colIndex == cIndex);
 
-        if (item) item.isSelected = true;
-      }
-    }
-  }
+  //       if (item) item.isSelected = true;
+  //     }
+  //   }
+  // }
 
   calculateSelectedTablePiece(startX: number, startY: number, endX: number, endY: number) {
     console.log({ startX, startY, endX, endY });
@@ -284,7 +317,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
     this.element.cells.forEach(piece => {
       let selected: boolean = false;
 
-      let pos = document.getElementById('cell-' + piece.rowIndex + '-' + piece.colIndex).getBoundingClientRect() as any;
+      let pos = document.getElementById('cell-' + piece.id).getBoundingClientRect() as any;
 
       let pieceCorners = Array<any>();
 
@@ -359,6 +392,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
       piece.isSelected = selected;
     });
+
+    this.element.selectedCells = this.element.cells.filter(item => item.isSelected);
   }
 
   isDotInRectangle(recX1: number, recY1: number, recX2: number, recY2: number, dotX: number, dotY: number): Boolean {
@@ -382,5 +417,6 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnDestroy() {
     this.mergeCellSub.unsubscribe();
+    this.onFormatChangeSub.unsubscribe();
   }
 }

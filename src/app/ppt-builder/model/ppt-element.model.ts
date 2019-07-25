@@ -446,8 +446,7 @@ export class PptScatterChartElementModel extends PptBaseChartElementModel {
   }
 }
 
-export class TableCellModel {
-  id: string;
+export class TableCellModel extends PptElementModel {
   isSelected: boolean;
   rowIndex: number;
   colIndex: number;
@@ -460,6 +459,9 @@ export class TableCellModel {
   isDragOver?: boolean;
   headerData?: any;
   value?: string;
+  bgColor?: string;
+  fontColor?: string;
+  fontSize?: number;
 }
 
 export class PptTableElementModel extends PptElementModel {
@@ -468,12 +470,14 @@ export class PptTableElementModel extends PptElementModel {
 
     this.onMergeCells = new Subject<any>();
     this.cells = Array<TableCellModel>();
+    this.selectedCells = new Array<TableCellModel>();
   }
 
   row: number;
   col: number;
   cells: Array<TableCellModel>;
   onMergeCells = new Subject<any>();
+  selectedCells: Array<TableCellModel>;
 
   setData(data: Array<AnalyseApiDataModel>) {
     let cellsHasAHeaderData = this.cells.filter(item => item.headerData);

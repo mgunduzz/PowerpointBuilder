@@ -71,6 +71,34 @@
       </div>
     </div>
 
+    <div class="format-block" *ngIf="checkFormatType('TableFormatModel') && element.selectedCells.length > 0">
+      <div class="format-title"><span class="format-title-text">Hücre Tasarımı</span></div>
+
+      <div class="row row-margin">
+        <ppt-color-picker-input
+          [input]="element.format.formatInputs.cellFontColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
+      </div>
+
+      <div class="row row-margin">
+        <ppt-color-picker-input
+          [input]="element.format.formatInputs.cellBackgroundColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
+      </div>
+
+      <div class="row row-margin">
+        <ppt-number-input
+          [input]="element.format.formatInputs.cellFontSize"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+    </div>
+
     <div class="format-block">
       <div class="format-title"><span class="format-title-text">Position and Size</span></div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.x">

@@ -23,6 +23,9 @@
       [style.top]="cell.top + 'px'"
       [style.line-height]="cell.height + 'px'"
       style="text-align: center;"
+      [style.background]="cell.bgColor"
+      [style.color]="cell.fontColor"
+      [style.font-size]="cell.fontSize + 'px'"
     >
       {{ cell.headerData ? cell.headerData.friendlyName : '' }}
     </div>
@@ -42,6 +45,9 @@
       [style.top]="cell.top + 'px'"
       [style.line-height]="cell.height + 'px'"
       style="text-align: center;"
+      [style.background]="cell.bgColor"
+      [style.color]="cell.fontColor"
+      [style.font-size]="cell.fontSize + 'px'"
     >
       {{ cell.value }}
     </div>
