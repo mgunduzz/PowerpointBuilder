@@ -168,10 +168,6 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   mergeSelectedCells() {
     let selectedCells = this.tableBox.filter(item => item.isSelected);
 
-    selectedCells.forEach(item => {
-      console.log({ left: item.left, top: item.top });
-    });
-
     if (selectedCells.length > 1) {
       var selectedPieceCoordinates = Array<any>();
 
@@ -255,7 +251,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
           width: totalWidth,
           height: totalHeight,
           left: firstCell.left,
-          top: firstCell.top
+          top: firstCell.top,
+          isHeader: firstCell.isHeader
         });
 
         this.tableBox = this.tableBox;
