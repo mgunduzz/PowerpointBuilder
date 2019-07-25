@@ -13,7 +13,7 @@
       class="table-cell"
       id="cell-{{ col.rowIndex }}-{{ col.colIndex }}"
       #tableCell
-      [ngClass]="{ selected: col.isSelected }"
+      [ngClass]="{ selected: col.isSelected, header: col.isHeader }"
       [style.width]="col.width + 'px'"
       [style.height]="col.height + 'px'"
       [style.left]="col.left + 'px'"

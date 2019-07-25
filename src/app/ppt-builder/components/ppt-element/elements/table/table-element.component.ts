@@ -95,7 +95,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
           width: cellWidth,
           height: cellHeight,
           left: cellX,
-          top: cellY
+          top: cellY,
+          isHeader: rIndex == 0
         });
 
         cellX += cellWidth;
