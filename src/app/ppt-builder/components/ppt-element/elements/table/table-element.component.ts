@@ -21,6 +21,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import * as _ from 'underscore';
+import { DndDropEvent } from 'ngx-drag-drop';
 
 @Component({
   selector: 'ppt-table-element',
@@ -98,7 +99,9 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
           left: cellX,
           top: cellY,
           isHeader: rIndex == 0,
-          isMerged: false
+          isMerged: false,
+          id: rIndex + '-' + cIndex,
+          isDragOver: false
         });
 
         cellX += cellWidth;
@@ -223,6 +226,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         });
 
         this.element.cells.push({
+          id: firstCell.rowIndex + '-' + firstCell.colIndex,
           isMerged: true,
           isSelected: false,
           rowIndex: firstCell.rowIndex,
@@ -361,6 +365,17 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
     if (dotX > recX1 && dotX < recX2 && dotY < recY1 && dotY > recY2) return true;
 
     return false;
+  }
+
+  onDragover(event: DragEvent, cell: TableCellModel) {
+    console.log('dragover', JSON.stringify(event, null, 2) + '   ' + cell.rowIndex + ',' + cell.colIndex);
+  }
+
+  onDrop(event: DndDropEvent, cell: TableCellModel) {
+    console.log('dropped', JSON.stringify(event, null, 2) + cell.rowIndex + ',' + cell.colIndex);
+
+    this.element.cells.forEach(item => (item.isDragOver = item.id != cell.id ? false : true));
+    cell.headerData = event.data;
   }
 
   ngAfterViewChecked() {}

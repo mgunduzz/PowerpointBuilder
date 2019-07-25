@@ -52,6 +52,23 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  onItemActiveChanged(res: any) {
+    let elId = res.id;
+    let isActive = res.isActive;
+
+    if (isActive && this.elementList.length > 1) {
+      this.elementList.forEach(item => {
+        if (item.id != elId) item.isActive = false;
+      });
+    }
+
+    console.log(
+      this.elementList.map(item => {
+        return { id: item.id, isActive: item.isActive };
+      })
+    );
+  }
+
   onElementClick(item: PptElementModel) {
     // this.elementList.forEach(o => {
     //   item.isActive = false;

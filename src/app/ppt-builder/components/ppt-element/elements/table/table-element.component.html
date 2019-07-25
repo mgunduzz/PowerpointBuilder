@@ -6,20 +6,44 @@
     (click)="element.isActive = !element.isActive"
   >
     <div
-      *ngFor="let col of element.cells"
-      (mousedown)="onTableMouseDown($event, col.rowIndex, col.colIndex)"
-      (mouseover)="onTableMouseMove($event, col.rowIndex, col.colIndex)"
-      (mouseup)="onTableMouseUp($event, col.rowIndex, col.colIndex)"
+      *ngFor="let cell of element.cells | filterBy: { isHeader: true }"
+      dndDropzone
+      (dndDragover)="onDragover($event, cell)"
+      (dndDrop)="onDrop($event, cell)"
+      (mousedown)="onTableMouseDown($event, cell.rowIndex, cell.colIndex)"
+      (mouseover)="onTableMouseMove($event, cell.rowIndex, cell.colIndex)"
+      (mouseup)="onTableMouseUp($event, cell.rowIndex, cell.colIndex)"
       class="table-cell"
-      id="cell-{{ col.rowIndex }}-{{ col.colIndex }}"
+      id="cell-{{ cell.id }}"
       #tableCell
-      [ngClass]="{ selected: col.isSelected, header: col.isHeader }"
-      [style.width]="col.width + 'px'"
-      [style.height]="col.height + 'px'"
-      [style.left]="col.left + 'px'"
-      [style.top]="col.top + 'px'"
-      [style.line-height]="col.height + 'px'"
+      [ngClass]="{ selected: cell.isSelected, header: cell.isHeader, 'drag-over': cell.isDragOver }"
+      [style.width]="cell.width + 'px'"
+      [style.height]="cell.height + 'px'"
+      [style.left]="cell.left + 'px'"
+      [style.top]="cell.top + 'px'"
+      [style.line-height]="cell.height + 'px'"
       style="text-align: center;"
-    ></div>
+    >
+      {{ cell.headerData ? cell.headerData.friendlyName : '' }}
+    </div>
+
+    <div
+      *ngFor="let cell of element.cells | filterBy: { isHeader: false }"
+      (mousedown)="onTableMouseDown($event, cell.rowIndex, cell.colIndex)"
+      (mouseover)="onTableMouseMove($event, cell.rowIndex, cell.colIndex)"
+      (mouseup)="onTableMouseUp($event, cell.rowIndex, cell.colIndex)"
+      class="table-cell"
+      id="cell-{{ cell.id }}"
+      #tableCell
+      [ngClass]="{ selected: cell.isSelected, header: cell.isHeader }"
+      [style.width]="cell.width + 'px'"
+      [style.height]="cell.height + 'px'"
+      [style.left]="cell.left + 'px'"
+      [style.top]="cell.top + 'px'"
+      [style.line-height]="cell.height + 'px'"
+      style="text-align: center;"
+    >
+      {{ cell.value }}
+    </div>
   </div>
 </div>

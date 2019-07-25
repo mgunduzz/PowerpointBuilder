@@ -15,6 +15,7 @@ import {
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
+import { DndDropEvent } from 'ngx-drag-drop';
 
 @Component({
   selector: 'ppt-data',
@@ -41,16 +42,15 @@ export class PptDataCompontent implements OnInit, OnDestroy {
 
   onUpdateElementDataClick() {
     if (this.element) {
-      (this.element as PptDefaultChartElementModel).dataModal.dataSource.series = this.selectedSeries;
-      (this.element as PptDefaultChartElementModel).dataModal.dataSource.categories = this.categories;
-
       this.pPtBuilderService.getElementData().subscribe(res => {
-        let pptData = new PptDefaultChartDataModel();
-
         if (this.element instanceof PptDefaultChartElementModel) {
+          (this.element as PptDefaultChartElementModel).dataModal.dataSource.series = this.selectedSeries;
+          (this.element as PptDefaultChartElementModel).dataModal.dataSource.categories = this.categories;
           (this.element as PptDefaultChartElementModel).setData(res);
 
           this.element.onDataChange.next();
+        } else if (this.element instanceof PptTableElementModel) {
+          (this.element as PptTableElementModel).setData(res);
         }
       });
     }
@@ -109,4 +109,13 @@ export class PptDataCompontent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.activeElSubscription.unsubscribe();
   }
+
+  draggable = {
+    // note that data is handled with JSON.stringify/JSON.parse
+    // only set simple data or POJO's as methods will be lost
+    data: 'myDragData',
+    effectAllowed: 'all',
+    disable: false,
+    handle: false
+  };
 }

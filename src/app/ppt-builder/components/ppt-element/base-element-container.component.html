@@ -7,7 +7,7 @@
   [ngStyle]="{ 'z-index': element.z }"
   (cdkDragEnded)="dragEnded($event)"
   (cdkDragMoved)="dragMoved($event)"
-  [ngClass]="{ active: isItemActive && isContainerActive, 'text-active': element.type == elementTypes.TEXT }"
+  [ngClass]="{ active: element.isActive && isContainerActive, 'text-active': element.type == elementTypes.TEXT }"
   [cdkDragDisabled]="!dragDropStatus"
   (mouseenter)="dragDropStatus = false"
   (mouseover)="isContainerActive = true"
@@ -15,7 +15,7 @@
   [style.height]="element.format.formatInputs.height.value + 'px'"
 >
   <div class="drop-icon active" (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
-    <div class="i-group" [ngClass]="{ 'dp-none': !(isItemActive && isContainerActive) }">
+    <div class="i-group" [ngClass]="{ 'dp-none': !(element.isActive && isContainerActive) }">
       <i class="fas fa-grip-horizontal" title="Taşı"></i>
       <img
         src="../../../../assets/icons/orginal-size-icon.png"

@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DemoMaterialModule } from './material-module';
 import { MatNativeDateModule, MatCardModule } from '@angular/material';
+import { DndModule } from 'ngx-drag-drop';
 
 @NgModule({
   imports: [

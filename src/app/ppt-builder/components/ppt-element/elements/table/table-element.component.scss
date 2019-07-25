@@ -10,6 +10,10 @@
   border: 1px solid white;
   position: absolute;
 
+  &.drag-over {
+    // background-color: #d3d3d3 !important;
+  }
+
   &.header {
     border-bottom: 5px solid #575757;
   }

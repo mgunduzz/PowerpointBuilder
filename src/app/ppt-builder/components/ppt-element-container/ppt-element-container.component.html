@@ -4,8 +4,8 @@
     (click)="onElementClick(item)"
     [element]="item"
     [type]="item.type"
-    [isItemActive]="item.isActive"
     (highlightChange)="changeHighlight($event)"
+    (onItemActiveChanged)="onItemActiveChanged($event)"
     class="base-element"
   >
   </ppt-base-element>

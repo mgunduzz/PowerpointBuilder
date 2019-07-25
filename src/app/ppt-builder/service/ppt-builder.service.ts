@@ -222,7 +222,7 @@ export class PPtBuilderService {
 
     this.pptElementsSubscription.next({ elementList: [el], dontAddToSlide: false });
 
-    this.activeElementSubscription.next(el);
+    this.setActiveElement(el);
 
     return el;
   }

@@ -27,6 +27,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PptRadioButtonInput } from './components/ppt-format/inputs/radioButtonInput/radio-button-input.component';
 import { ShapeElement } from './components/ppt-element/elements/shape/shape-element.component';
 import { PptDataCompontent } from './components/ppt-data/ppt-data.component';
+import { DndModule } from 'ngx-drag-drop';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 @NgModule({
   imports: [
@@ -35,7 +37,9 @@ import { PptDataCompontent } from './components/ppt-data/ppt-data.component';
     FormsModule,
     FileUploadModule,
     ColorPickerModule,
-    NgbDropdownModule.forRoot()
+    NgbDropdownModule.forRoot(),
+    DndModule,
+    FilterPipeModule
   ],
   declarations: [
     BaseElementContainer,

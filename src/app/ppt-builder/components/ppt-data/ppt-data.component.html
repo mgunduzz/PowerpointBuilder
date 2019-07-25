@@ -1,6 +1,11 @@
 <div class="element-data" *ngIf="element">
   <div ngbDropdown class="d-inline-block" [autoClose]="true">
-    <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>Data Source</button>
+    <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>
+      Data Source
+      <span style="margin-left: 3px;font-size:12px;color: #979797;" *ngIf="selectedDataSource"
+        >( {{ selectedDataSource.name }} )</span
+      >
+    </button>
     <div ngbDropdownMenu aria-labelledby="dropDownInput">
       <button ngbDropdownItem *ngFor="let source of dataSources" (click)="onSelectDataSource(source)">
         {{ source.name }}
@@ -8,7 +13,17 @@
     </div>
   </div>
 
-  <div *ngIf="isTableElement()" style="padding: 10px 0;"></div>
+  <div *ngIf="isTableElement()" style="padding: 10px 0;display: flex;flex-wrap: wrap;">
+    <div
+      *ngFor="let prop of dataSourceProperties"
+      class="table-source-property"
+      [dndDraggable]="prop"
+      [dndEffectAllowed]="draggable.effectAllowed"
+      [dndDisableIf]="draggable.disable"
+    >
+      {{ prop.friendlyName }}
+    </div>
+  </div>
 
   <div *ngIf="isChartElement()">
     <div *ngIf="selectedDataSource" style="margin: 10px 0;">

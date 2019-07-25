@@ -447,6 +447,7 @@ export class PptScatterChartElementModel extends PptBaseChartElementModel {
 }
 
 export class TableCellModel {
+  id: string;
   isSelected: boolean;
   rowIndex: number;
   colIndex: number;
@@ -456,6 +457,9 @@ export class TableCellModel {
   top: number;
   isHeader: boolean;
   isMerged: boolean;
+  isDragOver?: boolean;
+  headerData?: any;
+  value?: string;
 }
 
 export class PptTableElementModel extends PptElementModel {
@@ -470,6 +474,22 @@ export class PptTableElementModel extends PptElementModel {
   col: number;
   cells: Array<TableCellModel>;
   onMergeCells = new Subject<any>();
+
+  setData(data: Array<AnalyseApiDataModel>) {
+    let cellsHasAHeaderData = this.cells.filter(item => item.headerData);
+
+    cellsHasAHeaderData.forEach(headerCell => {
+      let columnCells = this.cells.filter(
+        item => item.colIndex == headerCell.colIndex && item.rowIndex != headerCell.rowIndex
+      );
+
+      data.forEach((dataItem, dataIndex) => {
+        if (dataIndex < columnCells.length) {
+          columnCells[dataIndex].value = dataItem[headerCell.headerData.name];
+        }
+      });
+    });
+  }
 }
 
 export class PptTextElementModel extends PptElementModel {

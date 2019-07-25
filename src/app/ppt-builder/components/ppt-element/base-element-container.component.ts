@@ -54,7 +54,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   elHighlight: boolean = false;
   isContainerActive: boolean = false;
 
-  @Input('isItemActive') isItemActive: boolean;
+  @Output('onItemActiveChanged') onItemActiveChanged: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private pPtBuilderService: PPtBuilderService) {
     this.elementTypes.TABLE = PPtElementEnum.Table;
@@ -65,6 +65,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    if (this.element.id == this.pPtBuilderService.activeElement.id) {
+      this.highlightElement(this.element.id);
+      this.changeItemActive(true);
+    }
+
     this.element.onFormatChange.subscribe(res => {
       let historyInputs = Array<BaseFormatInputModel>();
 
@@ -88,6 +93,12 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     // this.updateFormats(this.element.format.formatInputs.y);
     // this.updateFormats(this.element.format.formatInputs.width);
     // this.updateFormats(this.element.format.formatInputs.height);
+  }
+
+  changeItemActive(active: boolean) {
+    this.element.isActive = active;
+
+    this.onItemActiveChanged.emit({ id: this.element.id, isActive: active });
   }
 
   updateContainerPosition(x: number, y: number) {}
