@@ -10,7 +10,8 @@ import {
   FormatChangeModel,
   FormatInputsModel,
   PptDefaultChartDataModel,
-  PptDefaultChartElementModel
+  PptDefaultChartElementModel,
+  PptTableElementModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -95,6 +96,10 @@ export class PptDataCompontent implements OnInit, OnDestroy {
 
   isChartElement() {
     return this.element instanceof PptDefaultChartElementModel;
+  }
+
+  isTableElement() {
+    return this.element instanceof PptTableElementModel;
   }
 
   ngOnInit() {

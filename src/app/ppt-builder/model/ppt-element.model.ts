@@ -446,16 +446,29 @@ export class PptScatterChartElementModel extends PptBaseChartElementModel {
   }
 }
 
+export class TableCellModel {
+  isSelected: boolean;
+  rowIndex: number;
+  colIndex: number;
+  width: number;
+  height: number;
+  left: number;
+  top: number;
+  isHeader: boolean;
+  isMerged: boolean;
+}
+
 export class PptTableElementModel extends PptElementModel {
   constructor() {
     super();
 
     this.onMergeCells = new Subject<any>();
+    this.cells = Array<TableCellModel>();
   }
 
   row: number;
   col: number;
-
+  cells: Array<TableCellModel>;
   onMergeCells = new Subject<any>();
 }
 

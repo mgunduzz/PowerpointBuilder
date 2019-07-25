@@ -6,7 +6,7 @@
     (click)="element.isActive = !element.isActive"
   >
     <div
-      *ngFor="let col of tableBox"
+      *ngFor="let col of element.cells"
       (mousedown)="onTableMouseDown($event, col.rowIndex, col.colIndex)"
       (mouseover)="onTableMouseMove($event, col.rowIndex, col.colIndex)"
       (mouseup)="onTableMouseUp($event, col.rowIndex, col.colIndex)"

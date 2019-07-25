@@ -8,6 +8,8 @@
     </div>
   </div>
 
+  <div *ngIf="isTableElement()" style="padding: 10px 0;"></div>
+
   <div *ngIf="isChartElement()">
     <div *ngIf="selectedDataSource" style="margin: 10px 0;">
       <div ngbDropdown class="d-inline-block" [autoClose]="true">

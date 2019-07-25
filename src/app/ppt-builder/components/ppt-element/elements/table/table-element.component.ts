@@ -15,7 +15,8 @@ import {
   PPtFormatInputsEnum,
   FormatCheckboxInputModel,
   PptTableElementModel,
-  FormatNumberInputModel
+  FormatNumberInputModel,
+  TableCellModel
 } from '@app/ppt-builder/model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -34,7 +35,6 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   lastMouseDownEvent: MouseEvent;
   lastRowCol: any;
   mergeCellSub: Subscription;
-  tableBox: Array<any>;
 
   oldWidth: number;
   oldHeight: number;
@@ -51,7 +51,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
             let newWidth = formatInput.value;
             let ratio = newWidth / this.oldWidth;
 
-            this.tableBox.forEach((piece, index) => {
+            this.element.cells.forEach((piece, index) => {
               piece.width = piece.width * ratio;
               piece.left = piece.left * ratio;
             });
@@ -63,7 +63,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
             let newHeight = formatInput.value;
             let ratio = newHeight / this.oldHeight;
 
-            this.tableBox.forEach((piece, index) => {
+            this.element.cells.forEach((piece, index) => {
               piece.height = piece.height * ratio;
               piece.top = piece.top * ratio;
             });
@@ -78,7 +78,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
       this.mergeSelectedCells();
     });
 
-    this.tableBox = [];
+    this.element.cells = new Array<TableCellModel>();
+
     let cellWidth = +(this.element.format.formatInputs.width.value / this.element.col).toFixed(2);
     let cellHeight = +(this.element.format.formatInputs.height.value / this.element.row).toFixed(2);
     let cellX,
@@ -88,7 +89,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
       cellX = 0;
 
       for (let cIndex = 0; cIndex < this.element.col; cIndex++) {
-        this.tableBox.push({
+        this.element.cells.push({
           isSelected: false,
           rowIndex: rIndex,
           colIndex: cIndex,
@@ -96,7 +97,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
           height: cellHeight,
           left: cellX,
           top: cellY,
-          isHeader: rIndex == 0
+          isHeader: rIndex == 0,
+          isMerged: false
         });
 
         cellX += cellWidth;
@@ -104,29 +106,6 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
       cellY += cellHeight;
     }
-
-    /* 
-    
-    Array fill kullanıldığında bir propertyde oluşan değişiklik hepsinde oluşuyor.
-
-    */
-
-    // this.tableBox = new Array(this.element.row)
-    //   .fill({})
-    //   .map((rowItem, rIndex) => {
-    //     let rowCols = new Array(this.element.col)
-    //       .fill({ isSelected: false })
-    //       .map((item, cIndex) => {
-    //         item.rowIndex = rIndex;
-    //         item.colIndex = cIndex;
-    //         return item;
-    //       });
-
-    //     rowItem.cols = rowCols;
-    //     rowItem.index = rIndex;
-
-    //     return rowItem;
-    //   });
   }
 
   onTableMouseDown(ev: MouseEvent, rowIndex: number, colIndex: number) {
@@ -166,7 +145,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   mergeSelectedCells() {
-    let selectedCells = this.tableBox.filter(item => item.isSelected);
+    let selectedCells = this.element.cells.filter(item => item.isSelected);
 
     if (selectedCells.length > 1) {
       var selectedPieceCoordinates = Array<any>();
@@ -237,13 +216,13 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         let totalWidth = _.reduce(cellsInFirstCellRow, (a: any, b: any) => a + b);
         let totalHeight = _.reduce(cellsInFirstCellCol, (a: any, b: any) => a + b);
 
-        this.tableBox = this.tableBox.filter(item => {
+        this.element.cells = this.element.cells.filter(item => {
           let founded = selectedCells.find(cell => cell.rowIndex == item.rowIndex && cell.colIndex == item.colIndex);
 
           return founded == undefined;
         });
 
-        this.tableBox.push({
+        this.element.cells.push({
           isMerged: true,
           isSelected: false,
           rowIndex: firstCell.rowIndex,
@@ -255,7 +234,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
           isHeader: firstCell.isHeader
         });
 
-        this.tableBox = this.tableBox;
+        this.element.cells = this.element.cells;
       }
     }
   }
@@ -274,7 +253,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
     console.log({ i, j, w, h });
 
-    this.tableBox.forEach(col => {
+    this.element.cells.forEach(col => {
       col.isSelected = false;
     });
 
@@ -282,7 +261,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
       for (let cIndex = j; cIndex <= w; cIndex++) {
         console.log({ rIndex, colIndex });
 
-        let item = this.tableBox.find(colItem => colItem.rowIndex == rIndex && colItem.colIndex == cIndex);
+        let item = this.element.cells.find(colItem => colItem.rowIndex == rIndex && colItem.colIndex == cIndex);
 
         if (item) item.isSelected = true;
       }
@@ -298,7 +277,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
     mouseEvCorners.push({ x: startX, y: endY });
     mouseEvCorners.push({ x: endX, y: endY });
 
-    this.tableBox.forEach(piece => {
+    this.element.cells.forEach(piece => {
       let selected: boolean = false;
 
       let pos = document.getElementById('cell-' + piece.rowIndex + '-' + piece.colIndex).getBoundingClientRect() as any;
