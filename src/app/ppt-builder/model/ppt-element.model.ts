@@ -5,7 +5,10 @@ import {
   ShapeTypeEnum,
   BarChartFormatModel,
   ColumnChartFormatModel,
-  TextFormatModel
+  TextFormatModel,
+  FormatColorPickerInputModel,
+  PPtFormatInputsEnum,
+  PPtElementFormatInputTypeEnum
 } from './element-format-model';
 import { Subject } from 'rxjs';
 import * as _ from 'underscore';
@@ -307,6 +310,7 @@ export class PptDefaultChartDataSetModel {
   data: Array<number>;
   fill: boolean = false;
   backgroundColor: string;
+  formatInput?: FormatColorPickerInputModel;
 }
 
 export class PptDefaultChartDataModel {
@@ -334,6 +338,17 @@ export class PptDefaultChartElementModel extends PptBaseChartElementModel {
       { label: 'Olumlu', fill: false, data: [80, 50, 23, 56, 43], backgroundColor: '#ffc94a' },
       { label: 'Olumsuz', fill: false, data: [90, 45, 26, 64, 37], backgroundColor: '#42c3c9' }
     ];
+
+    this.dataModal.dataSets.forEach(item => {
+      let categoryBgColor: FormatColorPickerInputModel = {
+        inputId: PPtFormatInputsEnum.chartCategoryBgColor,
+        name: '',
+        inputType: PPtElementFormatInputTypeEnum.colorPicker,
+        value: item.backgroundColor
+      };
+
+      item.formatInput = categoryBgColor;
+    });
   }
 
   dataModal: PptDefaultChartDataModel;
@@ -357,6 +372,15 @@ export class PptDefaultChartElementModel extends PptBaseChartElementModel {
           dataSetModel.label = selectedCat.friendlyName;
           dataSetModel.data = [];
           dataSetModel.backgroundColor = '#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
+
+          let categoryBgColor: FormatColorPickerInputModel = {
+            inputId: PPtFormatInputsEnum.chartCategoryBgColor,
+            name: '',
+            inputType: PPtElementFormatInputTypeEnum.colorPicker,
+            value: dataSetModel.backgroundColor
+          };
+
+          dataSetModel.formatInput = categoryBgColor;
 
           let foundedDataSetIndex = this.dataModal.dataSets.findIndex(item => item.label == selectedCat.friendlyName);
 

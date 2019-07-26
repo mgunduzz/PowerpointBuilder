@@ -9,7 +9,12 @@ import {
   FormatCheckboxInputModel,
   FormatChangeModel,
   FormatInputsModel,
-  PptTableElementModel
+  PptTableElementModel,
+  PptDefaultChartElementModel,
+  PptDefaultChartDataSetModel,
+  FormatColorPickerInputModel,
+  PPtFormatInputsEnum,
+  PPtElementFormatInputTypeEnum
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -83,6 +88,17 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
 
   checkFormatType(formatType: string) {
     return this.element.format.constructor.name == formatType;
+  }
+
+  isDefaultChart() {
+    return this.element instanceof PptDefaultChartElementModel;
+  }
+
+  onCategoryBgColorChanged(ev: FormatColorPickerInputModel, cat: PptDefaultChartDataSetModel) {
+    if (ev.value != cat.backgroundColor) {
+      cat.backgroundColor = ev.value;
+      this.element.onDataChange.next();
+    }
   }
 
   onMergeTableCells() {

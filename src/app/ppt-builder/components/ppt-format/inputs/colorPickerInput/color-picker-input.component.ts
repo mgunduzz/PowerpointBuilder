@@ -28,7 +28,8 @@ export class PptColorPickerInput implements OnInit {
     this.generatedId = random.toString();
   }
 
-  onValueChange() {
+  onValueChange(ev: any) {
+    this.formatInput.value = ev;
     this.onValuechange.emit(this.formatInput);
   }
 }

@@ -4,6 +4,22 @@
 
 <ng-container *ngIf="element && element.format.formatInputs">
   <div class="main-format">
+    <div class="format-block" *ngIf="isDefaultChart()">
+      <div class="format-title"><span class="format-title-text">Category</span></div>
+
+      <div *ngFor="let cat of element.dataModal.dataSets">
+        <div style="display: flex;">
+          <span>
+            {{ cat.label }}
+          </span>
+          <div style="margin-left: 10px;" class="row row-margin">
+            <ppt-color-picker-input [input]="cat.formatInput" (onValuechange)="onCategoryBgColorChanged($event, cat)">
+            </ppt-color-picker-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div
       class="format-block"
       *ngIf="checkFormatType('ColumnChartFormatModel') || checkFormatType('BarChartFormatModel')"
@@ -99,7 +115,7 @@
       </div>
     </div>
 
-    <div class="format-block">
+    <!-- <div class="format-block">
       <div class="format-title"><span class="format-title-text">Position and Size</span></div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.x">
         <ppt-number-input [input]="element.format.formatInputs.x" (onValuechange)="onInputValuechange($event)">
@@ -117,7 +133,7 @@
         <ppt-number-input [input]="element.format.formatInputs.height" (onValuechange)="onInputValuechange($event)">
         </ppt-number-input>
       </div>
-    </div>
+    </div> -->
 
     <div class="format-block">
       <div class="format-title"><span class="format-title-text">Data Labels</span></div>

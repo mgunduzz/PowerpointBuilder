@@ -68,7 +68,8 @@ export enum PPtFormatInputsEnum {
   textVerticalAlign,
   cellFontColor,
   cellBackgroundColor,
-  cellFontSize
+  cellFontSize,
+  chartCategoryBgColor
 }
 
 export class BaseFormatInputModel {
@@ -148,6 +149,7 @@ export class FormatInputsModel {
   cellFontColor: FormatColorPickerInputModel;
   cellBackgroundColor: FormatColorPickerInputModel;
   cellFontSize: FormatNumberInputModel;
+  categoryBgColor: FormatColorPickerInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -451,9 +453,17 @@ export class ChartFormatModel extends BaseElementFormatModel {
       value: false
     };
 
+    let categoryBgColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.chartCategoryBgColor,
+      name: '',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: 'black'
+    };
+
     this.formatInputs.title = title;
     this.formatInputs.legend = legend;
     this.formatInputs.value = value;
+    this.formatInputs.categoryBgColor = categoryBgColor;
   }
 }
 

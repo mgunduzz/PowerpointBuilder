@@ -5,7 +5,7 @@
     <input
       name="colorPicker-input"
       id="colorPickerInput_{{ generatedId }}"
-      (colorPickerChange)="onValueChange()"
+      (colorPickerChange)="onValueChange($event)"
       [(colorPicker)]="formatInput.value"
       [style.background]="formatInput.value"
       [cpPosition]="'left'"
