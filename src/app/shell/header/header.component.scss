@@ -125,3 +125,15 @@
     }
   }
 }
+
+.dropdown-button {
+  position: relative;
+  height: 30px;
+  padding-left: 33px;
+}
+.button-icon {
+  position: absolute;
+  left: 10px;
+  top: 25%;
+  font-size: 15px;
+}
