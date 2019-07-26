@@ -25,9 +25,14 @@
       <i class="fas fa-parking"></i>
       <div class="nav-item dropdown-style" ngbDropdown placement="bottom-right">
         <a id="language-dropdown" ngbDropdownToggle>FILE</a>
-        <div ngbDropdownMenu aria-labelledby="language-dropdown">
-          <button ngbDropdownItem>New</button>
-          <button ngbDropdownItem (click)="openModal(imageContent)">Open...</button>
+        <div ngbDropdownMenu aria-labelledby="language-dropdown" class="dropdown-button-group">
+          <button ngbDropdownItem class="dropdown-button"><i class="fas fa-file button-icon"></i>New</button>
+          <button ngbDropdownItem (click)="openModal(imageContent)" class="dropdown-button">
+            <i class="fas fa-folder-open button-icon"></i>Open...
+          </button>
+          <button ngbDropdownItem (click)="onExport()" class="dropdown-button">
+            <i class="fas fa-file-export button-icon"></i>Export
+          </button>
         </div>
       </div>
 

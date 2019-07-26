@@ -34,7 +34,8 @@ export class HeaderComponent implements OnInit {
     private credentialsService: CredentialsService,
     private i18nService: I18nService,
     private modalService: NgbModal,
-    private pptBuilderService: PPtBuilderService
+    private pptBuilderService: PPtBuilderService,
+    private _pptBuilderService: PPtBuilderService
   ) {}
 
   ngOnInit() {}
@@ -91,6 +92,11 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
+
+  onExport() {
+    this.pptBuilderService.export();
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

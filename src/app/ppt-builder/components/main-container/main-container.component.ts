@@ -45,9 +45,9 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     this.hasAnotherDropZoneOver = e;
   }
 
-  onExport() {
-    this._pPtBuilderService.export();
-  }
+  // onExport() {
+  //   this._pPtBuilderService.export();
+  // }
 
   openModal(content: any, className: string = '', customSize: 'sm' | 'lg' = 'lg') {
     let size: 'sm' | 'lg' = 'lg';
