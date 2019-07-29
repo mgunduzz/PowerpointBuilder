@@ -18,12 +18,14 @@ import {
   FormatNumberInputModel,
   TableCellModel,
   FormatColorPickerInputModel,
-  FormatChangeModel
+  FormatChangeModel,
+  FormatDropdownInputModel
 } from '@app/ppt-builder/model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { DndDropEvent } from 'ngx-drag-drop';
+declare var $: any;
 
 @Component({
   selector: 'ppt-table-element',
@@ -50,9 +52,10 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
       res.forEach(item => {
         var formatInput = item.formatInput as FormatNumberInputModel;
         var colorFormatInput = item.formatInput as FormatColorPickerInputModel;
+        let formatDropdown = item.formatInput as FormatDropdownInputModel;
 
         if (formatInput.inputId == PPtFormatInputsEnum.width) {
-          if (this.oldWidth) {
+          if (this.oldWidth && formatInput.update) {
             let newWidth = formatInput.value;
             let ratio = newWidth / this.oldWidth;
 
@@ -64,7 +67,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
           this.oldWidth = formatInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.height) {
-          if (this.oldHeight) {
+          if (this.oldHeight && formatInput.update) {
             let newHeight = formatInput.value;
             let ratio = newHeight / this.oldHeight;
 
@@ -93,6 +96,29 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
               item.fontSize = formatInput.value;
             }
           });
+        } else if (colorFormatInput.inputId == PPtFormatInputsEnum.cellBorderColor) {
+          this.element.cells.forEach(item => {
+            if (item.isSelected) {
+              item.borderColor = colorFormatInput.value;
+              this.generateBorderCss(item);
+            }
+          });
+        } else if (formatInput.inputId == PPtFormatInputsEnum.cellBorderSize) {
+          this.element.cells.forEach(item => {
+            if (item.isSelected) {
+              item.borderSize = formatInput.value;
+              this.generateBorderCss(item);
+            }
+          });
+        } else if (formatDropdown.inputId == PPtFormatInputsEnum.cellBorderType) {
+          let selectedItem = formatDropdown.value.find(item => item.key == formatDropdown.selectedItemKey);
+
+          this.element.cells.forEach(item => {
+            if (item.isSelected) {
+              item.borderPosition = selectedItem.value == 'All' ? '' : selectedItem.value.toLowerCase();
+              this.generateBorderCss(item);
+            }
+          });
         }
       });
     });
@@ -103,11 +129,11 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
     this.element.cells = new Array<TableCellModel>();
 
-    let cellWidth = +(this.element.format.formatInputs.width.value / this.element.col).toFixed(2);
-    let cellHeight = +(this.element.format.formatInputs.height.value / this.element.row).toFixed(2);
-    cellHeight = 35;
+    this.element.defaultCellWidth = +(this.element.format.formatInputs.width.value / this.element.col).toFixed(2);
+    this.element.defaultCellHeight = +(this.element.format.formatInputs.height.value / this.element.row).toFixed(2);
+    this.element.defaultCellHeight = 35;
 
-    this.element.format.formatInputs.height.value = this.element.row * cellHeight;
+    this.element.format.formatInputs.height.value = this.element.row * this.element.defaultCellHeight;
 
     let cellX,
       cellY = 0;
@@ -124,8 +150,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         newCell.isSelected = false;
         newCell.rowIndex = rIndex;
         newCell.colIndex = cIndex;
-        newCell.width = cellWidth;
-        newCell.height = cellHeight;
+        newCell.width = this.element.defaultCellWidth;
+        newCell.height = this.element.defaultCellHeight;
         newCell.left = cellX;
         newCell.top = cellY;
         newCell.isHeader = rIndex == 0;
@@ -136,14 +162,45 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         newCell.fontColor = '#000000';
         newCell.fontSize = 14;
 
-        if (newCell.isHeader) newCell.bgColor = headerBgColor;
+        if (newCell.isHeader) {
+          newCell.bgColor = headerBgColor;
+          newCell.fontColor = '#FFFFFF';
+        }
 
         this.element.cells.push(newCell);
 
-        cellX += cellWidth;
+        cellX += this.element.defaultCellWidth;
       }
 
-      cellY += cellHeight;
+      cellY += this.element.defaultCellHeight;
+    }
+  }
+
+  generateBorderCss(cell: TableCellModel) {
+    if (cell) {
+      cell.border = `solid ${cell.borderSize}px ${cell.borderColor}`;
+
+      let pos = 'border';
+
+      switch (cell.borderPosition) {
+        case 'left':
+          pos = 'border-left';
+          break;
+        case 'right':
+          pos = 'border-right';
+          break;
+        case 'top':
+          pos = 'border-top';
+          break;
+        case 'bottom':
+          pos = 'border-bottom';
+          break;
+
+        default:
+          break;
+      }
+
+      $('#cell-' + cell.id).css(pos, cell.border);
     }
   }
 
@@ -421,6 +478,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
     this.element.cells.forEach(item => (item.isDragOver = item.id != cell.id ? false : true));
     cell.headerData = event.data;
+    cell.value = cell.headerData.friendlyName;
   }
 
   ngAfterViewChecked() {}

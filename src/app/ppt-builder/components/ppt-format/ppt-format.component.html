@@ -85,6 +85,12 @@
       <div class="row row-margin">
         <button (click)="onMergeTableCells()">Merge Cells</button>
       </div>
+
+      <div class="row row-margin" style="margin-top: 10px;">
+        <button (click)="onAddTableRow()">Satır Ekle</button>
+
+        <button (click)="onAddTableColumn()">Sütun Ekle</button>
+      </div>
     </div>
 
     <div class="format-block" *ngIf="checkFormatType('TableFormatModel') && element.selectedCells.length > 0">
@@ -112,6 +118,35 @@
           (onValuechange)="onInputValuechange($event)"
         >
         </ppt-number-input>
+      </div>
+
+      <div
+        class="row row-margin"
+        style="display: flex; flex-direction: row;"
+        *ngIf="element.format.formatInputs.cellBorderType"
+      >
+        <div class="text" style="flex-grow: 1;">Border Tipi Seçiniz</div>
+        <ppt-dropdown-input
+          [input]="element.format.formatInputs.cellBorderType"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-dropdown-input>
+      </div>
+
+      <div class="row row-margin">
+        <ppt-number-input
+          [input]="element.format.formatInputs.cellBorderSize"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+
+      <div class="row row-margin">
+        <ppt-color-picker-input
+          [input]="element.format.formatInputs.cellBorderColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
       </div>
     </div>
 
@@ -156,6 +191,7 @@
       <div class="row row-margin" *ngIf="element.format.formatInputs.backgroundColor">
         <ppt-color-picker-input
           [input]="element.format.formatInputs.backgroundColor"
+          x
           (onValuechange)="onInputValuechange($event)"
         >
         </ppt-color-picker-input>

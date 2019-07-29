@@ -10,6 +10,13 @@
   border: 1px solid white;
   position: absolute;
 
+  input {
+    &:focus {
+      box-shadow: none !important;
+      border: none !important;
+    }
+  }
+
   &.drag-over {
     // background-color: #d3d3d3 !important;
   }

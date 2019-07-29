@@ -70,7 +70,10 @@ export enum PPtFormatInputsEnum {
   cellFontColor,
   cellBackgroundColor,
   cellFontSize,
-  chartCategoryBgColor
+  chartCategoryBgColor,
+  cellBorderType,
+  cellBorderSize,
+  cellBorderColor
 }
 
 export class BaseFormatInputModel {
@@ -78,6 +81,7 @@ export class BaseFormatInputModel {
   inputId: PPtFormatInputsEnum;
   inputType: PPtElementFormatInputTypeEnum;
   note?: string;
+  update?: boolean;
 }
 
 export class FormatCheckboxInputModel extends BaseFormatInputModel {
@@ -151,6 +155,9 @@ export class FormatInputsModel {
   cellBackgroundColor: FormatColorPickerInputModel;
   cellFontSize: FormatNumberInputModel;
   categoryBgColor: FormatColorPickerInputModel;
+  cellBorderType: FormatDropdownInputModel;
+  cellBorderSize: FormatNumberInputModel;
+  cellBorderColor: FormatColorPickerInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -245,9 +252,46 @@ export class TableFormatModel extends BaseElementFormatModel {
       value: 14
     };
 
+    let borderTypes = new Array<KeyValueModel>();
+    borderTypes.push({ key: 1, value: 'All' });
+    borderTypes.push({ key: 2, value: 'Left' });
+    borderTypes.push({ key: 3, value: 'Top' });
+    borderTypes.push({ key: 4, value: 'Right' });
+    borderTypes.push({ key: 5, value: 'Bottom' });
+
+    let cellBorderType: FormatDropdownInputModel = {
+      inputId: PPtFormatInputsEnum.cellBorderType,
+      name: 'Border Type',
+      inputType: PPtElementFormatInputTypeEnum.dropdown,
+      selectedItemKey: 1,
+      value: borderTypes,
+      position: 'bottom',
+      autoClose: true,
+      container: 'body'
+    };
+
+    let cellBorderSize: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.cellBorderSize,
+      name: 'CellBorderSize',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 100,
+      min: 0,
+      value: 0
+    };
+
+    let cellBorderColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.cellBorderColor,
+      name: 'CellBorderColor',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: '#FFFFFF'
+    };
+
     this.formatInputs.cellFontColor = cellFontColor;
     this.formatInputs.cellBackgroundColor = cellBackgroundColor;
     this.formatInputs.cellFontSize = cellFontSize;
+    this.formatInputs.cellBorderType = cellBorderType;
+    this.formatInputs.cellBorderSize = cellBorderSize;
+    this.formatInputs.cellBorderColor = cellBorderColor;
   }
 }
 
