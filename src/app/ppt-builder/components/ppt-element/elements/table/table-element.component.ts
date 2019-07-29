@@ -105,8 +105,16 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
     let cellWidth = +(this.element.format.formatInputs.width.value / this.element.col).toFixed(2);
     let cellHeight = +(this.element.format.formatInputs.height.value / this.element.row).toFixed(2);
+    cellHeight = 35;
+
+    this.element.format.formatInputs.height.value = this.element.row * cellHeight;
+
     let cellX,
       cellY = 0;
+
+    let headerBgColor = '#246E96';
+    let oddBgColor = '#c3cde6';
+    let evenBgColor = '#e1e6f2';
 
     for (let rIndex = 0; rIndex < this.element.row; rIndex++) {
       cellX = 0;
@@ -124,9 +132,11 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         newCell.isMerged = false;
         newCell.isDragOver = false;
         newCell.id = +('1' + rIndex + cIndex);
-        newCell.bgColor = '#42c3c9';
+        newCell.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
         newCell.fontColor = '#000000';
         newCell.fontSize = 14;
+
+        if (newCell.isHeader) newCell.bgColor = headerBgColor;
 
         this.element.cells.push(newCell);
 
