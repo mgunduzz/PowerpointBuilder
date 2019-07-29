@@ -40,7 +40,7 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
   public onClick(targetElement: ElementRef) {
     const clickedInside = this.insideElement.nativeElement.contains(targetElement);
     if (!clickedInside) {
-      this.showText = true;
+      // this.showText = true;
     }
   }
 
@@ -76,7 +76,7 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
             this.element.backgroundColor = colorPickerInput.value;
             break;
           case PPtFormatInputsEnum.fontSize:
-            this.element.fontSize = numberInput.value + 'px';
+            this.element.fontSize = numberInput.value + 'pt';
             break;
           case PPtFormatInputsEnum.textIndent:
             this.element.indent = numberInput.value + 'px';

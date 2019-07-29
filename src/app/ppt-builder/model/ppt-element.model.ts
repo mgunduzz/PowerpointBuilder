@@ -545,7 +545,7 @@ export class PptTextElementModel extends PptElementModel {
     pptxTextItem.options = this.options;
     pptxTextItem.options.color = this.color.replace('#', '');
     pptxTextItem.options.fill = this.backgroundColor.replace('#', '');
-    pptxTextItem.options.fontSize = this.fontSize.replace('px', '');
+    pptxTextItem.options.fontSize = this.fontSize.replace('pt', '');
     pptxTextItem.options.rectRadius = this.radius;
     pptxTextItem.options.italic = this.fontStyle == 'italic';
     pptxTextItem.options.bold = this.fontWeigth == 600;
