@@ -74,7 +74,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     let textEl = this._pPtBuilderService.createElement(PPtElementEnum.Text, {
       x: '35',
       y: '35',
-      text: 'Metin Giriniz'
+      text: ''
     });
   }
 

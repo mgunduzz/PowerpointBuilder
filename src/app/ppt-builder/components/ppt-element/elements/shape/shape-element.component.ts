@@ -56,7 +56,7 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
   createBorder() {
     if (this.element.isShapeBorder) {
       this.element.shapeBorder =
-        this.element.shapeBorderSize + 'px ' + this.element.shapeBorderStyle + ' ' + this.element.shapeBorderColor;
+        this.element.shapeBorderSize + 'pt ' + this.element.shapeBorderStyle + ' ' + this.element.shapeBorderColor;
     } else {
       this.element.shapeBorder = 'unset';
     }

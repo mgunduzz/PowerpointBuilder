@@ -367,7 +367,7 @@ export class PPtBuilderService {
 
     textEl.color = 'black';
     textEl.font = 'sans-serif';
-    textEl.fontSize = '12px';
+    textEl.fontSize = '11pt';
     textEl.fontWeigth = 100;
     textEl.backgroundColor = 'transparent';
     textEl.fontStyle = 'unset';
