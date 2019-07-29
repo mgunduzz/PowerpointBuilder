@@ -471,6 +471,14 @@ export class PptScatterChartElementModel extends PptBaseChartElementModel {
 }
 
 export class TableCellModel extends PptElementModel {
+  constructor() {
+    super();
+    this.borderSize = 1;
+    this.border = '';
+    this.borderPosition = '';
+    this.borderColor = 'transparent';
+  }
+
   isSelected: boolean;
   rowIndex: number;
   colIndex: number;
@@ -486,6 +494,10 @@ export class TableCellModel extends PptElementModel {
   bgColor?: string;
   fontColor?: string;
   fontSize?: number;
+  borderColor?: string;
+  borderSize?: number;
+  borderPosition?: string;
+  border?: string;
 }
 
 export class PptTableElementModel extends PptElementModel {

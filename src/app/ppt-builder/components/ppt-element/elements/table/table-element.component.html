@@ -24,10 +24,16 @@
       [style.line-height]="cell.height + 'px'"
       style="text-align: center;"
       [style.background]="cell.bgColor"
-      [style.color]="cell.fontColor"
       [style.font-size]="cell.fontSize + 'pt'"
     >
-      {{ cell.headerData ? cell.headerData.friendlyName : '' }}
+      <input
+        class="form-control"
+        [style.color]="cell.fontColor"
+        [(ngModel)]="cell.value"
+        [style.width]="cell.width + 'px'"
+        [style.height]="cell.height + 'px'"
+        style="background-color: transparent;border: none !important;"
+      />
     </div>
 
     <div
@@ -35,7 +41,7 @@
       (mousedown)="onTableMouseDown($event, cell.rowIndex, cell.colIndex)"
       (mouseover)="onTableMouseMove($event, cell.rowIndex, cell.colIndex)"
       (mouseup)="onTableMouseUp($event, cell.rowIndex, cell.colIndex)"
-      class="table-cell"
+      class="table-cell "
       id="cell-{{ cell.id }}"
       #tableCell
       [ngClass]="{ selected: cell.isSelected, header: cell.isHeader }"
@@ -46,10 +52,16 @@
       [style.line-height]="cell.height + 'px'"
       style="text-align: center;"
       [style.background]="cell.bgColor"
-      [style.color]="cell.fontColor"
       [style.font-size]="cell.fontSize + 'pt'"
     >
-      {{ cell.value }}
+      <input
+        class="form-control"
+        [style.color]="cell.fontColor"
+        [(ngModel)]="cell.value"
+        [style.width]="cell.width + 'px'"
+        [style.height]="cell.height + 'px'"
+        style="background-color: transparent;border: none !important;"
+      />
     </div>
   </div>
 </div>
