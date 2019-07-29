@@ -55,7 +55,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         let formatDropdown = item.formatInput as FormatDropdownInputModel;
 
         if (formatInput.inputId == PPtFormatInputsEnum.width) {
-          if (this.oldWidth) {
+          if (this.oldWidth && formatInput.update) {
             let newWidth = formatInput.value;
             let ratio = newWidth / this.oldWidth;
 

@@ -28,7 +28,8 @@ import {
   AnalyseApiDataModel,
   LineChartFormatModel,
   PptScatterChartElementModel,
-  PptAreaChartElementModel
+  PptAreaChartElementModel,
+  TableCellModel
 } from '../model';
 import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
 declare var $: any;
@@ -430,5 +431,40 @@ export class PPtBuilderService {
     });
 
     return of(data);
+  }
+
+  createDefaultTableCell(
+    rIndex: number,
+    cIndex: number,
+    element: PptTableElementModel,
+    cellX: number,
+    cellY: number
+  ): TableCellModel {
+    let headerBgColor = '#246E96';
+    let oddBgColor = '#c3cde6';
+    let evenBgColor = '#e1e6f2';
+
+    let newCell = new TableCellModel();
+    newCell.isSelected = false;
+    newCell.rowIndex = rIndex;
+    newCell.colIndex = cIndex;
+    newCell.width = element.defaultCellWidth;
+    newCell.height = element.defaultCellHeight;
+    newCell.left = cellX;
+    newCell.top = cellY;
+    newCell.isHeader = rIndex == 0;
+    newCell.isMerged = false;
+    newCell.isDragOver = false;
+    newCell.id = +('1' + rIndex + cIndex);
+    newCell.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
+    newCell.fontColor = '#000000';
+    newCell.fontSize = 14;
+
+    if (newCell.isHeader) {
+      newCell.bgColor = headerBgColor;
+      newCell.fontColor = '#FFFFFF';
+    }
+
+    return newCell;
   }
 }

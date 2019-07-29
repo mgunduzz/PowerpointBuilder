@@ -14,7 +14,9 @@ import {
   PptDefaultChartDataSetModel,
   FormatColorPickerInputModel,
   PPtFormatInputsEnum,
-  PPtElementFormatInputTypeEnum
+  PPtElementFormatInputTypeEnum,
+  TableCellModel,
+  FormatNumberInputModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -103,6 +105,64 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
 
   onMergeTableCells() {
     (this.element as PptTableElementModel).onMergeCells.next();
+  }
+
+  onAddTableRow() {
+    let tableEl = this.element as PptTableElementModel;
+    let latestCell = tableEl.cells[tableEl.cells.length - 1];
+
+    let cellX = 0;
+
+    for (let i = 0; i < tableEl.col; i++) {
+      let newCell = this.pPtBuilderService.createDefaultTableCell(
+        latestCell.rowIndex + 1,
+        i,
+        tableEl,
+        cellX,
+        latestCell.top + latestCell.height
+      );
+
+      cellX += newCell.width;
+
+      tableEl.cells.push(newCell);
+    }
+
+    tableEl.row += 1;
+    tableEl.format.formatInputs.height.value += tableEl.defaultCellHeight;
+
+    let input = JSON.parse(JSON.stringify(tableEl.format.formatInputs.height)) as FormatNumberInputModel;
+    input.update = false;
+
+    tableEl.onFormatChange.next([{ formatInput: input }]);
+  }
+
+  onAddTableColumn() {
+    let tableEl = this.element as PptTableElementModel;
+    let latestCell = tableEl.cells[tableEl.cells.length - 1];
+
+    let cellY = 0;
+
+    for (let i = 0; i < tableEl.row; i++) {
+      let newCell = this.pPtBuilderService.createDefaultTableCell(
+        i,
+        latestCell.colIndex + 1,
+        tableEl,
+        latestCell.left + latestCell.width,
+        cellY
+      );
+
+      cellY += newCell.height;
+
+      tableEl.cells.push(newCell);
+    }
+
+    tableEl.col += 1;
+    tableEl.format.formatInputs.width.value += tableEl.defaultCellWidth;
+
+    let input = JSON.parse(JSON.stringify(tableEl.format.formatInputs.width)) as FormatNumberInputModel;
+    input.update = false;
+
+    tableEl.onFormatChange.next([{ formatInput: input }]);
   }
 
   ngOnDestroy() {
