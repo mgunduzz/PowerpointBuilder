@@ -1,24 +1,5 @@
 <div #insideElement class="el-box " [style.text-align]="element.textAlign">
-  <pre
-    [hidden]="!showText"
-    [style.background-color]="element.backgroundColor"
-    [style.font-size]="element.fontSize"
-    [style.font-family]="element.font"
-    [style.font-style]="element.fontStyle"
-    [style.font-weight]="element.fontWeigth"
-    [style.width]="element.width"
-    [style.border-radius]="element.radius"
-    [style.color]="element.color"
-    (click)="showEditableText(); $event.stopPropagation()"
-    class="text-margin first-line-padding "
-    [style.border]="element.stroke"
-    [style.paddingLeft]="element.indent"
-    [style.text-indent]="element.firstLineIndent"
-  >
-Metin Giriniz</pre
-  >
-
-  <pre
+  <div
     [style.background-color]="element.backgroundColor"
     [style.font-size]="element.fontSize"
     [style.font-family]="element.font"
@@ -27,12 +8,11 @@ Metin Giriniz</pre
     [style.color]="element.color"
     [style.width]="element.width"
     [style.border-radius]="element.radius"
-    [hidden]="showText"
     contenteditable="true"
     [(ngModel)]="element.text"
     (ngModelChange)="elementTextChanged()"
     class="text-margin first-line-padding text-element "
     [style.paddingLeft]="element.indent"
     [style.text-indent]="element.firstLineIndent"
-  ></pre>
+  ></div>
 </div>
