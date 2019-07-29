@@ -80,6 +80,7 @@ export class BaseFormatInputModel {
   inputId: PPtFormatInputsEnum;
   inputType: PPtElementFormatInputTypeEnum;
   note?: string;
+  update?: boolean;
 }
 
 export class FormatCheckboxInputModel extends BaseFormatInputModel {

@@ -67,7 +67,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
           this.oldWidth = formatInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.height) {
-          if (this.oldHeight) {
+          if (this.oldHeight && formatInput.update) {
             let newHeight = formatInput.value;
             let ratio = newHeight / this.oldHeight;
 
@@ -129,11 +129,11 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
     this.element.cells = new Array<TableCellModel>();
 
-    let cellWidth = +(this.element.format.formatInputs.width.value / this.element.col).toFixed(2);
-    let cellHeight = +(this.element.format.formatInputs.height.value / this.element.row).toFixed(2);
-    cellHeight = 35;
+    this.element.defaultCellWidth = +(this.element.format.formatInputs.width.value / this.element.col).toFixed(2);
+    this.element.defaultCellHeight = +(this.element.format.formatInputs.height.value / this.element.row).toFixed(2);
+    this.element.defaultCellHeight = 35;
 
-    this.element.format.formatInputs.height.value = this.element.row * cellHeight;
+    this.element.format.formatInputs.height.value = this.element.row * this.element.defaultCellHeight;
 
     let cellX,
       cellY = 0;
@@ -150,8 +150,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         newCell.isSelected = false;
         newCell.rowIndex = rIndex;
         newCell.colIndex = cIndex;
-        newCell.width = cellWidth;
-        newCell.height = cellHeight;
+        newCell.width = this.element.defaultCellWidth;
+        newCell.height = this.element.defaultCellHeight;
         newCell.left = cellX;
         newCell.top = cellY;
         newCell.isHeader = rIndex == 0;
@@ -169,10 +169,10 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
         this.element.cells.push(newCell);
 
-        cellX += cellWidth;
+        cellX += this.element.defaultCellWidth;
       }
 
-      cellY += cellHeight;
+      cellY += this.element.defaultCellHeight;
     }
   }
 

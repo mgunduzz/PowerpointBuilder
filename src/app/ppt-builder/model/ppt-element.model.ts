@@ -8,7 +8,8 @@ import {
   TextFormatModel,
   FormatColorPickerInputModel,
   PPtFormatInputsEnum,
-  PPtElementFormatInputTypeEnum
+  PPtElementFormatInputTypeEnum,
+  FormatNumberInputModel
 } from './element-format-model';
 import { Subject } from 'rxjs';
 import * as _ from 'underscore';
@@ -512,6 +513,8 @@ export class PptTableElementModel extends PptElementModel {
   row: number;
   col: number;
   cells: Array<TableCellModel>;
+  defaultCellWidth?: number;
+  defaultCellHeight?: number;
   onMergeCells = new Subject<any>();
   selectedCells: Array<TableCellModel>;
 
@@ -519,15 +522,65 @@ export class PptTableElementModel extends PptElementModel {
     let cellsHasAHeaderData = this.cells.filter(item => item.headerData);
 
     cellsHasAHeaderData.forEach(headerCell => {
+      let rowDiff = data.length - this.row - 1;
+
+      if (rowDiff > 0) {
+        let cellX = 0;
+        let cellY = this.cells[this.cells.length - 1].top + this.cells[this.cells.length - 1].height;
+
+        let oddBgColor = '#c3cde6';
+        let evenBgColor = '#e1e6f2';
+
+        for (let i = 0; i < rowDiff; i++) {
+          cellX = 0;
+
+          for (let j = 0; j < this.col; j++) {
+            let rIndex = this.row + i;
+            let cIndex = j;
+
+            let newCell = new TableCellModel();
+            newCell.isSelected = false;
+            newCell.rowIndex = rIndex;
+            newCell.colIndex = cIndex;
+            newCell.width = this.defaultCellWidth;
+            newCell.height = this.defaultCellHeight;
+            newCell.left = cellX;
+            newCell.top = cellY;
+            newCell.isHeader = rIndex == 0;
+            newCell.isMerged = false;
+            newCell.isDragOver = false;
+            newCell.id = +('1' + rIndex + cIndex);
+            newCell.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
+            newCell.fontColor = '#000000';
+            newCell.fontSize = 14;
+            newCell.value = '';
+
+            this.cells.push(newCell);
+
+            cellX += this.defaultCellWidth;
+          }
+
+          cellY += this.defaultCellHeight;
+          this.format.formatInputs.height.value += this.defaultCellHeight;
+        }
+
+        this.row += rowDiff;
+      }
+
       let columnCells = this.cells.filter(
         item => item.colIndex == headerCell.colIndex && item.rowIndex != headerCell.rowIndex
       );
 
       data.forEach((dataItem, dataIndex) => {
-        if (dataIndex < columnCells.length) {
+        if (dataIndex < this.row - 1) {
           columnCells[dataIndex].value = dataItem[headerCell.headerData.name];
         }
       });
+
+      let input = JSON.parse(JSON.stringify(this.format.formatInputs.height)) as FormatNumberInputModel;
+      input.update = false;
+
+      this.onFormatChange.next([{ formatInput: input }]);
     });
   }
 }
