@@ -36,6 +36,7 @@ export enum PPtFormatInputsEnum {
   isBold = 7,
   isItalic = 8,
   color = 9,
+  listStyle = 10,
   value,
   radius,
   width,
@@ -310,6 +311,21 @@ export class TextFormatModel extends BaseElementFormatModel {
       selected: false,
       tooltip: 'Sağa Yasla'
     });
+    let listStyleList = new Array<KeyValueModel>();
+    listStyleList.push({ key: 1, value: 'None' });
+    listStyleList.push({ key: 2, value: 'Bullets' });
+    listStyleList.push({ key: 3, value: 'Numbers' });
+
+    let listStyle: FormatDropdownInputModel = {
+      inputId: PPtFormatInputsEnum.listStyle,
+      name: 'List Style',
+      inputType: PPtElementFormatInputTypeEnum.dropdown,
+      value: listStyleList,
+      position: 'bottom',
+      autoClose: true,
+      container: 'body',
+      selectedItemKey: 1
+    };
 
     let textAlign: FormatRadioButtonInputModel = {
       inputId: PPtFormatInputsEnum.textAlign,
@@ -425,6 +441,7 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.strokeColor = strokeColor;
     this.formatInputs.textIndent = textIndent;
     this.formatInputs.firstLineIndent = firstLineIndent;
+    this.formatInputs.lineStyle = listStyle;
   }
 }
 
