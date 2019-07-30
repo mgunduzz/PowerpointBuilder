@@ -53,6 +53,9 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   ) {}
 
   ngOnInit() {
+    this.oldWidth = this.element.format.formatInputs.width.value;
+    this.oldHeight = this.element.format.formatInputs.height.value;
+
     this.onFormatChangeSub = this.element.onFormatChange.subscribe(res => {
       res.forEach(item => {
         var formatInput = item.formatInput as FormatNumberInputModel;
@@ -80,6 +83,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
           this.oldWidth = formatInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.height) {
+          debugger;
           if (this.oldHeight && formatInput.update) {
             let newHeight = formatInput.value;
             let ratio = newHeight / this.oldHeight;
@@ -149,6 +153,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
     this.element.defaultCellHeight = 35;
 
     this.element.format.formatInputs.height.value = this.element.row * this.element.defaultCellHeight;
+
+    this.element.onFormatChange.next([{ formatInput: this.element.format.formatInputs.height }]);
 
     let cellX,
       cellY = 0;
