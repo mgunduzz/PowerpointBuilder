@@ -458,10 +458,11 @@ export class PPtBuilderService {
     newCell.id = +('1' + rIndex + cIndex);
     newCell.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
     newCell.fontColor = '#000000';
-    newCell.fontSize = 14;
+    newCell.fontSize = 10;
 
     if (newCell.isHeader) {
       newCell.bgColor = headerBgColor;
+      newCell.fontSize = 13;
       newCell.fontColor = '#FFFFFF';
     }
 

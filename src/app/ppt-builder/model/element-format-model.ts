@@ -248,7 +248,7 @@ export class TableFormatModel extends BaseElementFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 100,
       min: 0,
-      value: 14
+      value: 13
     };
 
     let borderTypes = new Array<KeyValueModel>();
@@ -282,7 +282,7 @@ export class TableFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.cellBorderColor,
       name: 'CellBorderColor',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: '#FFFFFF'
+      value: '#ffffff'
     };
 
     this.formatInputs.cellFontColor = cellFontColor;
@@ -422,7 +422,7 @@ export class TextFormatModel extends BaseElementFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 100,
       min: 0,
-      value: 12
+      value: 10
     };
 
     let fontList = new Array<KeyValueModel>();

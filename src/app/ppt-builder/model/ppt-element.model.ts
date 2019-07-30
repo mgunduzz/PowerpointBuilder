@@ -477,7 +477,7 @@ export class TableCellModel extends PptElementModel {
     this.borderSize = 1;
     this.border = '';
     this.borderPosition = '';
-    this.borderColor = 'transparent';
+    this.borderColor = '#ffffff';
   }
 
   isSelected: boolean;
@@ -552,7 +552,7 @@ export class PptTableElementModel extends PptElementModel {
             newCell.id = +('1' + rIndex + cIndex);
             newCell.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
             newCell.fontColor = '#000000';
-            newCell.fontSize = 14;
+            newCell.fontSize = 13;
             newCell.value = '';
 
             this.cells.push(newCell);
@@ -582,6 +582,38 @@ export class PptTableElementModel extends PptElementModel {
 
       this.onFormatChange.next([{ formatInput: input }]);
     });
+  }
+
+  generatePptxItem(pptx: any, slide: any) {
+    super.generatePptxItem(pptx, slide);
+
+    let options = this.options;
+    options.color = '363636';
+
+    let rows: any[] = [];
+    let row: any[] = [];
+
+    this.cells.forEach((cell, index) => {
+      row.push({
+        text: cell.value,
+        options: {
+          fontSize: cell.fontSize,
+          fill: cell.bgColor,
+          color: cell.fontColor.replace('#', ''),
+          border: {
+            pt: cell.borderSize,
+            color: cell.borderColor.replace('#', '')
+          }
+        }
+      });
+
+      if (cell.colIndex >= this.col - 1) {
+        rows.push(row);
+        row = [];
+      }
+    });
+
+    slide.addTable(rows, options);
   }
 }
 

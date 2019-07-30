@@ -25,6 +25,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { DndDropEvent } from 'ngx-drag-drop';
+import { PPtBuilderService } from '@app/ppt-builder/service';
 declare var $: any;
 
 @Component({
@@ -45,7 +46,11 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   oldWidth: number;
   oldHeight: number;
 
-  constructor(private sanitizer: DomSanitizer, private renderer: Renderer) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private renderer: Renderer,
+    private pPtBuilderService: PPtBuilderService
+  ) {}
 
   ngOnInit() {
     this.onFormatChangeSub = this.element.onFormatChange.subscribe(res => {
@@ -54,7 +59,13 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         var colorFormatInput = item.formatInput as FormatColorPickerInputModel;
         let formatDropdown = item.formatInput as FormatDropdownInputModel;
 
-        if (formatInput.inputId == PPtFormatInputsEnum.width) {
+        if (formatInput.inputId == PPtFormatInputsEnum.cellFontSize) {
+          this.element.cells.forEach(item => {
+            if (item.isSelected) {
+              item.fontSize = formatInput.value;
+            }
+          });
+        } else if (formatInput.inputId == PPtFormatInputsEnum.width) {
           if (this.oldWidth && formatInput.update) {
             let newWidth = formatInput.value;
             let ratio = newWidth / this.oldWidth;
@@ -147,25 +158,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
       for (let cIndex = 0; cIndex < this.element.col; cIndex++) {
         let newCell = new TableCellModel();
-        newCell.isSelected = false;
-        newCell.rowIndex = rIndex;
-        newCell.colIndex = cIndex;
-        newCell.width = this.element.defaultCellWidth;
-        newCell.height = this.element.defaultCellHeight;
-        newCell.left = cellX;
-        newCell.top = cellY;
-        newCell.isHeader = rIndex == 0;
-        newCell.isMerged = false;
-        newCell.isDragOver = false;
-        newCell.id = +('1' + rIndex + cIndex);
-        newCell.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
-        newCell.fontColor = '#000000';
-        newCell.fontSize = 14;
-
-        if (newCell.isHeader) {
-          newCell.bgColor = headerBgColor;
-          newCell.fontColor = '#FFFFFF';
-        }
+        newCell = this.pPtBuilderService.createDefaultTableCell(rIndex, cIndex, this.element, cellX, cellY);
 
         this.element.cells.push(newCell);
 
