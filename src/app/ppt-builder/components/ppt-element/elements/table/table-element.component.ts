@@ -70,6 +70,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
             let newWidth = formatInput.value;
             let ratio = newWidth / this.oldWidth;
 
+            this.element.defaultCellWidth *= ratio;
+
             this.element.cells.forEach((piece, index) => {
               piece.width = piece.width * ratio;
               piece.left = piece.left * ratio;
@@ -81,6 +83,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
           if (this.oldHeight && formatInput.update) {
             let newHeight = formatInput.value;
             let ratio = newHeight / this.oldHeight;
+
+            this.element.defaultCellHeight *= ratio;
 
             this.element.cells.forEach((piece, index) => {
               piece.height = piece.height * ratio;

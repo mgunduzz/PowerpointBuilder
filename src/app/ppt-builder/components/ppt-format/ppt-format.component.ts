@@ -139,6 +139,7 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
   onAddTableColumn() {
     let tableEl = this.element as PptTableElementModel;
     let latestCell = tableEl.cells[tableEl.cells.length - 1];
+    let currentWidth = tableEl.format.formatInputs.width.value;
 
     let cellY = 0;
 
@@ -163,6 +164,13 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     input.update = false;
 
     tableEl.onFormatChange.next([{ formatInput: input }]);
+
+    input.value = currentWidth;
+    input.update = true;
+
+    this.element.onFormatChange.next([{ formatInput: input }]);
+
+    this.element.format.formatInputs.width.value = currentWidth;
   }
 
   ngOnDestroy() {
