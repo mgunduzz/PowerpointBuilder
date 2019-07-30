@@ -103,6 +103,16 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
               this.element.stroke = '3px solid transparent';
             }
             break;
+
+          case PPtFormatInputsEnum.listStyle:
+            if (dropdown.selectedItemKey > 0) {
+              let index = dropdown.value.findIndex(o => o.key == dropdown.selectedItemKey);
+              if (index > -1) {
+                this.element.listStyle = dropdown.value[index].value;
+                this.addListToAllChildren(dropdown.value[index].key);
+              }
+            }
+            break;
           case PPtFormatInputsEnum.isBold:
             if (checkbox.value) {
               this.element.fontWeigth = 600;
@@ -143,15 +153,43 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit() {
-    // $("#element1")
-    //   .contents()
-    //   .filter(function () {
-    //     return !!$.trim(this.innerHTML || this.data);
-    //   })
-    //   .first().css('margin-left','100px');
-  }
+  ngAfterViewInit() {}
 
+  addListToAllChildren(type: number) {
+    let firstNode = $('.text-element')
+      .contents()
+      .eq(0)[0]['nodeName'];
+    debugger;
+    if (firstNode == '#text') {
+      $('.text-element')
+        .contents()
+        .eq(0)
+        .wrap('<div></div>');
+    }
+
+    if (type == 3) {
+      $('.text-element')
+        .find('div')
+        .addClass('list-numbers');
+      $('.text-element')
+        .find('div')
+        .removeClass('list-bullets');
+    } else if (type == 2) {
+      $('.text-element')
+        .find('div')
+        .addClass('list-bullets');
+      $('.text-element')
+        .find('div')
+        .removeClass('list-numbers');
+    } else {
+      $('.text-element')
+        .find('div')
+        .removeClass('list-bullets');
+      $('.text-element')
+        .find('div')
+        .removeClass('list-numbers');
+    }
+  }
   ngOnDestroy() {}
 
   showEditableText() {

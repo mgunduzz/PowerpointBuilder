@@ -909,3 +909,24 @@ export class DoughnutChartFormatModel extends ChartFormatModel {
     this.formatInputs.pieCutoutPercentage = pieCutoutPercentage;
   }
 }
+// FA: Daha sonra bakılacak
+// export class ListKeyValueModel {
+//   key: number;
+//   value: string;
+// }
+
+// export enum PptTextListNumberTypeEnum{
+//   decimal,
+//   decimalLeadingZero,
+//   lowerLatin,
+//   lowerRoman,
+//   upperLatin,
+
+// }
+
+// export enum PptTextListBulletTypeEnum{
+//   unset=1,
+//   disc,
+//   squere,
+//   circle,
+// }

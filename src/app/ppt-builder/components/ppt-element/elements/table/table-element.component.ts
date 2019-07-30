@@ -83,7 +83,6 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
           this.oldWidth = formatInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.height) {
-          debugger;
           if (this.oldHeight && formatInput.update) {
             let newHeight = formatInput.value;
             let ratio = newHeight / this.oldHeight;

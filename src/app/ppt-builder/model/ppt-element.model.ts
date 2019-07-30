@@ -631,6 +631,7 @@ export class PptTextElementModel extends PptElementModel {
   stroke: string;
   indent: string;
   firstLineIndent: string;
+  listStyle: string;
 
   generatePptxItem(pptx: any, slide: any) {
     super.generatePptxItem(pptx, slide);
@@ -649,6 +650,7 @@ export class PptTextElementModel extends PptElementModel {
     pptxTextItem.options.stroke = this.stroke == 'unset !important';
     pptxTextItem.options.indent = this.indent == 'unset';
     pptxTextItem.options.firstLineIndent = this.firstLineIndent == 'unset';
+    pptxTextItem.options.listStyle = this.listStyle == '';
 
     let align = textFormat.formatInputs.textAlign.value.find(item => item.selected).key;
 

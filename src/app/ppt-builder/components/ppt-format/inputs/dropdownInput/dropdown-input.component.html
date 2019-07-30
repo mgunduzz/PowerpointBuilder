@@ -1,13 +1,12 @@
-<div>
-  <div class="form-check-label noselect ">
-    <div ngbDropdown class="d-inline-block" [placement]="formatInput.position" [autoClose]="formatInput.autoClose">
-      <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>{{ selectedItem }}</button>
-      <div ngbDropdownMenu aria-labelledby="dropDownInput">
-        <button ngbDropdownItem *ngFor="let item of formatInput.value" (click)="clickItem(item.key)">
-          {{ item.value }}
-        </button>
-      </div>
+<div class="form-check-label noselect ">
+  <div class="text">{{ inputName }}</div>
+  <div ngbDropdown class="d-inline-block" [placement]="formatInput.position" [autoClose]="formatInput.autoClose">
+    <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>{{ selectedItem }}</button>
+    <div ngbDropdownMenu aria-labelledby="dropDownInput">
+      <button ngbDropdownItem *ngFor="let item of formatInput.value" (click)="clickItem(item.key)">
+        {{ item.value }}
+      </button>
     </div>
   </div>
-  <small class="note" *ngIf="formatInput.note">{{ formatInput.note }}</small>
 </div>
+<small class="note" *ngIf="formatInput.note">{{ formatInput.note }}</small>
