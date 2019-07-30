@@ -478,6 +478,8 @@ export class TableCellModel extends PptElementModel {
     this.border = '';
     this.borderPosition = '';
     this.borderColor = '#ffffff';
+    this.rowSpan = 1;
+    this.colSpan = 1;
   }
 
   isSelected: boolean;
@@ -499,6 +501,8 @@ export class TableCellModel extends PptElementModel {
   borderSize?: number;
   borderPosition?: string;
   border?: string;
+  rowSpan: number;
+  colSpan: number;
 }
 
 export class PptTableElementModel extends PptElementModel {
@@ -552,7 +556,7 @@ export class PptTableElementModel extends PptElementModel {
             newCell.id = +('1' + rIndex + cIndex);
             newCell.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
             newCell.fontColor = '#000000';
-            newCell.fontSize = 13;
+            newCell.fontSize = 10;
             newCell.value = '';
 
             this.cells.push(newCell);
@@ -593,8 +597,10 @@ export class PptTableElementModel extends PptElementModel {
     let rows: any[] = [];
     let row: any[] = [];
 
-    this.cells.forEach((cell, index) => {
-      row.push({
+    this.cells.forEach((cell, index, arr) => {
+      console.log({ row: cell.rowSpan, col: cell.colSpan });
+
+      let rowItem: any = {
         text: cell.value,
         options: {
           fontSize: cell.fontSize,
@@ -605,13 +611,28 @@ export class PptTableElementModel extends PptElementModel {
             color: cell.borderColor.replace('#', '')
           }
         }
-      });
+      };
 
-      if (cell.colIndex >= this.col - 1) {
+      if (cell.rowSpan > 1) rowItem.options.rowspan = cell.rowSpan;
+
+      if (cell.colSpan > 1) rowItem.options.colspan = cell.colSpan;
+
+      row.push(rowItem);
+
+      if (index + 1 < arr.length) {
+        let nextCell = arr[index + 1];
+
+        if (nextCell.colIndex == 0) {
+          rows.push(row);
+          row = [];
+        }
+      } else {
         rows.push(row);
         row = [];
       }
     });
+
+    debugger;
 
     slide.addTable(rows, options);
   }
