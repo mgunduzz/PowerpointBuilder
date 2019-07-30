@@ -169,8 +169,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         _this.element.format.formatInputs.width.value = width;
         _this.element.format.formatInputs.height.value = height;
 
-        debugger;
-
         _this.element.format.formatInputs.width.update = true;
         _this.element.format.formatInputs.height.update = true;
 

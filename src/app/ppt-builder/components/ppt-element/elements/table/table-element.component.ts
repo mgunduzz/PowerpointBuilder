@@ -83,7 +83,6 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
 
           this.oldWidth = formatInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.height) {
-          debugger;
           if (this.oldHeight && formatInput.update) {
             let newHeight = formatInput.value;
             let ratio = newHeight / this.oldHeight;
@@ -315,31 +314,25 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
         let totalWidth = _.reduce(cellsInFirstCellRow, (a: any, b: any) => a + b);
         let totalHeight = _.reduce(cellsInFirstCellCol, (a: any, b: any) => a + b);
 
+        selectedCells = selectedCells.filter(
+          item => !(item.rowIndex == firstCell.rowIndex && item.colIndex == firstCell.colIndex)
+        );
+
         this.element.cells = this.element.cells.filter(item => {
           let founded = selectedCells.find(cell => cell.rowIndex == item.rowIndex && cell.colIndex == item.colIndex);
 
           return founded == undefined;
         });
 
-        let newCell = new TableCellModel();
-        newCell.isSelected = false;
-        newCell.rowIndex = firstCell.rowIndex;
-        newCell.colIndex = firstCell.colIndex;
-        newCell.width = totalWidth;
-        newCell.height = totalHeight;
-        newCell.left = firstCell.left;
-        newCell.top = firstCell.top;
-        newCell.isHeader = firstCell.isHeader;
-        newCell.isMerged = true;
-        newCell.isDragOver = false;
-        newCell.id = firstCell.id;
-        newCell.fontColor = firstCell.fontColor;
-        newCell.fontSize = firstCell.fontSize;
-        newCell.bgColor = firstCell.bgColor;
-        newCell.headerData = firstCell.headerData;
-        newCell.value = firstCell.value;
-
-        this.element.cells.push(newCell);
+        this.element.cells.forEach(cell => {
+          if (cell.rowIndex == firstCell.rowIndex && cell.colIndex == firstCell.colIndex) {
+            cell.width = totalWidth;
+            cell.height = totalHeight;
+            cell.isMerged = true;
+            cell.rowSpan = cellsInFirstCellCol.length;
+            cell.colSpan = cellsInFirstCellRow.length;
+          }
+        });
 
         this.element.cells = this.element.cells;
       }
