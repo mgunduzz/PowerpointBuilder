@@ -114,6 +114,12 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
                 fontColor: currentFontColor,
                 fontStyle: currentFontStyle
               };
+              chartRef.options.scales.yAxes[0].ticks = {
+                fontSize: currentFontSize,
+                fontFamily: `'${fontFamily.value}', sans-serif`,
+                fontColor: currentFontColor,
+                fontStyle: currentFontStyle
+              };
             }
           } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
             chartRef.options.scales.xAxes[0].categoryPercentage =
