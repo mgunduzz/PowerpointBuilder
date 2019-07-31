@@ -73,7 +73,8 @@ export enum PPtFormatInputsEnum {
   chartCategoryBgColor,
   cellBorderType,
   cellBorderSize,
-  cellBorderColor
+  cellBorderColor,
+  chartLabelsFont
 }
 
 export class BaseFormatInputModel {
@@ -158,6 +159,7 @@ export class FormatInputsModel {
   cellBorderType: FormatDropdownInputModel;
   cellBorderSize: FormatNumberInputModel;
   cellBorderColor: FormatColorPickerInputModel;
+  chartLabelsFont: FormatDropdownInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -441,28 +443,6 @@ export class TextFormatModel extends BaseElementFormatModel {
       value: 10
     };
 
-    let fontList = new Array<KeyValueModel>();
-    fontList.push({ key: 1, value: 'Helvetica' });
-    fontList.push({ key: 2, value: 'Times New Roman' });
-    fontList.push({ key: 3, value: 'Times' });
-    fontList.push({ key: 4, value: 'Courier New' });
-    fontList.push({ key: 5, value: 'Courier' });
-    fontList.push({ key: 6, value: 'Verdana' });
-    fontList.push({ key: 7, value: 'Georgia' });
-    fontList.push({ key: 8, value: 'Palatino' });
-    fontList.push({ key: 9, value: 'Garamond' });
-    fontList.push({ key: 10, value: 'Bookman' });
-    fontList.push({ key: 11, value: 'Comic Sans MS' });
-    fontList.push({ key: 12, value: 'Trebuchet MS' });
-    fontList.push({ key: 13, value: 'Arial Black' });
-    fontList.push({ key: 14, value: 'Arial' });
-    fontList.push({ key: 15, value: 'Impact' });
-    fontList.push({ key: 16, value: 'Tahoma' });
-    fontList.push({ key: 17, value: 'Geneva' });
-    fontList.push({ key: 18, value: 'Lucida Console' });
-    fontList.push({ key: 19, value: 'Webdings' });
-    fontList.push({ key: 20, value: 'Century Gothic' });
-
     let font: FormatDropdownInputModel = {
       inputId: PPtFormatInputsEnum.font,
       name: 'Font',
@@ -538,10 +518,22 @@ export class ChartFormatModel extends BaseElementFormatModel {
       value: 'black'
     };
 
+    let chartLabelsFont: FormatDropdownInputModel = {
+      inputId: PPtFormatInputsEnum.chartLabelsFont,
+      name: 'Labels Font',
+      inputType: PPtElementFormatInputTypeEnum.dropdown,
+      value: fontList,
+      position: 'bottom',
+      autoClose: true,
+      container: 'body',
+      selectedItemKey: 0
+    };
+
     this.formatInputs.title = title;
     this.formatInputs.legend = legend;
     this.formatInputs.value = value;
     this.formatInputs.categoryBgColor = categoryBgColor;
+    this.formatInputs.chartLabelsFont = chartLabelsFont;
   }
 }
 
@@ -909,6 +901,28 @@ export class DoughnutChartFormatModel extends ChartFormatModel {
     this.formatInputs.pieCutoutPercentage = pieCutoutPercentage;
   }
 }
+
+let fontList = new Array<KeyValueModel>();
+fontList.push({ key: 1, value: 'Helvetica' });
+fontList.push({ key: 2, value: 'Times New Roman' });
+fontList.push({ key: 3, value: 'Times' });
+fontList.push({ key: 4, value: 'Courier New' });
+fontList.push({ key: 5, value: 'Courier' });
+fontList.push({ key: 6, value: 'Verdana' });
+fontList.push({ key: 7, value: 'Georgia' });
+fontList.push({ key: 8, value: 'Palatino' });
+fontList.push({ key: 9, value: 'Garamond' });
+fontList.push({ key: 10, value: 'Bookman' });
+fontList.push({ key: 11, value: 'Comic Sans MS' });
+fontList.push({ key: 12, value: 'Trebuchet MS' });
+fontList.push({ key: 13, value: 'Arial Black' });
+fontList.push({ key: 14, value: 'Arial' });
+fontList.push({ key: 15, value: 'Impact' });
+fontList.push({ key: 16, value: 'Tahoma' });
+fontList.push({ key: 17, value: 'Geneva' });
+fontList.push({ key: 18, value: 'Lucida Console' });
+fontList.push({ key: 19, value: 'Webdings' });
+fontList.push({ key: 20, value: 'Century Gothic' });
 // FA: Daha sonra bakılacak
 // export class ListKeyValueModel {
 //   key: number;

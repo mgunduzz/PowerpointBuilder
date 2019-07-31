@@ -14,7 +14,8 @@ import {
   AppComponentBase,
   PptDefaultChartElementModel,
   PptDefaultChartDataModel,
-  PptAreaChartElementModel
+  PptAreaChartElementModel,
+  FormatDropdownInputModel
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
@@ -72,6 +73,8 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       changeResponse.forEach(res => {
         var formatInput = res.formatInput as FormatCheckboxInputModel;
         var formatNumberInput = res.formatInput as FormatNumberInputModel;
+        var formatDropDown = res.formatInput as FormatDropdownInputModel;
+
         let chartRef = this.myChart as any;
 
         if (formatInput.inputId == PPtFormatInputsEnum.legend) {
@@ -83,7 +86,36 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
         }
 
         if (this.element.format instanceof ColumnChartFormatModel) {
-          if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+          // scales: {
+          //   xAxes: [
+          //     {
+          //       stacked: false,
+          //       ticks : {
+          //         fontSize: 10,
+          //         fontFamily: "'Roboto', sans-serif", fontColor: '#000', fontStyle: '500'
+          //       }
+          //     }
+          //   ],
+
+          if (formatDropDown.inputId == PPtFormatInputsEnum.chartLabelsFont) {
+            let fontFamily = this.element.format.formatInputs.chartLabelsFont.value.find(
+              q => q.key == this.element.format.formatInputs.chartLabelsFont.selectedItemKey
+            );
+
+            if (fontFamily) {
+              let currentFontSize = chartRef.options.scales.xAxes[0].ticks.fontSize;
+              let currentFontFamily = chartRef.options.scales.xAxes[0].ticks.fontFamily;
+              let currentFontColor = chartRef.options.scales.xAxes[0].ticks.fontColor;
+              let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
+
+              chartRef.options.scales.xAxes[0].ticks = {
+                fontSize: currentFontSize,
+                fontFamily: `'${fontFamily.value}', sans-serif`,
+                fontColor: currentFontColor,
+                fontStyle: currentFontStyle
+              };
+            }
+          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
             chartRef.options.scales.xAxes[0].categoryPercentage =
               (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
               0.1 -
@@ -181,14 +213,23 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       scales: {
         xAxes: [
           {
-            stacked: false
+            stacked: false,
+            ticks: {
+              fontSize: 10,
+              fontFamily: "'Roboto', sans-serif",
+              fontColor: '#000',
+              fontStyle: '500'
+            }
           }
         ],
         yAxes: [
           {
             stacked: false,
             ticks: {
-              beginAtZero: true
+              beginAtZero: true,
+              fontFamily: "'Roboto', sans-serif",
+              fontColor: '#000',
+              fontStyle: '500'
             }
           }
         ]

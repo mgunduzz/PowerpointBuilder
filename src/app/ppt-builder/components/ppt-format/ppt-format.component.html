@@ -181,6 +181,14 @@
         <ppt-checkbox-input [input]="element.format.formatInputs.legend" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>
       </div>
+
+      <div class="row row-margin" *ngIf="element.format.formatInputs.chartLabelsFont">
+        <ppt-dropdown-input
+          [input]="element.format.formatInputs.chartLabelsFont"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-dropdown-input>
+      </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.fontColor">
         <ppt-color-picker-input
           [input]="element.format.formatInputs.fontColor"
