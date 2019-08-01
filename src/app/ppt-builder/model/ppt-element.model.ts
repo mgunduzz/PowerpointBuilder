@@ -355,6 +355,8 @@ export class PptDefaultChartElementModel extends PptBaseChartElementModel {
   dataModal: PptDefaultChartDataModel;
 
   setData(data: Array<AnalyseApiDataModel>) {
+    let oldDateSets = this.dataModal.dataSets;
+
     this.dataModal.labels = [];
     this.dataModal.dataSets = [];
 
@@ -372,6 +374,7 @@ export class PptDefaultChartElementModel extends PptBaseChartElementModel {
           let dataSetModel = new PptDefaultChartDataSetModel();
           dataSetModel.label = selectedCat.friendlyName;
           dataSetModel.data = [];
+
           dataSetModel.backgroundColor = '#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
 
           let categoryBgColor: FormatColorPickerInputModel = {
@@ -389,6 +392,13 @@ export class PptDefaultChartElementModel extends PptBaseChartElementModel {
             this.dataModal.dataSets[foundedDataSetIndex].data.push(custoData[selectedCat.name]);
           } else {
             dataSetModel.data.push(custoData[selectedCat.name]);
+
+            if (this.dataModal.dataSets.length < oldDateSets.length) {
+              let oldDataSet = oldDateSets[this.dataModal.dataSets.length];
+
+              dataSetModel.backgroundColor = oldDataSet.backgroundColor;
+            }
+
             this.dataModal.dataSets.push(dataSetModel);
           }
         });

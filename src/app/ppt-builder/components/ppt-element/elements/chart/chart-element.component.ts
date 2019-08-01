@@ -126,6 +126,12 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
     let ctx = (this.myChartElRef.nativeElement as any).getContext('2d');
     let chartOptions: Chart.ChartConfiguration = {};
 
+    if (this.element instanceof PptDefaultChartElementModel) {
+      chartOptions.data = {};
+      chartOptions.data.labels = this.element.dataModal.labels;
+      chartOptions.data.datasets = this.element.dataModal.dataSets;
+    }
+
     chartOptions.data = {
       labels: ['Renault', 'Toyota', 'Mercedes', 'Volkswagen', 'Fiat'],
       datasets: [
@@ -424,8 +430,6 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
     }
 
     this.myChart = new Chart(ctx, chartOptions);
-
-    this.element.onDataChange.next();
   }
 
   ngOnDestroy() {

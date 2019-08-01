@@ -468,4 +468,12 @@ export class PPtBuilderService {
 
     return newCell;
   }
+
+  jsonStr = '';
+
+  saveAsTemplate() {
+    this.jsonStr = JSON.stringify(this.slideList);
+
+    debugger;
+  }
 }

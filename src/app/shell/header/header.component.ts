@@ -132,4 +132,8 @@ export class HeaderComponent implements OnInit {
       fileReader.readAsDataURL(val._file);
     });
   }
+
+  saveAsTemplate() {
+    this._pptBuilderService.saveAsTemplate();
+  }
 }
