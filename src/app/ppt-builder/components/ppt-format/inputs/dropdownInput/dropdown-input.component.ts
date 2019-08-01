@@ -24,6 +24,8 @@ export class PptDropdownInput implements OnInit {
 
   generatedId = '';
   selectedItem: string;
+  inputName: string;
+  isDisableListStyle: boolean;
   ngOnInit() {
     let random = Math.floor(Math.random() * (999999 - 100000)) + 100000;
     this.generatedId = random.toString();
@@ -37,10 +39,13 @@ export class PptDropdownInput implements OnInit {
   }
 
   getSelectedItemName() {
+    debugger;
+    this.inputName = this.formatInput.name;
     if (this.formatInput.selectedItemKey > 0) {
       let index = this.formatInput.value.findIndex(o => {
         return o.key == this.formatInput.selectedItemKey;
       });
+
       if (index > -1) {
         this.selectedItem = this.formatInput.value[index].value;
       } else {

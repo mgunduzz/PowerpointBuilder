@@ -56,3 +56,21 @@ ppt-slide-list {
 .dp-none {
   display: none !important;
 }
+
+.text {
+  font-size: 11px;
+  color: #444;
+  width: 50%;
+  margin: auto 0;
+}
+
+.list-bullets {
+  display: list-item !important;
+  list-style-position: inside;
+}
+
+.list-numbers {
+  display: list-item !important;
+  list-style-position: inside;
+  list-style-type: decimal;
+}
