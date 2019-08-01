@@ -74,7 +74,9 @@ export enum PPtFormatInputsEnum {
   cellBorderType,
   cellBorderSize,
   cellBorderColor,
-  chartLabelsFont
+  chartLabelsFont,
+  chartlabelsFontSize,
+  chartLabelsFontColor
 }
 
 export class BaseFormatInputModel {
@@ -160,6 +162,8 @@ export class FormatInputsModel {
   cellBorderSize: FormatNumberInputModel;
   cellBorderColor: FormatColorPickerInputModel;
   chartLabelsFont: FormatDropdownInputModel;
+  chartLabelsFontSize: FormatNumberInputModel;
+  chartLabelsFontColor: FormatColorPickerInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -504,6 +508,15 @@ export class ChartFormatModel extends BaseElementFormatModel {
       value: false
     };
 
+    let chartLabelsFontSize: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.chartlabelsFontSize,
+      name: 'LabelFontSize',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      max: 100,
+      min: 0,
+      value: 11
+    };
+
     let value: FormatCheckboxInputModel = {
       inputId: PPtFormatInputsEnum.value,
       name: 'Value',
@@ -529,11 +542,20 @@ export class ChartFormatModel extends BaseElementFormatModel {
       selectedItemKey: 0
     };
 
+    let chartLabelFontColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.chartLabelsFontColor,
+      name: 'ChartLabelsFontColor',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: 'black'
+    };
+
     this.formatInputs.title = title;
     this.formatInputs.legend = legend;
     this.formatInputs.value = value;
     this.formatInputs.categoryBgColor = categoryBgColor;
     this.formatInputs.chartLabelsFont = chartLabelsFont;
+    this.formatInputs.chartLabelsFontSize = chartLabelsFontSize;
+    this.formatInputs.chartLabelsFontColor = chartLabelFontColor;
   }
 }
 

@@ -189,6 +189,20 @@
         >
         </ppt-dropdown-input>
       </div>
+      <div class="row row-margin" *ngIf="element.format.formatInputs.chartLabelsFontSize">
+        <ppt-number-input
+          [input]="element.format.formatInputs.chartLabelsFontSize"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-number-input>
+      </div>
+      <div class="row row-margin">
+        <ppt-color-picker-input
+          [input]="element.format.formatInputs.chartLabelsFontColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
+      </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.fontColor">
         <ppt-color-picker-input
           [input]="element.format.formatInputs.fontColor"

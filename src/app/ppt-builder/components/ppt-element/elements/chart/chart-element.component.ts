@@ -15,7 +15,8 @@ import {
   PptDefaultChartElementModel,
   PptDefaultChartDataModel,
   PptAreaChartElementModel,
-  FormatDropdownInputModel
+  FormatDropdownInputModel,
+  FormatColorPickerInputModel
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
@@ -74,6 +75,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
         var formatInput = res.formatInput as FormatCheckboxInputModel;
         var formatNumberInput = res.formatInput as FormatNumberInputModel;
         var formatDropDown = res.formatInput as FormatDropdownInputModel;
+        var formatColorPicker = res.formatInput as FormatColorPickerInputModel;
 
         let chartRef = this.myChart as any;
 
@@ -101,10 +103,8 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
             let fontFamily = this.element.format.formatInputs.chartLabelsFont.value.find(
               q => q.key == this.element.format.formatInputs.chartLabelsFont.selectedItemKey
             );
-
             if (fontFamily) {
               let currentFontSize = chartRef.options.scales.xAxes[0].ticks.fontSize;
-              let currentFontFamily = chartRef.options.scales.xAxes[0].ticks.fontFamily;
               let currentFontColor = chartRef.options.scales.xAxes[0].ticks.fontColor;
               let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
 
@@ -121,42 +121,94 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
                 fontStyle: currentFontStyle
               };
             }
-          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-            chartRef.options.scales.xAxes[0].categoryPercentage =
-              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
-              0.1 -
-              formatNumberInput.value;
-          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-            chartRef.options.scales.xAxes[0].barPercentage =
-              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
-              0.1 -
-              formatNumberInput.value;
-          }
-        } else if (this.element.format instanceof BarChartFormatModel) {
-          if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-            chartRef.options.scales.yAxes[0].categoryPercentage =
-              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
-              0.1 -
-              formatNumberInput.value;
-          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-            chartRef.options.scales.yAxes[0].barPercentage =
-              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
-              0.1 -
-              formatNumberInput.value;
-          }
-        } else if (this.element.format instanceof PieChartFormatModel) {
-          if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
-            chartRef.options.rotation = formatNumberInput.value;
-          }
-        } else if (this.element.format instanceof DoughnutChartFormatModel) {
-          if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
-            chartRef.options.rotation = formatNumberInput.value;
-          } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
-            chartRef.options.cutoutPercentage = formatNumberInput.value;
-          }
-        }
+          } else if (formatNumberInput.inputId == PPtFormatInputsEnum.chartlabelsFontSize) {
+            let fontSize = this.element.format.formatInputs.chartLabelsFontSize.value;
 
-        this.myChart.update();
+            if (fontSize) {
+              let currentFontFamily = chartRef.options.scales.xAxes[0].ticks.fontFamily;
+              let currentFontColor = chartRef.options.scales.xAxes[0].ticks.fontColor;
+              let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
+
+              chartRef.options.scales.xAxes[0].ticks = {
+                fontSize: `${fontSize}`,
+                fontFamily: currentFontFamily,
+                fontColor: currentFontColor,
+                fontStyle: currentFontStyle
+              };
+              chartRef.options.scales.yAxes[0].ticks = {
+                fontSize: `${fontSize}`,
+                fontFamily: currentFontFamily,
+                fontColor: currentFontColor,
+                fontStyle: currentFontStyle
+              };
+            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+              chartRef.options.scales.xAxes[0].categoryPercentage =
+                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+                0.1 -
+                formatNumberInput.value;
+            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+              chartRef.options.scales.xAxes[0].barPercentage =
+                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+                0.1 -
+                formatNumberInput.value;
+            }
+          } else if (formatColorPicker.inputId == PPtFormatInputsEnum.chartLabelsFontColor) {
+            let fontColor = this.element.format.formatInputs.chartLabelsFontColor.value;
+
+            if (fontColor) {
+              let currentFontFamily = chartRef.options.scales.xAxes[0].ticks.fontFamily;
+              let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
+              let currentFontSize = chartRef.options.scales.xAxes[0].ticks.fontSize;
+
+              chartRef.options.scales.xAxes[0].ticks = {
+                fontSize: currentFontSize,
+                fontFamily: currentFontFamily,
+                fontColor: `${fontColor}`,
+                fontStyle: currentFontStyle
+              };
+              chartRef.options.scales.yAxes[0].ticks = {
+                fontSize: currentFontSize,
+                fontFamily: currentFontFamily,
+                fontColor: `${fontColor}`,
+                fontStyle: currentFontStyle
+              };
+            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+              chartRef.options.scales.xAxes[0].categoryPercentage =
+                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+                0.1 -
+                formatNumberInput.value;
+            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+              chartRef.options.scales.xAxes[0].barPercentage =
+                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+                0.1 -
+                formatNumberInput.value;
+            }
+          } else if (this.element.format instanceof BarChartFormatModel) {
+            if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+              chartRef.options.scales.yAxes[0].categoryPercentage =
+                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+                0.1 -
+                formatNumberInput.value;
+            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+              chartRef.options.scales.yAxes[0].barPercentage =
+                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+                0.1 -
+                formatNumberInput.value;
+            }
+          } else if (this.element.format instanceof PieChartFormatModel) {
+            if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+              chartRef.options.rotation = formatNumberInput.value;
+            }
+          } else if (this.element.format instanceof DoughnutChartFormatModel) {
+            if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+              chartRef.options.rotation = formatNumberInput.value;
+            } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
+              chartRef.options.cutoutPercentage = formatNumberInput.value;
+            }
+          }
+
+          this.myChart.update();
+        }
       });
     });
 
