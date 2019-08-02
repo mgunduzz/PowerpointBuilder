@@ -39,7 +39,6 @@ export class PptDropdownInput implements OnInit {
   }
 
   getSelectedItemName() {
-    debugger;
     this.inputName = this.formatInput.name;
     if (this.formatInput.selectedItemKey > 0) {
       let index = this.formatInput.value.findIndex(o => {

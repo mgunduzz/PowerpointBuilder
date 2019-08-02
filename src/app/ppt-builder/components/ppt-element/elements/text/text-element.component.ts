@@ -159,7 +159,6 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
     let firstNode = $('.text-element')
       .contents()
       .eq(0)[0]['nodeName'];
-    debugger;
     if (firstNode == '#text') {
       $('.text-element')
         .contents()
