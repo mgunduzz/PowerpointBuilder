@@ -9,7 +9,8 @@ import {
   FormatColorPickerInputModel,
   PPtFormatInputsEnum,
   PPtElementFormatInputTypeEnum,
-  FormatNumberInputModel
+  FormatNumberInputModel,
+  TableFormatModel
 } from './element-format-model';
 import { Subject } from 'rxjs';
 import * as _ from 'underscore';
@@ -482,7 +483,7 @@ export class PptScatterChartElementModel extends PptBaseChartElementModel {
 }
 
 export class TableCellModel extends PptElementModel {
-  constructor() {
+  constructor(rIndex?: number, cIndex?: number, element?: PptTableElementModel, cellX?: number, cellY?: number) {
     super();
     this.borderSize = 1;
     this.border = '';
@@ -490,6 +491,31 @@ export class TableCellModel extends PptElementModel {
     this.borderColor = '#ffffff';
     this.rowSpan = 1;
     this.colSpan = 1;
+
+    let headerBgColor = '#246E96';
+    let oddBgColor = '#c3cde6';
+    let evenBgColor = '#e1e6f2';
+
+    this.isSelected = false;
+    this.rowIndex = rIndex;
+    this.colIndex = cIndex;
+    this.width = element.defaultCellWidth;
+    this.height = element.defaultCellHeight;
+    this.left = cellX;
+    this.top = cellY;
+    this.isHeader = rIndex == 0;
+    this.isMerged = false;
+    this.isDragOver = false;
+    this.id = +('1' + rIndex + cIndex);
+    this.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
+    this.fontColor = '#000000';
+    this.fontSize = 10;
+
+    if (this.isHeader) {
+      this.bgColor = headerBgColor;
+      this.fontSize = 13;
+      this.fontColor = '#FFFFFF';
+    }
   }
 
   isSelected: boolean;
@@ -516,14 +542,6 @@ export class TableCellModel extends PptElementModel {
 }
 
 export class PptTableElementModel extends PptElementModel {
-  constructor() {
-    super();
-
-    this.onMergeCells = new Subject<any>();
-    this.cells = Array<TableCellModel>();
-    this.selectedCells = new Array<TableCellModel>();
-  }
-
   row: number;
   col: number;
   cells: Array<TableCellModel>;
@@ -531,6 +549,42 @@ export class PptTableElementModel extends PptElementModel {
   defaultCellHeight?: number;
   onMergeCells = new Subject<any>();
   selectedCells: Array<TableCellModel>;
+
+  constructor(row: number, col: number) {
+    super();
+
+    this.format = new TableFormatModel(this.format);
+
+    this.row = row;
+    this.col = col;
+
+    this.onMergeCells = new Subject<any>();
+    this.cells = Array<TableCellModel>();
+    this.selectedCells = new Array<TableCellModel>();
+
+    this.defaultCellWidth = +(this.format.formatInputs.width.value / this.col).toFixed(2);
+    this.defaultCellHeight = +(this.format.formatInputs.height.value / this.row).toFixed(2);
+    this.defaultCellHeight = 35;
+
+    this.cells = new Array<TableCellModel>();
+
+    let cellX,
+      cellY = 0;
+
+    for (let rIndex = 0; rIndex < this.row; rIndex++) {
+      cellX = 0;
+
+      for (let cIndex = 0; cIndex < this.col; cIndex++) {
+        let newCell = new TableCellModel(rIndex, cIndex, this, cellX, cellY);
+
+        this.cells.push(newCell);
+
+        cellX += this.defaultCellWidth;
+      }
+
+      cellY += this.defaultCellHeight;
+    }
+  }
 
   setData(data: Array<AnalyseApiDataModel>) {
     let cellsHasAHeaderData = this.cells.filter(item => item.headerData);
@@ -641,8 +695,6 @@ export class PptTableElementModel extends PptElementModel {
         row = [];
       }
     });
-
-    debugger;
 
     slide.addTable(rows, options);
   }

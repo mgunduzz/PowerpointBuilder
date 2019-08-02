@@ -337,8 +337,7 @@ export class PPtBuilderService {
   }
 
   createTableElement(el: PptElementModel, row: number, col: number) {
-    var tableEl = new PptTableElementModel();
-    tableEl.format = new TableFormatModel(el.format);
+    var tableEl = new PptTableElementModel(row, col);
 
     tableEl.name = 'Table';
     tableEl.type = PPtElementEnum.Table;
@@ -431,42 +430,6 @@ export class PPtBuilderService {
     });
 
     return of(data);
-  }
-
-  createDefaultTableCell(
-    rIndex: number,
-    cIndex: number,
-    element: PptTableElementModel,
-    cellX: number,
-    cellY: number
-  ): TableCellModel {
-    let headerBgColor = '#246E96';
-    let oddBgColor = '#c3cde6';
-    let evenBgColor = '#e1e6f2';
-
-    let newCell = new TableCellModel();
-    newCell.isSelected = false;
-    newCell.rowIndex = rIndex;
-    newCell.colIndex = cIndex;
-    newCell.width = element.defaultCellWidth;
-    newCell.height = element.defaultCellHeight;
-    newCell.left = cellX;
-    newCell.top = cellY;
-    newCell.isHeader = rIndex == 0;
-    newCell.isMerged = false;
-    newCell.isDragOver = false;
-    newCell.id = +('1' + rIndex + cIndex);
-    newCell.bgColor = rIndex % 2 == 0 ? oddBgColor : evenBgColor;
-    newCell.fontColor = '#000000';
-    newCell.fontSize = 10;
-
-    if (newCell.isHeader) {
-      newCell.bgColor = headerBgColor;
-      newCell.fontSize = 13;
-      newCell.fontColor = '#FFFFFF';
-    }
-
-    return newCell;
   }
 
   jsonStr = '';
