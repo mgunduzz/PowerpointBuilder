@@ -83,7 +83,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   onAddImageElement() {
-    let imageEl = this._pPtBuilderService.createElement(PPtElementEnum.Image, { x: '35', y: '35', url: this.URL });
+    let imageEl = this._pPtBuilderService.createElement(PPtElementEnum.Image, { x: '0', y: '0', url: this.URL });
   }
 
   onAddChart(type: ChartTypeEnum) {
