@@ -145,37 +145,8 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
       this.mergeSelectedCells();
     });
 
-    this.element.cells = new Array<TableCellModel>();
-
-    this.element.defaultCellWidth = +(this.element.format.formatInputs.width.value / this.element.col).toFixed(2);
-    this.element.defaultCellHeight = +(this.element.format.formatInputs.height.value / this.element.row).toFixed(2);
-    this.element.defaultCellHeight = 35;
-
     this.element.format.formatInputs.height.value = this.element.row * this.element.defaultCellHeight;
-
     this.element.onFormatChange.next([{ formatInput: this.element.format.formatInputs.height }]);
-
-    let cellX,
-      cellY = 0;
-
-    let headerBgColor = '#246E96';
-    let oddBgColor = '#c3cde6';
-    let evenBgColor = '#e1e6f2';
-
-    for (let rIndex = 0; rIndex < this.element.row; rIndex++) {
-      cellX = 0;
-
-      for (let cIndex = 0; cIndex < this.element.col; cIndex++) {
-        let newCell = new TableCellModel();
-        newCell = this.pPtBuilderService.createDefaultTableCell(rIndex, cIndex, this.element, cellX, cellY);
-
-        this.element.cells.push(newCell);
-
-        cellX += this.element.defaultCellWidth;
-      }
-
-      cellY += this.element.defaultCellHeight;
-    }
   }
 
   generateBorderCss(cell: TableCellModel) {

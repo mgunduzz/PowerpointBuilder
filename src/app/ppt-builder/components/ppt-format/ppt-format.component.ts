@@ -114,13 +114,7 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     let cellX = 0;
 
     for (let i = 0; i < tableEl.col; i++) {
-      let newCell = this.pPtBuilderService.createDefaultTableCell(
-        latestCell.rowIndex + 1,
-        i,
-        tableEl,
-        cellX,
-        latestCell.top + latestCell.height
-      );
+      let newCell = new TableCellModel(latestCell.rowIndex + 1, i, tableEl, cellX, latestCell.top + latestCell.height);
 
       cellX += newCell.width;
 
@@ -144,13 +138,7 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     let cellY = 0;
 
     for (let i = 0; i < tableEl.row; i++) {
-      let newCell = this.pPtBuilderService.createDefaultTableCell(
-        i,
-        latestCell.colIndex + 1,
-        tableEl,
-        latestCell.left + latestCell.width,
-        cellY
-      );
+      let newCell = new TableCellModel(i, latestCell.colIndex + 1, tableEl, latestCell.left + latestCell.width, cellY);
 
       cellY += newCell.height;
 
