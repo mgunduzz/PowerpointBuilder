@@ -642,8 +642,6 @@ export class PptTableElementModel extends PptElementModel {
       }
     });
 
-    debugger;
-
     slide.addTable(rows, options);
   }
 }

@@ -473,7 +473,5 @@ export class PPtBuilderService {
 
   saveAsTemplate() {
     this.jsonStr = JSON.stringify(this.slideList);
-
-    debugger;
   }
 }

@@ -42,9 +42,6 @@ export class ImageComponent implements OnInit, AfterViewInit {
 
           _this.element.format.formatInputs.width.value = this.width;
           _this.element.format.formatInputs.height.value = this.height;
-        } else {
-          _this.element.format.formatInputs.width = _this.element.format.formatInputs.naturalWidth;
-          _this.element.format.formatInputs.height = _this.element.format.formatInputs.naturalHeight;
         }
 
         _this.element.onFormatChange.next([

@@ -380,7 +380,8 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
       this.myCanvas = document.getElementById(this.element.id.toString());
       this.ctx = this.myCanvas.getContext('2d');
       this.myCanvas.width = this.element.format.formatInputs.width.value;
-      this.myCanvas.height = this.element.format.formatInputs.height.value;
+      this.myCanvas.height = 50;
+      this.element.format.formatInputs.height = 'auto' as any;
       this.crateArrow();
     }
   }
