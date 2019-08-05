@@ -91,18 +91,18 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
               this.element.fontStyle = 'unset';
             }
             break;
-          case PPtFormatInputsEnum.strokeColor:
-            if (colorPickerInput.value) {
-              this.element.stroke = '3px solid' + colorPickerInput.value;
-            } else this.element.stroke = '3px solid transparent';
-            break;
-          case PPtFormatInputsEnum.isStroke:
-            if (checkbox.value) {
-              this.element.stroke = '3px solid black';
-            } else {
-              this.element.stroke = '3px solid transparent';
-            }
-            break;
+          // case PPtFormatInputsEnum.strokeColor:
+          //   if (colorPickerInput.value) {
+          //     this.element.stroke = '3px solid' + colorPickerInput.value;
+          //   } else this.element.stroke = '3px solid transparent';
+          //   break;
+          // case PPtFormatInputsEnum.isStroke:
+          //   if (checkbox.value) {
+          //     this.element.stroke = '3px solid black';
+          //   } else {
+          //     this.element.stroke = '3px solid transparent';
+          //   }
+          //   break;
 
           case PPtFormatInputsEnum.listStyle:
             if (dropdown.selectedItemKey > 0) {

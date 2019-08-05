@@ -214,6 +214,22 @@ export class BaseElementFormatModel {
       min: 0
     };
 
+    let strokeColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.strokeColor,
+      name: '',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: 'black'
+    };
+
+    let isStroke: FormatCheckboxInputModel = {
+      name: 'Stroke',
+      inputId: PPtFormatInputsEnum.isStroke,
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
+    this.formatInputs.isStroke = isStroke;
+    this.formatInputs.strokeColor = strokeColor;
     this.formatInputs.x = x;
     this.formatInputs.y = y;
     this.formatInputs.width = width;
@@ -407,13 +423,6 @@ export class TextFormatModel extends BaseElementFormatModel {
       value: '#000000'
     };
 
-    let strokeColor: FormatColorPickerInputModel = {
-      inputId: PPtFormatInputsEnum.strokeColor,
-      name: '',
-      inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'transparent'
-    };
-
     let textIndent: FormatNumberInputModel = {
       inputId: PPtFormatInputsEnum.textIndent,
       name: 'Text Indent',
@@ -465,13 +474,6 @@ export class TextFormatModel extends BaseElementFormatModel {
       value: false
     };
 
-    let isStroke: FormatCheckboxInputModel = {
-      name: 'Stroke',
-      inputId: PPtFormatInputsEnum.isStroke,
-      inputType: PPtElementFormatInputTypeEnum.checkbox,
-      value: false
-    };
-
     this.formatInputs.width.value = 200;
 
     this.formatInputs.backgroundColor = backgroundColor;
@@ -482,8 +484,6 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.isItalic = isItalic;
     this.formatInputs.radius = radius;
     this.formatInputs.textAlign = textAlign;
-    this.formatInputs.isStroke = isStroke;
-    this.formatInputs.strokeColor = strokeColor;
     this.formatInputs.textIndent = textIndent;
     this.formatInputs.firstLineIndent = firstLineIndent;
     this.formatInputs.lineStyle = listStyle;
