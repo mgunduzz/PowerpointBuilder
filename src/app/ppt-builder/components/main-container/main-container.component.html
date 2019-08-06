@@ -398,7 +398,12 @@
       <div class="tab" [ngClass]="{ active: !secondTabActive }" (click)="secondTabActive = false">
         STYLE
       </div>
-      <div class="tab" [ngClass]="{ active: secondTabActive }" (click)="secondTabActive = true">
+      <div
+        class="tab"
+        [ngClass]="{ active: secondTabActive }"
+        (click)="secondTabActive = true"
+        *ngIf="isElementHasData"
+      >
         DATA
       </div>
     </div>
