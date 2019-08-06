@@ -32,16 +32,16 @@
         >
         </ppt-number-input>
       </div>
-      <div class="row row-margin" *ngIf="element.format.formatInputs.chartSpaceBetweenBar">
+      <!-- <div class="row row-margin" *ngIf="element.format.formatInputs.chartSpaceBetweenBar">
         <ppt-number-input
           [input]="element.format.formatInputs.chartSpaceBetweenBar"
           (onValuechange)="onInputValuechange($event)"
         >
         </ppt-number-input>
-      </div>
+      </div> -->
     </div>
 
-    <div class="format-block" *ngIf="checkFormatType('PieChartFormatModel')">
+    <div class="format-block" *ngIf="isPieChart()">
       <div class="format-title"><span class="format-title-text">Pie Chart</span></div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.pieCutoutPercentage">
         <ppt-number-input
@@ -56,6 +56,18 @@
           (onValuechange)="onInputValuechange($event)"
         >
         </ppt-number-input>
+      </div>
+
+      <div *ngFor="let cat of element.dataModal.dataSet.backgroundColors; let i = index">
+        <div style="display: flex;">
+          <span>
+            {{ element.dataModal.labels[i] }}
+          </span>
+          <div style="margin-left: 10px;" class="row row-margin">
+            <ppt-color-picker-input [input]="cat.formatInput" (onValuechange)="onPieChartColorChange($event, cat)">
+            </ppt-color-picker-input>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -177,12 +189,36 @@
         </ppt-checkbox-input>
       </div>
 
+      <div class="row row-margin" *ngIf="element.format.formatInputs.chartTitleText">
+        <ppt-text-input
+          [input]="element.format.formatInputs.chartTitleText"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-text-input>
+      </div>
+
       <div class="row row-margin" *ngIf="element.format.formatInputs.legend">
         <ppt-checkbox-input [input]="element.format.formatInputs.legend" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.chartLabelsFont">
+      <div class="row row-margin" *ngIf="element.format.formatInputs.value">
+        <ppt-checkbox-input [input]="element.format.formatInputs.value" (onValuechange)="onInputValuechange($event)">
+        </ppt-checkbox-input>
+      </div>
+
+      <div
+        class="row row-margin"
+        *ngIf="element.format.formatInputs.smoothLine && checkFormatType('LineChartFormatModel')"
+      >
+        <ppt-checkbox-input
+          [input]="element.format.formatInputs.smoothLine"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-checkbox-input>
+      </div>
+
+      <!-- <div class="row row-margin" *ngIf="element.format.formatInputs.chartLabelsFont">
         <ppt-dropdown-input
           [input]="element.format.formatInputs.chartLabelsFont"
           (onValuechange)="onInputValuechange($event)"
@@ -202,7 +238,7 @@
           (onValuechange)="onInputValuechange($event)"
         >
         </ppt-color-picker-input>
-      </div>
+      </div> -->
       <div class="row row-margin" *ngIf="element.format.formatInputs.fontColor">
         <ppt-color-picker-input
           [input]="element.format.formatInputs.fontColor"
@@ -285,10 +321,6 @@
           (onValuechange)="onInputValuechange($event)"
         >
         </ppt-number-input>
-      </div>
-      <div class="row row-margin" *ngIf="element.format.formatInputs.value">
-        <ppt-checkbox-input [input]="element.format.formatInputs.value" (onValuechange)="onInputValuechange($event)">
-        </ppt-checkbox-input>
       </div>
 
       <div class="row row-margin" *ngIf="element.format.formatInputs.font">

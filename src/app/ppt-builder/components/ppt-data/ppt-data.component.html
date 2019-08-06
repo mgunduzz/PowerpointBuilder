@@ -56,10 +56,15 @@
           </div>
         </div>
 
-        <button style="margin-left: 10px;" (click)="deleteCatProp(cat)">Sil</button>
+        <button style="margin-left: 10px;" (click)="deleteCatProp(cat)" *ngIf="isDefaultChartElement()">Sil</button>
       </div>
 
-      <div style="margin: 10px 0;text-align: center;" (click)="addCategory()" style="cursor: pointer;">
+      <div
+        style="margin: 10px 0;text-align: center;"
+        (click)="addCategory()"
+        style="cursor: pointer;"
+        *ngIf="isDefaultChartElement()"
+      >
         Kategori Ekle
       </div>
     </div>

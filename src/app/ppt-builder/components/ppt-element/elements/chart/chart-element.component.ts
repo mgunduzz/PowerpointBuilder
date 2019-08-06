@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Chart, ChartData } from 'chart.js';
 import {
   PptElementModel,
   PPtFormatInputsEnum,
@@ -16,7 +16,11 @@ import {
   PptDefaultChartDataModel,
   PptAreaChartElementModel,
   FormatDropdownInputModel,
-  FormatColorPickerInputModel
+  FormatColorPickerInputModel,
+  LineChartFormatModel,
+  PptPieChartElementModel,
+  PptPieChartDataModel,
+  FormatTextInputModel
 } from '@app/ppt-builder/model';
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
@@ -41,33 +45,59 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {}
 
+  applyData(): ChartData {
+    let chartRef = this.myChart as any;
+
+    let chartData: ChartData = {};
+
+    if (this.element instanceof PptDefaultChartElementModel) {
+      if (this.element.format instanceof LineChartFormatModel) {
+        this.element.dataModal.dataSets.forEach(item => {
+          (item as any).borderColor = item.backgroundColor;
+        });
+      }
+
+      chartData = {};
+      chartData.labels = (this.element as PptDefaultChartElementModel).dataModal.labels;
+      chartData.datasets = (this.element as PptDefaultChartElementModel).dataModal.dataSets;
+    } else if (this.element instanceof PptPieChartElementModel) {
+      chartData = {};
+      chartData.labels = (this.element as PptPieChartElementModel).dataModal.labels;
+
+      let pieItem = this.element.dataModal.dataSet;
+
+      chartData.datasets = [
+        { label: pieItem.label, backgroundColor: pieItem.backgroundColors.map(item => item.color), data: pieItem.data }
+      ];
+    }
+
+    if (chartRef) {
+      chartRef.data = chartData;
+      this.myChart.update();
+    }
+
+    return chartData;
+  }
+
   ngOnInit() {
     this.onDataChangeSub = this.element.onDataChange.subscribe(data => {
       if (data) {
         if (this.element instanceof PptDefaultChartElementModel) {
+          let defData = data as PptDefaultChartDataModel;
+
           this.element.dataModal = new PptDefaultChartDataModel();
-          this.element.dataModal.labels = data.labels;
-          this.element.dataModal.dataSets = data.dataSets;
+          this.element.dataModal.labels = defData.labels;
+          this.element.dataModal.dataSets = defData.dataSets;
+        } else if (this.element instanceof PptPieChartElementModel) {
+          let defData = data as PptPieChartDataModel;
+
+          this.element.dataModal = new PptPieChartDataModel();
+          this.element.dataModal.labels = defData.labels;
+          this.element.dataModal.dataSet = defData.dataSet;
         }
       }
 
-      if (this.element instanceof PptDefaultChartElementModel) {
-        let chartRef = this.myChart as any;
-
-        chartRef.data = {};
-        chartRef.data.labels = this.element.dataModal.labels;
-        chartRef.data.datasets = this.element.dataModal.dataSets;
-
-        this.myChart.update();
-      } else if (this.element instanceof PptAreaChartElementModel) {
-        let chartRef = this.myChart as any;
-
-        chartRef.data = {};
-        chartRef.data.labels = this.element.dataModal.labels;
-        chartRef.data.datasets = this.element.dataModal.dataSets;
-
-        this.myChart.update();
-      }
+      this.applyData();
     });
 
     this.onFormatChangeSub = this.element.onFormatChange.subscribe(changeResponse => {
@@ -76,6 +106,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
         var formatNumberInput = res.formatInput as FormatNumberInputModel;
         var formatDropDown = res.formatInput as FormatDropdownInputModel;
         var formatColorPicker = res.formatInput as FormatColorPickerInputModel;
+        var formatText = res.formatInput as FormatTextInputModel;
 
         let chartRef = this.myChart as any;
 
@@ -85,6 +116,8 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
           chartRef.options.title.display = formatInput.value;
         } else if (formatInput.inputId == PPtFormatInputsEnum.value) {
           chartRef.options.plugins.datalabels.display = formatInput.value;
+        } else if (formatInput.inputId == PPtFormatInputsEnum.chartTitleText) {
+          chartRef.options.title.text = formatText.value;
         }
 
         if (this.element.format instanceof ColumnChartFormatModel) {
@@ -172,43 +205,47 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
                 fontColor: `${fontColor}`,
                 fontStyle: currentFontStyle
               };
-            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-              chartRef.options.scales.xAxes[0].categoryPercentage =
-                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
-                0.1 -
-                formatNumberInput.value;
-            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-              chartRef.options.scales.xAxes[0].barPercentage =
-                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
-                0.1 -
-                formatNumberInput.value;
             }
-          } else if (this.element.format instanceof BarChartFormatModel) {
-            if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-              chartRef.options.scales.yAxes[0].categoryPercentage =
-                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
-                0.1 -
-                formatNumberInput.value;
-            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-              chartRef.options.scales.yAxes[0].barPercentage =
-                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
-                0.1 -
-                formatNumberInput.value;
-            }
-          } else if (this.element.format instanceof PieChartFormatModel) {
-            if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
-              chartRef.options.rotation = formatNumberInput.value;
-            }
-          } else if (this.element.format instanceof DoughnutChartFormatModel) {
-            if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
-              chartRef.options.rotation = formatNumberInput.value;
-            } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
-              chartRef.options.cutoutPercentage = formatNumberInput.value;
-            }
+          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+            chartRef.options.scales.xAxes[0].categoryPercentage =
+              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+              0.1 -
+              formatNumberInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+            chartRef.options.scales.xAxes[0].barPercentage =
+              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+              0.1 -
+              formatNumberInput.value;
           }
-
-          this.myChart.update();
+        } else if (this.element.format instanceof BarChartFormatModel) {
+          if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+            chartRef.options.scales.yAxes[0].categoryPercentage =
+              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+              0.1 -
+              formatNumberInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+            chartRef.options.scales.yAxes[0].barPercentage =
+              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+              0.1 -
+              formatNumberInput.value;
+          }
+        } else if (this.element.format instanceof PieChartFormatModel) {
+          if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+            chartRef.options.rotation = formatNumberInput.value;
+          }
+        } else if (this.element.format instanceof DoughnutChartFormatModel) {
+          if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+            chartRef.options.rotation = formatNumberInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
+            chartRef.options.cutoutPercentage = formatNumberInput.value;
+          }
+        } else if (this.element.format instanceof LineChartFormatModel) {
+          if (formatInput.inputId == PPtFormatInputsEnum.smoothLine) {
+            chartRef.data.datasets.forEach((item: any) => (item.lineTension = formatInput.value ? 0.5 : 0));
+          }
         }
+
+        this.myChart.update();
       });
     });
 
@@ -216,29 +253,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
     let ctx = (this.myChartElRef.nativeElement as any).getContext('2d');
     let chartOptions: Chart.ChartConfiguration = {};
 
-    if (this.element instanceof PptDefaultChartElementModel) {
-      chartOptions.data = {};
-      chartOptions.data.labels = this.element.dataModal.labels;
-      chartOptions.data.datasets = this.element.dataModal.dataSets;
-    }
-
-    chartOptions.data = {
-      labels: ['Renault', 'Toyota', 'Mercedes', 'Volkswagen', 'Fiat'],
-      datasets: [
-        {
-          label: 'Olumlu',
-          backgroundColor: '#ffc94a',
-          data: [80, 50, 23, 56, 43],
-          fill: false
-        },
-        {
-          label: 'Olumsuz',
-          backgroundColor: '#42c3c9',
-          data: [90, 45, 26, 64, 37],
-          fill: false
-        }
-      ]
-    };
+    chartOptions.data = this.applyData();
 
     chartOptions.options = {
       elements: {
@@ -255,7 +270,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       plugins: {
         stacked100: { enable: false },
         datalabels: {
-          color: 'white',
+          color: 'black',
           font: {
             weight: 'bold'
           },
@@ -272,7 +287,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       },
       title: {
         display: false,
-        text: 'example title'
+        text: this.element.format.formatInputs.chartTitleText.value
       },
       scales: {
         xAxes: [
@@ -330,16 +345,23 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       }
     ];
 
-    let pieData = {
-      labels: ['Africa', 'Asia', 'Europe', 'Latin America'],
-      datasets: [
-        {
-          label: 'Population (millions)',
-          backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9'],
-          data: [478, 267, 734, 784]
-        }
-      ]
-    };
+    let scatterDataSet = [
+      {
+        label: 'Olumlu',
+        data: scatterDataOlumlu
+      },
+      {
+        label: 'Olumsuz',
+        data: scatterDataOlumsuz
+      }
+    ];
+
+    let pieData = chartOptions.data;
+
+    if (this.element.format instanceof LineChartFormatModel)
+      chartOptions.data.datasets.forEach(
+        item => (item.lineTension = this.element.format.formatInputs.smoothLine.value ? 0.5 : 0)
+      );
 
     if (chartType == ChartTypeEnum.ClusteredColumn) {
       chartOptions.type = 'bar';
@@ -377,22 +399,25 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
 
       chartOptions.options.scales.xAxes[0].stacked = true;
       chartOptions.options.scales.yAxes[0].stacked = true;
-      chartOptions.options.plugins.stacked100 = { enable: true, replaceTooltipLabel: false };
+      chartOptions.options.plugins.stacked100 = { enable: true, replaceTooltipLabel: true };
     } else if (chartType == ChartTypeEnum.MarkedLine) {
       chartOptions.type = 'line';
-      chartOptions.options.elements.point.radius = 3;
+      chartOptions.options.elements.point.radius = 6;
+      chartOptions.options.elements.point.pointStyle = 'rect';
     } else if (chartType == ChartTypeEnum.StackedMarkedLine) {
       chartOptions.type = 'line';
 
       chartOptions.options.scales.xAxes[0].stacked = true;
       chartOptions.options.scales.yAxes[0].stacked = true;
-      chartOptions.options.elements.point.radius = 3;
+      chartOptions.options.elements.point.radius = 6;
+      chartOptions.options.elements.point.pointStyle = 'rect';
     } else if (chartType == ChartTypeEnum.StackedMarkedLine100) {
       chartOptions.type = 'line';
 
       chartOptions.options.scales.xAxes[0].stacked = true;
       chartOptions.options.scales.yAxes[0].stacked = true;
-      chartOptions.options.elements.point.radius = 3;
+      chartOptions.options.elements.point.radius = 6;
+      chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.plugins.stacked100 = { enable: true, replaceTooltipLabel: false };
     } else if (chartType == ChartTypeEnum.MarkedScatter) {
       chartOptions.type = 'scatter';
@@ -400,32 +425,20 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       chartOptions.options.elements.point.radius = 7;
       chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.showLines = false;
-      chartOptions.data.datasets[0].label = 'Olumlu';
-      chartOptions.data.datasets[0].data = scatterDataOlumlu;
-
-      chartOptions.data.datasets[1].label = 'Olumsuz';
-      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
+      chartOptions.data.datasets = scatterDataSet;
     } else if (chartType == ChartTypeEnum.SmoothMarkedScatter) {
       chartOptions.type = 'scatter';
 
       chartOptions.options.elements.point.radius = 7;
       chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.showLines = true;
-      chartOptions.data.datasets[0].label = 'Olumlu';
-      chartOptions.data.datasets[0].data = scatterDataOlumlu;
-
-      chartOptions.data.datasets[1].label = 'Olumsuz';
-      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
+      chartOptions.data.datasets = scatterDataSet;
     } else if (chartType == ChartTypeEnum.SmoothLinedScatter) {
       chartOptions.type = 'scatter';
 
       chartOptions.options.elements.point.radius = 0;
       chartOptions.options.showLines = true;
-      chartOptions.data.datasets[0].label = 'Olumlu';
-      chartOptions.data.datasets[0].data = scatterDataOlumlu;
-
-      chartOptions.data.datasets[1].label = 'Olumsuz';
-      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
+      chartOptions.data.datasets = scatterDataSet;
     } else if (chartType == ChartTypeEnum.StraightMarkedScatter) {
       chartOptions.type = 'scatter';
 
@@ -433,11 +446,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       chartOptions.options.showLines = true;
       chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.elements.line.tension = 0;
-      chartOptions.data.datasets[0].label = 'Olumlu';
-      chartOptions.data.datasets[0].data = scatterDataOlumlu;
-
-      chartOptions.data.datasets[1].label = 'Olumsuz';
-      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
+      chartOptions.data.datasets = scatterDataSet;
     } else if (chartType == ChartTypeEnum.StraightLinedScatter) {
       chartOptions.type = 'scatter';
 
@@ -445,11 +454,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       chartOptions.options.elements.point.pointStyle = 'rect';
       chartOptions.options.elements.line.tension = 0;
       chartOptions.options.showLines = true;
-      chartOptions.data.datasets[0].label = 'Olumlu';
-      chartOptions.data.datasets[0].data = scatterDataOlumlu;
-
-      chartOptions.data.datasets[1].label = 'Olumsuz';
-      chartOptions.data.datasets[1].data = scatterDataOlumsuz;
+      chartOptions.data.datasets = scatterDataSet;
     } else if (chartType == ChartTypeEnum.Pie) {
       chartOptions.type = 'pie';
       chartOptions.options.elements.arc.borderWidth = -1;
