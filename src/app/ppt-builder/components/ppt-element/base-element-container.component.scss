@@ -4,7 +4,8 @@
   max-width: 100%;
   max-height: 100%;
   &.active {
-    border: 1px dashed;
+    border: 3px dashed #b5b5b5;
+    padding: 1px;
   }
 
   // border: 5px dashed transparent;
@@ -12,6 +13,9 @@
   // &.active {
   //   border-color: black !important;
   // }
+}
+::before {
+  background-color: red;
 }
 
 .auto-width {
@@ -22,12 +26,12 @@
   display: none;
   height: 19px;
   width: 100%;
-  position: absolute;
+  position: initial;
   z-index: 999;
   background-color: white;
 
   &.active {
-    display: flex;
+    display: initial;
   }
 }
 
@@ -37,6 +41,15 @@
   left: 20px;
   height: 13px;
   top: 1px;
+}
+
+.d-none {
+  display: none;
+}
+
+.fa-square {
+  font-size: 16px;
+  color: #e25e49;
 }
 
 .fa-grip-horizontal {
@@ -72,6 +85,78 @@
   width: 100%;
   position: relative;
 }
+.top-left {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  z-index: 9999;
+}
+.top-right {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  z-index: 9999;
+}
+.bottom-left {
+  position: absolute;
+  bottom: -5px;
+  left: -8px;
+  z-index: 9999;
+}
+.bottom-right {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  z-index: 9999;
+}
+
+.only-bottom {
+  position: absolute;
+  bottom: -5px;
+  width: 12px !important;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  z-index: 9999;
+}
+.only-top {
+  position: absolute;
+  top: -8px;
+  width: 12px !important;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  z-index: 9999;
+  cursor: n-resize;
+  height: 7px;
+}
+.only-left {
+  position: absolute;
+  bottom: -8px;
+  height: 12px !important;
+  width: 12px !important;
+  top: 0;
+  bottom: 0;
+  left: -8px;
+  margin: auto;
+  z-index: 9999;
+}
+.only-right {
+  position: absolute;
+  height: 12px !important;
+  width: 12px !important;
+  z-index: 9999;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: -8px;
+}
+
+// .ui-resizable-e{
+// }
+
+// .ui-resizable-w{
+// }
 
 // ::ng-deep.ui-resizable-handle {
 //   // background-color: white !important;
