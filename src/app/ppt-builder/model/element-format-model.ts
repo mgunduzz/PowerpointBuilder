@@ -222,7 +222,7 @@ export class BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.strokeColor,
       name: '',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let isStroke: FormatCheckboxInputModel = {
@@ -432,7 +432,7 @@ export class TextFormatModel extends BaseElementFormatModel {
       name: 'Text Indent',
       inputType: PPtElementFormatInputTypeEnum.number,
       value: 0,
-      max: 100,
+      max: 32,
       min: 0
     };
     let firstLineIndent: FormatNumberInputModel = {
@@ -539,7 +539,7 @@ export class ChartFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.chartCategoryBgColor,
       name: '',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let chartLabelsFont: FormatDropdownInputModel = {
@@ -557,7 +557,7 @@ export class ChartFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.chartLabelsFontColor,
       name: 'ChartLabelsFontColor',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     this.formatInputs.title = title;
@@ -620,7 +620,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.shapeBorderColor,
       name: 'Shape Border Color',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let shapeBorder: FormatCheckboxInputModel = {
@@ -731,14 +731,14 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.color,
       name: 'Color',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let fontColor: FormatColorPickerInputModel = {
       inputId: PPtFormatInputsEnum.fontColor,
       name: 'FontColor',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let arrowDirectionList = new Array<KeyValueModel>();

@@ -260,7 +260,7 @@ export class PPtBuilderService {
     chartEl.isActive = false;
     chartEl.rotate = 0;
     chartEl.radius = 0;
-    chartEl.color = 'black';
+    chartEl.color = '#000000';
     chartEl.isShowText = false;
     chartEl.textAlign = 'left';
     chartEl.textFontSize = 10;
@@ -366,12 +366,17 @@ export class PPtBuilderService {
     var textEl = new PptTextElementModel();
     textEl.format = new TextFormatModel(el.format);
 
-    textEl.color = 'black';
+    textEl.color = '#000000';
     textEl.font = 'sans-serif';
     textEl.fontSize = '11pt';
     textEl.fontWeigth = 100;
-    textEl.backgroundColor = 'transparent';
+    textEl.backgroundColor = '00FFFFFF';
     textEl.fontStyle = 'unset';
+    textEl.radius = '0';
+    textEl.stroke = '';
+    textEl.indent = '';
+    textEl.firstLineIndent = '';
+    textEl.listStyle = '';
 
     textEl.name = 'Text';
     textEl.type = PPtElementEnum.Text;

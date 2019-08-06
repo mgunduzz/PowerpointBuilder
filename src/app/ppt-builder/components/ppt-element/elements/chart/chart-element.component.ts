@@ -270,7 +270,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
       plugins: {
         stacked100: { enable: false },
         datalabels: {
-          color: 'black',
+          color: '#000000',
           font: {
             weight: 'bold'
           },
