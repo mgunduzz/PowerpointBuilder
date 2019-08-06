@@ -21,7 +21,9 @@ import {
   FormatNumberInputModel,
   PPtFormatInputsEnum,
   BaseFormatInputModel,
-  FormatChangeModel
+  FormatChangeModel,
+  FormatColorPickerInputModel,
+  FormatCheckboxInputModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
@@ -113,6 +115,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
   updateFormats(formatInput: BaseFormatInputModel) {
     let numberInput = formatInput as FormatNumberInputModel;
+    let colorPickerInput = formatInput as FormatColorPickerInputModel;
+    let checkboxInput = formatInput as FormatCheckboxInputModel;
 
     switch (formatInput.inputId) {
       case PPtFormatInputsEnum.x:
@@ -136,6 +140,23 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
           var y = results[13] || results[5];
 
           $('#box-' + this.element.id).css('transform', `translate3d(${x}px, ${numberInput.value}px, 0px)`);
+        }
+        break;
+      case PPtFormatInputsEnum.strokeColor:
+        if (colorPickerInput.value) {
+          this.elementContainer.nativeElement.style.border = `3px solid ${colorPickerInput.value}`;
+          // this.element.stroke = '3px solid' + colorPickerInput.value;
+        } else this.element.stroke = '3px solid transparent';
+        break;
+      case PPtFormatInputsEnum.isStroke:
+        debugger;
+        if (checkboxInput.value) {
+          this.element.stroke = '3px solid black';
+          this.elementContainer.nativeElement.style.border = `${this.element.stroke}`;
+          colorPickerInput.value = `#000000`;
+        } else {
+          this.element.stroke = '3px solid transparent';
+          this.elementContainer.nativeElement.style.border = `${this.element.stroke}`;
         }
         break;
       case PPtFormatInputsEnum.width:

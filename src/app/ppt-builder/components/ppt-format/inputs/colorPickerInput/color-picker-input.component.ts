@@ -29,6 +29,7 @@ export class PptColorPickerInput implements OnInit {
   }
 
   onValueChange(ev: any) {
+    debugger;
     this.formatInput.value = ev;
     this.onValuechange.emit(this.formatInput);
   }
