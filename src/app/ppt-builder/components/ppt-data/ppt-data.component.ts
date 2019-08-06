@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
@@ -11,7 +11,9 @@ import {
   FormatInputsModel,
   PptDefaultChartDataModel,
   PptDefaultChartElementModel,
-  PptTableElementModel
+  PptTableElementModel,
+  PptBaseChartElementModel,
+  PptPieChartElementModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -32,12 +34,18 @@ export class PptDataCompontent implements OnInit, OnDestroy {
   selectedSeries: string;
   categories: any[] = [];
 
-  constructor(private pPtBuilderService: PPtBuilderService) {
+  constructor(private cdRef: ChangeDetectorRef, private pPtBuilderService: PPtBuilderService) {
     this.activeElSubscription = this.pPtBuilderService.activeElementSubscription.subscribe(el => {
       if (el) {
         this.element = el;
+
+        this.selectedDataSource = undefined;
       }
     });
+  }
+
+  ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
+    this.cdRef.detectChanges();
   }
 
   onUpdateElementDataClick() {
@@ -51,6 +59,11 @@ export class PptDataCompontent implements OnInit, OnDestroy {
           this.element.onDataChange.next();
         } else if (this.element instanceof PptTableElementModel) {
           (this.element as PptTableElementModel).setData(res);
+        } else if (this.element instanceof PptPieChartElementModel) {
+          (this.element as PptPieChartElementModel).dataModal.dataSource.series = this.selectedSeries;
+          (this.element as PptPieChartElementModel).dataModal.dataSource.categories = this.categories;
+          (this.element as PptPieChartElementModel).setData(res);
+          this.element.onDataChange.next();
         }
       });
     }
@@ -95,7 +108,15 @@ export class PptDataCompontent implements OnInit, OnDestroy {
   }
 
   isChartElement() {
+    return this.element instanceof PptBaseChartElementModel;
+  }
+
+  isDefaultChartElement() {
     return this.element instanceof PptDefaultChartElementModel;
+  }
+
+  isPieChartElement() {
+    return this.element instanceof PptPieChartElementModel;
   }
 
   isTableElement() {

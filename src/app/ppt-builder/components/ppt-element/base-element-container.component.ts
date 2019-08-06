@@ -151,7 +151,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         break;
       case PPtFormatInputsEnum.isStroke:
         if (checkboxInput.value) {
-          this.element.stroke = '3px solid black';
+          this.element.stroke = '3px solid #000000';
           this.elementContainer.nativeElement.style.border = `${this.element.stroke}`;
           colorPickerInput.value = 'black';
         } else if (!checkboxInput.value && !this.element.isActive) {

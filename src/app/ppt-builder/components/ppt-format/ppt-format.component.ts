@@ -16,7 +16,9 @@ import {
   PPtFormatInputsEnum,
   PPtElementFormatInputTypeEnum,
   TableCellModel,
-  FormatNumberInputModel
+  FormatNumberInputModel,
+  PptPieChartElementModel,
+  PptTextElementModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -96,9 +98,24 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     return this.element instanceof PptDefaultChartElementModel;
   }
 
+  isPieChart() {
+    return this.element instanceof PptPieChartElementModel;
+  }
+
+  isTextElement() {
+    return this.element instanceof PptTextElementModel;
+  }
+
   onCategoryBgColorChanged(ev: FormatColorPickerInputModel, cat: PptDefaultChartDataSetModel) {
     if (ev.value != cat.backgroundColor) {
       cat.backgroundColor = ev.value;
+      this.element.onDataChange.next();
+    }
+  }
+
+  onPieChartColorChange(ev: FormatColorPickerInputModel, cat: any) {
+    if (ev.value != cat.color) {
+      cat.color = ev.value;
       this.element.onDataChange.next();
     }
   }

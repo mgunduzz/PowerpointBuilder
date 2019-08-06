@@ -98,7 +98,7 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
           //   break;
           // case PPtFormatInputsEnum.isStroke:
           //   if (checkbox.value) {
-          //     this.element.stroke = '3px solid black';
+          //     this.element.stroke = '3px solid #000000';
           //   } else {
           //     this.element.stroke = '3px solid transparent';
           //   }

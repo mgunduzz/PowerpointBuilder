@@ -9,11 +9,13 @@ import {
   ShapeFormatModel,
   ShapeTypeEnum,
   PptTableElementModel,
-  PptShapeElementModel
+  PptShapeElementModel,
+  PptBaseChartElementModel
 } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ppt-main-container',
@@ -21,7 +23,13 @@ import { FileUploader } from 'ng2-file-upload';
   styleUrls: ['./main-container.component.scss']
 })
 export class MainContainer implements OnInit, OnDestroy, OnChanges {
-  constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {}
+  constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
+    this.activeElSubscription = this._pPtBuilderService.activeElementSubscription.subscribe(el => {
+      if (el) {
+        this.isElementHasData = el instanceof PptTableElementModel || el instanceof PptBaseChartElementModel;
+      }
+    });
+  }
   URL: any;
 
   closeResult: string;
@@ -31,7 +39,8 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   uploader: FileUploader = new FileUploader({ url: this.URL });
   chartType = ChartTypeEnum;
   shapeType = ShapeTypeEnum;
-
+  activeElSubscription: Subscription;
+  isElementHasData: boolean = false;
   modalRef: NgbModalRef;
 
   public hasBaseDropZoneOver: boolean = false;
@@ -182,7 +191,9 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.activeElSubscription.unsubscribe();
+  }
 
   ngOnChanges() {}
 }
