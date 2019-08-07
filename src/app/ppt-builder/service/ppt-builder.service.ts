@@ -42,9 +42,8 @@ import html2canvas from 'html2canvas';
 export class PPtBuilderService {
   constructor() {
     if (this.slideList.length == 0) {
-      this.slideList.push({ elementList: [], isActive: true, id: -1 });
-      this.activeSlide = this.slideList[0];
-      this.setActiveSlide(this.activeSlide);
+      this.addSlide();
+
       this.updateSlideList();
     }
   }
@@ -160,10 +159,13 @@ export class PPtBuilderService {
   }
 
   addSlide() {
+    let lastSlide = this.slideList[this.slideList.length - 1];
+
     let newSlide = new SlideModel();
     newSlide.isActive = true;
-    newSlide.id = -1;
+    newSlide.id = lastSlide ? lastSlide.id + 1 : 1;
     newSlide.elementList = [];
+    newSlide.pageNumber = this.slideList.length + 1;
 
     this.slideList.push(newSlide);
     this.setActiveSlide(newSlide);
@@ -400,6 +402,8 @@ export class PPtBuilderService {
 
       if (index > 0) index--;
 
+      this.slideList.forEach((item, index) => (item.pageNumber = index + 1));
+
       this.updateSlideList();
       this.setActiveSlide(this.slideList[index]);
     }
@@ -412,6 +416,14 @@ export class PPtBuilderService {
 
     this.slideList.forEach(slideItem => {
       let slide = pptx.addNewSlide();
+      let slidePageNumberInput = slideItem.format.formatInputs.slidePageNumber;
+
+      if (slidePageNumberInput) {
+        slide.slideNumber({
+          x: slidePageNumberInput.numberInputs[0].value + '%',
+          y: slidePageNumberInput.numberInputs[1].value + '%'
+        });
+      }
 
       slideItem.elementList.forEach(el => {
         el.generatePptxItem(pptx, slide);

@@ -1,6 +1,21 @@
-<div style="padding: 15px;" *ngIf="!element">
+<div style="padding: 15px;" *ngIf="!element && !activeSlide">
   Element seçili değil
 </div>
+
+<ng-container *ngIf="activeSlide && activeSlide.format.formatInputs">
+  <div class="main-format">
+    <div class="format-block" *ngIf="activeSlide">
+      <div class="format-title"><span class="format-title-text">Active Slide</span></div>
+      <div style="margin-left: 10px;" class="row row-margin">
+        <ppt-multi-number-input
+          [input]="activeSlide.format.formatInputs.slidePageNumber"
+          (onValuechange)="onInputValuechange($event, false, activeSlide)"
+        >
+        </ppt-multi-number-input>
+      </div>
+    </div>
+  </div>
+</ng-container>
 
 <ng-container *ngIf="element && element.format.formatInputs">
   <div class="main-format">

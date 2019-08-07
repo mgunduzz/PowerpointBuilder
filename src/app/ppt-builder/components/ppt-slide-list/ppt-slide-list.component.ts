@@ -22,7 +22,6 @@ export class PptSlideList implements OnInit, OnDestroy {
   slideListSub: Subscription;
   activeSlideSub: Subscription;
   activeSlide: SlideModel;
-  slideIdCount = 0;
 
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
     this.activeSlideSub = this._pPtBuilderService.activeSlideSubscription.subscribe(res => {
@@ -41,14 +40,6 @@ export class PptSlideList implements OnInit, OnDestroy {
 
     this.slideListSub = this._pPtBuilderService.slideListSubscription.subscribe(res => {
       if (res) {
-        res.forEach(item => {
-          if (item.id > 0) {
-          } else {
-            this.slideIdCount++;
-            item.id = this.slideIdCount;
-          }
-        });
-
         this.slideList = res;
       }
     });

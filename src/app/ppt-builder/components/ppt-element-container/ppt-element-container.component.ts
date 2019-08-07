@@ -1,6 +1,12 @@
 import { Component, OnInit, OnDestroy, Input, HostListener, OnChanges, AfterViewInit } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import { PptElementModel, PPtElementEnum, ChartFormatModel, BaseFormatInputModel } from '@app/ppt-builder/model';
+import {
+  PptElementModel,
+  PPtElementEnum,
+  ChartFormatModel,
+  BaseFormatInputModel,
+  SlideModel
+} from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, Subscription } from 'rxjs';
@@ -15,7 +21,9 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   elementList: any[] = [];
   elementSub: Subscription;
   activeElementSub: Subscription;
+  activeSlideSub: Subscription;
   activeElement: PptElementModel;
+  activeSlide: SlideModel;
   elementId: number = 1;
   elId: number;
   isMoving: boolean = false;
@@ -37,6 +45,10 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
     this.activeElementSub = this._pPtBuilderService.activeElementSubscription.subscribe(res => {
       this.activeElement = res;
+    });
+
+    this.activeElementSub = this._pPtBuilderService.activeSlideSubscription.subscribe(res => {
+      this.activeSlide = res;
     });
 
     this.elementSub = this._pPtBuilderService.pptElementsSubscription.subscribe(res => {
@@ -98,7 +110,7 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   @HostListener('document:keyup', ['$event'])
   handleDeleteKeyboardEvent(event: KeyboardEvent) {
     if (event.key === 'Delete') {
-      this.deleteElement(this.activeElement.id);
+      if (this.activeElement) this.deleteElement(this.activeElement.id);
     }
   }
 
@@ -122,6 +134,7 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy() {
     this.elementSub.unsubscribe();
     this.activeElementSub.unsubscribe();
+    this.activeSlideSub.unsubscribe();
   }
 
   ngOnChanges(): void {

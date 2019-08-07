@@ -9,4 +9,13 @@
     class="base-element"
   >
   </ppt-base-element>
+
+  <div
+    [style.left]="activeSlide.format.formatInputs.slidePageNumber.numberInputs[0].value + '%'"
+    [style.top]="activeSlide.format.formatInputs.slidePageNumber.numberInputs[1].value + '%'"
+    *ngIf="activeSlide && activeSlide.format.formatInputs.slidePageNumber"
+    style="position: absolute;width: 12px;height: 12px; text-align: center;line-height: 12px;"
+  >
+    {{ activeSlide.pageNumber }}
+  </div>
 </div>

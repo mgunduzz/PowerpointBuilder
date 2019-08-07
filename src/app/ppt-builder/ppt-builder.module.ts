@@ -29,6 +29,7 @@ import { ShapeElement } from './components/ppt-element/elements/shape/shape-elem
 import { PptDataCompontent } from './components/ppt-data/ppt-data.component';
 import { DndModule } from 'ngx-drag-drop';
 import { FilterPipeModule } from 'ngx-filter-pipe';
+import { PptMultiNumberInput } from './components/ppt-format/inputs/multi-number-input/multi-number-input.component';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { FilterPipeModule } from 'ngx-filter-pipe';
     PptDropdownInput,
     PptRadioButtonInput,
     ShapeElement,
-    PptDataCompontent
+    PptDataCompontent,
+    PptMultiNumberInput
   ],
   exports: [
     BaseElementContainer,
@@ -76,7 +78,8 @@ import { FilterPipeModule } from 'ngx-filter-pipe';
     PptDropdownInput,
     PptRadioButtonInput,
     ShapeElement,
-    PptDataCompontent
+    PptDataCompontent,
+    PptMultiNumberInput
   ],
   providers: [PPtBuilderService]
 })

@@ -18,7 +18,8 @@ import {
   TableCellModel,
   FormatNumberInputModel,
   PptPieChartElementModel,
-  PptTextElementModel
+  PptTextElementModel,
+  SlideModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -30,11 +31,15 @@ import { Subscription } from 'rxjs';
 })
 export class PptFormatCompontent implements OnInit, OnDestroy {
   @Input('element') element: PptElementModel;
+
+  activeSlide: SlideModel;
+
   footerMessageChecked: boolean = false;
   footerDateChecked: boolean = false;
   chartTitleChecked: boolean = false;
   model: {} = {};
   activeElSubscription: Subscription;
+  activeSlideSubscription: Subscription;
 
   constructor(private pPtBuilderService: PPtBuilderService) {
     this.activeElSubscription = this.pPtBuilderService.activeElementSubscription.subscribe(el => {
@@ -56,18 +61,24 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
         this.onInputsValuechange(inputs);
       }
     });
+
+    this.activeSlideSubscription = this.pPtBuilderService.activeSlideSubscription.subscribe(slide => {
+      if (slide) {
+        this.activeSlide = slide;
+      }
+    });
   }
 
   ngOnInit() {}
 
-  onInputValuechange(formatInput: BaseFormatInputModel, isInit: boolean = false) {
+  onInputValuechange(formatInput: BaseFormatInputModel, isInit: boolean = false, el: PptElementModel) {
     let changeModel = new FormatChangeModel();
     changeModel.formatInput = formatInput;
     changeModel.updateComponent = true;
     changeModel.addToHistory = !isInit;
 
-    this.element.onFormatChange.next([changeModel]);
-    // console.log('inputChange ' + changeModel.formatInput.name);
+    if (!el) this.element.onFormatChange.next([changeModel]);
+    else el.onFormatChange.next([changeModel]);
 
     if (!isInit) this.pPtBuilderService.setSlidePreview();
   }
@@ -180,5 +191,6 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.activeElSubscription.unsubscribe();
+    this.activeSlideSubscription.unsubscribe();
   }
 }

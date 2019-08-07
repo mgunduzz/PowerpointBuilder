@@ -108,6 +108,15 @@ export class FormatNumberInputModel extends BaseFormatInputModel {
   step?: number = 1;
 }
 
+export class FormatMultiNumberInputModel extends BaseFormatInputModel {
+  constructor() {
+    super();
+    this.numberInputs = new Array<FormatNumberInputModel>();
+  }
+
+  numberInputs: Array<FormatNumberInputModel>;
+}
+
 export class FormatDropdownInputModel extends BaseFormatInputModel {
   value: Array<KeyValueModel>;
   position: string;
@@ -168,6 +177,7 @@ export class FormatInputsModel {
   chartLabelsFontSize: FormatNumberInputModel;
   chartLabelsFontColor: FormatColorPickerInputModel;
   chartTitleText: FormatTextInputModel;
+  slidePageNumber: FormatMultiNumberInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -318,6 +328,38 @@ export class TableFormatModel extends BaseElementFormatModel {
     this.formatInputs.cellBorderType = cellBorderType;
     this.formatInputs.cellBorderSize = cellBorderSize;
     this.formatInputs.cellBorderColor = cellBorderColor;
+  }
+}
+
+export class SlideFormatModel extends BaseElementFormatModel {
+  constructor(format?: BaseElementFormatModel) {
+    super(format);
+
+    let pageNumber = new FormatMultiNumberInputModel();
+
+    let pageNumberX: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.x,
+      name: 'X',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 50,
+      min: 0,
+      max: 100
+    };
+
+    let pageNumberY: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.x,
+      name: 'Y',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 90,
+      min: 0,
+      max: 100
+    };
+
+    pageNumber.numberInputs.push(pageNumberX);
+    pageNumber.numberInputs.push(pageNumberY);
+    pageNumber.name = 'pageNumber';
+
+    this.formatInputs.slidePageNumber = pageNumber;
   }
 }
 
