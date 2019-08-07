@@ -102,6 +102,7 @@ export class PptElementModel implements PptxGenerator {
   z: number = 0;
   options?: any;
   stroke: string;
+  tempZ: number = 0;
 }
 
 export class FormatChangeModel {
