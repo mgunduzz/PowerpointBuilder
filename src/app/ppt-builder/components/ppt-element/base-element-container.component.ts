@@ -10,7 +10,8 @@ import {
   ViewChild,
   ElementRef,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  DoCheck
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -46,7 +47,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   error: string | undefined;
   loginForm!: FormGroup;
   isLoading = false;
-  dragDropStatus: boolean = true;
+  dragDropStatus: boolean = false;
   newPositionXTemp: string = '0px';
   newPositionYTemp: string = '0px';
   newPositionX: string = '0px';
@@ -56,7 +57,18 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   elHighlight: boolean = false;
   isContainerActive: boolean = false;
 
+  changeElementpPriority(isLevelUp: boolean) {
+    let data: { isLevelUp: boolean; id: number; zIndex: number } = { isLevelUp: false, id: 0, zIndex: 0 };
+
+    data.isLevelUp = isLevelUp;
+    data.id = this.element.id;
+    data.zIndex = this.element.z;
+
+    this.changeElementpPriorityEmitter.next(data);
+  }
+
   @Output('onItemActiveChanged') onItemActiveChanged: EventEmitter<any> = new EventEmitter<any>();
+  @Output('changeElementpPriorityEmitter') changeElementpPriorityEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private pPtBuilderService: PPtBuilderService) {
     this.elementTypes.TABLE = PPtElementEnum.Table;
@@ -152,11 +164,9 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         if (checkboxInput.value) {
           this.element.stroke = '3px solid #000000';
           this.elementContainer.nativeElement.style.border = `${this.element.stroke}`;
-          colorPickerInput.value = `#000000`;
-        } else {
-          this.element.stroke = '3px solid transparent';
-          this.elementContainer.nativeElement.style.border = `${this.element.stroke}`;
+          colorPickerInput.value = 'black';
         }
+
         break;
       case PPtFormatInputsEnum.width:
         this.elementContainer.nativeElement.style.width = `${numberInput.value}px`;
@@ -182,11 +192,17 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     let _this = this;
     $('#box-' + this.element.id).resizable({
       handles: 'all',
+      resize: function(e: any, ui: any) {
+        this.dragDropStatus = false;
+      },
       stop: function(e: any, ui: any) {
         let width = ui.size.width;
         let height = ui.size.height;
 
         _this.element.format.formatInputs.width.value = width;
+        if (typeof _this.element.format.formatInputs.height == 'string') {
+          _this.element.format.formatInputs.height = new FormatNumberInputModel();
+        }
         _this.element.format.formatInputs.height.value = height;
 
         _this.element.format.formatInputs.width.update = true;
@@ -209,14 +225,36 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    $('#box-' + this.element.id).css(
-      'transform',
-      `translate3d(${this.element.format.formatInputs.x.value.toString()}px, ${this.element.format.formatInputs.y.value.toString()}px, 0px)`
-    );
-
     setTimeout(() => {
       this.pPtBuilderService.setSlidePreview();
     }, 1000);
+
+    $('.ui-icon-gripsmall-diagonal-se').remove();
+  }
+
+  elementMouseDown(e: MouseEvent) {
+    let el = $('.base-element-container');
+    let borderWidth = parseInt(el.css('borderLeftWidth'));
+    let elWidth = el.width();
+    let elHeight = el.height();
+
+    let status = false;
+
+    if (e.offsetX <= borderWidth) {
+      status = true;
+    } else if (e.offsetX >= elWidth - borderWidth) {
+      status = true;
+    } else if (e.offsetY <= borderWidth) {
+      status = true;
+    } else if (e.offsetY >= elHeight - borderWidth) {
+      status = true;
+    }
+
+    // this.updateDragDropStatus(status);
+  }
+
+  updateDragDropStatus(status: boolean = false) {
+    this.dragDropStatus = status;
   }
 
   dragEnded(event: CdkDragEnd) {
@@ -259,12 +297,9 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   dragDropStatusChange() {
     this.dragDropStatus = false;
   }
-  dragDropStatusChange1() {
-    this.dragDropStatus = true;
-  }
 
   highlightElement(id: number) {
-    this.element.z = 999;
+    // this.element.z = 999;
     this.highlightChange.emit(id);
   }
 

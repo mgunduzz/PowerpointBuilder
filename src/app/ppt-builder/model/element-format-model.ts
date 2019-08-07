@@ -232,7 +232,7 @@ export class BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.strokeColor,
       name: '',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: '#000000'
+      value: 'trapsparent'
     };
 
     let isStroke: FormatCheckboxInputModel = {
