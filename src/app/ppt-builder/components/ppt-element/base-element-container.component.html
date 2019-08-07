@@ -4,13 +4,37 @@
   id="box-{{ element.id }}"
   [cdkDragBoundary]="'.board'"
   cdkDrag
+  (cdkDragEnded)="dragEnded($event)"
+  (cdkDragMoved)="dragMoved($event)"
   [ngStyle]="{ 'z-index': element.z }"
   [ngClass]="{ active: element.isActive && isContainerActive, 'text-active': element.type == elementTypes.TEXT }"
   [cdkDragDisabled]="!dragDropStatus"
   (mouseover)="isContainerActive = true"
   (mousedown)="elementMouseDown($event)"
   [style.width]="element.format.formatInputs.width.value + 'px'"
+  [style.height]="element.format.formatInputs.height.value + 'px'"
 >
+  <div [ngClass]="{ 'd-none': !element.isActive }" class="container-toolbox">
+    <div class="toolbox-item" (mouseenter)="dragDropStatus = true" style="cursor: all-scroll;" cdkDragHandle>
+      <i class="fas fa-grip-horizontal toolbox-item-icon" title="Taşı"></i>
+    </div>
+    <div class="toolbox-item">
+      <img
+        src="../../../../assets/icons/orginal-size-icon.png"
+        class="fas fa-undo toolbox-item-icon"
+        (click)="setElementNaturalSize()"
+        title="İlk boyutuna döndür"
+      />
+    </div>
+    <div class="toolbox-item">
+      <i
+        class="toolbox-item-icon fas fa-layer-group"
+        [ngClass]="{ active: elHighlight }"
+        (click)="highlightElement(element.id)"
+        title="Ön plana çıkar"
+      ></i>
+    </div>
+  </div>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
     class="fas fa-square top-left ui-resizable-handle ui-resizable-nw"
@@ -51,13 +75,7 @@
     class="fas fa-square only-left  ui-resizable-handle ui-resizable-w"
     (mouseenter)="dragDropStatus = false"
   ></i>
-  <!-- <i [ngClass]="{'d-none' : !element.isActive}" class="fas fa-square only-top ui-resizable-handle ui-resizable-se"
-    (mouseenter)="dragDropStatus = false"></i> -->
-  <!-- <i [ngClass]="{'d-none' : !element.isActive}" class="fas fa-square only-left ui-resizable-handle ui-resizable-se"
-    (mouseenter)="dragDropStatus = false"></i>
-    <i [ngClass]="{'d-none' : !element.isActive}" class="fas fa-square only-right ui-resizable-handle ui-resizable-se"
-    (mouseenter)="dragDropStatus = false"></i> -->
-  <!-- <div class="drop-icon active"> -->
+
   <!-- <div class="i-group" [ngClass]="{ 'dp-none': !(element.isActive && isContainerActive) }">
       <i class="fas fa-grip-horizontal" title="Taşı"></i>
       <img

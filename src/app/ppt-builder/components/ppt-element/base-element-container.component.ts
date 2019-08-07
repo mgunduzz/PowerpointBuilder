@@ -154,12 +154,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
           this.element.stroke = '3px solid #000000';
           this.elementContainer.nativeElement.style.border = `${this.element.stroke}`;
           colorPickerInput.value = 'black';
-        } else if (!checkboxInput.value && !this.element.isActive) {
-          this.element.stroke = '3px solid transparent';
-          this.elementContainer.nativeElement.style.border = `${this.element.stroke}`;
-        } else {
-          this.elementContainer.nativeElement.style.border = `1px dashed`;
         }
+
         break;
       case PPtFormatInputsEnum.width:
         this.elementContainer.nativeElement.style.width = `${numberInput.value}px`;
@@ -186,7 +182,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     $('#box-' + this.element.id).resizable({
       handles: 'all',
       resize: function(e: any, ui: any) {
-        console.log('asd');
         this.dragDropStatus = false;
       },
       stop: function(e: any, ui: any) {
@@ -219,81 +214,14 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    $('#box-' + this.element.id).css(
-      'transform',
-      `translate3d(${this.element.format.formatInputs.x.value.toString()}px, ${this.element.format.formatInputs.y.value.toString()}px, 0px)`
-    );
-
     setTimeout(() => {
       this.pPtBuilderService.setSlidePreview();
     }, 1000);
 
-    // $(".ui-resizable-n").remove();
-    // $(".ui-resizable-e").remove();
-    // $(".ui-resizable-s").remove();
-    // $(".ui-resizable-w").remove();
     $('.ui-icon-gripsmall-diagonal-se').remove();
-
-    // let border = document.getElementById(".base-element-container").style.border;
-    //   $('.base-element-container').click(function(e: any){
-    //     if(e.offsetY > $(this).outerHeight() - 4){
-    //       debugger;
-    //        console.log('asd');
-    //     }
-    // });
-
-    // $('.base-element-container').on("mousemove", (e : any) => {
-    //   console.log("test")
-
-    //   let el = $(".base-element-container");
-    //   let borderWidth = parseInt(el.css('borderLeftWidth'));
-    //   let elWidth = el.width();
-    //   let elHeight = el.height();
-
-    //   let status = false;
-
-    //   if (e.offsetX <= borderWidth) {
-    //     status = true
-    //   } else if (e.offsetX >= elWidth - borderWidth) {
-    //     status = true
-    //   }
-    //   else if (e.offsetY <= borderWidth) {
-    //     status = true
-    //   }
-    //   else if (e.offsetY >= elHeight - borderWidth) {
-    //     status = true
-    //   }
-
-    //   this.updateDragDropStatus(status);
-    // });
-
-    // $('.base-element-container').on("click", function (e: any) {
-    //   let borderWidth = parseInt($(this).css('borderLeftWidth'));
-    //   let elWidth = $(this).width();
-    //   let elHeight = $(this).height();
-    //   let e : any;
-
-    //   if (e.offsetX <= borderWidth) {
-    //     // borderWidth.c
-
-    //   } else if (e.offsetX >= elWidth - borderWidth) {
-    //   }
-    //   else if (e.offsetY <= borderWidth) {
-    //   }
-    //   else if (e.offsetY >= elHeight - borderWidth) {
-    //   }
-
-    //   _this.updateDragDropStatus(status);
-
-    //   // if (e.offsetY <= parseInt($(this).css('borderBottomWidth'))) {
-    //   //   alert('clicked on the bottom border!');
-    //   // }
-    // });
   }
 
   elementMouseDown(e: MouseEvent) {
-    console.log('test');
-
     let el = $('.base-element-container');
     let borderWidth = parseInt(el.css('borderLeftWidth'));
     let elWidth = el.width();
@@ -311,12 +239,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
       status = true;
     }
 
-    this.updateDragDropStatus(status);
+    // this.updateDragDropStatus(status);
   }
 
   updateDragDropStatus(status: boolean = false) {
     this.dragDropStatus = status;
-    console.log(this.dragDropStatus);
   }
 
   dragEnded(event: CdkDragEnd) {

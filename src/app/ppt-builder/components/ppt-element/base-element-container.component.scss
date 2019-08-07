@@ -14,10 +14,6 @@
   //   border-color: black !important;
   // }
 }
-::before {
-  background-color: red;
-}
-
 .auto-width {
   width: auto !important;
 }
@@ -37,7 +33,6 @@
 
 .fa-undo {
   color: #a3a3a3;
-  position: absolute;
   left: 20px;
   height: 13px;
   top: 1px;
@@ -51,12 +46,11 @@
   font-size: 11px;
   color: #e25e49;
 }
-
-.fa-grip-horizontal {
-  color: #a3a3a3;
-  cursor: all-scroll;
-  position: absolute;
-  left: 2px;
+.toolbox-item-icon {
+  color: #fff;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 ::ng-deep.el-box {
@@ -77,8 +71,6 @@
   width: 20px;
   float: right;
   cursor: pointer;
-  position: absolute;
-  right: 0;
 }
 
 .i-group {
@@ -87,32 +79,32 @@
 }
 .top-left {
   position: absolute;
-  top: -8px;
-  left: -8px;
+  top: -6px;
+  left: -6px;
   z-index: 9999;
 }
 .top-right {
   position: absolute;
-  top: -8px;
-  right: -5px;
+  top: -6px;
+  right: -6px;
   z-index: 9999;
 }
 .bottom-left {
   position: absolute;
-  bottom: -5px;
-  left: -8px;
+  bottom: -6px;
+  left: -6px;
   z-index: 9999;
 }
 .bottom-right {
   position: absolute;
-  bottom: -8px;
-  right: -8px;
+  bottom: -6px;
+  right: -6px;
   z-index: 9999;
 }
 
 .only-bottom {
   position: absolute;
-  bottom: -5px;
+  bottom: -3.2px;
   width: 12px !important;
   right: 0;
   left: 0;
@@ -121,7 +113,7 @@
 }
 .only-top {
   position: absolute;
-  top: -8px;
+  top: -6.2px;
   width: 12px !important;
   right: 0;
   left: 0;
@@ -132,12 +124,11 @@
 }
 .only-left {
   position: absolute;
-  bottom: -8px;
   height: 12px !important;
   width: 12px !important;
   top: 0;
   bottom: 0;
-  left: -8px;
+  left: -6.2px;
   margin: auto;
   z-index: 9999;
 }
@@ -149,7 +140,26 @@
   top: 0;
   bottom: 0;
   margin: auto;
-  right: -8px;
+  right: -8.2px;
+}
+
+.container-toolbox {
+  display: flex;
+  height: 30px;
+  position: absolute;
+  top: -38px;
+  left: -6px;
+}
+
+.toolbox-item {
+  width: 34px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid;
+  background-color: #535353;
+  cursor: pointer;
 }
 
 // .ui-resizable-e{
