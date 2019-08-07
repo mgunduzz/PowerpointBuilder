@@ -44,12 +44,39 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
         res.elementList.forEach(item => {
           item.id = this.elementId;
           this.elementId++;
+          item.tempZ = item.z = (this.elementList.length + 1) * 100;
         });
 
         if (res.isClear) this.elementList = [];
         this.elementList.push(...res.elementList);
       }
+
+      // let i = 1;
+      // this.elementList.forEach(o => {
+      //   o.tempZ = o.z = i * 100;
+      //   i++;
+      // })
     });
+  }
+
+  changeElementpPriorityEmitter(itemZIndez: { isLevelUp: boolean; id: number; zIndex: number }) {
+    let indexElemetTemp = this.elementList.findIndex(o => o.id == itemZIndez.id && o.z == itemZIndez.zIndex);
+
+    if (indexElemetTemp > -1) {
+      if (itemZIndez.isLevelUp) {
+        let indexLevelUp = this.elementList.findIndex(o => o.z == itemZIndez.zIndex + 100);
+        this.elementList[indexLevelUp].tempZ = this.elementList[indexLevelUp].z =
+          this.elementList[indexLevelUp].z - 100;
+        this.elementList[indexElemetTemp].tempZ = this.elementList[indexElemetTemp].z =
+          this.elementList[indexElemetTemp].z + 100;
+      } else {
+        let indexLevelUp = this.elementList.findIndex(o => o.z == itemZIndez.zIndex - 100);
+        this.elementList[indexLevelUp].tempZ = this.elementList[indexLevelUp].z =
+          this.elementList[indexLevelUp].z + 100;
+        this.elementList[indexElemetTemp].tempZ = this.elementList[indexElemetTemp].z =
+          this.elementList[indexElemetTemp].z - 100;
+      }
+    }
   }
 
   onItemActiveChanged(res: any) {
@@ -108,13 +135,13 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   changeHighlight(elId: PptElementModel) {
-    this.elementList.forEach(element => {
-      if (elId == element.id) {
-        element.z = 999;
-      } else {
-        element.z = 0;
-      }
-    });
+    // this.elementList.forEach(element => {
+    //   if (elId == element.id) {
+    //     element.z = 999;
+    //   } else {
+    //     // element.z = 0;
+    //   }
+    // });
   }
 
   ngOnInit() {}

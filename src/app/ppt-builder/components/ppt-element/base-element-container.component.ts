@@ -57,7 +57,18 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   elHighlight: boolean = false;
   isContainerActive: boolean = false;
 
+  changeElementpPriority(isLevelUp: boolean) {
+    let data: { isLevelUp: boolean; id: number; zIndex: number } = { isLevelUp: false, id: 0, zIndex: 0 };
+
+    data.isLevelUp = isLevelUp;
+    data.id = this.element.id;
+    data.zIndex = this.element.z;
+
+    this.changeElementpPriorityEmitter.next(data);
+  }
+
   @Output('onItemActiveChanged') onItemActiveChanged: EventEmitter<any> = new EventEmitter<any>();
+  @Output('changeElementpPriorityEmitter') changeElementpPriorityEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private pPtBuilderService: PPtBuilderService) {
     this.elementTypes.TABLE = PPtElementEnum.Table;
@@ -288,7 +299,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   highlightElement(id: number) {
-    this.element.z = 999;
+    // this.element.z = 999;
     this.highlightChange.emit(id);
   }
 
