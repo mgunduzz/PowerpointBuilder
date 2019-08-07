@@ -26,13 +26,15 @@
         title="İlk boyutuna döndür"
       />
     </div>
+    <!-- <div class="toolbox-item">
+      <i class="toolbox-item-icon fas fa-layer-group" [ngClass]="{ active: elHighlight }"
+        (click)="highlightElement(element.id)" title="Ön plana çıkar"></i>
+    </div> -->
     <div class="toolbox-item">
-      <i
-        class="toolbox-item-icon fas fa-layer-group"
-        [ngClass]="{ active: elHighlight }"
-        (click)="highlightElement(element.id)"
-        title="Ön plana çıkar"
-      ></i>
+      <i class="fas fa-arrow-up toolbox-item-icon" title="Öne Çıkar" (click)="changeElementpPriority(true)"></i>
+    </div>
+    <div class="toolbox-item">
+      <i class="fas  fa-arrow-down toolbox-item-icon" title="Geriye At" (click)="changeElementpPriority(false)"></i>
     </div>
   </div>
   <i
