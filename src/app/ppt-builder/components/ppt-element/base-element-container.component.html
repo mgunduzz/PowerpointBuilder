@@ -5,17 +5,60 @@
   [cdkDragBoundary]="'.board'"
   cdkDrag
   [ngStyle]="{ 'z-index': element.z }"
-  (cdkDragEnded)="dragEnded($event)"
-  (cdkDragMoved)="dragMoved($event)"
   [ngClass]="{ active: element.isActive && isContainerActive, 'text-active': element.type == elementTypes.TEXT }"
   [cdkDragDisabled]="!dragDropStatus"
-  (mouseenter)="dragDropStatus = false"
   (mouseover)="isContainerActive = true"
+  (mousedown)="elementMouseDown($event)"
   [style.width]="element.format.formatInputs.width.value + 'px'"
-  [style.height]="element.format.formatInputs.height.value + 'px'"
 >
-  <div class="drop-icon active" (mouseenter)="dragDropStatus = true" (mouseleave)="dragDropStatus = false">
-    <div class="i-group" [ngClass]="{ 'dp-none': !(element.isActive && isContainerActive) }">
+  <i
+    [ngClass]="{ 'd-none': !element.isActive }"
+    class="fas fa-square top-left ui-resizable-handle ui-resizable-nw"
+    (mouseenter)="dragDropStatus = false"
+  ></i>
+  <i
+    [ngClass]="{ 'd-none': !element.isActive }"
+    class="fas fa-square top-right ui-resizable-handle ui-resizable-ne"
+    (mouseenter)="dragDropStatus = false"
+  ></i>
+  <i
+    [ngClass]="{ 'd-none': !element.isActive }"
+    class="fas fa-square bottom-left ui-resizable-handle ui-resizable-sw"
+    (mouseenter)="dragDropStatus = false"
+  ></i>
+  <i
+    [ngClass]="{ 'd-none': !element.isActive }"
+    class="fas fa-square bottom-right ui-resizable-handle ui-resizable-se"
+    (mouseenter)="dragDropStatus = false"
+  ></i>
+  <i
+    [ngClass]="{ 'd-none': !element.isActive }"
+    class="fas fa-square only-top  ui-resizable-handle ui-resizable-n width-unset"
+    (mouseenter)="dragDropStatus = false"
+  ></i>
+  <i
+    [ngClass]="{ 'd-none': !element.isActive }"
+    class="fas fa-square only-bottom  ui-resizable-handle ui-resizable-s width-unset"
+    (mouseenter)="dragDropStatus = false"
+  ></i>
+  <i
+    [ngClass]="{ 'd-none': !element.isActive }"
+    class="fas fa-square only-right  ui-resizable-handle ui-resizable-e"
+    (mouseenter)="dragDropStatus = false"
+  ></i>
+  <i
+    [ngClass]="{ 'd-none': !element.isActive }"
+    class="fas fa-square only-left  ui-resizable-handle ui-resizable-w"
+    (mouseenter)="dragDropStatus = false"
+  ></i>
+  <!-- <i [ngClass]="{'d-none' : !element.isActive}" class="fas fa-square only-top ui-resizable-handle ui-resizable-se"
+    (mouseenter)="dragDropStatus = false"></i> -->
+  <!-- <i [ngClass]="{'d-none' : !element.isActive}" class="fas fa-square only-left ui-resizable-handle ui-resizable-se"
+    (mouseenter)="dragDropStatus = false"></i>
+    <i [ngClass]="{'d-none' : !element.isActive}" class="fas fa-square only-right ui-resizable-handle ui-resizable-se"
+    (mouseenter)="dragDropStatus = false"></i> -->
+  <!-- <div class="drop-icon active"> -->
+  <!-- <div class="i-group" [ngClass]="{ 'dp-none': !(element.isActive && isContainerActive) }">
       <i class="fas fa-grip-horizontal" title="Taşı"></i>
       <img
         src="../../../../assets/icons/orginal-size-icon.png"
@@ -35,9 +78,9 @@
         <i class="fas  fa-arrow-down" title="Geriye At" (click)="changeElementpPriority(false)"></i>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div class="container-size" style="width:100%;height: calc(100% - 20px);">
+  <div class="container-size" style="width:100%;">
     <ng-container *ngIf="type == elementTypes.CHART">
       <ppt-chart-element [element]="element"> </ppt-chart-element>
     </ng-container>

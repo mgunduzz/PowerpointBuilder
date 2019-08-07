@@ -76,7 +76,9 @@ export enum PPtFormatInputsEnum {
   cellBorderColor,
   chartLabelsFont,
   chartlabelsFontSize,
-  chartLabelsFontColor
+  chartLabelsFontColor,
+  smoothLine,
+  chartTitleText
 }
 
 export class BaseFormatInputModel {
@@ -128,6 +130,7 @@ export class FormatInputsModel {
   radius: FormatNumberInputModel;
   title: FormatCheckboxInputModel;
   legend: FormatCheckboxInputModel;
+  smoothLine: FormatCheckboxInputModel;
   value: FormatCheckboxInputModel;
   textAlign: FormatRadioButtonInputModel;
   chartSpaceBetweenCategory: FormatNumberInputModel;
@@ -164,6 +167,7 @@ export class FormatInputsModel {
   chartLabelsFont: FormatDropdownInputModel;
   chartLabelsFontSize: FormatNumberInputModel;
   chartLabelsFontColor: FormatColorPickerInputModel;
+  chartTitleText: FormatTextInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -218,7 +222,7 @@ export class BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.strokeColor,
       name: '',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: 'trapsparent'
     };
 
     let isStroke: FormatCheckboxInputModel = {
@@ -428,7 +432,7 @@ export class TextFormatModel extends BaseElementFormatModel {
       name: 'Text Indent',
       inputType: PPtElementFormatInputTypeEnum.number,
       value: 0,
-      max: 100,
+      max: 32,
       min: 0
     };
     let firstLineIndent: FormatNumberInputModel = {
@@ -508,6 +512,13 @@ export class ChartFormatModel extends BaseElementFormatModel {
       value: false
     };
 
+    let chartTitleText: FormatTextInputModel = {
+      inputId: PPtFormatInputsEnum.chartTitleText,
+      name: 'TitleText',
+      inputType: PPtElementFormatInputTypeEnum.text,
+      value: 'Chart title'
+    };
+
     let chartLabelsFontSize: FormatNumberInputModel = {
       inputId: PPtFormatInputsEnum.chartlabelsFontSize,
       name: 'LabelFontSize',
@@ -528,7 +539,7 @@ export class ChartFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.chartCategoryBgColor,
       name: '',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let chartLabelsFont: FormatDropdownInputModel = {
@@ -546,7 +557,7 @@ export class ChartFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.chartLabelsFontColor,
       name: 'ChartLabelsFontColor',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     this.formatInputs.title = title;
@@ -556,6 +567,7 @@ export class ChartFormatModel extends BaseElementFormatModel {
     this.formatInputs.chartLabelsFont = chartLabelsFont;
     this.formatInputs.chartLabelsFontSize = chartLabelsFontSize;
     this.formatInputs.chartLabelsFontColor = chartLabelFontColor;
+    this.formatInputs.chartTitleText = chartTitleText;
   }
 }
 
@@ -608,7 +620,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.shapeBorderColor,
       name: 'Shape Border Color',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let shapeBorder: FormatCheckboxInputModel = {
@@ -719,14 +731,14 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       inputId: PPtFormatInputsEnum.color,
       name: 'Color',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let fontColor: FormatColorPickerInputModel = {
       inputId: PPtFormatInputsEnum.fontColor,
       name: 'FontColor',
       inputType: PPtElementFormatInputTypeEnum.colorPicker,
-      value: 'black'
+      value: '#000000'
     };
 
     let arrowDirectionList = new Array<KeyValueModel>();
@@ -803,7 +815,7 @@ export class ColumnChartFormatModel extends ChartFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 1,
       min: 0,
-      value: 0,
+      value: 0.3,
       step: 0.1
     };
 
@@ -835,7 +847,7 @@ export class BarChartFormatModel extends ChartFormatModel {
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 1,
       min: 0,
-      value: 0,
+      value: 0.3,
       step: 0.1
     };
 
@@ -860,6 +872,15 @@ export class LineChartFormatModel extends ChartFormatModel {
    */
   constructor() {
     super();
+
+    let smoothLine: FormatCheckboxInputModel = {
+      inputId: PPtFormatInputsEnum.smoothLine,
+      name: 'SmoothLine',
+      inputType: PPtElementFormatInputTypeEnum.checkbox,
+      value: false
+    };
+
+    this.formatInputs.smoothLine = smoothLine;
   }
 }
 
