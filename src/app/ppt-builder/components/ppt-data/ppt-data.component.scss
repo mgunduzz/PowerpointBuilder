@@ -6,8 +6,18 @@
 
 .table-source-property {
   border: 1px solid #d3d3d3;
-  padding: 20px;
+  padding: 10px;
   margin: 5px;
   width: calc((100% - 40px) / 2);
   cursor: move;
+  font-size: 11px;
+}
+
+.dropdown-item {
+  font-size: 11px;
+}
+
+.dropdown-menu {
+  padding: 10px auto !important;
+  width: 100%;
 }
