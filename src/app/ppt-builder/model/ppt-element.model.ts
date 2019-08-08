@@ -594,6 +594,7 @@ export class TableCellModel extends PptElementModel {
     this.isSelected = false;
     this.rowIndex = rIndex;
     this.colIndex = cIndex;
+
     this.width = element.defaultCellWidth;
     this.height = element.defaultCellHeight;
     this.left = cellX;
@@ -701,14 +702,8 @@ export class PptTableElementModel extends PptElementModel {
             let rIndex = this.row + i;
             let cIndex = j;
 
-            let newCell = new TableCellModel();
+            let newCell = new TableCellModel(rIndex, cIndex, this, cellX, cellY);
             newCell.isSelected = false;
-            newCell.rowIndex = rIndex;
-            newCell.colIndex = cIndex;
-            newCell.width = this.defaultCellWidth;
-            newCell.height = this.defaultCellHeight;
-            newCell.left = cellX;
-            newCell.top = cellY;
             newCell.isHeader = rIndex == 0;
             newCell.isMerged = false;
             newCell.isDragOver = false;
