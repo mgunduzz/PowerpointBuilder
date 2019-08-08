@@ -11,7 +11,8 @@ import {
   PPtElementFormatInputTypeEnum,
   FormatNumberInputModel,
   TableFormatModel,
-  LineChartFormatModel
+  LineChartFormatModel,
+  ShapeFormatModel
 } from './element-format-model';
 import { Subject } from 'rxjs';
 import * as _ from 'underscore';
@@ -594,6 +595,7 @@ export class TableCellModel extends PptElementModel {
     this.isSelected = false;
     this.rowIndex = rIndex;
     this.colIndex = cIndex;
+
     this.width = element.defaultCellWidth;
     this.height = element.defaultCellHeight;
     this.left = cellX;
@@ -701,14 +703,8 @@ export class PptTableElementModel extends PptElementModel {
             let rIndex = this.row + i;
             let cIndex = j;
 
-            let newCell = new TableCellModel();
+            let newCell = new TableCellModel(rIndex, cIndex, this, cellX, cellY);
             newCell.isSelected = false;
-            newCell.rowIndex = rIndex;
-            newCell.colIndex = cIndex;
-            newCell.width = this.defaultCellWidth;
-            newCell.height = this.defaultCellHeight;
-            newCell.left = cellX;
-            newCell.top = cellY;
             newCell.isHeader = rIndex == 0;
             newCell.isMerged = false;
             newCell.isDragOver = false;
@@ -903,6 +899,20 @@ export class PptShapeElementModel extends PptElementModel {
   lineWidth: number;
   fontColor: string;
   isShapeBorder: boolean;
+
+  generatePptxItem(pptx: any, slide: any) {
+    super.generatePptxItem(pptx, slide);
+
+    let pptxShapeItem: any = {};
+    pptxShapeItem.Options = this.options;
+
+    let shapeFormat = (this.format as ShapeFormatModel).formatInputs;
+
+    pptxShapeItem.Options.fill = shapeFormat.color.value.replace('#', '');
+
+    if (this.shapeType == ShapeTypeEnum.line) slide.addShape(pptx.shapes.LINE, pptxShapeItem.Options);
+    else if (this.shapeType == ShapeTypeEnum.square) slide.addShape(pptx.shapes.RECTANGLE, pptxShapeItem.Options);
+  }
 }
 
 export class PptImageElementModel extends PptElementModel {
