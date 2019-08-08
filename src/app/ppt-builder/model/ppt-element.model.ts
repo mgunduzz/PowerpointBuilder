@@ -11,7 +11,8 @@ import {
   PPtElementFormatInputTypeEnum,
   FormatNumberInputModel,
   TableFormatModel,
-  LineChartFormatModel
+  LineChartFormatModel,
+  ShapeFormatModel
 } from './element-format-model';
 import { Subject } from 'rxjs';
 import * as _ from 'underscore';
@@ -898,6 +899,20 @@ export class PptShapeElementModel extends PptElementModel {
   lineWidth: number;
   fontColor: string;
   isShapeBorder: boolean;
+
+  generatePptxItem(pptx: any, slide: any) {
+    super.generatePptxItem(pptx, slide);
+
+    let pptxShapeItem: any = {};
+    pptxShapeItem.Options = this.options;
+
+    let shapeFormat = (this.format as ShapeFormatModel).formatInputs;
+
+    pptxShapeItem.Options.fill = shapeFormat.color.value.replace('#', '');
+
+    if (this.shapeType == ShapeTypeEnum.line) slide.addShape(pptx.shapes.LINE, pptxShapeItem.Options);
+    else if (this.shapeType == ShapeTypeEnum.square) slide.addShape(pptx.shapes.RECTANGLE, pptxShapeItem.Options);
+  }
 }
 
 export class PptImageElementModel extends PptElementModel {
