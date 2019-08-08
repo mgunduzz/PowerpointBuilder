@@ -2,8 +2,9 @@
   <div style="flex-grow: 1;" class="text">
     {{ formatInput.name }}
   </div>
-
-  <div class="input" *ngFor="let inp of formatInput.numberInputs">
-    <ppt-number-input [input]="inp" (onValuechange)="onNumberInputValueChange($event, inp)"> </ppt-number-input>
+  <div style="display: flex;flex-direction:column;">
+    <div class="input" *ngFor="let inp of formatInput.numberInputs" style="margin-top:5px;">
+      <ppt-number-input [input]="inp" (onValuechange)="onNumberInputValueChange($event, inp)"> </ppt-number-input>
+    </div>
   </div>
 </div>
