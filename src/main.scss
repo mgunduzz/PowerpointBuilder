@@ -42,6 +42,7 @@ ppt-slide-list {
 .form-check-label {
   cursor: pointer;
   display: flex;
+  align-items: center;
 }
 
 .w-h-100 {
@@ -62,6 +63,7 @@ ppt-slide-list {
   color: #444;
   width: 50%;
   margin: auto 0;
+  cursor: default;
 }
 
 .list-bullets {
@@ -77,4 +79,8 @@ ppt-slide-list {
 
 .ui-resizable-handle {
   width: unset !important;
+}
+
+.input-style {
+  font-size: 11px;
 }
