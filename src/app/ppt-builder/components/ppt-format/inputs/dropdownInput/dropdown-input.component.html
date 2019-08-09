@@ -1,6 +1,11 @@
 <div class="form-check-label noselect ">
   <div class="text">{{ inputName }}</div>
-  <div ngbDropdown class="d-inline-block" [placement]="formatInput.position" [autoClose]="formatInput.autoClose">
+  <div
+    ngbDropdown
+    class="d-inline-block button-grey"
+    [placement]="formatInput.position"
+    [autoClose]="formatInput.autoClose"
+  >
     <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>{{ selectedItem }}</button>
     <div ngbDropdownMenu aria-labelledby="dropDownInput">
       <button ngbDropdownItem *ngFor="let item of formatInput.value" (click)="clickItem(item.key)">

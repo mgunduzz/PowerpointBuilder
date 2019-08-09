@@ -225,6 +225,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
+    $('#box-' + this.element.id).css(
+      'transform',
+      `translate3d(${this.element.format.formatInputs.x.value.toString()}px, ${this.element.format.formatInputs.y.value.toString()}px, 0px)`
+    );
+
     setTimeout(() => {
       this.pPtBuilderService.setSlidePreview();
     }, 1000);

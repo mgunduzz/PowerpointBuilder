@@ -178,9 +178,9 @@
     font-size: 12px;
     cursor: pointer;
 
-    &:first-of-type {
-      border-right: none;
-    }
+    // &:first-of-type {
+    //   border-right: none;
+    // }
 
     &.active {
       border-bottom: none !important;

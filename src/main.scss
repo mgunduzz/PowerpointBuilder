@@ -42,6 +42,7 @@ ppt-slide-list {
 .form-check-label {
   cursor: pointer;
   display: flex;
+  align-items: center;
 }
 
 .w-h-100 {
@@ -62,6 +63,7 @@ ppt-slide-list {
   color: #444;
   width: 50%;
   margin: auto 0;
+  cursor: default;
 }
 
 .list-bullets {
@@ -77,4 +79,42 @@ ppt-slide-list {
 
 .ui-resizable-handle {
   width: unset !important;
+}
+
+.input-style {
+  font-size: 11px;
+}
+
+.button-grey {
+  background-color: #f4f5f6;
+  border-color: #dfdfdf;
+  display: inline-block;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 2px;
+  outline: 0;
+  margin: 0;
+  padding: 4px 5px;
+  width: 100%;
+  text-align: left;
+  position: relative;
+  min-height: 36px;
+  font-size: 15px;
+  color: #111;
+  margin-bottom: 10px;
+  font-family: "Lato", Segoe UI, sans-serif;
+  letter-spacing: 0.3px;
+  font-size: 11px;
+  text-align: center;
+  box-shadow: unset !important;
+}
+
+.button-grey:hover {
+  background: linear-gradient(#fff, #eceef1);
+}
+
+.button-dropdown {
+  font-size: 11px;
+  width: 100%;
+  box-shadow: unset !important;
 }

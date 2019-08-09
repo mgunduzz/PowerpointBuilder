@@ -6,7 +6,7 @@
   <div class="main-format">
     <div class="format-block" *ngIf="activeSlide">
       <div class="format-title"><span class="format-title-text">Active Slide</span></div>
-      <div style="margin-left: 10px;" class="row row-margin">
+      <div class="form-check-label" class="row row-margin">
         <ppt-multi-number-input
           [input]="activeSlide.format.formatInputs.slidePageNumber"
           (onValuechange)="onInputValuechange($event, false, activeSlide)"
@@ -23,8 +23,8 @@
       <div class="format-title"><span class="format-title-text">Category</span></div>
 
       <div *ngFor="let cat of element.dataModal.dataSets">
-        <div style="display: flex;">
-          <span>
+        <div class="form-check-label">
+          <span class="text">
             {{ cat.label }}
           </span>
           <div style="margin-left: 10px;" class="row row-margin">
@@ -110,13 +110,13 @@
       <div class="format-title"><span class="format-title-text">Table</span></div>
 
       <div class="row row-margin">
-        <button (click)="onMergeTableCells()">Merge Cells</button>
+        <button class="btn button-grey" (click)="onMergeTableCells()">Merge Cells</button>
       </div>
 
       <div class="row row-margin" style="margin-top: 10px;">
-        <button (click)="onAddTableRow()">Satır Ekle</button>
+        <button class="btn button-grey" (click)="onAddTableRow()">Satır Ekle</button>
 
-        <button (click)="onAddTableColumn()">Sütun Ekle</button>
+        <button class="btn button-grey" (click)="onAddTableColumn()">Sütun Ekle</button>
       </div>
     </div>
 
