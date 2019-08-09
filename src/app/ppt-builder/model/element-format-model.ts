@@ -178,6 +178,7 @@ export class FormatInputsModel {
   chartLabelsFontColor: FormatColorPickerInputModel;
   chartTitleText: FormatTextInputModel;
   slidePageNumber: FormatMultiNumberInputModel;
+  shapeType: ShapeTypeEnum;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -841,6 +842,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     this.formatInputs.shapeBorderStyle = shapeBorderStyle;
     this.formatInputs.fontColor = fontColor;
     this.formatInputs.textVerticalAlign = textVerticalAlign;
+    this.formatInputs.shapeType = shapeType;
   }
 }
 

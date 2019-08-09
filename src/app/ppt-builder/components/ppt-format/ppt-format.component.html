@@ -342,7 +342,11 @@
         <ppt-dropdown-input [input]="element.format.formatInputs.font" (onValuechange)="onInputValuechange($event)">
         </ppt-dropdown-input>
       </div>
-      <div class="row row-margin" style="display: flex;" *ngIf="element.format.formatInputs.textVerticalAlign">
+      <div
+        class="row row-margin"
+        style="display: flex;"
+        *ngIf="element.format.formatInputs.textVerticalAlign && element.shapeType == shapeTypes.square"
+      >
         <ppt-radio-button-input
           [input]="element.format.formatInputs.textVerticalAlign"
           (onValuechange)="onInputValuechange($event)"
@@ -359,17 +363,17 @@
       </div>
 
       <!-- shape -->
-      <div class="row row-margin" *ngIf="element.format.formatInputs.rotate">
+      <!-- <div class="row row-margin" *ngIf="element.format.formatInputs.rotate">
         <ppt-number-input [input]="element.format.formatInputs.rotate" (onValuechange)="onInputValuechange($event)">
         </ppt-number-input>
-      </div>
+      </div> -->
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.lineSize">
+      <div class="row row-margin" *ngIf="element.format.formatInputs.lineSize && element.shapeType == shapeTypes.line">
         <ppt-number-input [input]="element.format.formatInputs.lineSize" (onValuechange)="onInputValuechange($event)">
         </ppt-number-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.lineStyle">
+      <div class="row row-margin" *ngIf="element.format.formatInputs.lineStyle && element.shapeType == shapeTypes.line">
         <ppt-dropdown-input
           [input]="element.format.formatInputs.lineStyle"
           (onValuechange)="onInputValuechange($event)"
@@ -377,15 +381,20 @@
         </ppt-dropdown-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.isLineArrow">
+      <div
+        class="row row-margin"
+        *ngIf="element.format.formatInputs.isLineArrow && element.shapeType == shapeTypes.line"
+      >
         <ppt-checkbox-input
           [input]="element.format.formatInputs.isLineArrow"
           (onValuechange)="onInputValuechange($event)"
         >
         </ppt-checkbox-input>
       </div>
-
-      <div class="row row-margin" *ngIf="element.format.formatInputs.arrowDirection">
+      <div
+        class="row row-margin"
+        *ngIf="element.format.formatInputs.arrowDirection && element.shapeType == shapeTypes.line"
+      >
         <ppt-dropdown-input
           [input]="element.format.formatInputs.arrowDirection"
           (onValuechange)="onInputValuechange($event)"
@@ -409,12 +418,22 @@
         </ppt-number-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.text">
+      <div
+        class="row row-margin"
+        *ngIf="
+          element.format.formatInputs.text &&
+          ((element.shapeType == shapeTypes.line || element.shapeType == shapeTypes.square) &&
+            element.format.formatInputs.isShowText)
+        "
+      >
         <ppt-text-input [input]="element.format.formatInputs.text" (onValuechange)="onInputValuechange($event)">
         </ppt-text-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.shapeBorder">
+      <div
+        class="row row-margin"
+        *ngIf="element.format.formatInputs.shapeBorder && element.shapeType == shapeTypes.square"
+      >
         <ppt-checkbox-input
           [input]="element.format.formatInputs.shapeBorder"
           (onValuechange)="onInputValuechange($event)"
@@ -422,7 +441,10 @@
         </ppt-checkbox-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.shapeBorderColor">
+      <div
+        class="row row-margin"
+        *ngIf="element.format.formatInputs.shapeBorderColor && element.shapeType == shapeTypes.square"
+      >
         <ppt-color-picker-input
           [input]="element.format.formatInputs.shapeBorderColor"
           (onValuechange)="onInputValuechange($event)"
@@ -430,7 +452,10 @@
         </ppt-color-picker-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.shapeBorderSize">
+      <div
+        class="row row-margin"
+        *ngIf="element.format.formatInputs.shapeBorderSize && element.shapeType == shapeTypes.square"
+      >
         <ppt-number-input
           [input]="element.format.formatInputs.shapeBorderSize"
           (onValuechange)="onInputValuechange($event)"
@@ -438,7 +463,10 @@
         </ppt-number-input>
       </div>
 
-      <div class="row row-margin" *ngIf="element.format.formatInputs.shapeBorderStyle">
+      <div
+        class="row row-margin"
+        *ngIf="element.format.formatInputs.shapeBorderStyle && element.shapeType == shapeTypes.square"
+      >
         <ppt-dropdown-input
           [input]="element.format.formatInputs.shapeBorderStyle"
           (onValuechange)="onInputValuechange($event)"

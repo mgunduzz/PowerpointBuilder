@@ -19,7 +19,8 @@ import {
   FormatNumberInputModel,
   PptPieChartElementModel,
   PptTextElementModel,
-  SlideModel
+  SlideModel,
+  ShapeTypeEnum
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
@@ -40,12 +41,11 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
   model: {} = {};
   activeElSubscription: Subscription;
   activeSlideSubscription: Subscription;
-
+  shapeTypes: any = {};
   constructor(private pPtBuilderService: PPtBuilderService) {
     this.activeElSubscription = this.pPtBuilderService.activeElementSubscription.subscribe(el => {
       if (el) {
         this.pPtBuilderService.setSlidePreview();
-
         this.element = el;
         let _this = this;
 
@@ -69,7 +69,10 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.shapeTypes.line = ShapeTypeEnum.line;
+    this.shapeTypes.square = ShapeTypeEnum.square;
+  }
 
   onInputValuechange(formatInput: BaseFormatInputModel, isInit: boolean = false, el: PptElementModel) {
     let changeModel = new FormatChangeModel();
