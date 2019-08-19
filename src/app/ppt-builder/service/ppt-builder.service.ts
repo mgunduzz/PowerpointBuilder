@@ -415,7 +415,7 @@ export class PPtBuilderService {
     const pptx = new PptxGenJS();
 
     this.slideList.forEach(slideItem => {
-      let slide = pptx.addNewSlide();
+      let slide = pptx.addNewSlide({ bkgd: slideItem.format.formatInputs.slideBackgroundColor });
       let slidePageNumberInput = slideItem.format.formatInputs.slidePageNumber;
 
       if (slidePageNumberInput) {

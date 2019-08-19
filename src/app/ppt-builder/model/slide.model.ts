@@ -19,6 +19,7 @@ export class SlideModel extends PptElementModel {
   historyActiveIndex?: number = 0;
   format: SlideFormatModel;
   pageNumber: number;
+  backgroundColor: string;
 }
 
 export class SlideFormatChangeHistory {

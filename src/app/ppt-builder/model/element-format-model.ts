@@ -78,7 +78,8 @@ export enum PPtFormatInputsEnum {
   chartlabelsFontSize,
   chartLabelsFontColor,
   smoothLine,
-  chartTitleText
+  chartTitleText,
+  slideBackgroundColor
 }
 
 export class BaseFormatInputModel {
@@ -179,6 +180,7 @@ export class FormatInputsModel {
   chartTitleText: FormatTextInputModel;
   slidePageNumber: FormatMultiNumberInputModel;
   shapeType: ShapeTypeEnum;
+  slideBackgroundColor: FormatColorPickerInputModel;
 }
 
 export class FormatRadioButtonInputModel extends BaseFormatInputModel {
@@ -356,9 +358,18 @@ export class SlideFormatModel extends BaseElementFormatModel {
       max: 100
     };
 
+    let slideBackgroundColor: FormatColorPickerInputModel = {
+      inputId: PPtFormatInputsEnum.slideBackgroundColor,
+      name: 'SlideBackgroundColor',
+      inputType: PPtElementFormatInputTypeEnum.colorPicker,
+      value: '#ffffff'
+    };
+
     pageNumber.numberInputs.push(pageNumberX);
     pageNumber.numberInputs.push(pageNumberY);
     pageNumber.name = 'pageNumber';
+
+    this.formatInputs.slideBackgroundColor = slideBackgroundColor;
 
     this.formatInputs.slidePageNumber = pageNumber;
   }

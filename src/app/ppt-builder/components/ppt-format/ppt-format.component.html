@@ -13,6 +13,13 @@
         >
         </ppt-multi-number-input>
       </div>
+      <div class="row row-margin">
+        <ppt-color-picker-input
+          [input]="activeSlide.format.formatInputs.slideBackgroundColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
+      </div>
     </div>
   </div>
 </ng-container>

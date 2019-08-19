@@ -1,4 +1,7 @@
-<div class="element-list-container w-h-100">
+<div
+  class="element-list-container w-h-100"
+  [style.background-color]="activeSlide.format.formatInputs.slideBackgroundColor.value"
+>
   <ppt-base-element
     *ngFor="let item of elementList"
     (click)="onElementClick(item)"
