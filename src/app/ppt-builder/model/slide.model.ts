@@ -20,6 +20,7 @@ export class SlideModel extends PptElementModel {
   elementList: Array<PptElementModel>;
   formatChangeHistory?: Array<SlideFormatChangeHistory>;
   format: SlideFormatModel;
+  backgroundColor: string;
 
   import(slide: SlideModel) {
     this.historyActiveIndex = slide.historyActiveIndex;
