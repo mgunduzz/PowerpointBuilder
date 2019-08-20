@@ -19,6 +19,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DemoMaterialModule } from './material-module';
 import { MatNativeDateModule, MatCardModule } from '@angular/material';
 import { DndModule } from 'ngx-drag-drop';
+import { PptBuilderModule } from './ppt-builder/ppt-builder.module';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { DndModule } from 'ngx-drag-drop';
     LoginModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    PptBuilderModule
   ],
   declarations: [AppComponent],
   providers: [],

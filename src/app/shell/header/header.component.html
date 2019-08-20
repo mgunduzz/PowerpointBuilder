@@ -36,6 +36,9 @@
           <button ngbDropdownItem (click)="saveAsTemplate()" class="dropdown-button">
             <i class="fas fa-file-export button-icon"></i>Template Olarak Kaydet
           </button>
+          <button ngbDropdownItem (click)="openModal(imageContent)" class="dropdown-button">
+            <i class="fas fa-file-export button-icon"></i>Template Aç
+          </button>
         </div>
       </div>
 
@@ -46,7 +49,7 @@
 
       <ng-template #imageContent let-modal>
         <div class="modal-body">
-          <!-- <div
+          <div
             ng2FileDrop
             (onFileDrop)="onFileDrop($event)"
             [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }"
@@ -59,7 +62,7 @@
             <div>Drag and Drop</div>
             <div>
               <input
-                style="font-size: 13px;margin: 20px 0 0 50px;"
+                class="drag-drop-input"
                 type="file"
                 ng2FileSelect
                 [uploader]="uploader"
@@ -67,7 +70,7 @@
                 multiple
               />
             </div>
-          </div> -->
+          </div>
         </div>
       </ng-template>
 
