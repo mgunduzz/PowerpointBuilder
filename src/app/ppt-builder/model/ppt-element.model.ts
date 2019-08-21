@@ -57,7 +57,31 @@ interface PptxGenerator {
   generatePptxItem(pptx: any, slide: any): any;
 }
 
-export class PptElementModel implements PptxGenerator {
+interface IElement extends PptxGenerator {
+  toJsonModel(): any;
+}
+
+export class PptElementModel implements IElement {
+  toJsonModel() {
+    let jsonModel: any = { ...this };
+
+    jsonModel.onDataChange = undefined;
+    jsonModel.onFormatChange = undefined;
+
+    // jsonModel.type = this.type;
+    // jsonModel.name = this.name;
+    // jsonModel.format = this.format;
+    // jsonModel.isActiveElement = this.isActiveElement;
+    // jsonModel.id = this.id;
+    // jsonModel.isActive = this.isActive;
+    // jsonModel.z = this.z;
+    // jsonModel.options = this.options;
+    // jsonModel.stroke = this.stroke;
+    // jsonModel.tempZ = this.tempZ;
+
+    return jsonModel;
+  }
+
   generatePptxItem(pptx: any, slide: any) {
     let elX = this.format.formatInputs.x.value;
     let elY = this.format.formatInputs.y.value;
@@ -326,6 +350,14 @@ export class PptDefaultChartElementModel extends PptBaseChartElementModel {
   }
 
   dataModal: PptDefaultChartDataModel;
+
+  toJsonModel() {
+    let jsonModel = super.toJsonModel();
+
+    jsonModel.dataModal = undefined;
+
+    return jsonModel;
+  }
 
   setData(data: Array<AnalyseApiDataModel>) {
     let oldDateSets = this.dataModal.dataSets;
@@ -646,6 +678,13 @@ export class PptTableElementModel extends PptElementModel {
   defaultCellHeight?: number;
   onMergeCells = new Subject<any>();
   selectedCells: Array<TableCellModel>;
+
+  toJsonModel() {
+    let jsonModel = super.toJsonModel();
+    jsonModel.onMergeCells = undefined;
+
+    return jsonModel;
+  }
 
   constructor(row: number, col: number) {
     super();

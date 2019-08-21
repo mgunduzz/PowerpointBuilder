@@ -13,13 +13,39 @@ export class SlideModel extends PptElementModel {
   }
 
   id: number = -1;
-  elementList: Array<PptElementModel>;
   previewImage?: string;
-  formatChangeHistory?: Array<SlideFormatChangeHistory>;
   historyActiveIndex?: number = 0;
-  format: SlideFormatModel;
   pageNumber: number;
+
+  elementList: Array<PptElementModel>;
+  formatChangeHistory?: Array<SlideFormatChangeHistory>;
+  format: SlideFormatModel;
   backgroundColor: string;
+
+  import(slide: SlideModel) {
+    this.historyActiveIndex = slide.historyActiveIndex;
+    this.pageNumber = slide.pageNumber;
+    this.format = slide.format;
+    this.id = slide.id;
+  }
+
+  toJsonModel(): SlideModel {
+    let newItem: any = {};
+
+    newItem.id = this.id;
+    newItem.historyActiveIndex = this.historyActiveIndex;
+    newItem.pageNumber = this.pageNumber;
+    newItem.format = this.format;
+    newItem.elementList = [];
+
+    this.elementList.forEach(el => {
+      let jsonElModel = el.toJsonModel();
+
+      newItem.elementList.push(jsonElModel);
+    });
+
+    return newItem;
+  }
 }
 
 export class SlideFormatChangeHistory {

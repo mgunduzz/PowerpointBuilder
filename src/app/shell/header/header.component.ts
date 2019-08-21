@@ -118,18 +118,14 @@ export class HeaderComponent implements OnInit {
     this.uploader.queue.forEach((val, i, array) => {
       let fileReader = new FileReader();
       fileReader.onloadend = e => {
-        let imageData: any = fileReader.result;
-        let rawData = imageData.split('base64,');
-        if (rawData.length > 1) {
-          rawData = rawData[1];
-          this.uploader.clearQueue();
-          this.URL = imageData;
+        let fileResult: any = fileReader.result;
 
-          this.modalService.dismissAll();
-        }
+        this.modalRef.dismiss();
+
+        this._pptBuilderService.jsonStringConvert(fileResult);
       };
 
-      fileReader.readAsDataURL(val._file);
+      fileReader.readAsText(val._file);
     });
   }
 

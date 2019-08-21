@@ -34,9 +34,10 @@ import {
 } from '../model';
 import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
 declare var $: any;
-
+import { saveAs } from 'file-saver';
 // import * as html2canvas from 'html2canvas';
 import html2canvas from 'html2canvas';
+var FileSaver = require('file-saver');
 
 @Injectable()
 export class PPtBuilderService {
@@ -57,6 +58,8 @@ export class PPtBuilderService {
   public activeElement: PptElementModel;
 
   private isPreviewActive: boolean = true;
+
+  public jsonTemplateList: any[] = [];
 
   setSlidePreview() {
     if (this.isPreviewActive) {
@@ -453,6 +456,76 @@ export class PPtBuilderService {
   jsonStr = '';
 
   saveAsTemplate() {
-    this.jsonStr = JSON.stringify(this.slideList);
+    let jsonModel: any[] = [];
+
+    this.slideList.forEach(item => {
+      let newItem = item.toJsonModel();
+
+      jsonModel.push(newItem);
+    });
+
+    let jsonString = JSON.stringify(jsonModel);
+
+    var blob = new Blob([jsonString], { type: 'text/plain;charset=utf-8' });
+
+    saveAs(blob, Math.random() + '.txt');
+    console.log(jsonString);
+  }
+
+  jsonStringConvert(rawData: string) {
+    this.slideList = [];
+    let slides = JSON.parse(rawData) as Array<SlideModel>;
+
+    slides.forEach(slide => {
+      let newSlide = new SlideModel();
+      newSlide.import(slide);
+
+      slide.elementList.forEach((el: PptElementModel) => {
+        let newEl = new PptElementModel();
+
+        switch (el.type) {
+          case PPtElementEnum.Text:
+            el = el as PptTextElementModel;
+            newEl = new PptTextElementModel();
+            break;
+
+          case PPtElementEnum.Image:
+            el = el as PptImageElementModel;
+            newEl = new PptImageElementModel();
+            break;
+
+          case PPtElementEnum.Shape:
+            el = el as PptShapeElementModel;
+            newEl = new PptShapeElementModel();
+            break;
+
+          case PPtElementEnum.Table:
+            el = el as PptTableElementModel;
+            newEl = new PptTableElementModel((el as PptTableElementModel).row, (el as PptTableElementModel).col);
+            break;
+
+          default:
+            break;
+        }
+
+        for (const key in el) {
+          if (el.hasOwnProperty(key)) {
+            newEl[key] = el[key];
+          }
+        }
+
+        newSlide.elementList.push(newEl);
+      });
+
+      this.slideList.push(newSlide);
+    });
+
+    if (this.slideList.length > 0) {
+      this.setActiveSlide(this.slideList[0]);
+
+      if (this.slideList[0].elementList.length > 0) {
+        this.setActiveElement(this.slideList[0].elementList[0]);
+      }
+    }
   }
 }

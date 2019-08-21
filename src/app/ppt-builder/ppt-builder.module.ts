@@ -33,10 +33,10 @@ import { PptMultiNumberInput } from './components/ppt-format/inputs/multi-number
 
 @NgModule({
   imports: [
+    SharedModule,
     CommonModule,
     DemoMaterialModule,
     FormsModule,
-    FileUploadModule,
     ColorPickerModule,
     NgbDropdownModule.forRoot(),
     DndModule,
