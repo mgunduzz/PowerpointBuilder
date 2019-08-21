@@ -3,6 +3,7 @@
   min-width: 150px;
   max-width: 100%;
   max-height: 100%;
+
   &.active {
     border: 3px dashed #b5b5b5;
     padding: 1px;
@@ -167,6 +168,33 @@
 }
 .toolbox-item:hover {
   background-color: #7d7d7d;
+}
+
+.rotate-dotted {
+  position: absolute;
+  top: -30px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+.rotate-line {
+  width: 2px;
+  height: 14px;
+  background-color: #000;
+  right: 0;
+  margin-left: 49.3%;
+  position: absolute;
+  top: -20px;
+  left: -5px;
+  margin: 0 auto;
+}
+
+.cursor-rotate {
+  cursor: url("data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDQ4MS45NSA0ODEuOTUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4MS45NSA0ODEuOTU7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8ZyBpZD0icm90YXRlLXJpZ2h0Ij4KCQk8cGF0aCBkPSJNMzMxLjUsMTE0Ljc1TDIxNi43NSwwdjc5LjA1QzExNy4zLDkxLjgsMzguMjUsMTc1Ljk1LDM4LjI1LDI4MC41czc5LjA1LDE4OC43LDE3OC41LDIwMS40NXYtNTEgICAgQzE0NS4zNSw0MTguMiw4OS4yNSwzNTcsODkuMjUsMjgwLjVzNTYuMS0xMzcuNywxMjcuNS0xNTAuNDV2OTkuNDVMMzMxLjUsMTE0Ljc1eiBNNDQzLjcsMjU1ICAgIGMtNS4xMDEtMzUuNy0xNy44NTEtNjguODUtNDAuOC05OS40NWwtMzUuNywzNS43YzEyLjc1LDIwLjQsMjIuOTUsNDAuOCwyNS41LDYzLjc1SDQ0My43eiBNMjY3Ljc1LDQzMC45NXY1MSAgICBjMzUuNy01LjEwMSw2OC44NS0xNy44NTEsOTkuNDUtNDAuOGwtMzUuNy0zNS43QzMxMS4xLDQxOC4yLDI5MC43LDQyOC40LDI2Ny43NSw0MzAuOTV6IE0zNjcuMiwzNjkuNzVsMzUuNywzNS43ICAgIGMyMi45NDktMzAuNjAxLDM4LjI1LTYzLjc1LDQwLjgtOTkuNDVoLTUxQzM5MC4xNSwzMjguOTUsMzc5Ljk1LDM0OS4zNSwzNjcuMiwzNjkuNzV6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8L2c+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg=="),
+    auto;
 }
 
 // .ui-resizable-e{

@@ -245,12 +245,22 @@ export class BaseElementFormatModel {
       value: false
     };
 
+    let rotate: FormatNumberInputModel = {
+      inputId: PPtFormatInputsEnum.rotate,
+      name: 'Rotate',
+      inputType: PPtElementFormatInputTypeEnum.number,
+      value: 0,
+      min: -360,
+      max: 360
+    };
+
     this.formatInputs.isStroke = isStroke;
     this.formatInputs.strokeColor = strokeColor;
     this.formatInputs.x = x;
     this.formatInputs.y = y;
     this.formatInputs.width = width;
     this.formatInputs.height = height;
+    this.formatInputs.rotate = rotate;
 
     if (format) {
       this.formatInputs.x = format.formatInputs.x;
@@ -819,15 +829,6 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       value: false
     };
 
-    let rotate: FormatNumberInputModel = {
-      inputId: PPtFormatInputsEnum.rotate,
-      name: 'Rotate',
-      inputType: PPtElementFormatInputTypeEnum.number,
-      value: 0,
-      min: 0,
-      max: 359
-    };
-
     let lineSize: FormatNumberInputModel = {
       inputId: PPtFormatInputsEnum.lineSize,
       name: 'lineSize',
@@ -837,7 +838,6 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       max: 20
     };
 
-    this.formatInputs.rotate = rotate;
     this.formatInputs.lineSize = lineSize;
     this.formatInputs.lineStyle = lineStyle;
     this.formatInputs.isLineArrow = isLineArrow;
