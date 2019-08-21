@@ -293,7 +293,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   rotateMouseDown(e: MouseEvent) {
-    debugger;
     let _this = this;
     _this.rotateStatus = true;
   }
@@ -301,7 +300,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   rotateMouseMove(e: MouseEvent) {
     let _this = this;
     if (_this.rotateStatus) {
-      debugger;
       _this.dotted = $('.dotted');
 
       // $('#box-' + _this.element.id).css('transform', `translate3d(${_this.element.format.formatInputs.x.value}px, ${_this.element.format.formatInputs.y.value}px, 0px) rotate(${_this.element.format.formatInputs.rotate.value}deg)`);
