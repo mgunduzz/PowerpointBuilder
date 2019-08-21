@@ -243,6 +243,12 @@ export class PptPieChartElementModel extends PptBaseChartElementModel {
 
   dataModal: PptPieChartDataModel;
 
+  toJsonModel() {
+    let jsonModel = super.toJsonModel();
+
+    return jsonModel;
+  }
+
   setData(data: Array<AnalyseApiDataModel>) {
     let oldDateSets = this.dataModal.dataSet;
 
@@ -354,7 +360,9 @@ export class PptDefaultChartElementModel extends PptBaseChartElementModel {
   toJsonModel() {
     let jsonModel = super.toJsonModel();
 
-    jsonModel.dataModal = undefined;
+    (jsonModel.dataModal as PptDefaultChartDataModel).dataSets.forEach(dataset => {
+      (dataset as any)._meta = undefined;
+    });
 
     return jsonModel;
   }

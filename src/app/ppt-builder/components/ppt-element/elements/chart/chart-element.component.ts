@@ -253,6 +253,7 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
     let ctx = (this.myChartElRef.nativeElement as any).getContext('2d');
     let chartOptions: Chart.ChartConfiguration = {};
 
+    debugger;
     chartOptions.data = this.applyData();
 
     chartOptions.options = {

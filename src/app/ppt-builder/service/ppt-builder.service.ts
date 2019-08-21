@@ -38,6 +38,7 @@ import { saveAs } from 'file-saver';
 // import * as html2canvas from 'html2canvas';
 import html2canvas from 'html2canvas';
 var FileSaver = require('file-saver');
+var stringify = require('json-stringify-safe');
 
 @Injectable()
 export class PPtBuilderService {
@@ -469,7 +470,6 @@ export class PPtBuilderService {
     var blob = new Blob([jsonString], { type: 'text/plain;charset=utf-8' });
 
     saveAs(blob, Math.random() + '.txt');
-    console.log(jsonString);
   }
 
   jsonStringConvert(rawData: string) {
@@ -485,23 +485,23 @@ export class PPtBuilderService {
 
         switch (el.type) {
           case PPtElementEnum.Text:
-            el = el as PptTextElementModel;
-            newEl = new PptTextElementModel();
+            newEl = this.createTextElement(el, (el as PptTextElementModel).text);
             break;
 
           case PPtElementEnum.Image:
-            el = el as PptImageElementModel;
-            newEl = new PptImageElementModel();
+            newEl = this.createImageElement(el, (el as PptImageElementModel).url);
             break;
 
           case PPtElementEnum.Shape:
-            el = el as PptShapeElementModel;
-            newEl = new PptShapeElementModel();
+            newEl = this.createShapeElement(el, (el as PptShapeElementModel).shapeType);
             break;
 
           case PPtElementEnum.Table:
-            el = el as PptTableElementModel;
-            newEl = new PptTableElementModel((el as PptTableElementModel).row, (el as PptTableElementModel).col);
+            newEl = this.createTableElement(el, (el as PptTableElementModel).row, (el as PptTableElementModel).col);
+            break;
+
+          case PPtElementEnum.Chart:
+            newEl = this.createChartElement(el, (el as PptBaseChartElementModel).chartType);
             break;
 
           default:

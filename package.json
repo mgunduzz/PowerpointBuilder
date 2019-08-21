@@ -59,6 +59,7 @@
     "npm": "^6.9.0",
     "pptxgenjs": "^2.5.0",
     "rxjs": "^6.4.0",
+    "safe-json-stringify": "^1.2.0",
     "stream": "0.0.2",
     "underscore": "^1.9.1",
     "zone.js": "~0.8.26"
