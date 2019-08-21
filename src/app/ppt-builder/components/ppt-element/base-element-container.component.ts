@@ -27,7 +27,7 @@ import {
   FormatCheckboxInputModel
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
+import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 
 declare var $: any;
 
@@ -56,6 +56,10 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   elementId: number;
   elHighlight: boolean = false;
   isContainerActive: boolean = false;
+  rotateStatus: boolean = false;
+  elementBox: any;
+  dotted: any;
+  offset: any;
 
   changeElementpPriority(isLevelUp: boolean) {
     let data: { isLevelUp: boolean; id: number; zIndex: number } = { isLevelUp: false, id: 0, zIndex: 0 };
@@ -139,7 +143,10 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
           var x = results[12] || results[4];
           var y = results[13] || results[5];
 
-          $('#box-' + this.element.id).css('transform', `translate3d(${numberInput.value}px, ${y}px, 0px)`);
+          $('#box-' + this.element.id).css(
+            'transform',
+            `translate3d(${numberInput.value}px, ${y}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
+          );
         }
         break;
       case PPtFormatInputsEnum.y:
@@ -151,7 +158,10 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
           var x = results[12] || results[4];
           var y = results[13] || results[5];
 
-          $('#box-' + this.element.id).css('transform', `translate3d(${x}px, ${numberInput.value}px, 0px)`);
+          $('#box-' + this.element.id).css(
+            'transform',
+            `translate3d(${x}px, ${numberInput.value}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
+          );
         }
         break;
       case PPtFormatInputsEnum.strokeColor:
@@ -171,6 +181,14 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
       case PPtFormatInputsEnum.width:
         this.elementContainer.nativeElement.style.width = `${numberInput.value}px`;
         break;
+      case PPtFormatInputsEnum.rotate:
+        this.element.format.formatInputs.rotate.value = numberInput.value;
+
+        $('#box-' + this.element.id).css(
+          'transform',
+          `translate3d(${this.element.format.formatInputs.x.value}px, ${this.element.format.formatInputs.y.value}px, 0px) rotate(${numberInput.value}deg)`
+        );
+        break;
       case PPtFormatInputsEnum.height:
         this.elementContainer.nativeElement.style.height = `${numberInput.value}px`;
         break;
@@ -187,9 +205,18 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.updateFormats(this.element.format.formatInputs.width);
     this.updateFormats(this.element.format.formatInputs.height);
   }
+  //İptal Edildi
+  // rotate(rotate: number) {
+  //   let container = $('#box-' + this.element.id);
+  //   // For webkit browsers: e.g. Chrome
+  //   container.css({ WebkitTransform: 'rotate(-' + rotate + 'deg)' });
+  //   // For Mozilla browser: e.g. Firefox
+  //   container.css({ '-moz-transform': 'rotate(-' + rotate + 'deg)' });
+  // }
 
   ngAfterViewInit() {
     let _this = this;
+
     $('#box-' + this.element.id).resizable({
       handles: 'all',
       resize: function(e: any, ui: any) {
@@ -225,16 +252,15 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    $('#box-' + this.element.id).css(
-      'transform',
-      `translate3d(${this.element.format.formatInputs.x.value.toString()}px, ${this.element.format.formatInputs.y.value.toString()}px, 0px)`
-    );
-
     setTimeout(() => {
       this.pPtBuilderService.setSlidePreview();
     }, 1000);
 
     $('.ui-icon-gripsmall-diagonal-se').remove();
+
+    this.elementBox = $('#box-' + this.element.id);
+
+    this.offset = this.elementBox.offset();
   }
 
   elementMouseDown(e: MouseEvent) {
@@ -254,8 +280,56 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     } else if (e.offsetY >= elHeight - borderWidth) {
       status = true;
     }
+  }
 
-    // this.updateDragDropStatus(status);
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e: MouseEvent) {
+    this.rotateMouseMove(e);
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  onMouseUp(e: MouseEvent) {
+    this.rotateStatus = false;
+  }
+
+  rotateMouseDown(e: MouseEvent) {
+    debugger;
+    let _this = this;
+    _this.rotateStatus = true;
+  }
+
+  rotateMouseMove(e: MouseEvent) {
+    let _this = this;
+    if (_this.rotateStatus) {
+      debugger;
+      _this.dotted = $('.dotted');
+
+      // $('#box-' + _this.element.id).css('transform', `translate3d(${_this.element.format.formatInputs.x.value}px, ${_this.element.format.formatInputs.y.value}px, 0px) rotate(${_this.element.format.formatInputs.rotate.value}deg)`);
+
+      console.log({ offset: _this.offset, size: _this.elementBox.width() });
+
+      var center_x = _this.offset.left + _this.element.format.formatInputs.x.value + _this.elementBox.width() / 2;
+      var center_y = _this.offset.top + _this.element.format.formatInputs.y.value + _this.elementBox.height() / 2;
+      var mouse_x = e.pageX;
+      var mouse_y = e.pageY;
+      var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
+
+      console.log(_this.offset);
+      console.log(_this.elementBox.width());
+
+      var degree = radians * (180 / Math.PI) * -1 + 180;
+      _this.elementBox.css('-moz-transform', 'rotate(' + degree + 'deg)');
+      _this.elementBox.css('-webkit-transform', 'rotate(' + degree + 'deg)');
+      _this.elementBox.css('-o-transform', 'rotate(' + degree + 'deg)');
+      _this.elementBox.css('-ms-transform', 'rotate(' + degree + 'deg)');
+
+      $('#box-' + _this.element.id).css(
+        'transform',
+        `translate3d(${_this.element.format.formatInputs.x.value}px, ${_this.element.format.formatInputs.y.value}px, 0px) rotate(${_this.element.format.formatInputs.rotate.value}deg)`
+      );
+
+      _this.element.format.formatInputs.rotate.value = degree;
+    }
   }
 
   updateDragDropStatus(status: boolean = false) {
@@ -293,9 +367,44 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.pPtBuilderService.setSlidePreview();
+    $('#box-' + this.element.id).css(
+      'transform',
+      `translate3d(${this.element.format.formatInputs.x.value}px, ${this.element.format.formatInputs.y.value}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
+    );
   }
 
-  dragMoved(event: CdkDragMove) {}
+  dragMoved(event: CdkDragMove) {
+    this.newPositionX = this.newPositionXTemp;
+    this.newPositionY = this.newPositionYTemp;
+
+    var childPos = $('#box-' + this.element.id).offset();
+    var parentPos = $('#box-' + this.element.id)
+      .closest('.element-list-container')
+      .offset();
+
+    if (childPos && parentPos) {
+      let x = +(childPos.left - parentPos.left).toFixed(0);
+      let y = +(childPos.top - parentPos.top).toFixed(0);
+
+      var matrix = $('#box-' + this.element.id)
+        .css('transform')
+        .replace(/[^0-9\-.,]/g, '')
+        .split(',');
+      var a = matrix[12] || matrix[4];
+      var b = matrix[13] || matrix[5];
+
+      if (a && b) {
+        $('#box-' + this.element.id).css(
+          'transform',
+          `translate3d(${a}px, ${b}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
+        );
+      }
+    }
+  }
+
+  dragStart(event: CdkDragStart) {
+    console.log(this.element.format.formatInputs.rotate.value);
+  }
 
   elementResized() {}
 

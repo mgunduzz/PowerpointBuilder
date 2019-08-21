@@ -169,6 +169,29 @@
   background-color: #7d7d7d;
 }
 
+.rotate-dotted {
+  position: absolute;
+  top: -30px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+.rotate-line {
+  width: 1px;
+  height: 16px;
+  background-color: #000;
+  position: absolute;
+  top: -22px;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  margin-left: 49.3%;
+}
+
 // .ui-resizable-e{
 // }
 

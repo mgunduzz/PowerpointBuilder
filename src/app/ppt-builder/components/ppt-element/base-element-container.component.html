@@ -13,7 +13,18 @@
   (mousedown)="elementMouseDown($event)"
   [style.width]="element.format.formatInputs.width.value + 'px'"
   [style.height]="element.format.formatInputs.height.value + 'px'"
+  [style.rotate]="element.format.formatInputs.rotate.value + 'deg'"
+  (cdkDragStarted)="dragStart($event)"
 >
+  <div class="rotate-dotted">
+    <i
+      class="fas fa-circle"
+      style="margin-right: 5px;font-size: 10px;color: #3eb522;"
+      (mousedown)="rotateMouseDown($event)"
+    ></i>
+  </div>
+  <div class="rotate-line"></div>
+
   <div [ngClass]="{ 'd-none': !element.isActive }" class="container-toolbox">
     <div class="toolbox-item" (mouseenter)="dragDropStatus = true" style="cursor: all-scroll;" cdkDragHandle>
       <i class="fas fa-grip-horizontal toolbox-item-icon" title="Taşı"></i>
