@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, Input, HostListener } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import {
   PptElementModel,
@@ -16,6 +16,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
 import { Subscription } from 'rxjs';
+declare var $: any;
 
 @Component({
   selector: 'ppt-main-container',
@@ -42,6 +43,9 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   activeElSubscription: Subscription;
   isElementHasData: boolean = false;
   modalRef: NgbModalRef;
+  document: Document;
+  elem: any;
+  isFullScreen: boolean = false;
 
   public hasBaseDropZoneOver: boolean = false;
   public hasAnotherDropZoneOver: boolean = false;
@@ -154,6 +158,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
       .map((item, index) => {
         return { index: index, isActive: false };
       });
+    this.elem = document.documentElement;
   }
 
   onFileSelect(ev: any) {
@@ -189,6 +194,74 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
 
       fileReader.readAsDataURL(val._file);
     });
+  }
+
+  @HostListener('window:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    if (event.keyCode === 122) {
+      return false;
+    }
+    if (event.keyCode === 27) {
+      this.isFullScreen = false;
+      $('.full-screen-close').open();
+    }
+  }
+
+  @HostListener('document:fullscreenchange', ['closeFullScreen'])
+  @HostListener('document:webkitfullscreenchange', ['closeFullScreen'])
+  @HostListener('document:mozfullscreenchange', ['closeFullScreen'])
+  @HostListener('document:MSFullscreenChange', ['closeFullScreen'])
+  closeFullScreen() {
+    if (!document['webkitIsFullScreen'] && !document['mozFullScreen'] && !document['msFullscreenElement']) {
+      $('.full-screen-close').show();
+      this._pPtBuilderService.stopInterval();
+
+      $('.base-element-container').addClass('active');
+      this.isFullScreen = false;
+    }
+  }
+
+  toggleFullscreen() {
+    if (document['webkitIsFullScreen']) {
+      this.exitFullscreen();
+    } else {
+      this.openFullscreen();
+    }
+  }
+
+  openFullscreen() {
+    $('.full-screen-close').hide();
+    $('.base-element-container').removeClass('active');
+    this.isFullScreen = true;
+    this._pPtBuilderService.startSlide();
+
+    if (this.elem.requestFullscreen) {
+      this.elem.requestFullscreen();
+    } else if (this.elem.mozRequestFullScreen) {
+      /* Firefox */
+      this.elem.mozRequestFullScreen();
+    } else if (this.elem.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
+      this.elem.webkitRequestFullscreen();
+    } else if (this.elem.msRequestFullscreen) {
+      /* IE/Edge */
+      this.elem.msRequestFullscreen();
+    }
+  }
+
+  private exitFullscreen() {
+    this.isFullScreen = false;
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document['mozCancelFullScreen']) {
+      /* Firefox */
+      document['mozCancelFullScreen()'];
+    } else if (document['webkitExitFullscreen']) {
+      /* Chrome, Safari and Opera */
+      document['webkitExitFullscreen()'];
+    } else if (document['msExitFullscreen']) {
+      /* IE/Edge */
+      document['msExitFullscreen()'];
+    }
   }
 
   ngOnDestroy() {

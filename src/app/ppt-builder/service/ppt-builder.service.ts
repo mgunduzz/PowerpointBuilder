@@ -193,6 +193,63 @@ export class PPtBuilderService {
     });
   }
 
+  private _setTimeoutHandler: any;
+  private _setIntervalHandler: any;
+  activeSlideNo: number = 1;
+
+  startSlide() {
+    this.setActiveSlide(this.activeSlide);
+    $('.element-list-container').addClass('slide-active');
+
+    this.activeSlide = this.slideList[0];
+    this._setIntervalHandler = setInterval(() => {
+      this.setActiveSlide(this.activeSlide);
+
+      $('.element-list-container').addClass('slide-active');
+
+      let index = this.slideList.findIndex(item => item.id == this.activeSlide.id);
+
+      index += 1;
+
+      if (index > this.slideList.length - 1) index = 0;
+
+      this.activeSlide = this.slideList[index];
+    }, 1000);
+  }
+
+  stopInterval() {
+    $('.element-list-container').removeClass('slide-active');
+
+    clearTimeout(this._setTimeoutHandler);
+    clearInterval(this._setIntervalHandler);
+  }
+
+  setNextSlideActive(activeSlideId: number) {
+    this.activeSlide = this.slideList.find(q => q.id == activeSlideId);
+    if (this.activeSlide) {
+      this.slideList.forEach(el => {
+        if (el.id == this.activeSlide.id) {
+          el.isActive = true;
+          this.activeSlide.isActive = true;
+        } else {
+          el.isActive = false;
+        }
+      });
+
+      this.activeSlideSubscription.next(this.activeSlide);
+      this.updateSlideList();
+
+      this.pptElementsSubscription.next({
+        elementList: this.activeSlide.elementList,
+        dontAddToSlide: true,
+        isClear: true
+      });
+    } else {
+      this.stopInterval();
+      this.activeSlideNo = 1;
+    }
+  }
+
   updateSlideList() {
     this.slideListSubscription.next(this.slideList);
   }
@@ -281,6 +338,10 @@ export class PPtBuilderService {
     return chartEl;
   }
 
+  ngOnDestroy() {
+    clearTimeout(this._setTimeoutHandler);
+    clearInterval(this._setIntervalHandler);
+  }
   createChartElement(el: PptElementModel, type: ChartTypeEnum): PptElementModel {
     let chartEl = new PptBaseChartElementModel(el);
     chartEl.format = new ChartFormatModel();

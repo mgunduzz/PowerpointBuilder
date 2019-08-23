@@ -68,6 +68,7 @@ export class PptSlideList implements OnInit, OnDestroy {
 
   onSlideClick(slide: SlideModel) {
     // this._pPtBuilderService.setActiveSlide(slide);
+    debugger;
 
     if (this._pPtBuilderService.activeSlide) {
       if (this._pPtBuilderService.activeSlide.id != slide.id) {

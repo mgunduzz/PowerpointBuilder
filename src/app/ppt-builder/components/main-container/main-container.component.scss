@@ -187,6 +187,13 @@
     }
   }
 }
+.position-right {
+  position: absolute;
+  right: 3px;
+  border-left: 1px solid #dcdcdc;
+  cursor: pointer;
+}
 
-.active-tab-content {
+.pe-none {
+  pointer-events: none;
 }
