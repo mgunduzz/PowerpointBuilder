@@ -250,11 +250,7 @@ export class PPtBuilderService {
       this.activeSlideSubscription.next(this.activeSlide);
       this.updateSlideList();
 
-      this.pptElementsSubscription.next({
-        elementList: this.activeSlide.elementList,
-        dontAddToSlide: true,
-        isClear: true
-      });
+      // this.elementListAsync.next(this.activeSlide.elementList);
     } else {
       this.stopInterval();
       this.activeSlideNo = 1;

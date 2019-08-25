@@ -199,6 +199,8 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
       .map((item, index) => {
         return { index: index, isActive: false };
       });
+
+    this.elem = document.documentElement;
   }
 
   onFileSelect(ev: any) {
