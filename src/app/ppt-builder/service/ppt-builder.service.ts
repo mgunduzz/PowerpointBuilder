@@ -30,7 +30,8 @@ import {
   PptScatterChartElementModel,
   PptAreaChartElementModel,
   TableCellModel,
-  PptPieChartElementModel
+  PptPieChartElementModel,
+  PPtFormatInputsEnum
 } from '../model';
 import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
 declare var $: any;
@@ -42,7 +43,12 @@ var stringify = require('json-stringify-safe');
 
 @Injectable()
 export class PPtBuilderService {
+  elementListAsync: BehaviorSubject<PptElementModel[]> = new BehaviorSubject<Array<PptElementModel>>(undefined);
+
   constructor() {
+    this.activeSlide = new SlideModel();
+    this.activeSlide.id = 0;
+
     if (this.slideList.length == 0) {
       this.addSlide();
 
@@ -50,7 +56,8 @@ export class PPtBuilderService {
     }
   }
 
-  public pptElementsSubscription: BehaviorSubject<LoadElementModel> = new BehaviorSubject<LoadElementModel>(undefined);
+  public pptElementDeleteSubscription: BehaviorSubject<number> = new BehaviorSubject<number>(undefined);
+
   public activeElementSubscription = new BehaviorSubject<PptElementModel>(undefined);
   public activeSlideSubscription = new BehaviorSubject<SlideModel>(undefined);
   public slideListSubscription = new BehaviorSubject<SlideModel[]>(undefined);
@@ -61,6 +68,8 @@ export class PPtBuilderService {
   private isPreviewActive: boolean = true;
 
   public jsonTemplateList: any[] = [];
+
+  public activeElementTemplatesSubscription = new BehaviorSubject<Array<any>>(undefined);
 
   setSlidePreview() {
     if (this.isPreviewActive) {
@@ -176,21 +185,23 @@ export class PPtBuilderService {
   }
 
   setActiveSlide(slide: SlideModel) {
+    let isActiveSlideChanged: boolean = this.activeSlide.id !== slide.id;
+
     this.activeSlide = slide;
 
     this.slideList.forEach(el => {
       el.isActive = false;
+      el.isHovered = false;
     });
 
     this.activeSlide.isActive = true;
-    this.activeSlideSubscription.next(slide);
-    this.updateSlideList();
+    this.activeSlide.isHovered = true;
 
-    this.pptElementsSubscription.next({
-      elementList: this.activeSlide.elementList,
-      dontAddToSlide: true,
-      isClear: true
-    });
+    if (isActiveSlideChanged) {
+      this.activeSlideSubscription.next(slide);
+      this.updateSlideList();
+      this.elementListAsync.next(this.activeSlide.elementList);
+    }
   }
 
   updateSlideList() {
@@ -198,11 +209,19 @@ export class PPtBuilderService {
   }
 
   setActiveElement(item: PptElementModel) {
+    let elId = 0;
+
+    if (item) {
+      this.activeSlide.isHovered = false;
+      elId = item.id;
+    }
+
     this.activeElement = item;
     this.activeElementSubscription.next(item);
+    this.elementListAsync.value.forEach(el => (el.isActive = el.id == elId));
   }
 
-  createElement(elType: PPtElementEnum, options: any): PptElementModel {
+  generateElement(elType: PPtElementEnum, options: any): PptElementModel {
     let el: PptElementModel = new PptElementModel();
     el.format.formatInputs.x.value = options.x;
     el.format.formatInputs.y.value = options.y;
@@ -228,11 +247,22 @@ export class PPtBuilderService {
         break;
     }
 
-    this.pptElementsSubscription.next({ elementList: [el], dontAddToSlide: false });
-
-    this.setActiveElement(el);
+    this.addElement(el, false);
 
     return el;
+  }
+
+  addElement(el: PptElementModel, dontAddToSlide: boolean = false) {
+    el.id = 1;
+
+    if (this.activeSlide.elementList.length > 0)
+      el.id = this.activeSlide.elementList[this.activeSlide.elementList.length - 1].id + 1;
+
+    this.activeSlide.elementList.push(el);
+    let activeSlideEls = this.activeSlide.elementList;
+
+    this.elementListAsync.next(activeSlideEls);
+    this.setActiveElement(el);
   }
 
   squareShapeElementFormat(chartEl: PptShapeElementModel) {
@@ -343,7 +373,7 @@ export class PPtBuilderService {
     return chartEl;
   }
 
-  createTableElement(el: PptElementModel, row: number, col: number) {
+  createTableElement(el: PptElementModel, row: number, col: number): PptTableElementModel {
     var tableEl = new PptTableElementModel(row, col);
 
     tableEl.name = 'Table';
@@ -394,7 +424,8 @@ export class PPtBuilderService {
   }
 
   deleteElement(id: number) {
-    this.pptElementsSubscription.value.elementList.splice(id, 1);
+    this.pptElementDeleteSubscription.next(id);
+    this.elementListAsync.next(this.elementListAsync.value.filter(item => item.id !== id));
     this.activeSlide.elementList = this.activeSlide.elementList.filter(item => item.id !== id);
   }
 
@@ -437,6 +468,36 @@ export class PPtBuilderService {
     pptx.save('Sample Presentation');
   }
 
+  saveActiveElementAsTemplate(templateName: string) {
+    let activeEl = this.activeElement;
+    let name = activeEl.constructor.name + '-' + templateName;
+
+    let elJson = JSON.stringify(activeEl.toJsonModel());
+
+    localStorage.setItem(name, elJson);
+
+    this.updateActiveElementSubscription();
+  }
+
+  updateActiveElementSubscription() {
+    let allKeys = Object.keys(localStorage);
+    let activeElName = this.activeElement.constructor.name;
+
+    allKeys = allKeys.filter(item => item.includes(activeElName));
+
+    let templates: any[] = [];
+
+    allKeys.forEach(key => {
+      let data = localStorage.getItem(key);
+
+      if (data) {
+        templates.push({ name: key.split('-')[1], data: data });
+      }
+    });
+
+    this.activeElementTemplatesSubscription.next(templates);
+  }
+
   getElementData(): Observable<Array<AnalyseApiDataModel>> {
     let data = Array<AnalyseApiDataModel>();
 
@@ -472,6 +533,93 @@ export class PPtBuilderService {
     saveAs(blob, Math.random() + '.txt');
   }
 
+  setActiveElementTemplate(template: any) {
+    let templateElJsonData = template.data;
+
+    let templateEl = JSON.parse(templateElJsonData) as PptElementModel;
+
+    let newEl = this.generateElementByElementModel(templateEl, true);
+
+    let changeModels: FormatChangeModel[] = [];
+    let currentEl = this.elementListAsync.value.find(item => item.id == this.activeElement.id);
+
+    templateEl.format.formatInputs.x.value = currentEl.format.formatInputs.x.value;
+    templateEl.format.formatInputs.y.value = currentEl.format.formatInputs.y.value;
+
+    for (const key in templateEl.format.formatInputs) {
+      if (templateEl.format.formatInputs.hasOwnProperty(key)) {
+        const formatInput = templateEl.format.formatInputs[key];
+        const activeFormatInput = currentEl.format.formatInputs[key];
+
+        if (key) {
+          let changeModel = new FormatChangeModel();
+          changeModel.formatInput = formatInput;
+          changeModel.addToHistory = false;
+          changeModel.updateComponent = true;
+
+          if (formatInput.inputId != PPtFormatInputsEnum.x && formatInput.inputId != PPtFormatInputsEnum.y)
+            changeModels.push(changeModel);
+        }
+      }
+    }
+
+    this.activeSlide.elementList.find(item => item.id == currentEl.id).format = templateEl.format;
+
+    currentEl.onFormatChange.next(changeModels);
+
+    if (newEl instanceof PptImageElementModel) {
+      (currentEl as PptImageElementModel).url = newEl.url;
+    } else if (newEl instanceof PptTableElementModel) {
+      (currentEl as PptTableElementModel).dataModal = newEl.dataModal;
+      (currentEl as PptTableElementModel).cells = newEl.cells;
+      (currentEl as PptTableElementModel).cells.forEach(cell => (cell.value = cell.isHeader ? cell.value : ''));
+      (currentEl as PptTableElementModel).defaultCellHeight = newEl.defaultCellHeight;
+      (currentEl as PptTableElementModel).defaultCellWidth = newEl.defaultCellWidth;
+    }
+    if (newEl instanceof PptDefaultChartElementModel) {
+    }
+
+    this.setActiveElement(currentEl);
+  }
+
+  generateElementByElementModel(el: PptElementModel, updateFormatInput: boolean = false) {
+    let newEl = new PptElementModel();
+
+    switch (el.type) {
+      case PPtElementEnum.Text:
+        newEl = this.createTextElement(el, (el as PptTextElementModel).text);
+        break;
+
+      case PPtElementEnum.Image:
+        newEl = this.createImageElement(el, (el as PptImageElementModel).url);
+        break;
+
+      case PPtElementEnum.Shape:
+        newEl = this.createShapeElement(el, (el as PptShapeElementModel).shapeType);
+        break;
+
+      case PPtElementEnum.Table:
+        newEl = this.createTableElement(el, (el as PptTableElementModel).row, (el as PptTableElementModel).col);
+        (newEl as PptTableElementModel).defaultCellHeight = (el as PptTableElementModel).defaultCellHeight;
+        (newEl as PptTableElementModel).defaultCellWidth = (el as PptTableElementModel).defaultCellWidth;
+        (newEl as PptTableElementModel).cells = (el as PptTableElementModel).cells;
+        (newEl as PptTableElementModel).dataModal = (el as PptTableElementModel).dataModal;
+        break;
+
+      case PPtElementEnum.Chart:
+        newEl = this.createChartElement(el, (el as PptBaseChartElementModel).chartType);
+        (newEl as PptBaseChartElementModel).dataModal = (el as PptBaseChartElementModel).dataModal;
+        break;
+
+      default:
+        break;
+    }
+
+    if (updateFormatInput) newEl.format = el.format;
+
+    return newEl;
+  }
+
   jsonStringConvert(rawData: string) {
     this.slideList = [];
     let slides = JSON.parse(rawData) as Array<SlideModel>;
@@ -481,32 +629,7 @@ export class PPtBuilderService {
       newSlide.import(slide);
 
       slide.elementList.forEach((el: PptElementModel) => {
-        let newEl = new PptElementModel();
-
-        switch (el.type) {
-          case PPtElementEnum.Text:
-            newEl = this.createTextElement(el, (el as PptTextElementModel).text);
-            break;
-
-          case PPtElementEnum.Image:
-            newEl = this.createImageElement(el, (el as PptImageElementModel).url);
-            break;
-
-          case PPtElementEnum.Shape:
-            newEl = this.createShapeElement(el, (el as PptShapeElementModel).shapeType);
-            break;
-
-          case PPtElementEnum.Table:
-            newEl = this.createTableElement(el, (el as PptTableElementModel).row, (el as PptTableElementModel).col);
-            break;
-
-          case PPtElementEnum.Chart:
-            newEl = this.createChartElement(el, (el as PptBaseChartElementModel).chartType);
-            break;
-
-          default:
-            break;
-        }
+        let newEl = this.generateElementByElementModel(el);
 
         for (const key in el) {
           if (el.hasOwnProperty(key)) {

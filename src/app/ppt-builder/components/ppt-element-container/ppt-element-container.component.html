@@ -1,10 +1,11 @@
 <div
   class="element-list-container w-h-100"
   [style.background-color]="activeSlide.format.formatInputs.slideBackgroundColor.value"
+  (click)="onElementListClick(item)"
 >
   <ppt-base-element
-    *ngFor="let item of elementList"
-    (click)="onElementClick(item)"
+    *ngFor="let item of elementListAsync | async"
+    (click)="onElementClick(item); $event.stopPropagation()"
     [element]="item"
     [type]="item.type"
     (highlightChange)="changeHighlight($event)"

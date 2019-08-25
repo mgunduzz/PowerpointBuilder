@@ -83,10 +83,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    if (this.element.id == this.pPtBuilderService.activeElement.id) {
-      this.highlightElement(this.element.id);
-      this.changeItemActive(true);
-    }
+    if (this.pPtBuilderService.activeElement)
+      if (this.element.id == this.pPtBuilderService.activeElement.id) {
+        this.highlightElement(this.element.id);
+        this.changeItemActive(true);
+      }
 
     this.element.onFormatChange.subscribe(res => {
       let historyInputs = Array<BaseFormatInputModel>();
@@ -106,11 +107,6 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     });
 
     let _this = this;
-
-    // this.updateFormats(this.element.format.formatInputs.x);
-    // this.updateFormats(this.element.format.formatInputs.y);
-    // this.updateFormats(this.element.format.formatInputs.width);
-    // this.updateFormats(this.element.format.formatInputs.height);
   }
 
   changeItemActive(active: boolean) {
@@ -133,36 +129,35 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     let numberInput = formatInput as FormatNumberInputModel;
     let colorPickerInput = formatInput as FormatColorPickerInputModel;
     let checkboxInput = formatInput as FormatCheckboxInputModel;
+    var results = this.getElementTransform('#box-' + this.element.id);
+
+    var x = this.element.format.formatInputs.x.value,
+      y = this.element.format.formatInputs.y.value;
+
+    if (results) {
+      if (results.length > 1) {
+        x = results[12] || results[4];
+        y = results[13] || results[5];
+      }
+    }
 
     switch (formatInput.inputId) {
       case PPtFormatInputsEnum.x:
         this.element.format.formatInputs.x.value = numberInput.value;
-        var results = this.getElementTransform('#box-' + this.element.id);
 
-        if (results) {
-          var x = results[12] || results[4];
-          var y = results[13] || results[5];
+        $('#box-' + this.element.id).css(
+          'transform',
+          `translate3d(${numberInput.value}px, ${y}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
+        );
 
-          $('#box-' + this.element.id).css(
-            'transform',
-            `translate3d(${numberInput.value}px, ${y}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
-          );
-        }
         break;
       case PPtFormatInputsEnum.y:
         this.element.format.formatInputs.y.value = numberInput.value;
 
-        var results = this.getElementTransform('#box-' + this.element.id);
-
-        if (results) {
-          var x = results[12] || results[4];
-          var y = results[13] || results[5];
-
-          $('#box-' + this.element.id).css(
-            'transform',
-            `translate3d(${x}px, ${numberInput.value}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
-          );
-        }
+        $('#box-' + this.element.id).css(
+          'transform',
+          `translate3d(${x}px, ${numberInput.value}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
+        );
         break;
       case PPtFormatInputsEnum.strokeColor:
         if (colorPickerInput.value) {
@@ -261,6 +256,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.elementBox = $('#box-' + this.element.id);
 
     this.offset = this.elementBox.offset();
+
+    this.updateFormats(this.element.format.formatInputs.x);
+    this.updateFormats(this.element.format.formatInputs.y);
+    this.updateFormats(this.element.format.formatInputs.width);
+    this.updateFormats(this.element.format.formatInputs.height);
   }
 
   elementMouseDown(e: MouseEvent) {
@@ -304,16 +304,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
 
       // $('#box-' + _this.element.id).css('transform', `translate3d(${_this.element.format.formatInputs.x.value}px, ${_this.element.format.formatInputs.y.value}px, 0px) rotate(${_this.element.format.formatInputs.rotate.value}deg)`);
 
-      console.log({ offset: _this.offset, size: _this.elementBox.width() });
-
       var center_x = _this.offset.left + _this.element.format.formatInputs.x.value + _this.elementBox.width() / 2;
       var center_y = _this.offset.top + _this.element.format.formatInputs.y.value + _this.elementBox.height() / 2;
       var mouse_x = e.pageX;
       var mouse_y = e.pageY;
       var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
-
-      console.log(_this.offset);
-      console.log(_this.elementBox.width());
 
       var degree = radians * (180 / Math.PI) * -1 + 180;
       _this.elementBox.css('-moz-transform', 'rotate(' + degree + 'deg)');

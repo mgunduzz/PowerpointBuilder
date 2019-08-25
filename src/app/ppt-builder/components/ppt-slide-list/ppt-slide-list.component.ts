@@ -27,16 +27,6 @@ export class PptSlideList implements OnInit, OnDestroy {
     this.activeSlideSub = this._pPtBuilderService.activeSlideSubscription.subscribe(res => {
       this.activeSlide = res;
     });
-    this.elementSub = this._pPtBuilderService.pptElementsSubscription.subscribe(res => {
-      if (res)
-        if (!res.dontAddToSlide) {
-          var activeSlide = this.getActiveSlide();
-          if (activeSlide) {
-            var els = this._pPtBuilderService.pptElementsSubscription.getValue();
-            activeSlide.elementList.push(...res.elementList);
-          }
-        }
-    });
 
     this.slideListSub = this._pPtBuilderService.slideListSubscription.subscribe(res => {
       if (res) {
@@ -45,12 +35,25 @@ export class PptSlideList implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('document:keyup', ['$event'])
-  handleDeleteKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'Delete') {
-      this.deleteSlide(this.activeSlide);
-    }
+  hoveredSlideId: number = 0;
+
+  onSlideMouseMove(slide: SlideModel) {
+    this.hoveredSlideId = slide.id;
+    console.log('move ' + this.hoveredSlideId);
   }
+
+  onSlideMouseOver(slide: SlideModel) {
+    this.hoveredSlideId = 0;
+    console.log('over ' + this.hoveredSlideId);
+  }
+
+  // @HostListener('document:keyup', ['$event'])
+  // handleDeleteKeyboardEvent(event: KeyboardEvent) {
+  //   if (event.key === 'Delete') {
+  //     if (this.hoveredSlideId > 0)
+  //       this.deleteSlide(this.activeSlide);
+  //   }
+  // }
 
   ngOnInit() {}
 
@@ -68,14 +71,8 @@ export class PptSlideList implements OnInit, OnDestroy {
 
   onSlideClick(slide: SlideModel) {
     // this._pPtBuilderService.setActiveSlide(slide);
-
-    if (this._pPtBuilderService.activeSlide) {
-      if (this._pPtBuilderService.activeSlide.id != slide.id) {
-        this._pPtBuilderService.setActiveSlide(slide);
-      }
-    } else {
-      this._pPtBuilderService.setActiveSlide(slide);
-    }
+    this._pPtBuilderService.setActiveSlide(slide);
+    this._pPtBuilderService.setActiveElement(undefined);
   }
 
   ngOnDestroy() {

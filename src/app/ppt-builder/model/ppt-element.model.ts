@@ -129,6 +129,7 @@ export class PptElementModel implements IElement {
   options?: any;
   stroke: string;
   tempZ: number = 0;
+  isHovered?: boolean = false;
 }
 
 export class FormatChangeModel {
@@ -143,9 +144,12 @@ export class PptBaseChartElementModel extends PptElementModel {
    */
   constructor(el: PptElementModel) {
     super(el);
+
+    this.dataModal = new PptBaseChartDataModel();
   }
 
   chartType: ChartTypeEnum;
+  dataModal: PptBaseChartDataModel;
 
   generatePptxItem(pptx: any, slide: any) {
     super.generatePptxItem(pptx, slide);
@@ -192,8 +196,15 @@ export class PptBaseChartDataModel {
     };
   }
 
+  selectedSource: any;
   labels: Array<string>;
   dataSource?: any;
+}
+
+export class PptBaseTableDataModel {
+  constructor() {}
+
+  selectedSource: any;
 }
 
 export class PptDefaultChartDataModel extends PptBaseChartDataModel {
@@ -569,8 +580,10 @@ export class PptScatterChartDataSetModel {
   backgroundColor: string;
 }
 
-export class PptScatterChartDataModel {
+export class PptScatterChartDataModel extends PptBaseChartDataModel {
   constructor() {
+    super();
+
     this.labels = new Array<string>();
     this.dataSets = new Array<PptScatterChartDataSetModel>();
   }
@@ -686,6 +699,7 @@ export class PptTableElementModel extends PptElementModel {
   defaultCellHeight?: number;
   onMergeCells = new Subject<any>();
   selectedCells: Array<TableCellModel>;
+  dataModal: PptBaseTableDataModel;
 
   toJsonModel() {
     let jsonModel = super.toJsonModel();
@@ -698,7 +712,7 @@ export class PptTableElementModel extends PptElementModel {
     super();
 
     this.format = new TableFormatModel(this.format);
-
+    this.dataModal = new PptBaseTableDataModel();
     this.row = row;
     this.col = col;
 

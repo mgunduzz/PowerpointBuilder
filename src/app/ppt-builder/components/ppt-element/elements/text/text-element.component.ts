@@ -19,7 +19,8 @@ import {
   FormatNumberInputModel,
   FormatDropdownInputModel,
   FormatColorPickerInputModel,
-  FormatRadioButtonInputModel
+  FormatRadioButtonInputModel,
+  FormatChangeModel
 } from '@app/ppt-builder/model';
 import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
@@ -151,42 +152,44 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     });
+
+    let changeModels: FormatChangeModel[] = [];
+
+    for (const key in this.element.format.formatInputs) {
+      if (this.element.format.formatInputs.hasOwnProperty(key)) {
+        const input = this.element.format.formatInputs[key];
+
+        changeModels.push({ formatInput: input, updateComponent: true, addToHistory: false });
+      }
+    }
+
+    this.element.onFormatChange.next(changeModels);
   }
 
   ngAfterViewInit() {}
 
   addListToAllChildren(type: number) {
-    let firstNode = $('.text-element')
-      .contents()
-      .eq(0)[0]['nodeName'];
-    if (firstNode == '#text') {
-      $('.text-element')
-        .contents()
-        .eq(0)
-        .wrap('<div></div>');
-    }
+    let $textEl = $('.text-element');
+    let $textElContents = $textEl.contents();
 
-    if (type == 3) {
-      $('.text-element')
-        .find('div')
-        .addClass('list-numbers');
-      $('.text-element')
-        .find('div')
-        .removeClass('list-bullets');
-    } else if (type == 2) {
-      $('.text-element')
-        .find('div')
-        .addClass('list-bullets');
-      $('.text-element')
-        .find('div')
-        .removeClass('list-numbers');
-    } else {
-      $('.text-element')
-        .find('div')
-        .removeClass('list-bullets');
-      $('.text-element')
-        .find('div')
-        .removeClass('list-numbers');
+    if ($textEl.length > 0) {
+      if ($textElContents.length > 0) {
+        let firstNode = $textElContents.eq(0)[0]['nodeName'];
+        if (firstNode == '#text') {
+          $textElContents.eq(0).wrap('<div></div>');
+        }
+      }
+
+      if (type == 3) {
+        $textEl.find('div').addClass('list-numbers');
+        $textEl.find('div').removeClass('list-bullets');
+      } else if (type == 2) {
+        $textEl.find('div').addClass('list-bullets');
+        $textEl.find('div').removeClass('list-numbers');
+      } else {
+        $textEl.find('div').removeClass('list-bullets');
+        $textEl.find('div').removeClass('list-numbers');
+      }
     }
   }
   ngOnDestroy() {}

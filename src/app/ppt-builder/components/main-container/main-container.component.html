@@ -382,7 +382,7 @@
   </div>
 </ng-template>
 
-<div class="main-container">
+<div class="main-container" (click)="onMainContainerClick()">
   <div class="slide-container">
     <ppt-slide-list></ppt-slide-list>
   </div>
@@ -395,26 +395,58 @@
 
   <div class="ppt-format-container">
     <div class="tabs">
-      <div class="tab" [ngClass]="{ active: !secondTabActive }" (click)="secondTabActive = false">
+      <div class="tab" [ngClass]="{ active: activeTab == 0 }" (click)="activeTab = 0">
         STYLE
       </div>
-      <div
-        class="tab"
-        [ngClass]="{ active: secondTabActive }"
-        (click)="secondTabActive = true"
-        *ngIf="isElementHasData"
-      >
+      <div class="tab" [ngClass]="{ active: activeTab == 1 }" (click)="activeTab = 1" *ngIf="isElementHasData">
         DATA
+      </div>
+
+      <div class="tab" [ngClass]="{ active: activeTab == 2 }" (click)="activeTab = 2" *ngIf="activeElement">
+        TEMPLATE
       </div>
     </div>
 
     <div class="active-tab-content">
-      <div [hidden]="secondTabActive">
+      <div [hidden]="activeTab != 0">
         <ppt-format></ppt-format>
       </div>
 
-      <div [hidden]="!secondTabActive">
+      <div [hidden]="activeTab != 1">
         <ppt-data></ppt-data>
+      </div>
+
+      <div [hidden]="activeTab != 2">
+        <div style="padding: 10px;">
+          <div style="display: flex;">
+            <input type="text" [(ngModel)]="templateName" />
+
+            <button
+              style="margin-left: 15px;"
+              class="btn btn-outline-secondary"
+              (click)="onSaveAsTemplate(templateName)"
+            >
+              Şablon Olarak Kaydet
+            </button>
+          </div>
+
+          <div style="margin-top: 10px;" *ngIf="activeElementTemplates.length > 0">
+            <div ngbDropdown class="d-inline-block btn btn-outline-secondary" [autoClose]="true">
+              <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>
+                Şablonlar
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropDownInput">
+                <button
+                  ngbDropdownItem
+                  *ngFor="let template of activeElementTemplates"
+                  (click)="onElementTemplateClick(template)"
+                >
+                  {{ template.name }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,14 +1,16 @@
 <div class="slide-list">
   <div
     class="slide-container"
-    (click)="onSlideClick(slide)"
+    (click)="onSlideClick(slide); $event.stopPropagation()"
     *ngFor="let slide of slideList; let i = index"
     [ngClass]="{ active: slide.isActive }"
+    (mouseleave)="onSlideMouseOver(slide)"
+    (mousemove)="onSlideMouseMove(slide)"
   >
     <div class="slide-number">
       <span>{{ i + 1 }}</span>
     </div>
-    <div class="slide" [ngClass]="{ active: slide.isActive }">
+    <div class="slide" [ngClass]="{ active: slide.isHovered }">
       <img *ngIf="slide.previewImage" class="slide-preview" [src]="slide.previewImage" style="width: 100%;" />
     </div>
   </div>

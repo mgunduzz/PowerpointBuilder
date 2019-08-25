@@ -44,10 +44,10 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
   shapeTypes: any = {};
   constructor(private pPtBuilderService: PPtBuilderService) {
     this.activeElSubscription = this.pPtBuilderService.activeElementSubscription.subscribe(el => {
+      this.element = el;
+
       if (el) {
         this.pPtBuilderService.setSlidePreview();
-        this.element = el;
-        let _this = this;
 
         let inputs = Array<BaseFormatInputModel>();
 

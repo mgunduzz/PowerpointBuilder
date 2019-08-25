@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, Input, HostListener } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import {
   PptElementModel,
@@ -26,12 +26,25 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
     this.activeElSubscription = this._pPtBuilderService.activeElementSubscription.subscribe(el => {
       if (el) {
+        this.activeElement = el;
         this.isElementHasData = el instanceof PptTableElementModel || el instanceof PptBaseChartElementModel;
+        this._pPtBuilderService.updateActiveElementSubscription();
+      } else {
+        this.activeElement = undefined;
+        this.activeElementTemplates = [];
       }
     });
-  }
-  URL: any;
 
+    this.activeElementTemplatesSubscription = this._pPtBuilderService.activeElementTemplatesSubscription.subscribe(
+      res => {
+        if (res) {
+          this.activeElementTemplates = res;
+        }
+      }
+    );
+  }
+
+  URL: any;
   closeResult: string;
   activeElement: PptElementModel = undefined;
   selectTab: number = 1;
@@ -40,8 +53,12 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   chartType = ChartTypeEnum;
   shapeType = ShapeTypeEnum;
   activeElSubscription: Subscription;
+  activeElementTemplatesSubscription: Subscription;
   isElementHasData: boolean = false;
   modalRef: NgbModalRef;
+  activeTab: number = 0;
+  templateName = 'test';
+  activeElementTemplates: Array<any> = new Array<any>();
 
   public hasBaseDropZoneOver: boolean = false;
   public hasAnotherDropZoneOver: boolean = false;
@@ -57,6 +74,29 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   // onExport() {
   //   this._pPtBuilderService.export();
   // }
+
+  @HostListener('document:keyup', ['$event'])
+  handleDeleteKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Delete') {
+      if (this._pPtBuilderService.activeElement)
+        this._pPtBuilderService.deleteElement(this._pPtBuilderService.activeElement.id);
+      else {
+        if (this._pPtBuilderService.activeSlide.isHovered)
+          this._pPtBuilderService.deleteSlide(this._pPtBuilderService.activeSlide);
+      }
+    }
+  }
+
+  onSaveAsTemplate(templateName: string) {
+    if (templateName.length >= 3) {
+      this._pPtBuilderService.saveActiveElementAsTemplate(templateName);
+    }
+  }
+
+  onMainContainerClick() {
+    this._pPtBuilderService.setActiveElement(undefined);
+    this._pPtBuilderService.elementListAsync.value.forEach(item => (item.isActive = false));
+  }
 
   openModal(content: any, className: string = '', customSize: 'sm' | 'lg' = 'lg') {
     let size: 'sm' | 'lg' = 'lg';
@@ -80,7 +120,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   createTextElemet() {
-    let textEl = this._pPtBuilderService.createElement(PPtElementEnum.Text, {
+    let textEl = this._pPtBuilderService.generateElement(PPtElementEnum.Text, {
       x: '35',
       y: '35',
       text: 'Metin Giriniz'
@@ -92,17 +132,17 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   onAddImageElement() {
-    let imageEl = this._pPtBuilderService.createElement(PPtElementEnum.Image, { x: '0', y: '0', url: this.URL });
+    let imageEl = this._pPtBuilderService.generateElement(PPtElementEnum.Image, { x: '0', y: '0', url: this.URL });
   }
 
   onAddChart(type: ChartTypeEnum) {
-    let chartEl = this._pPtBuilderService.createElement(PPtElementEnum.Chart, { x: '35', y: '35', type });
+    let chartEl = this._pPtBuilderService.generateElement(PPtElementEnum.Chart, { x: '35', y: '35', type });
 
     this.closeModal();
   }
 
   onAddShape(type: ShapeTypeEnum) {
-    let shapeEl = this._pPtBuilderService.createElement(PPtElementEnum.Shape, { x: '35', y: '35', type });
+    let shapeEl = this._pPtBuilderService.generateElement(PPtElementEnum.Shape, { x: '35', y: '35', type });
 
     this.closeModal();
   }
@@ -142,7 +182,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
 
     if (col == 0) col = 8;
 
-    let tableEl = this._pPtBuilderService.createElement(PPtElementEnum.Table, { x: '35', y: '35', row, col });
+    let tableEl = this._pPtBuilderService.generateElement(PPtElementEnum.Table, { x: '35', y: '35', row, col });
 
     this.modalService.dismissAll();
   }
@@ -191,8 +231,13 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  onElementTemplateClick(template: any) {
+    this._pPtBuilderService.setActiveElementTemplate(template);
+  }
+
   ngOnDestroy() {
     this.activeElSubscription.unsubscribe();
+    this.activeElementTemplatesSubscription.unsubscribe();
   }
 
   ngOnChanges() {}

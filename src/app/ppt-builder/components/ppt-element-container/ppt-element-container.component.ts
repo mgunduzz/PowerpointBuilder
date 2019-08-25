@@ -9,7 +9,7 @@ import {
 } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -21,6 +21,7 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   elementList: any[] = [];
   elementSub: Subscription;
   activeElementSub: Subscription;
+  elementDeleteSubscription: Subscription;
   activeSlideSub: Subscription;
   activeElement: PptElementModel;
   activeSlide: SlideModel;
@@ -43,31 +44,20 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   constructor(private _pPtBuilderService: PPtBuilderService, private modalService: NgbModal) {
-    this.activeElementSub = this._pPtBuilderService.activeElementSubscription.subscribe(res => {
-      this.activeElement = res;
+    this.activeElementSub = this._pPtBuilderService.activeElementSubscription.subscribe(el => {
+      this.activeElement = el;
     });
 
-    this.activeElementSub = this._pPtBuilderService.activeSlideSubscription.subscribe(res => {
+    this.activeSlideSub = this._pPtBuilderService.activeSlideSubscription.subscribe(res => {
       this.activeSlide = res;
     });
 
-    this.elementSub = this._pPtBuilderService.pptElementsSubscription.subscribe(res => {
-      if (res) {
-        res.elementList.forEach(item => {
-          item.id = this.elementId;
-          this.elementId++;
-          item.tempZ = item.z = (this.elementList.length + 1) * 100;
-        });
+    this.elementDeleteSubscription = this._pPtBuilderService.pptElementDeleteSubscription.subscribe(elId => {
+      if (elId) {
+        let index = this.elementList.findIndex(item => item.id == elId);
 
-        if (res.isClear) this.elementList = [];
-        this.elementList.push(...res.elementList);
+        if (index >= 0) this.elementList.splice(index, 1);
       }
-
-      // let i = 1;
-      // this.elementList.forEach(o => {
-      //   o.tempZ = o.z = i * 100;
-      //   i++;
-      // })
     });
   }
 
@@ -109,18 +99,6 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   }
 
   onElementClick(item: PptElementModel) {
-    // this.elementList.forEach(o => {
-    //   item.isActive = false;
-    // })
-
-    this.elementList.forEach(element => {
-      if (element.id == item.id) {
-        element.isActive = true;
-      } else {
-        element.isActive = false;
-      }
-    });
-
     if (this._pPtBuilderService.activeElement) {
       if (this._pPtBuilderService.activeElement.id != item.id) this._pPtBuilderService.setActiveElement(item);
     } else this._pPtBuilderService.setActiveElement(item);
@@ -134,15 +112,16 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  @HostListener('document:keyup', ['$event'])
-  handleDeleteKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'Delete') {
-      if (this.activeElement) this.deleteElement(this.activeElement.id);
-    }
-  }
+  // @HostListener('document:keyup', ['$event'])
+  // handleDeleteKeyboardEvent(event: KeyboardEvent) {
+  //   if (event.key === 'Delete') {
+  //     if (this.activeElement) this.deleteElement(this.activeElement.id);
+  //   }
+  // }
+
+  onElementListClick() {}
 
   deleteElement(id: number) {
-    this.elementList = this.elementList.filter(item => item.id !== id);
     this._pPtBuilderService.deleteElement(id);
   }
 
@@ -156,12 +135,17 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
     // });
   }
 
-  ngOnInit() {}
+  elementListAsync: BehaviorSubject<Array<PptElementModel>>;
+
+  ngOnInit() {
+    this.elementListAsync = this._pPtBuilderService.elementListAsync;
+  }
 
   ngOnDestroy() {
     this.elementSub.unsubscribe();
     this.activeElementSub.unsubscribe();
     this.activeSlideSub.unsubscribe();
+    this.elementDeleteSubscription.unsubscribe();
   }
 
   ngOnChanges(): void {

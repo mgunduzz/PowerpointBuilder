@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <div *ngIf="isTableElement()" style="padding: 10px 0;display: flex;flex-wrap: wrap;">
+  <div *ngIf="isTableElement() && selectedDataSource" style="padding: 10px 0;display: flex;flex-wrap: wrap;">
     <div
       *ngFor="let prop of dataSourceProperties"
       class="table-source-property"

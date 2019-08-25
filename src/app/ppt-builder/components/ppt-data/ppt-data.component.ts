@@ -40,6 +40,14 @@ export class PptDataCompontent implements OnInit, OnDestroy {
         this.element = el;
 
         this.selectedDataSource = undefined;
+
+        if ((this.element as any).dataModal) {
+          if ((this.element as any).dataModal.selectedSource) {
+            this.selectedDataSource = (this.element as any).dataModal.selectedSource;
+          }
+        }
+
+        this.onSelectDataSource(this.selectedDataSource);
       }
     });
   }
@@ -52,14 +60,17 @@ export class PptDataCompontent implements OnInit, OnDestroy {
     if (this.element) {
       this.pPtBuilderService.getElementData().subscribe(res => {
         if (this.element instanceof PptDefaultChartElementModel) {
+          (this.element as PptDefaultChartElementModel).dataModal.selectedSource = this.selectedDataSource;
           (this.element as PptDefaultChartElementModel).dataModal.dataSource.series = this.selectedSeries;
           (this.element as PptDefaultChartElementModel).dataModal.dataSource.categories = this.categories;
           (this.element as PptDefaultChartElementModel).setData(res);
 
           this.element.onDataChange.next();
         } else if (this.element instanceof PptTableElementModel) {
+          (this.element as PptTableElementModel).dataModal.selectedSource = this.selectedDataSource;
           (this.element as PptTableElementModel).setData(res);
         } else if (this.element instanceof PptPieChartElementModel) {
+          (this.element as PptPieChartElementModel).dataModal.selectedSource = this.selectedDataSource;
           (this.element as PptPieChartElementModel).dataModal.dataSource.series = this.selectedSeries;
           (this.element as PptPieChartElementModel).dataModal.dataSource.categories = this.categories;
           (this.element as PptPieChartElementModel).setData(res);
@@ -70,18 +81,20 @@ export class PptDataCompontent implements OnInit, OnDestroy {
   }
 
   onSelectDataSource(source: any) {
-    this.selectedDataSource = source;
+    if (source) {
+      this.selectedDataSource = source;
 
-    this.dataSourceProperties = [];
-    this.categories = [];
-    this.selectedSeries = undefined;
+      this.dataSourceProperties = [];
+      this.categories = [];
+      this.selectedSeries = undefined;
 
-    if (this.selectedDataSource.id == 1) {
-      this.dataSourceProperties.push({ name: 'customerName', friendlyName: 'Müşteri Adı' });
-      this.dataSourceProperties.push({ name: 'positive', friendlyName: 'Olumlu' });
-      this.dataSourceProperties.push({ name: 'negative', friendlyName: 'Olumsuz' });
+      if (this.selectedDataSource.id == 1) {
+        this.dataSourceProperties.push({ name: 'customerName', friendlyName: 'Müşteri Adı' });
+        this.dataSourceProperties.push({ name: 'positive', friendlyName: 'Olumlu' });
+        this.dataSourceProperties.push({ name: 'negative', friendlyName: 'Olumsuz' });
 
-      this.categories.push({ name: 'category1', index: 1, selectedProp: undefined });
+        this.categories.push({ name: 'category1', index: 1, selectedProp: undefined });
+      }
     }
   }
 
