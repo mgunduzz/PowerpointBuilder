@@ -16,7 +16,7 @@
   [style.rotate]="element.format.formatInputs.rotate.value + 'deg'"
   (cdkDragStarted)="dragStart($event)"
 >
-  <div class="rotate-dotted" [ngClass]="{ 'dp-none': !element.isActive }">
+  <div class="rotate-dotted full-screen-close" [ngClass]="{ 'dp-none': !element.isActive }">
     <i
       class="fas fa-circle cursor-rotate"
       style="margin-right: 5px;font-size: 10px;color: #3eb522;"
@@ -24,16 +24,16 @@
     ></i>
   </div>
   <div
-    class="rotate-line cursor-rotate"
+    class="rotate-line cursor-rotate full-screen-close"
     [ngClass]="{ 'dp-none': !element.isActive }"
     (mousedown)="rotateMouseDown($event)"
   ></div>
 
-  <div [ngClass]="{ 'd-none': !element.isActive }" class="container-toolbox">
+  <div [ngClass]="{ 'd-none': !element.isActive }" class="container-toolbox full-screen-close">
     <div class="toolbox-item" (mouseenter)="dragDropStatus = true" style="cursor: all-scroll;" cdkDragHandle>
       <i class="fas fa-grip-horizontal toolbox-item-icon" title="Taşı"></i>
     </div>
-    <div class="toolbox-item">
+    <div class="toolbox-item full-screen-close">
       <img
         src="../../../../assets/icons/orginal-size-icon.png"
         class="fas fa-undo toolbox-item-icon"
@@ -45,51 +45,51 @@
       <i class="toolbox-item-icon fas fa-layer-group" [ngClass]="{ active: elHighlight }"
         (click)="highlightElement(element.id)" title="Ön plana çıkar"></i>
     </div> -->
-    <div class="toolbox-item">
+    <div class="toolbox-item full-screen-close">
       <i class="fas fa-arrow-up toolbox-item-icon" title="Öne Çıkar" (click)="changeElementpPriority(true)"></i>
     </div>
-    <div class="toolbox-item">
+    <div class="toolbox-item full-screen-close">
       <i class="fas  fa-arrow-down toolbox-item-icon" title="Geriye At" (click)="changeElementpPriority(false)"></i>
     </div>
   </div>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
-    class="fas fa-circle top-left ui-resizable-handle ui-resizable-nw"
+    class="fas fa-circle top-left ui-resizable-handle ui-resizable-nw full-screen-close"
     (mouseenter)="dragDropStatus = false"
   ></i>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
-    class="fas fa-circle top-right ui-resizable-handle ui-resizable-ne"
+    class="fas fa-circle top-right ui-resizable-handle ui-resizable-ne full-screen-close"
     (mouseenter)="dragDropStatus = false"
   ></i>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
-    class="fas fa-circle bottom-left ui-resizable-handle ui-resizable-sw"
+    class="fas fa-circle bottom-left ui-resizable-handle ui-resizable-sw full-screen-close"
     (mouseenter)="dragDropStatus = false"
   ></i>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
-    class="fas fa-circle bottom-right ui-resizable-handle ui-resizable-se"
+    class="fas fa-circle bottom-right ui-resizable-handle ui-resizable-se full-screen-close"
     (mouseenter)="dragDropStatus = false"
   ></i>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
-    class="fas fa-square only-top  ui-resizable-handle ui-resizable-n width-unset"
+    class="fas fa-square only-top  ui-resizable-handle ui-resizable-n width-unset full-screen-close"
     (mouseenter)="dragDropStatus = false"
   ></i>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
-    class="fas fa-square only-bottom  ui-resizable-handle ui-resizable-s width-unset"
+    class="fas fa-square only-bottom  ui-resizable-handle ui-resizable-s width-unset full-screen-close"
     (mouseenter)="dragDropStatus = false"
   ></i>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
-    class="fas fa-square only-right  ui-resizable-handle ui-resizable-e"
+    class="fas fa-square only-right  ui-resizable-handle ui-resizable-e full-screen-close"
     (mouseenter)="dragDropStatus = false"
   ></i>
   <i
     [ngClass]="{ 'd-none': !element.isActive }"
-    class="fas fa-square only-left  ui-resizable-handle ui-resizable-w"
+    class="fas fa-square only-left  ui-resizable-handle ui-resizable-w full-screen-close"
     (mouseenter)="dragDropStatus = false"
   ></i>
 

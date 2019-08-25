@@ -1,4 +1,4 @@
-<div class="tools-container">
+<div class="tools-container full-screen-close">
   <div class="tools-box" (click)="createTextElemet()">
     <i class="fas fa-text-width tools-icon"></i>
     <small class="tools-box-text">Text</small>
@@ -18,6 +18,9 @@
   <div class="tools-box" (click)="openModal(content)">
     <i class="far fa-chart-bar tools-icon"></i>
     <small class="tools-box-text">Chart</small>
+  </div>
+  <div class="btn position-right" (click)="toggleFullscreen()">
+    <i class="fas fa-compress"></i>
   </div>
   <!-- <div class="tools-box">
     <i class="fas fa-film tools-icon"></i>
@@ -382,8 +385,13 @@
   </div>
 </ng-template>
 
-<div class="main-container" (click)="onMainContainerClick()">
-  <div class="slide-container">
+<div
+  class="main-container"
+  (click)="onMainContainerClick()"
+  [ngStyle]="{ height: isFullScreen ? '100vh' : '90vh' }"
+  [ngClass]="{ 'pe-none': isFullScreen }"
+>
+  <div class="slide-container full-screen-close">
     <ppt-slide-list></ppt-slide-list>
   </div>
 
@@ -393,7 +401,7 @@
     </div>
   </div>
 
-  <div class="ppt-format-container" (click)="$event.stopPropagation()">
+  <div class="ppt-format-container full-screen-close" (click)="$event.stopPropagation()">
     <div class="tabs">
       <div class="tab" [ngClass]="{ active: activeTab == 0 }" (click)="activeTab = 0">
         STYLE

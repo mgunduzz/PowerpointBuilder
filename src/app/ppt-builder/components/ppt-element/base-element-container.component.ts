@@ -262,6 +262,11 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.updateFormats(this.element.format.formatInputs.y);
     this.updateFormats(this.element.format.formatInputs.width);
     this.updateFormats(this.element.format.formatInputs.height);
+
+    $('#box-' + this.element.id).css(
+      'transform',
+      `translate3d(${this.element.format.formatInputs.x.value}px, ${this.element.format.formatInputs.y.value}px, 0px) rotate(${this.element.format.formatInputs.rotate.value}deg)`
+    );
   }
 
   elementMouseDown(e: MouseEvent) {

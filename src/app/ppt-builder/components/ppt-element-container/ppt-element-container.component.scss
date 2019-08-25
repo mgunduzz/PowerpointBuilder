@@ -1,5 +1,24 @@
-.element-list-container {
+::ng-deep.element-list-container {
   position: relative;
+
+  &.slide-active {
+    .base-element-container {
+      border: none !important;
+      padding: 0 !important;
+
+      .cdk-drag-handle {
+        display: none;
+      }
+
+      .ui-resizable-handle {
+        display: none !important;
+      }
+
+      .full-screen-close {
+        display: none;
+      }
+    }
+  }
 }
 // .base-element {
 // }

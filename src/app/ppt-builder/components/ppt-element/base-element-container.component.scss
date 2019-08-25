@@ -149,7 +149,7 @@
 }
 
 .container-toolbox {
-  display: flex;
+  display: flex !important;
   height: 30px;
   position: absolute;
   top: -30px;
