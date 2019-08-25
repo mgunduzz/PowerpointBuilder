@@ -427,6 +427,8 @@ export class PPtBuilderService {
     this.pptElementDeleteSubscription.next(id);
     this.elementListAsync.next(this.elementListAsync.value.filter(item => item.id !== id));
     this.activeSlide.elementList = this.activeSlide.elementList.filter(item => item.id !== id);
+
+    this.setActiveElement(undefined);
   }
 
   deleteSlide(slide: SlideModel) {
@@ -548,10 +550,12 @@ export class PPtBuilderService {
 
     for (const key in templateEl.format.formatInputs) {
       if (templateEl.format.formatInputs.hasOwnProperty(key)) {
-        const formatInput = templateEl.format.formatInputs[key];
-        const activeFormatInput = currentEl.format.formatInputs[key];
-
         if (key) {
+          const formatInput = templateEl.format.formatInputs[key];
+          const activeFormatInput = currentEl.format.formatInputs[key];
+
+          this.activeSlide.elementList.find(item => item.id == currentEl.id).format.formatInputs[key] = formatInput;
+
           let changeModel = new FormatChangeModel();
           changeModel.formatInput = formatInput;
           changeModel.addToHistory = false;
@@ -563,8 +567,6 @@ export class PPtBuilderService {
       }
     }
 
-    this.activeSlide.elementList.find(item => item.id == currentEl.id).format = templateEl.format;
-
     currentEl.onFormatChange.next(changeModels);
 
     if (newEl instanceof PptImageElementModel) {
@@ -575,8 +577,10 @@ export class PPtBuilderService {
       (currentEl as PptTableElementModel).cells.forEach(cell => (cell.value = cell.isHeader ? cell.value : ''));
       (currentEl as PptTableElementModel).defaultCellHeight = newEl.defaultCellHeight;
       (currentEl as PptTableElementModel).defaultCellWidth = newEl.defaultCellWidth;
-    }
-    if (newEl instanceof PptDefaultChartElementModel) {
+      (currentEl as PptTableElementModel).onDataChange.next();
+    } else if (newEl instanceof PptBaseChartElementModel) {
+      (currentEl as PptBaseChartElementModel).dataModal = newEl.dataModal;
+      (currentEl as PptBaseChartElementModel).onDataChange.next();
     }
 
     this.setActiveElement(currentEl);
@@ -615,7 +619,15 @@ export class PPtBuilderService {
         break;
     }
 
-    if (updateFormatInput) newEl.format = el.format;
+    if (updateFormatInput) {
+      for (const key in newEl.format.formatInputs) {
+        if (newEl.format.formatInputs.hasOwnProperty(key)) {
+          let val = el.format.formatInputs[key];
+
+          if (val) newEl.format.formatInputs[key] = val;
+        }
+      }
+    }
 
     return newEl;
   }
@@ -642,6 +654,8 @@ export class PPtBuilderService {
 
       this.slideList.push(newSlide);
     });
+
+    if (this.activeSlide) this.activeSlide.id = 0;
 
     if (this.slideList.length > 0) {
       this.setActiveSlide(this.slideList[0]);

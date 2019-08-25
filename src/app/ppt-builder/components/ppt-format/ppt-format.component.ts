@@ -58,7 +58,7 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
           }
         });
 
-        this.onInputsValuechange(inputs);
+        // this.onInputsValuechange(inputs);
       }
     });
 

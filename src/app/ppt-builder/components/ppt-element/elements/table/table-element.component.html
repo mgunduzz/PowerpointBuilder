@@ -1,10 +1,5 @@
 <div class="el-box">
-  <div
-    class="table"
-    #tableContainer
-    [ngClass]="{ active: element.isActive }"
-    (click)="element.isActive = !element.isActive"
-  >
+  <div class="table" #tableContainer [ngClass]="{ active: element.isActive }">
     <div
       *ngFor="let cell of element.cells | filterBy: { isHeader: true }"
       dndDropzone

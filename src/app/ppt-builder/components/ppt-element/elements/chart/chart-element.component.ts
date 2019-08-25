@@ -101,79 +101,112 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
     });
 
     this.onFormatChangeSub = this.element.onFormatChange.subscribe(changeResponse => {
-      changeResponse.forEach(res => {
-        var formatInput = res.formatInput as FormatCheckboxInputModel;
-        var formatNumberInput = res.formatInput as FormatNumberInputModel;
-        var formatDropDown = res.formatInput as FormatDropdownInputModel;
-        var formatColorPicker = res.formatInput as FormatColorPickerInputModel;
-        var formatText = res.formatInput as FormatTextInputModel;
+      if (changeResponse)
+        changeResponse.forEach(res => {
+          var formatInput = res.formatInput as FormatCheckboxInputModel;
+          var formatNumberInput = res.formatInput as FormatNumberInputModel;
+          var formatDropDown = res.formatInput as FormatDropdownInputModel;
+          var formatColorPicker = res.formatInput as FormatColorPickerInputModel;
+          var formatText = res.formatInput as FormatTextInputModel;
 
-        let chartRef = this.myChart as any;
+          let chartRef = this.myChart as any;
 
-        if (formatInput.inputId == PPtFormatInputsEnum.legend) {
-          chartRef.options.legend.display = formatInput.value;
-        } else if (formatInput.inputId == PPtFormatInputsEnum.title) {
-          chartRef.options.title.display = formatInput.value;
-        } else if (formatInput.inputId == PPtFormatInputsEnum.value) {
-          chartRef.options.plugins.datalabels.display = formatInput.value;
-        } else if (formatInput.inputId == PPtFormatInputsEnum.chartTitleText) {
-          chartRef.options.title.text = formatText.value;
-        }
+          if (formatInput.inputId == PPtFormatInputsEnum.legend) {
+            chartRef.options.legend.display = formatInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.title) {
+            chartRef.options.title.display = formatInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.value) {
+            chartRef.options.plugins.datalabels.display = formatInput.value;
+          } else if (formatInput.inputId == PPtFormatInputsEnum.chartTitleText) {
+            chartRef.options.title.text = formatText.value;
+          }
 
-        if (this.element.format instanceof ColumnChartFormatModel) {
-          // scales: {
-          //   xAxes: [
-          //     {
-          //       stacked: false,
-          //       ticks : {
-          //         fontSize: 10,
-          //         fontFamily: "'Roboto', sans-serif", fontColor: '#000', fontStyle: '500'
-          //       }
-          //     }
-          //   ],
+          if (this.element.format instanceof ColumnChartFormatModel) {
+            // scales: {
+            //   xAxes: [
+            //     {
+            //       stacked: false,
+            //       ticks : {
+            //         fontSize: 10,
+            //         fontFamily: "'Roboto', sans-serif", fontColor: '#000', fontStyle: '500'
+            //       }
+            //     }
+            //   ],
 
-          if (formatDropDown.inputId == PPtFormatInputsEnum.chartLabelsFont) {
-            let fontFamily = this.element.format.formatInputs.chartLabelsFont.value.find(
-              q => q.key == this.element.format.formatInputs.chartLabelsFont.selectedItemKey
-            );
-            if (fontFamily) {
-              let currentFontSize = chartRef.options.scales.xAxes[0].ticks.fontSize;
-              let currentFontColor = chartRef.options.scales.xAxes[0].ticks.fontColor;
-              let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
+            if (formatDropDown.inputId == PPtFormatInputsEnum.chartLabelsFont) {
+              let fontFamily = this.element.format.formatInputs.chartLabelsFont.value.find(
+                q => q.key == this.element.format.formatInputs.chartLabelsFont.selectedItemKey
+              );
+              if (fontFamily) {
+                let currentFontSize = chartRef.options.scales.xAxes[0].ticks.fontSize;
+                let currentFontColor = chartRef.options.scales.xAxes[0].ticks.fontColor;
+                let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
 
-              chartRef.options.scales.xAxes[0].ticks = {
-                fontSize: currentFontSize,
-                fontFamily: `'${fontFamily.value}', sans-serif`,
-                fontColor: currentFontColor,
-                fontStyle: currentFontStyle
-              };
-              chartRef.options.scales.yAxes[0].ticks = {
-                fontSize: currentFontSize,
-                fontFamily: `'${fontFamily.value}', sans-serif`,
-                fontColor: currentFontColor,
-                fontStyle: currentFontStyle
-              };
-            }
-          } else if (formatNumberInput.inputId == PPtFormatInputsEnum.chartlabelsFontSize) {
-            let fontSize = this.element.format.formatInputs.chartLabelsFontSize.value;
+                chartRef.options.scales.xAxes[0].ticks = {
+                  fontSize: currentFontSize,
+                  fontFamily: `'${fontFamily.value}', sans-serif`,
+                  fontColor: currentFontColor,
+                  fontStyle: currentFontStyle
+                };
+                chartRef.options.scales.yAxes[0].ticks = {
+                  fontSize: currentFontSize,
+                  fontFamily: `'${fontFamily.value}', sans-serif`,
+                  fontColor: currentFontColor,
+                  fontStyle: currentFontStyle
+                };
+              }
+            } else if (formatNumberInput.inputId == PPtFormatInputsEnum.chartlabelsFontSize) {
+              let fontSize = this.element.format.formatInputs.chartLabelsFontSize.value;
 
-            if (fontSize) {
-              let currentFontFamily = chartRef.options.scales.xAxes[0].ticks.fontFamily;
-              let currentFontColor = chartRef.options.scales.xAxes[0].ticks.fontColor;
-              let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
+              if (fontSize) {
+                let currentFontFamily = chartRef.options.scales.xAxes[0].ticks.fontFamily;
+                let currentFontColor = chartRef.options.scales.xAxes[0].ticks.fontColor;
+                let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
 
-              chartRef.options.scales.xAxes[0].ticks = {
-                fontSize: `${fontSize}`,
-                fontFamily: currentFontFamily,
-                fontColor: currentFontColor,
-                fontStyle: currentFontStyle
-              };
-              chartRef.options.scales.yAxes[0].ticks = {
-                fontSize: `${fontSize}`,
-                fontFamily: currentFontFamily,
-                fontColor: currentFontColor,
-                fontStyle: currentFontStyle
-              };
+                chartRef.options.scales.xAxes[0].ticks = {
+                  fontSize: `${fontSize}`,
+                  fontFamily: currentFontFamily,
+                  fontColor: currentFontColor,
+                  fontStyle: currentFontStyle
+                };
+                chartRef.options.scales.yAxes[0].ticks = {
+                  fontSize: `${fontSize}`,
+                  fontFamily: currentFontFamily,
+                  fontColor: currentFontColor,
+                  fontStyle: currentFontStyle
+                };
+              } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+                chartRef.options.scales.xAxes[0].categoryPercentage =
+                  (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+                  0.1 -
+                  formatNumberInput.value;
+              } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+                chartRef.options.scales.xAxes[0].barPercentage =
+                  (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+                  0.1 -
+                  formatNumberInput.value;
+              }
+            } else if (formatColorPicker.inputId == PPtFormatInputsEnum.chartLabelsFontColor) {
+              let fontColor = this.element.format.formatInputs.chartLabelsFontColor.value;
+
+              if (fontColor) {
+                let currentFontFamily = chartRef.options.scales.xAxes[0].ticks.fontFamily;
+                let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
+                let currentFontSize = chartRef.options.scales.xAxes[0].ticks.fontSize;
+
+                chartRef.options.scales.xAxes[0].ticks = {
+                  fontSize: currentFontSize,
+                  fontFamily: currentFontFamily,
+                  fontColor: `${fontColor}`,
+                  fontStyle: currentFontStyle
+                };
+                chartRef.options.scales.yAxes[0].ticks = {
+                  fontSize: currentFontSize,
+                  fontFamily: currentFontFamily,
+                  fontColor: `${fontColor}`,
+                  fontStyle: currentFontStyle
+                };
+              }
             } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
               chartRef.options.scales.xAxes[0].categoryPercentage =
                 (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
@@ -185,68 +218,36 @@ export class ChartElement implements OnInit, OnDestroy, OnChanges {
                 0.1 -
                 formatNumberInput.value;
             }
-          } else if (formatColorPicker.inputId == PPtFormatInputsEnum.chartLabelsFontColor) {
-            let fontColor = this.element.format.formatInputs.chartLabelsFontColor.value;
-
-            if (fontColor) {
-              let currentFontFamily = chartRef.options.scales.xAxes[0].ticks.fontFamily;
-              let currentFontStyle = chartRef.options.scales.xAxes[0].ticks.fontStyle;
-              let currentFontSize = chartRef.options.scales.xAxes[0].ticks.fontSize;
-
-              chartRef.options.scales.xAxes[0].ticks = {
-                fontSize: currentFontSize,
-                fontFamily: currentFontFamily,
-                fontColor: `${fontColor}`,
-                fontStyle: currentFontStyle
-              };
-              chartRef.options.scales.yAxes[0].ticks = {
-                fontSize: currentFontSize,
-                fontFamily: currentFontFamily,
-                fontColor: `${fontColor}`,
-                fontStyle: currentFontStyle
-              };
+          } else if (this.element.format instanceof BarChartFormatModel) {
+            if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
+              chartRef.options.scales.yAxes[0].categoryPercentage =
+                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
+                0.1 -
+                formatNumberInput.value;
+            } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
+              chartRef.options.scales.yAxes[0].barPercentage =
+                (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
+                0.1 -
+                formatNumberInput.value;
             }
-          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-            chartRef.options.scales.xAxes[0].categoryPercentage =
-              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
-              0.1 -
-              formatNumberInput.value;
-          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-            chartRef.options.scales.xAxes[0].barPercentage =
-              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
-              0.1 -
-              formatNumberInput.value;
+          } else if (this.element.format instanceof PieChartFormatModel) {
+            if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+              chartRef.options.rotation = formatNumberInput.value;
+            }
+          } else if (this.element.format instanceof DoughnutChartFormatModel) {
+            if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
+              chartRef.options.rotation = formatNumberInput.value;
+            } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
+              chartRef.options.cutoutPercentage = formatNumberInput.value;
+            }
+          } else if (this.element.format instanceof LineChartFormatModel) {
+            if (formatInput.inputId == PPtFormatInputsEnum.smoothLine) {
+              chartRef.data.datasets.forEach((item: any) => (item.lineTension = formatInput.value ? 0.5 : 0));
+            }
           }
-        } else if (this.element.format instanceof BarChartFormatModel) {
-          if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenCategory) {
-            chartRef.options.scales.yAxes[0].categoryPercentage =
-              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenCategory.max +
-              0.1 -
-              formatNumberInput.value;
-          } else if (formatInput.inputId == PPtFormatInputsEnum.chartSpaceBetweenBar) {
-            chartRef.options.scales.yAxes[0].barPercentage =
-              (this.element.format as ColumnChartFormatModel).formatInputs.chartSpaceBetweenBar.max +
-              0.1 -
-              formatNumberInput.value;
-          }
-        } else if (this.element.format instanceof PieChartFormatModel) {
-          if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
-            chartRef.options.rotation = formatNumberInput.value;
-          }
-        } else if (this.element.format instanceof DoughnutChartFormatModel) {
-          if (formatInput.inputId == PPtFormatInputsEnum.pieRotation) {
-            chartRef.options.rotation = formatNumberInput.value;
-          } else if (formatInput.inputId == PPtFormatInputsEnum.pieCutoutPercentage) {
-            chartRef.options.cutoutPercentage = formatNumberInput.value;
-          }
-        } else if (this.element.format instanceof LineChartFormatModel) {
-          if (formatInput.inputId == PPtFormatInputsEnum.smoothLine) {
-            chartRef.data.datasets.forEach((item: any) => (item.lineTension = formatInput.value ? 0.5 : 0));
-          }
-        }
 
-        this.myChart.update();
-      });
+          this.myChart.update();
+        });
     });
 
     let chartType = this.element.chartType;

@@ -32,6 +32,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
       } else {
         this.activeElement = undefined;
         this.activeElementTemplates = [];
+        this.activeTab = 0;
       }
     });
 

@@ -42,6 +42,7 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   lastRowCol: any;
   mergeCellSub: Subscription;
   onFormatChangeSub: Subscription;
+  activeElementSubscription: Subscription;
 
   oldWidth: number;
   oldHeight: number;
@@ -55,6 +56,12 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit() {
     this.oldWidth = this.element.format.formatInputs.width.value;
     this.oldHeight = this.element.format.formatInputs.height.value;
+
+    this.activeElementSubscription = this.pPtBuilderService.activeElementSubscription.subscribe(el => {
+      if (!el) {
+        this.element.cells.forEach(cell => (cell.isSelected = false));
+      }
+    });
 
     this.onFormatChangeSub = this.element.onFormatChange.subscribe(res => {
       res.forEach(item => {
@@ -453,5 +460,6 @@ export class TableElement implements OnInit, OnDestroy, AfterViewChecked {
   ngOnDestroy() {
     this.mergeCellSub.unsubscribe();
     this.onFormatChangeSub.unsubscribe();
+    this.activeElementSubscription.unsubscribe();
   }
 }

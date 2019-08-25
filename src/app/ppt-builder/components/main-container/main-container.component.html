@@ -393,12 +393,17 @@
     </div>
   </div>
 
-  <div class="ppt-format-container">
+  <div class="ppt-format-container" (click)="$event.stopPropagation()">
     <div class="tabs">
       <div class="tab" [ngClass]="{ active: activeTab == 0 }" (click)="activeTab = 0">
         STYLE
       </div>
-      <div class="tab" [ngClass]="{ active: activeTab == 1 }" (click)="activeTab = 1" *ngIf="isElementHasData">
+      <div
+        class="tab"
+        [ngClass]="{ active: activeTab == 1 }"
+        (click)="activeTab = 1"
+        *ngIf="isElementHasData && activeElement"
+      >
         DATA
       </div>
 

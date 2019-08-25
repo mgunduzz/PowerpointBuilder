@@ -92,15 +92,16 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
     this.element.onFormatChange.subscribe(res => {
       let historyInputs = Array<BaseFormatInputModel>();
 
-      res.forEach(item => {
-        if (item.updateComponent) {
-          this.updateFormats(item.formatInput);
-        }
+      if (res)
+        res.forEach(item => {
+          if (item.updateComponent) {
+            this.updateFormats(item.formatInput);
+          }
 
-        if (item.addToHistory) historyInputs.push(item.formatInput);
+          if (item.addToHistory) historyInputs.push(item.formatInput);
 
-        // console.log('elementFormatChange ' + res.formatInput.name + ' : ' + (res.formatInput as any).value);
-      });
+          // console.log('elementFormatChange ' + res.formatInput.name + ' : ' + (res.formatInput as any).value);
+        });
 
       if (historyInputs.length > 0)
         this.pPtBuilderService.setFormatInputChangeToActiveSlideHistory(this.element.id, historyInputs);
