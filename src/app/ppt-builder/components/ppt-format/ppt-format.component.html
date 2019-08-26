@@ -1,11 +1,13 @@
 <div style="padding: 15px;" *ngIf="!element && !activeSlide">
-  Element seçili değil
+  {{ 'FORMAT.Element Not Selected' | translate }}
 </div>
 
 <ng-container *ngIf="activeSlide && activeSlide.format.formatInputs && !element">
   <div class="main-format">
     <div class="format-block" *ngIf="activeSlide">
-      <div class="format-title"><span class="format-title-text">Active Slide</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Active Slide' | translate }}</span>
+      </div>
       <div class="form-check-label" class="row row-margin">
         <ppt-multi-number-input
           [input]="activeSlide.format.formatInputs.slidePageNumber"
@@ -27,7 +29,9 @@
 <ng-container *ngIf="element && element.format.formatInputs">
   <div class="main-format">
     <div class="format-block" *ngIf="isDefaultChart()">
-      <div class="format-title"><span class="format-title-text">Category</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Category' | translate }}</span>
+      </div>
 
       <div *ngFor="let cat of element.dataModal.dataSets">
         <div class="form-check-label">
@@ -46,7 +50,9 @@
       class="format-block"
       *ngIf="checkFormatType('ColumnChartFormatModel') || checkFormatType('BarChartFormatModel')"
     >
-      <div class="format-title"><span class="format-title-text">Column Chart</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Column Chart' | translate }}</span>
+      </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.chartSpaceBetweenCategory">
         <ppt-number-input
           [input]="element.format.formatInputs.chartSpaceBetweenCategory"
@@ -64,7 +70,9 @@
     </div>
 
     <div class="format-block" *ngIf="isPieChart()">
-      <div class="format-title"><span class="format-title-text">Pie Chart</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Pie Chart' | translate }}</span>
+      </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.pieCutoutPercentage">
         <ppt-number-input
           [input]="element.format.formatInputs.pieCutoutPercentage"
@@ -94,7 +102,9 @@
     </div>
 
     <div class="format-block" *ngIf="checkFormatType('DoughnutChartFormatModel')">
-      <div class="format-title"><span class="format-title-text">Doughnut Chart</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Doughnut Chart' | translate }}</span>
+      </div>
 
       <div class="row row-margin" *ngIf="element.format.formatInputs.pieRotation">
         <ppt-number-input
@@ -114,21 +124,25 @@
     </div>
 
     <div class="format-block" *ngIf="checkFormatType('TableFormatModel')">
-      <div class="format-title"><span class="format-title-text">Table</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Table' | translate }}</span>
+      </div>
 
       <div class="row row-margin">
-        <button class="btn button-grey" (click)="onMergeTableCells()">Merge Cells</button>
+        <button class="btn button-grey" (click)="onMergeTableCells()">{{ 'FORMAT.Merge Cells' | translate }}</button>
       </div>
 
       <div class="row row-margin" style="margin-top: 10px;">
-        <button class="btn button-grey" (click)="onAddTableRow()">Satır Ekle</button>
+        <button class="btn button-grey" (click)="onAddTableRow()">{{ 'FORMAT.Insert Row' | translate }}</button>
 
-        <button class="btn button-grey" (click)="onAddTableColumn()">Sütun Ekle</button>
+        <button class="btn button-grey" (click)="onAddTableColumn()">{{ 'FORMAT.Insert Column' | translate }}</button>
       </div>
     </div>
 
     <div class="format-block" *ngIf="checkFormatType('TableFormatModel') && element.selectedCells.length > 0">
-      <div class="format-title"><span class="format-title-text">Hücre Tasarımı</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Cell Design' | translate }}</span>
+      </div>
 
       <div class="row row-margin">
         <ppt-color-picker-input
@@ -159,7 +173,7 @@
         style="display: flex; flex-direction: row;"
         *ngIf="element.format.formatInputs.cellBorderType"
       >
-        <div class="text" style="flex-grow: 1;">Border Tipi Seçiniz</div>
+        <div class="text" style="flex-grow: 1;">{{ 'FORMAT.Select Border Type' | translate }}</div>
         <ppt-dropdown-input
           [input]="element.format.formatInputs.cellBorderType"
           (onValuechange)="onInputValuechange($event)"
@@ -185,7 +199,9 @@
     </div>
 
     <div class="format-block">
-      <div class="format-title"><span class="format-title-text">Position and Size</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Position and Size' | translate }}</span>
+      </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.x">
         <ppt-number-input [input]="element.format.formatInputs.x" (onValuechange)="onInputValuechange($event)">
         </ppt-number-input>
@@ -205,7 +221,9 @@
     </div>
 
     <div class="format-block">
-      <div class="format-title"><span class="format-title-text">Data Labels</span></div>
+      <div class="format-title">
+        <span class="format-title-text">{{ 'FORMAT.Data Labels' | translate }}</span>
+      </div>
       <div class="row row-margin" *ngIf="element.format.formatInputs.title">
         <ppt-checkbox-input [input]="element.format.formatInputs.title" (onValuechange)="onInputValuechange($event)">
         </ppt-checkbox-input>

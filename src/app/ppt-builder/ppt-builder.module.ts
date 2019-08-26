@@ -9,6 +9,7 @@ import { BaseElementContainer } from './components/ppt-element/base-element-cont
 import { ChartElement } from './components/ppt-element/elements/chart/chart-element.component';
 import { PptFormatCompontent } from './components/ppt-format/ppt-format.component';
 import { FormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { MainContainer as PptMainContainer } from './components/main-container/main-container.component';
 import { PptElementContainer } from './components/ppt-element-container/ppt-element-container.component';
 import { PptSlideList } from './components/ppt-slide-list/ppt-slide-list.component';
@@ -30,17 +31,20 @@ import { PptDataCompontent } from './components/ppt-data/ppt-data.component';
 import { DndModule } from 'ngx-drag-drop';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { PptMultiNumberInput } from './components/ppt-format/inputs/multi-number-input/multi-number-input.component';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { environment } from '@env/environment';
 @NgModule({
   imports: [
     SharedModule,
+    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     CommonModule,
     DemoMaterialModule,
     FormsModule,
     ColorPickerModule,
     NgbDropdownModule.forRoot(),
     DndModule,
-    FilterPipeModule
+    FilterPipeModule,
+    TranslateModule.forRoot()
   ],
   declarations: [
     BaseElementContainer,

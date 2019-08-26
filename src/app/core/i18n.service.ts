@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { Logger } from './logger.service';
 import enUS from '../../translations/en-US.json';
+import trTR from '../../translations/tr-TR.json';
 import frFR from '../../translations/fr-FR.json';
 
 const log = new Logger('I18nService');
@@ -30,6 +31,7 @@ export class I18nService {
     // Embed languages to avoid extra HTTP requests
     translateService.setTranslation('en-US', enUS);
     translateService.setTranslation('fr-FR', frFR);
+    translateService.setTranslation('tr-TR', trTR);
   }
 
   /**
@@ -41,6 +43,7 @@ export class I18nService {
   init(defaultLanguage: string, supportedLanguages: string[]) {
     this.defaultLanguage = defaultLanguage;
     this.supportedLanguages = supportedLanguages;
+
     this.language = '';
 
     // Warning: this subscription will always be alive for the app's lifetime

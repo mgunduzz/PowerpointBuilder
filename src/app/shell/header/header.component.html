@@ -24,20 +24,24 @@
       </div> -->
       <i class="fas fa-parking"></i>
       <div class="nav-item dropdown-style" ngbDropdown placement="bottom-right">
-        <a id="language-dropdown" ngbDropdownToggle>FILE</a>
+        <a id="language-dropdown" ngbDropdownToggle>
+          {{ 'HEADER.file' | translate }}
+        </a>
         <div ngbDropdownMenu aria-labelledby="language-dropdown" class="dropdown-button-group">
-          <button ngbDropdownItem class="dropdown-button"><i class="fas fa-file button-icon"></i>New</button>
+          <button ngbDropdownItem class="dropdown-button">
+            <i class="fas fa-file button-icon"></i>{{ 'HEADER.new' | translate }}
+          </button>
           <button ngbDropdownItem (click)="openModal(imageContent)" class="dropdown-button">
-            <i class="fas fa-folder-open button-icon"></i>Open...
+            <i class="fas fa-folder-open button-icon"></i>{{ 'HEADER.open' | translate }}
           </button>
           <button ngbDropdownItem (click)="onExport()" class="dropdown-button">
-            <i class="fas fa-file-export button-icon"></i>Export
+            <i class="fas fa-file-export button-icon"></i>{{ 'HEADER.export' | translate }}
           </button>
           <button ngbDropdownItem (click)="saveAsTemplate()" class="dropdown-button">
-            <i class="fas fa-file-export button-icon"></i>Template Olarak Kaydet
+            <i class="fas fa-file-export button-icon"></i>{{ 'HEADER.save as template' | translate }}
           </button>
           <button ngbDropdownItem (click)="openModal(imageContent)" class="dropdown-button">
-            <i class="fas fa-file-export button-icon"></i>Template Aç
+            <i class="fas fa-file-export button-icon"></i>{{ 'HEADER.open template' | translate }}
           </button>
         </div>
       </div>
@@ -59,7 +63,7 @@
             class="dragdrop-upload-area"
           >
             <div><i class="far fa-images drop-icon"></i></div>
-            <div>Drag and Drop</div>
+            <div>{{ 'HEADER.drag and drop' | translate }}</div>
             <div>
               <input
                 class="drag-drop-input"
@@ -76,13 +80,13 @@
 
       <div class="navbar-nav ml-auto">
         <div class="nav-item dropdown-style language-dropdown" ngbDropdown placement="bottom-right">
-          <a id="language-dropdown" ngbDropdownToggle>Language</a>
+          <a id="language-dropdown" ngbDropdownToggle>{{ 'HEADER.language' | translate }}</a>
           <div ngbDropdownMenu aria-labelledby="language-dropdown">
             <!-- <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
               {{ language }}
             </button> -->
-            <button ngbDropdownItem>English</button>
-            <button ngbDropdownItem>Türkçe</button>
+            <button ngbDropdownItem (click)="setLanguage('en-US')">{{ 'HEADER.english' | translate }}</button>
+            <button ngbDropdownItem (click)="setLanguage('tr-TR')">{{ 'HEADER.turkish' | translate }}</button>
           </div>
         </div>
         <div class="nav-item" ngbDropdown placement="bottom-right">
@@ -91,10 +95,10 @@
           </a>
           <div ngbDropdownMenu class="left130" aria-labelledby="user-dropdown">
             <h6 class="dropdown-header">
-              <span translate>Logged in as</span> <b>{{ username }}</b>
+              <span>{{ 'HEADER.username' | translate }}</span> <b>{{ username }}</b>
             </h6>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-item" (click)="logout()" translate>Logout</button>
+            <button class="dropdown-item" (click)="logout()" translate>{{ 'HEADER.logout' | translate }}</button>
           </div>
         </div>
       </div>
