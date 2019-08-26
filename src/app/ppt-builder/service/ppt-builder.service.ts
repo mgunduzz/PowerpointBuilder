@@ -185,8 +185,6 @@ export class PPtBuilderService {
   }
 
   setActiveSlide(slide: SlideModel) {
-    let isActiveSlideChanged: boolean = this.activeSlide.id !== slide.id;
-
     this.activeSlide = slide;
 
     this.slideList.forEach(el => {
@@ -197,11 +195,9 @@ export class PPtBuilderService {
     this.activeSlide.isActive = true;
     this.activeSlide.isHovered = true;
 
-    if (isActiveSlideChanged) {
-      this.activeSlideSubscription.next(slide);
-      this.updateSlideList();
-      this.elementListAsync.next(this.activeSlide.elementList);
-    }
+    this.activeSlideSubscription.next(slide);
+    this.updateSlideList();
+    this.elementListAsync.next(this.activeSlide.elementList);
   }
 
   private _setTimeoutHandler: any;
@@ -209,11 +205,13 @@ export class PPtBuilderService {
   activeSlideNo: number = 1;
 
   startSlide() {
+    debugger;
+    this.activeSlide = this.slideList[0];
     this.setActiveSlide(this.activeSlide);
     $('.element-list-container').addClass('slide-active');
 
-    this.activeSlide = this.slideList[0];
     this._setIntervalHandler = setInterval(() => {
+      debugger;
       this.setActiveSlide(this.activeSlide);
 
       $('.element-list-container').addClass('slide-active');
@@ -222,10 +220,12 @@ export class PPtBuilderService {
 
       index += 1;
 
-      if (index > this.slideList.length - 1) index = 0;
+      if (index > this.slideList.length - 1) {
+        this.stopInterval();
+      }
 
       this.activeSlide = this.slideList[index];
-    }, 1000);
+    }, 2000);
   }
 
   stopInterval() {
@@ -628,6 +628,9 @@ export class PPtBuilderService {
 
     if (newEl instanceof PptImageElementModel) {
       (currentEl as PptImageElementModel).url = newEl.url;
+    } else if (newEl instanceof PptBaseChartElementModel) {
+      (currentEl as PptBaseChartElementModel).dataModal = newEl.dataModal;
+      (currentEl as PptBaseChartElementModel).onDataChange.next();
     } else if (newEl instanceof PptTableElementModel) {
       (currentEl as PptTableElementModel).dataModal = newEl.dataModal;
       (currentEl as PptTableElementModel).cells = newEl.cells;
@@ -635,9 +638,6 @@ export class PPtBuilderService {
       (currentEl as PptTableElementModel).defaultCellHeight = newEl.defaultCellHeight;
       (currentEl as PptTableElementModel).defaultCellWidth = newEl.defaultCellWidth;
       (currentEl as PptTableElementModel).onDataChange.next();
-    } else if (newEl instanceof PptBaseChartElementModel) {
-      (currentEl as PptBaseChartElementModel).dataModal = newEl.dataModal;
-      (currentEl as PptBaseChartElementModel).onDataChange.next();
     }
 
     this.setActiveElement(currentEl);
