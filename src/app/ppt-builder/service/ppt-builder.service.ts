@@ -205,13 +205,11 @@ export class PPtBuilderService {
   activeSlideNo: number = 1;
 
   startSlide() {
-    debugger;
     this.activeSlide = this.slideList[0];
     this.setActiveSlide(this.activeSlide);
     $('.element-list-container').addClass('slide-active');
 
     this._setIntervalHandler = setInterval(() => {
-      debugger;
       this.setActiveSlide(this.activeSlide);
 
       $('.element-list-container').addClass('slide-active');
