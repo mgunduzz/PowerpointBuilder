@@ -1,21 +1,21 @@
-import { BaseElementFormatModel } from '.';
-import { EventEmitter } from 'events';
-import {
-  BaseFormatInputModel,
-  ShapeTypeEnum,
-  BarChartFormatModel,
-  ColumnChartFormatModel,
-  TextFormatModel,
-  FormatColorPickerInputModel,
-  PPtFormatInputsEnum,
-  PPtElementFormatInputTypeEnum,
-  FormatNumberInputModel,
-  TableFormatModel,
-  LineChartFormatModel,
-  ShapeFormatModel
-} from './element-format-model';
 import { Subject } from 'rxjs';
 import * as _ from 'underscore';
+import { BaseElementFormatModel } from '.';
+import {
+  BarChartFormatModel,
+  BaseFormatInputModel,
+  ColumnChartFormatModel,
+  FormatColorPickerInputModel,
+  FormatNumberInputModel,
+  LineChartFormatModel,
+  PPtElementFormatInputTypeEnum,
+  PPtFormatInputsEnum,
+  ShapeFormatModel,
+  ShapeTypeEnum,
+  TableFormatModel,
+  TextFormatModel
+} from './element-format-model';
+import { ShellPage } from '../../../../e2e/src/page-objects/shell.po';
 
 export enum PPtElementEnum {
   Table = 1,
@@ -963,16 +963,43 @@ export class PptShapeElementModel extends PptElementModel {
 
   generatePptxItem(pptx: any, slide: any) {
     super.generatePptxItem(pptx, slide);
-
     let pptxShapeItem: any = {};
     pptxShapeItem.Options = this.options;
-
     let shapeFormat = (this.format as ShapeFormatModel).formatInputs;
+    pptxShapeItem.Options.line = shapeFormat.color.value.replace('#', '');
+    let selectedLineStyleId = shapeFormat.lineStyle.selectedItemKey;
+    let selectedlineStyle = shapeFormat.lineStyle.value.find(o => o.key == selectedLineStyleId);
+    if (selectedlineStyle.value == 'Dashed') {
+      pptxShapeItem.Options.lineDash = 'sysDash';
+    }
+    pptxShapeItem.Options.lineSize = shapeFormat.lineSize.value;
+    pptxShapeItem.Options.rotate = shapeFormat.rotate.value;
+    if (this.shapeType == ShapeTypeEnum.line) {
+      pptxShapeItem.Options;
+      slide.addShape(pptx.shapes.LINE, pptxShapeItem.Options);
+    } else if (this.shapeType == ShapeTypeEnum.square) {
+      slide.addShape(pptx.shapes.RECTANGLE, pptxShapeItem.Options);
+    }
+    let selectedArrowDirection = shapeFormat.arrowDirection.value.find(
+      o => o.key == shapeFormat.arrowDirection.selectedItemKey
+    );
 
-    pptxShapeItem.Options.fill = shapeFormat.color.value.replace('#', '');
-
-    if (this.shapeType == ShapeTypeEnum.line) slide.addShape(pptx.shapes.LINE, pptxShapeItem.Options);
-    else if (this.shapeType == ShapeTypeEnum.square) slide.addShape(pptx.shapes.RECTANGLE, pptxShapeItem.Options);
+    switch (selectedArrowDirection.key) {
+      case 1:
+        pptxShapeItem.Options.lineHead = 'arrow';
+        break;
+      case 2:
+        pptxShapeItem.Options.lineTail = 'arrow';
+        break;
+      case 3:
+        pptxShapeItem.Options.lineHead = 'arrow';
+        pptxShapeItem.Options.lineTail = 'arrow';
+        break;
+      case 4:
+        pptxShapeItem.Options.lineHead = 'none';
+        pptxShapeItem.Options.lineTail = 'none';
+        break;
+    }
   }
 }
 

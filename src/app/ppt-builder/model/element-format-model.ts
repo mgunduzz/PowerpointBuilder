@@ -715,7 +715,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     textAlignList.push({
       disabled: false,
       icon: 'fas fa-align-left',
-      isText: true,
+      isText: false,
       value: 'Sol',
       key: 1,
       selected: true,
@@ -724,7 +724,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     textAlignList.push({
       disabled: false,
       icon: 'fas fa-align-center',
-      isText: true,
+      isText: false,
       value: 'Orta',
       key: 2,
       selected: false,

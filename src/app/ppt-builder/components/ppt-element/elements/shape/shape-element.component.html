@@ -20,7 +20,11 @@
       </span>
     </div>
 </div> -->
-<div *ngIf="element.shapeType == shapeType.line" [style.transform]="'rotate(' + element.rotate + 'deg)'">
+<div
+  *ngIf="element.shapeType == shapeType.line"
+  style="height: auto !important;"
+  [style.transform]="'rotate(' + element.rotate + 'deg)'"
+>
   <span
     *ngIf="element.isShowText"
     style="position: absolute; width: 100%;padding-left: 5px;padding-right: 5px;"
