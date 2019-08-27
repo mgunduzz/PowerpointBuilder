@@ -10,7 +10,7 @@
   [ngClass]="{ active: element.isActive && isContainerActive, 'text-active': element.type == elementTypes.TEXT }"
   [cdkDragDisabled]="!dragDropStatus"
   (mouseover)="isContainerActive = true"
-  (mousedown)="elementMouseDown($event)"
+  (mousedown)="elementMouseDown($event); $event.stopPropagation()"
   [style.width]="element.format.formatInputs.width.value + 'px'"
   [style.height]="element.format.formatInputs.height.value + 'px'"
   [style.rotate]="element.format.formatInputs.rotate.value + 'deg'"

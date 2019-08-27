@@ -98,7 +98,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onMainContainerClick() {
+  onMainContainerClick(ev: MouseEvent) {
     this._pPtBuilderService.setActiveElement(undefined);
     this._pPtBuilderService.elementListAsync.value.forEach(item => (item.isActive = false));
   }

@@ -130,6 +130,7 @@ export class PptElementModel implements IElement {
   stroke: string;
   tempZ: number = 0;
   isHovered?: boolean = false;
+  isCreatedByHistory?: boolean = false;
 }
 
 export class FormatChangeModel {

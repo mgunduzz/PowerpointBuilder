@@ -39,12 +39,10 @@ export class PptSlideList implements OnInit, OnDestroy {
 
   onSlideMouseMove(slide: SlideModel) {
     this.hoveredSlideId = slide.id;
-    console.log('move ' + this.hoveredSlideId);
   }
 
   onSlideMouseOver(slide: SlideModel) {
     this.hoveredSlideId = 0;
-    console.log('over ' + this.hoveredSlideId);
   }
 
   // @HostListener('document:keyup', ['$event'])

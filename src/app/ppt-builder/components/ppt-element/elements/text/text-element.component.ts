@@ -25,6 +25,7 @@ import {
 import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
+import { Subscription } from 'rxjs';
 declare var $: any;
 @Component({
   selector: 'ppt-text-element',
@@ -35,6 +36,7 @@ declare var $: any;
 export class TextElement implements OnInit, AfterViewInit, OnDestroy {
   showText: boolean = true;
   @Input('element') element: PptTextElementModel;
+  elFormatChangeSub: Subscription;
 
   @ViewChild('insideElement') insideElement: ElementRef;
   @HostListener('document:click', ['$event.target'])
@@ -52,7 +54,7 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.element.onFormatChange.subscribe(response => {
+    this.elFormatChangeSub = this.element.onFormatChange.subscribe(response => {
       response.forEach(res => {
         let textInput = res.formatInput as FormatTextInputModel;
         let dropdown = res.formatInput as FormatDropdownInputModel;
@@ -192,7 +194,10 @@ export class TextElement implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-  ngOnDestroy() {}
+
+  ngOnDestroy() {
+    this.elFormatChangeSub.unsubscribe();
+  }
 
   showEditableText() {
     this.showText = false;

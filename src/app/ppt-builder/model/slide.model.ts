@@ -8,17 +8,17 @@ export class SlideModel extends PptElementModel {
     super();
 
     this.elementList = new Array<PptElementModel>();
-    this.formatChangeHistory = new Array<SlideFormatChangeHistory>();
+    this.formatChangeHistory = new Array<SlideBaseElementChangeHistory>();
     this.format = new SlideFormatModel();
   }
 
   id: number = -1;
   previewImage?: string;
-  historyActiveIndex?: number = 0;
+  historyActiveIndex?: number = -1;
   pageNumber: number;
 
   elementList: Array<PptElementModel>;
-  formatChangeHistory?: Array<SlideFormatChangeHistory>;
+  formatChangeHistory?: Array<SlideBaseElementChangeHistory>;
   format: SlideFormatModel;
   backgroundColor: string;
 
@@ -48,15 +48,27 @@ export class SlideModel extends PptElementModel {
   }
 }
 
-export class SlideFormatChangeHistory {
-  /**
-   *
-   */
+export class SlideBaseElementChangeHistory {
+  constructor() {}
+
+  elementId: number;
+}
+
+export class ElementExistenceChangeHistory extends SlideBaseElementChangeHistory {
   constructor() {
+    super();
+  }
+
+  element: PptElementModel;
+  isDeleted: boolean = false;
+}
+
+export class ElementFormatChangeHistory extends SlideBaseElementChangeHistory {
+  constructor() {
+    super();
     this.inputs = new Array<FormatChangeInputModel>();
   }
 
-  elementId: number;
   inputs: Array<FormatChangeInputModel>;
 }
 
