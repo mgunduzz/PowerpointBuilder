@@ -17,6 +17,7 @@ import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 import { PptFormatCompontent } from '@app/ppt-builder/components/ppt-format/ppt-format.component';
+import { Subscription } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -27,7 +28,7 @@ declare var $: any;
 })
 export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
   @Input('element') element: PptShapeElementModel;
-
+  elFormatChangeSub: Subscription;
   shapeType: any = {};
   borderSettings: string;
   isDashed: boolean = false;
@@ -66,7 +67,7 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
     this.shapeType.line = ShapeTypeEnum.line;
     this.shapeType.square = ShapeTypeEnum.square;
 
-    this.element.onFormatChange.subscribe(response => {
+    this.elFormatChangeSub = this.element.onFormatChange.subscribe(response => {
       let selectedItem: any = {};
       response.forEach((resItem: any) => {
         let res = resItem.formatInput;
@@ -387,5 +388,7 @@ export class ShapeElement implements OnInit, OnDestroy, AfterViewInit {
       this.crateArrow();
     }
   }
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.elFormatChangeSub.unsubscribe();
+  }
 }
