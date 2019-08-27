@@ -450,7 +450,7 @@
     </div>
   </div>
 
-  <div class="ppt-format-container full-screen-close" (click)="$event.stopPropagation()">
+  <div class="ppt-format-container full-screen-close" (mousedown)="$event.stopPropagation()">
     <div class="tabs">
       <div class="tab" [ngClass]="{ active: activeTab == 0 }" (click)="activeTab = 0">
         {{ 'MAIN.Style' | translate }}
