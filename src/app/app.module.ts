@@ -27,7 +27,6 @@ import { PptBuilderModule } from './ppt-builder/ppt-builder.module';
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
     HttpClientModule,
-    TranslateModule.forRoot(),
     NgbModule,
     CoreModule,
     SharedModule,
@@ -38,7 +37,8 @@ import { PptBuilderModule } from './ppt-builder/ppt-builder.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     AngularFontAwesomeModule,
-    PptBuilderModule
+    PptBuilderModule,
+    TranslateModule.forRoot()
   ],
   declarations: [AppComponent],
   providers: [],

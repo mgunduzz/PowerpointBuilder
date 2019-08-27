@@ -1,27 +1,27 @@
 <div class="tools-container full-screen-close">
   <div class="tools-box" (click)="createTextElemet()">
     <i class="fas fa-text-width tools-icon"></i>
-    <small class="tools-box-text">Text</small>
+    <small class="tools-box-text">{{ 'MAIN.Text' | translate }}</small>
   </div>
   <div class="tools-box" (click)="openModal(imageContent)">
     <i class="far fa-image tools-icon"></i>
-    <small class="tools-box-text">Image</small>
+    <small class="tools-box-text">{{ 'MAIN.Image' | translate }}</small>
   </div>
   <div class="tools-box" (click)="openModal(shapeContent, '', 'lg')">
     <i class="fas fa-shapes tools-icon"></i>
-    <small class="tools-box-text">Shape</small>
+    <small class="tools-box-text">{{ 'MAIN.Shape' | translate }}</small>
   </div>
   <div class="tools-box" (click)="openModal(tableContent, 'table-modal')">
     <i class="fas fa-table tools-icon"></i>
-    <small class="tools-box-text">Table</small>
+    <small class="tools-box-text">{{ 'MAIN.Table' | translate }}</small>
   </div>
   <div class="tools-box" (click)="openModal(content)">
     <i class="far fa-chart-bar tools-icon"></i>
-    <small class="tools-box-text">Chart</small>
+    <small class="tools-box-text">{{ 'MAIN.Chart' | translate }}</small>
   </div>
   <div class="btn position-right" (click)="toggleFullscreen()">
     <i class="fas fa-play"></i>
-    <span class="button-text">PLAY</span>
+    <span class="button-text">{{ 'MAIN.Play' | translate }}</span>
   </div>
   <!-- <div class="tools-box">
     <i class="fas fa-film tools-icon"></i>
@@ -107,21 +107,27 @@
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/004-analysis-3.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Clustered Column</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Clustered Column' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedColumn)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/013-bar-chart-3.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Stacked Column</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Stacked Column' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedColumn100)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/3.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>100% Stacked Column</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.100% Stacked Column' | translate }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -133,21 +139,27 @@
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/012-bar-chart-2.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Clustered Bar</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Clustered Bar' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedBar)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/010-charts-14.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Stacked Bar</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Stacked Bar' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedBar100)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/010-charts-14.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>100% Stacked Bar</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.100% Stacked Bar' | translate }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -159,42 +171,54 @@
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/026-line-graph-1.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Line</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Line' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedLine)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/026-line-graph-1.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Stacked Line</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Stacked Line' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedLine100)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/026-line-graph-1.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>100% Stacked Line</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.100% Stacked Line' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.MarkedLine)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/027-line-graph-2.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Marked Line</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Marked Line' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedMarkedLine)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/027-line-graph-2.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Stacked Marked Line</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Stacked Marked Line' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedMarkedLine100)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/027-line-graph-2.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>100% Stacked Marked Line</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.100% Stacked Marked Line' | translate }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -206,35 +230,45 @@
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Marked Scatter</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Marked Scatter' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.SmoothMarkedScatter)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Smooth Marked Scatter</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Smooth Marked Scatter' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.SmoothLinedScatter)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Smooth Lined Scatter</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Smooth Lined Scatter' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StraightMarkedScatter)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Straight Marked Scatter</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Straight Marked Scatter' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StraightLinedScatter)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/029-line-graph-4.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Straight Lined Scatter</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Straight Lined Scatter' | translate }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -246,14 +280,18 @@
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/031-pie-chart-1.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Pie</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Pie' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.ExplodedPie)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/032-pie-chart-2.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Exploded Pie</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Exploded Pie' | translate }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -265,21 +303,27 @@
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/003-analysis-2.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Area</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Area' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedArea)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/003-analysis-2.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Stacked Area</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Stacked Area' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.StackedArea100)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/003-analysis-2.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>100% Stacked Area</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.100% Stacked Area' | translate }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -291,14 +335,18 @@
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/016-circular-chart-1.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Doughnut</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Doughnut' | translate }}</span>
+            </div>
           </div>
 
           <div class="sub-type" (click)="onAddChart(chartType.ExplodedDoughnut)">
             <div class="sub-type-image-div">
               <img src="../../../../assets/icons/016-circular-chart-1.png" class="sub-type-image" />
             </div>
-            <div class="sub-type-text"><span>Exploded Doughnut</span></div>
+            <div class="sub-type-text">
+              <span>{{ 'MAIN.Exploded Doughnut' | translate }}</span>
+            </div>
           </div>
           <!-- 
           <div class="sub-type" (click)="onAddChart(chartType.Bubble)">
@@ -340,7 +388,7 @@
 
 <ng-template #shapeContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Shape</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'MAIN.Shape' | translate }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -349,11 +397,11 @@
     <div class="sub-type-list">
       <div class="sub-type" (click)="onAddShape(shapeType.line)">
         <i class="fas fa-arrows-alt-h"></i>
-        <span class="sub-type-text sub-type-image"> Düz Çizgi </span>
+        <span class="sub-type-text sub-type-image"> {{ 'MAIN.Straight Line' | translate }} </span>
       </div>
       <div class="sub-type" (click)="onAddShape(shapeType.square)">
         <i class="far fa-square"></i>
-        <span class="sub-type-text sub-type-image"> Kare </span>
+        <span class="sub-type-text sub-type-image"> {{ 'MAIN.Square' | translate }} </span>
       </div>
     </div>
   </div>
@@ -371,7 +419,7 @@
       class="dragdrop-upload-area"
     >
       <div><i class="far fa-images drop-icon"></i></div>
-      <div>Drag and Drop</div>
+      <div>{{ 'MAIN.Drag and Drop' | translate }}</div>
       <div>
         <input
           class="drag-drop-input"
@@ -405,7 +453,7 @@
   <div class="ppt-format-container full-screen-close" (click)="$event.stopPropagation()">
     <div class="tabs">
       <div class="tab" [ngClass]="{ active: activeTab == 0 }" (click)="activeTab = 0">
-        STYLE
+        {{ 'MAIN.Style' | translate }}
       </div>
       <div
         class="tab"
@@ -413,11 +461,11 @@
         (click)="activeTab = 1"
         *ngIf="isElementHasData && activeElement"
       >
-        DATA
+        {{ 'MAIN.Data' | translate }}
       </div>
 
       <div class="tab" [ngClass]="{ active: activeTab == 2 }" (click)="activeTab = 2" *ngIf="activeElement">
-        TEMPLATE
+        {{ 'MAIN.Template' | translate }}
       </div>
     </div>
 
@@ -440,14 +488,14 @@
               class="btn btn-outline-secondary"
               (click)="onSaveAsTemplate(templateName)"
             >
-              Şablon Olarak Kaydet
+              {{ 'MAIN.save as template' | translate }}
             </button>
           </div>
 
           <div style="margin-top: 10px;" *ngIf="activeElementTemplates.length > 0">
             <div ngbDropdown class="d-inline-block btn btn-outline-secondary" [autoClose]="true">
               <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>
-                Şablonlar
+                {{ 'MAIN.Templates' | translate }}
               </button>
               <div ngbDropdownMenu aria-labelledby="dropDownInput">
                 <button
