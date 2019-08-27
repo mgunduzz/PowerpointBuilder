@@ -1,22 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService, CredentialsService, I18nService } from '@app/core';
 import { NgbModalRef, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
 import { PPtBuilderService } from '@app/ppt-builder/service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   menuHidden = true;
   modalRef: NgbModalRef;
   closeResult: string;
   URL: any;
   uploader: FileUploader = new FileUploader({ url: this.URL });
+  undoRedoSub: Subscription;
 
   public hasBaseDropZoneOver: boolean = false;
   public hasAnotherDropZoneOver: boolean = false;
@@ -28,24 +30,38 @@ export class HeaderComponent implements OnInit {
   public fileOverAnother(e: any): void {
     this.hasAnotherDropZoneOver = e;
   }
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
     private credentialsService: CredentialsService,
     private i18nService: I18nService,
     private modalService: NgbModal,
-    private pptBuilderService: PPtBuilderService,
     private _pptBuilderService: PPtBuilderService
   ) {}
 
-  ngOnInit() {}
+  canUndo: boolean = false;
+  canRedo: boolean = false;
+
+  ngOnInit() {
+    this.undoRedoSub = this._pptBuilderService.undoRedoIndexSubscription.subscribe(index => {
+      if (index) {
+        this.canUndo = index > 0;
+        this.canRedo = index < this._pptBuilderService.activeSlide.formatChangeHistory.length - 1;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.undoRedoSub.unsubscribe();
+  }
 
   undoChanges() {
-    this.pptBuilderService.undoActiveSlideFormatChange();
+    this._pptBuilderService.undoActiveSlideFormatChange();
   }
 
   redoChanges() {
-    this.pptBuilderService.redoActiveSlideFormatChange();
+    this._pptBuilderService.redoActiveSlideFormatChange();
   }
 
   toggleMenu() {
@@ -94,7 +110,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onExport() {
-    this.pptBuilderService.export();
+    this._pptBuilderService.export();
   }
 
   private getDismissReason(reason: any): string {

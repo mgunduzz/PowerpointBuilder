@@ -555,6 +555,7 @@ export class TextFormatModel extends BaseElementFormatModel {
     this.formatInputs.textIndent = textIndent;
     this.formatInputs.firstLineIndent = firstLineIndent;
     this.formatInputs.lineStyle = listStyle;
+    this.formatInputs.width.value = 290;
   }
 }
 

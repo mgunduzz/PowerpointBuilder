@@ -436,7 +436,7 @@
 
 <div
   class="main-container"
-  (click)="onMainContainerClick()"
+  (mousedown)="onMainContainerClick($event)"
   [ngStyle]="{ height: isFullScreen ? '100vh' : '90vh' }"
   [ngClass]="{ 'pe-none': isFullScreen }"
 >

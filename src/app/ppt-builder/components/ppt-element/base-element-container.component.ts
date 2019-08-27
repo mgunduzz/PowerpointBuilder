@@ -28,6 +28,7 @@ import {
 } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
+import { Subscription } from 'rxjs';
 
 declare var $: any;
 
@@ -60,6 +61,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   elementBox: any;
   dotted: any;
   offset: any;
+  elFormatChangeSub: Subscription;
 
   changeElementpPriority(isLevelUp: boolean) {
     let data: { isLevelUp: boolean; id: number; zIndex: number } = { isLevelUp: false, id: 0, zIndex: 0 };
@@ -89,9 +91,8 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         this.changeItemActive(true);
       }
 
-    this.element.onFormatChange.subscribe(res => {
+    this.elFormatChangeSub = this.element.onFormatChange.subscribe(res => {
       let historyInputs = Array<BaseFormatInputModel>();
-
       if (res)
         res.forEach(item => {
           if (item.updateComponent) {
@@ -107,7 +108,22 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
         this.pPtBuilderService.setFormatInputChangeToActiveSlideHistory(this.element.id, historyInputs);
     });
 
-    let _this = this;
+    let initFormats: FormatChangeModel[] = [];
+
+    for (const key in this.element.format.formatInputs) {
+      if (this.element.format.formatInputs.hasOwnProperty(key)) {
+        const inp = this.element.format.formatInputs[key];
+
+        let newFChange = new FormatChangeModel();
+        newFChange.addToHistory = true;
+        newFChange.updateComponent = false;
+        newFChange.formatInput = inp;
+
+        initFormats.push(newFChange);
+      }
+    }
+
+    if (!this.element.isCreatedByHistory) this.element.onFormatChange.next(initFormats);
   }
 
   changeItemActive(active: boolean) {
@@ -241,6 +257,16 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
             formatInput: _this.element.format.formatInputs.height,
             updateComponent: false,
             addToHistory: true
+          },
+          {
+            formatInput: _this.element.format.formatInputs.x,
+            updateComponent: false,
+            addToHistory: true
+          },
+          {
+            formatInput: _this.element.format.formatInputs.y,
+            updateComponent: false,
+            addToHistory: true
           }
         ]);
 
@@ -361,6 +387,16 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
           formatInput: this.element.format.formatInputs.y,
           updateComponent: false,
           addToHistory: true
+        },
+        {
+          formatInput: this.element.format.formatInputs.width,
+          updateComponent: false,
+          addToHistory: true
+        },
+        {
+          formatInput: this.element.format.formatInputs.height,
+          updateComponent: false,
+          addToHistory: true
         }
       ]);
     }
@@ -417,6 +453,7 @@ export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
+    this.elFormatChangeSub.unsubscribe();
     setTimeout(() => {
       this.pPtBuilderService.setSlidePreview();
     }, 1000);

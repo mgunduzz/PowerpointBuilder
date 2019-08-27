@@ -22,7 +22,7 @@ import {
   PieChartFormatModel,
   DoughnutChartFormatModel,
   FormatChangeModel,
-  SlideFormatChangeHistory,
+  SlideBaseElementChangeHistory,
   FormatChangeInputModel,
   PptDefaultChartElementModel,
   AnalyseApiDataModel,
@@ -31,7 +31,10 @@ import {
   PptAreaChartElementModel,
   TableCellModel,
   PptPieChartElementModel,
-  PPtFormatInputsEnum
+  PPtFormatInputsEnum,
+  ElementFormatChangeHistory as SlideElementFormatChangeHistory,
+  ElementExistenceChangeHistory,
+  ElementFormatChangeHistory
 } from '../model';
 import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
 declare var $: any;
@@ -70,6 +73,7 @@ export class PPtBuilderService {
   public jsonTemplateList: any[] = [];
 
   public activeElementTemplatesSubscription = new BehaviorSubject<Array<any>>(undefined);
+  public undoRedoIndexSubscription = new BehaviorSubject<number>(undefined);
 
   setSlidePreview() {
     if (this.isPreviewActive) {
@@ -93,9 +97,32 @@ export class PPtBuilderService {
   setFormatInputChangeToActiveSlideHistory(elementId: number, formatInputs: Array<BaseFormatInputModel>) {
     if (formatInputs.length == 0) return false;
 
+    let historyFormatInputs = formatInputs.map(item => {
+      return { inputId: item.inputId, value: (item as any).value } as FormatChangeInputModel;
+    });
+
+    let formatChangeHistory = new SlideElementFormatChangeHistory();
+    formatChangeHistory.elementId = elementId;
+    formatChangeHistory.inputs = historyFormatInputs;
+
+    this.setElementChangeHistory(elementId, formatChangeHistory);
+  }
+
+  setElementExistenceChangeHistory(el: PptElementModel, isDeleted: boolean = false) {
+    if (el) {
+      let elExistenceChangeHistory = new ElementExistenceChangeHistory();
+      elExistenceChangeHistory.element = el;
+      elExistenceChangeHistory.elementId = el.id;
+      elExistenceChangeHistory.isDeleted = isDeleted;
+
+      this.setElementChangeHistory(el.id, elExistenceChangeHistory);
+    }
+  }
+
+  setElementChangeHistory(elementId: number, changeHistory: SlideBaseElementChangeHistory) {
     if (!this.activeSlide.formatChangeHistory) this.activeSlide.formatChangeHistory = [];
 
-    if (this.activeSlide.historyActiveIndex == undefined) this.activeSlide.historyActiveIndex = -1;
+    // if (this.activeSlide.historyActiveIndex == undefined) this.activeSlide.historyActiveIndex = -1;
 
     this.activeSlide.historyActiveIndex++;
 
@@ -104,29 +131,49 @@ export class PPtBuilderService {
       this.activeSlide.formatChangeHistory.length
     );
 
-    let historyFormatInputs = formatInputs.map(item => {
-      return { inputId: item.inputId, value: (item as any).value } as FormatChangeInputModel;
-    });
+    this.activeSlide.formatChangeHistory.push(changeHistory);
+    this.undoRedoIndexSubscription.next(this.activeSlide.historyActiveIndex);
 
-    this.activeSlide.formatChangeHistory.push({ elementId: elementId, inputs: historyFormatInputs });
+    let process: any = {
+      type: 'add',
+      index: this.activeSlide.historyActiveIndex,
+      count: this.activeSlide.formatChangeHistory.length,
+      ctor: changeHistory.constructor.name
+    };
 
-    console.log({ addIndex: this.activeSlide.historyActiveIndex });
-    console.log(
-      formatInputs
-        .map(item => {
-          return item.name + ' : ' + (item as any).value;
-        })
-        .join(',  ')
-    );
-    console.log('----');
+    if (changeHistory instanceof ElementFormatChangeHistory) {
+      let el = this.activeSlide.elementList.find(item => item.id == changeHistory.elementId);
+
+      changeHistory.inputs.forEach(item => {
+        for (const key in el.format.formatInputs) {
+          if (el.format.formatInputs.hasOwnProperty(key)) {
+            const inputt = el.format.formatInputs[key] as BaseFormatInputModel;
+            if (inputt.inputId == item.inputId) {
+              process[inputt.name] = (inputt as any).value;
+            }
+          }
+        }
+      });
+    } else if (changeHistory instanceof ElementExistenceChangeHistory) {
+      process['el-' + changeHistory.elementId] = changeHistory.isDeleted ? 'Deleted' : 'Added';
+    }
+
+    console.log(process);
   }
 
   undoActiveSlideFormatChange() {
     if (this.activeSlide.formatChangeHistory.length > 0 && this.activeSlide.historyActiveIndex > 0) {
-      this.activeSlide.historyActiveIndex--;
+      if (this.activeSlide.historyActiveIndex == this.activeSlide.formatChangeHistory.length - 1) {
+        if (
+          this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex] instanceof
+          ElementExistenceChangeHistory
+        ) {
+        } else this.activeSlide.historyActiveIndex--;
+      } else this.activeSlide.historyActiveIndex--;
+
       let changeHistory = this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex];
 
-      this.undoRedoUpdate(changeHistory);
+      this.undoRedoUpdate(changeHistory, true);
     }
   }
 
@@ -135,40 +182,86 @@ export class PPtBuilderService {
       this.activeSlide.formatChangeHistory.length > 0 &&
       this.activeSlide.historyActiveIndex < this.activeSlide.formatChangeHistory.length - 1
     ) {
-      this.activeSlide.historyActiveIndex++;
+      // if (this.activeSlide.historyActiveIndex < this.activeSlide.formatChangeHistory.length - 1 && this.activeSlide.historyActiveIndex > 0)
+      if (this.activeSlide.historyActiveIndex == 0) {
+        if (
+          this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex] instanceof
+          ElementExistenceChangeHistory
+        ) {
+        } else this.activeSlide.historyActiveIndex++;
+      } else this.activeSlide.historyActiveIndex++;
 
       let changeHistory = this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex];
 
-      this.undoRedoUpdate(changeHistory);
+      this.undoRedoUpdate(changeHistory, false);
     }
   }
 
-  undoRedoUpdate(changeHistory: SlideFormatChangeHistory) {
-    let element = this.activeSlide.elementList.find(item => item.id == changeHistory.elementId);
+  undoRedoUpdate(changeHistory: SlideBaseElementChangeHistory, isUndo: boolean = true) {
+    let process: any = {
+      type: isUndo ? 'undo' : 'redo',
+      index: this.activeSlide.historyActiveIndex,
+      count: this.activeSlide.formatChangeHistory.length,
+      ctor: changeHistory.constructor.name
+    };
 
-    if (element) {
-      let changedFormats = Array<FormatChangeModel>();
+    if (changeHistory instanceof SlideElementFormatChangeHistory) {
+      let element = this.activeSlide.elementList.find(item => item.id == changeHistory.elementId);
 
-      changeHistory.inputs.forEach(input => {
-        let elFormatInput = Object.values(element.format.formatInputs).find(
-          item => item.inputId == input.inputId
-        ) as BaseFormatInputModel;
-        (elFormatInput as any).value = input.value;
+      if (element) {
+        let changedFormats = Array<FormatChangeModel>();
 
-        changedFormats.push({ updateComponent: true, formatInput: elFormatInput, addToHistory: false });
-      });
+        changeHistory.inputs.forEach(input => {
+          let elFormatInput = Object.values(element.format.formatInputs).find(
+            item => item.inputId == input.inputId
+          ) as BaseFormatInputModel;
+          (elFormatInput as any).value = input.value;
 
-      console.log({ index: this.activeSlide.historyActiveIndex });
-      console.log(
-        changedFormats
-          .map(item => {
-            return item.formatInput.name + ' : ' + (item.formatInput as any).value;
-          })
-          .join(',  ')
-      );
+          changedFormats.push({ updateComponent: true, formatInput: elFormatInput, addToHistory: false });
 
-      element.onFormatChange.next(changedFormats);
+          process[elFormatInput.name] = (elFormatInput as any).value;
+        });
+
+        element.onFormatChange.next(changedFormats);
+      }
+    } else if (changeHistory instanceof ElementExistenceChangeHistory) {
+      let el = changeHistory.element;
+
+      process['el-' + changeHistory.elementId] = changeHistory.isDeleted ? 'Deleted' : 'Added';
+
+      if (changeHistory.isDeleted) {
+        el.isCreatedByHistory = true;
+        this.addElement(el, false);
+      } else {
+        this.deleteElement(el.id, false);
+      }
+
+      if (isUndo) {
+        if (
+          !(
+            this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex - 1] instanceof
+            ElementExistenceChangeHistory
+          )
+        )
+          this.activeSlide.historyActiveIndex--;
+      } else {
+        if (
+          !(
+            this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex + 1] instanceof
+            ElementExistenceChangeHistory
+          )
+        )
+          this.activeSlide.historyActiveIndex++;
+      }
+
+      // this.activeSlide.historyActiveIndex += isUndo ? -1 : 1;
+
+      changeHistory.isDeleted = !changeHistory.isDeleted;
     }
+
+    this.undoRedoIndexSubscription.next(this.activeSlide.historyActiveIndex);
+    process.index = this.activeSlide.historyActiveIndex;
+    console.log(process);
   }
 
   addSlide() {
@@ -298,12 +391,12 @@ export class PPtBuilderService {
         break;
     }
 
-    this.addElement(el, false);
+    this.addElement(el);
 
     return el;
   }
 
-  addElement(el: PptElementModel, dontAddToSlide: boolean = false) {
+  addElement(el: PptElementModel, addHistory: boolean = true) {
     el.id = 1;
 
     if (this.activeSlide.elementList.length > 0)
@@ -314,6 +407,8 @@ export class PPtBuilderService {
 
     this.elementListAsync.next(activeSlideEls);
     this.setActiveElement(el);
+
+    if (addHistory) this.setElementExistenceChangeHistory(el, false);
   }
 
   squareShapeElementFormat(chartEl: PptShapeElementModel) {
@@ -478,12 +573,18 @@ export class PPtBuilderService {
     return textEl;
   }
 
-  deleteElement(id: number) {
-    this.pptElementDeleteSubscription.next(id);
-    this.elementListAsync.next(this.elementListAsync.value.filter(item => item.id !== id));
-    this.activeSlide.elementList = this.activeSlide.elementList.filter(item => item.id !== id);
+  deleteElement(id: number, addHistory: boolean = true) {
+    let el = this.activeSlide.elementList.find(o => o.id == id);
 
-    this.setActiveElement(undefined);
+    if (el) {
+      if (addHistory) this.setElementExistenceChangeHistory(el, true);
+
+      this.pptElementDeleteSubscription.next(id);
+      this.elementListAsync.next(this.elementListAsync.value.filter(item => item.id !== id));
+      this.activeSlide.elementList = this.activeSlide.elementList.filter(item => item.id !== id);
+
+      this.setActiveElement(undefined);
+    }
   }
 
   deleteSlide(slide: SlideModel) {
