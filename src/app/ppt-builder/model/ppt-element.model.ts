@@ -968,6 +968,7 @@ export class PptShapeElementModel extends PptElementModel {
     pptxShapeItem.Options = this.options;
     let shapeFormat = (this.format as ShapeFormatModel).formatInputs;
     pptxShapeItem.Options.line = shapeFormat.color.value.replace('#', '');
+    pptxShapeItem.Options.fill = shapeFormat.color.value.replace('#', '');
     let selectedLineStyleId = shapeFormat.lineStyle.selectedItemKey;
     let selectedlineStyle = shapeFormat.lineStyle.value.find(o => o.key == selectedLineStyleId);
     if (selectedlineStyle.value == 'Dashed') {
@@ -975,31 +976,54 @@ export class PptShapeElementModel extends PptElementModel {
     }
     pptxShapeItem.Options.lineSize = shapeFormat.lineSize.value;
     pptxShapeItem.Options.rotate = shapeFormat.rotate.value;
-    if (this.shapeType == ShapeTypeEnum.line) {
-      pptxShapeItem.Options;
-      slide.addShape(pptx.shapes.LINE, pptxShapeItem.Options);
-    } else if (this.shapeType == ShapeTypeEnum.square) {
-      slide.addShape(pptx.shapes.RECTANGLE, pptxShapeItem.Options);
-    }
+
     let selectedArrowDirection = shapeFormat.arrowDirection.value.find(
       o => o.key == shapeFormat.arrowDirection.selectedItemKey
     );
-
-    switch (selectedArrowDirection.key) {
-      case 1:
-        pptxShapeItem.Options.lineHead = 'arrow';
-        break;
-      case 2:
-        pptxShapeItem.Options.lineTail = 'arrow';
-        break;
-      case 3:
-        pptxShapeItem.Options.lineHead = 'arrow';
-        pptxShapeItem.Options.lineTail = 'arrow';
-        break;
-      case 4:
-        pptxShapeItem.Options.lineHead = 'none';
-        pptxShapeItem.Options.lineTail = 'none';
-        break;
+    if (shapeFormat.isLineArrow.value) {
+      switch (selectedArrowDirection.key) {
+        case 1:
+          pptxShapeItem.Options.lineHead = 'arrow';
+          break;
+        case 2:
+          pptxShapeItem.Options.lineTail = 'arrow';
+          break;
+        case 3:
+          pptxShapeItem.Options.lineHead = 'arrow';
+          pptxShapeItem.Options.lineTail = 'arrow';
+          break;
+        case 4:
+          pptxShapeItem.Options.lineHead = 'none';
+          pptxShapeItem.Options.lineTail = 'none';
+          break;
+      }
+    }
+    debugger;
+    if (this.shapeType == ShapeTypeEnum.line) {
+      pptxShapeItem.Options;
+      slide.addShape(pptx.shapes.LINE, pptxShapeItem.Options);
+      if (shapeFormat.isShowText) {
+        slide.addText(shapeFormat.text.value, {
+          x: pptxShapeItem.Options.x,
+          y: pptxShapeItem.Options.y - 0.25,
+          fontSize: shapeFormat.textFontSize.value,
+          color: shapeFormat.fontColor.value.replace('#', '')
+        });
+      }
+    } else if (this.shapeType == ShapeTypeEnum.square) {
+      debugger;
+      pptxShapeItem.Options;
+      if (shapeFormat.isShowText) {
+        slide.addText(shapeFormat.text.value, {
+          x: pptxShapeItem.Options.x,
+          y: pptxShapeItem.Options.y,
+          fontSize: shapeFormat.textFontSize.value,
+          color: shapeFormat.fontColor.value.replace('#', '')
+        });
+      }
+      if (shapeFormat.isStroke) pptxShapeItem.Options.line = shapeFormat.shapeBorderColor.value.replace('#', '');
+      slide.addShape(pptx.shapes.RECTANGLE, pptxShapeItem.Options);
+      // slide.addText(shape:pptx.shapes.LINE,);
     }
   }
 }

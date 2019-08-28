@@ -674,7 +674,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
 
     let shapeBorderSize: FormatNumberInputModel = {
       inputId: PPtFormatInputsEnum.shapeBorderSize,
-      name: 'Font Size',
+      name: 'Border Size',
       inputType: PPtElementFormatInputTypeEnum.number,
       max: 100,
       min: 0,
@@ -753,7 +753,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     textVerticalAlignList.push({
       disabled: false,
       icon: 'fas fa-align-left',
-      isText: true,
+      isText: false,
       value: 'Yukarıda',
       key: 1,
       selected: true,
@@ -762,7 +762,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     textVerticalAlignList.push({
       disabled: false,
       icon: 'fas fa-align-center',
-      isText: true,
+      isText: false,
       value: 'Ortada',
       key: 2,
       selected: false,
@@ -771,7 +771,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
     textVerticalAlignList.push({
       disabled: false,
       icon: 'fas fa-align-right',
-      isText: true,
+      isText: false,
       value: 'Aşağıda',
       key: 3,
       selected: false,

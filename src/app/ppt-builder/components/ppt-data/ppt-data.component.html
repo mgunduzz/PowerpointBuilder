@@ -1,6 +1,6 @@
 <div class="element-data" *ngIf="element">
   <div ngbDropdown class="d-inline-block button-grey" [autoClose]="true">
-    <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle>
+    <button class="btn button-dropdown" id="dropDownInput" ngbDropdownToggle translate>
       Data Source
       <span style="margin-left: 3px;font-size:12px;color: #979797;" *ngIf="selectedDataSource"
         >( {{ selectedDataSource.name }} )</span
@@ -79,5 +79,5 @@
     </div>
   </div>
 
-  <button (click)="onUpdateElementDataClick()" class="btn button-grey button-dropdown">Data Yükle</button>
+  <button (click)="onUpdateElementDataClick()" class="btn button-grey button-dropdown" translate>Upload Data</button>
 </div>
