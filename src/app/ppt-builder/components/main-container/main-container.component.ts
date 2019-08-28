@@ -1,21 +1,17 @@
 import { Component, OnInit, OnChanges, OnDestroy, Input, HostListener } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import {
-  PptElementModel,
-  PPtElementEnum,
-  ChartFormatModel,
-  BaseFormatInputModel,
-  ChartTypeEnum,
-  ShapeFormatModel,
-  ShapeTypeEnum,
-  PptTableElementModel,
-  PptShapeElementModel,
-  PptBaseChartElementModel
-} from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
 import { Subscription } from 'rxjs';
+import {
+  PptTableElementModel,
+  PptBaseChartElementModel,
+  PptBaseElementModel,
+  ChartTypeEnum,
+  PPtElementEnum
+} from '@app/ppt-builder/model';
+import { ShapeTypeEnum } from '@app/ppt-builder/model';
 declare var $: any;
 
 @Component({
@@ -48,7 +44,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
 
   URL: any;
   closeResult: string;
-  activeElement: PptElementModel = undefined;
+  activeElement: PptBaseElementModel = undefined;
   selectTab: number = 1;
   tableBox: Array<any>;
   uploader: FileUploader = new FileUploader({ url: this.URL });

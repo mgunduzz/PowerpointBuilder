@@ -9,23 +9,20 @@ import {
   ChangeDetectorRef,
   AfterViewInit
 } from '@angular/core';
-import {
-  PptElementModel,
-  PPtFormatInputsEnum,
-  FormatCheckboxInputModel,
-  PptTableElementModel,
-  PptTextElementModel,
-  FormatTextInputModel,
-  FormatNumberInputModel,
-  FormatDropdownInputModel,
-  FormatColorPickerInputModel,
-  FormatRadioButtonInputModel,
-  FormatChangeModel
-} from '@app/ppt-builder/model';
 import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 import { Subscription } from 'rxjs';
+import { PptTextElementModel, FormatChangeModel } from '@app/ppt-builder/model';
+import {
+  FormatTextInputModel,
+  FormatDropdownInputModel,
+  FormatCheckboxInputModel,
+  FormatNumberInputModel,
+  FormatColorPickerInputModel,
+  FormatRadioButtonInputModel,
+  PPtFormatInputsEnum
+} from '@app/ppt-builder/model';
 declare var $: any;
 @Component({
   selector: 'ppt-text-element',

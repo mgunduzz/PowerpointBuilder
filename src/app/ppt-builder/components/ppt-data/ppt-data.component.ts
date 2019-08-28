@@ -2,22 +2,16 @@ import { Component, OnInit, OnDestroy, Input, ElementRef, ChangeDetectorRef } fr
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
-import {
-  PPtElementEnum,
-  PptElementModel,
-  BaseFormatInputModel,
-  FormatCheckboxInputModel,
-  FormatChangeModel,
-  FormatInputsModel,
-  PptDefaultChartDataModel,
-  PptDefaultChartElementModel,
-  PptTableElementModel,
-  PptBaseChartElementModel,
-  PptPieChartElementModel
-} from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
 import { DndDropEvent } from 'ngx-drag-drop';
+import {
+  PptBaseElementModel,
+  PptDefaultChartElementModel,
+  PptTableElementModel,
+  PptPieChartElementModel,
+  PptBaseChartElementModel
+} from '@app/ppt-builder/model';
 
 @Component({
   selector: 'ppt-data',
@@ -25,7 +19,7 @@ import { DndDropEvent } from 'ngx-drag-drop';
   styleUrls: ['./ppt-data.component.scss']
 })
 export class PptDataCompontent implements OnInit, OnDestroy {
-  @Input('element') element: PptElementModel;
+  @Input('element') element: PptBaseElementModel;
   activeElSubscription: Subscription;
 
   dataSources: any[] = [];

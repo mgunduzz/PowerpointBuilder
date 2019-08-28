@@ -2,28 +2,25 @@ import { Component, OnInit, OnDestroy, Input, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
-import {
-  PPtElementEnum,
-  PptElementModel,
-  BaseFormatInputModel,
-  FormatCheckboxInputModel,
-  FormatChangeModel,
-  FormatInputsModel,
-  PptTableElementModel,
-  PptDefaultChartElementModel,
-  PptDefaultChartDataSetModel,
-  FormatColorPickerInputModel,
-  PPtFormatInputsEnum,
-  PPtElementFormatInputTypeEnum,
-  TableCellModel,
-  FormatNumberInputModel,
-  PptPieChartElementModel,
-  PptTextElementModel,
-  SlideModel,
-  ShapeTypeEnum
-} from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
+import {
+  PptBaseElementModel,
+  FormatChangeModel,
+  PptDefaultChartElementModel,
+  PptPieChartElementModel,
+  PptTextElementModel,
+  PptDefaultChartDataSetModel,
+  PptTableElementModel,
+  TableCellModel
+} from '@app/ppt-builder/model';
+import {
+  SlideModel,
+  BaseFormatInputModel,
+  ShapeTypeEnum,
+  FormatColorPickerInputModel,
+  FormatNumberInputModel
+} from '@app/ppt-builder/model';
 
 @Component({
   selector: 'ppt-format',
@@ -31,7 +28,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./ppt-format.component.scss']
 })
 export class PptFormatCompontent implements OnInit, OnDestroy {
-  @Input('element') element: PptElementModel;
+  @Input('element') element: PptBaseElementModel;
 
   activeSlide: SlideModel;
 
@@ -74,7 +71,7 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     this.shapeTypes.square = ShapeTypeEnum.square;
   }
 
-  onInputValuechange(formatInput: BaseFormatInputModel, isInit: boolean = false, el: PptElementModel) {
+  onInputValuechange(formatInput: BaseFormatInputModel, isInit: boolean = false, el: PptBaseElementModel) {
     let changeModel = new FormatChangeModel();
     changeModel.formatInput = formatInput;
     changeModel.updateComponent = true;

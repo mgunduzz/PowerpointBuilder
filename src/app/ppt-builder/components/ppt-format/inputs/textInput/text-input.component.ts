@@ -2,13 +2,7 @@ import { Component, OnInit, OnDestroy, Input, ElementRef, Output, EventEmitter }
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
-import {
-  PPtElementEnum,
-  PptElementModel,
-  BaseFormatInputModel,
-  FormatCheckboxInputModel,
-  FormatTextInputModel
-} from '@app/ppt-builder/model';
+import { BaseFormatInputModel, FormatCheckboxInputModel, FormatTextInputModel } from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
 

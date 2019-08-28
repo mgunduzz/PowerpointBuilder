@@ -1,52 +1,52 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+
 import {
-  ChartFormatModel,
+  AnalyseApiDataModel,
+  BarChartFormatModel,
   BaseFormatInputModel,
-  PptElementModel,
-  PPtElementEnum,
-  LoadElementModel,
-  PptTableElementModel,
-  TableFormatModel,
-  PptTextElementModel,
-  TextFormatModel,
-  PptImageElementModel,
-  ImageFormatModel,
+  ChartFormatModel,
   ChartTypeEnum,
+  ColumnChartFormatModel,
+  DoughnutChartFormatModel,
+  ElementExistenceChangeHistory,
+  ElementFormatChangeHistory,
+  FormatChangeInputModel,
+  FormatChangeModel,
+  ImageFormatModel,
+  LineChartFormatModel,
+  PieChartFormatModel,
+  PptAreaChartElementModel,
   PptBaseChartElementModel,
+  PptDefaultChartElementModel,
+  PPtElementEnum,
+  PptBaseElementModel,
+  PPtFormatInputsEnum,
+  PptImageElementModel,
+  PptPieChartElementModel,
+  PptScatterChartElementModel,
   PptShapeElementModel,
+  PptTableElementModel,
+  PptTextElementModel,
   ShapeFormatModel,
   ShapeTypeEnum,
-  SlideModel,
-  ColumnChartFormatModel,
-  BarChartFormatModel,
-  PieChartFormatModel,
-  DoughnutChartFormatModel,
-  FormatChangeModel,
   SlideBaseElementChangeHistory,
-  FormatChangeInputModel,
-  PptDefaultChartElementModel,
-  AnalyseApiDataModel,
-  LineChartFormatModel,
-  PptScatterChartElementModel,
-  PptAreaChartElementModel,
-  TableCellModel,
-  PptPieChartElementModel,
-  PPtFormatInputsEnum,
-  ElementFormatChangeHistory as SlideElementFormatChangeHistory,
-  ElementExistenceChangeHistory,
-  ElementFormatChangeHistory
+  SlideModel,
+  TextFormatModel
 } from '../model';
-import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
-declare var $: any;
-import { saveAs } from 'file-saver';
+
 // import * as html2canvas from 'html2canvas';
-import html2canvas from 'html2canvas';
+
+declare var $: any;
+
 var FileSaver = require('file-saver');
 var stringify = require('json-stringify-safe');
 
 @Injectable()
 export class PPtBuilderService {
-  elementListAsync: BehaviorSubject<PptElementModel[]> = new BehaviorSubject<Array<PptElementModel>>(undefined);
+  elementListAsync: BehaviorSubject<PptBaseElementModel[]> = new BehaviorSubject<Array<PptBaseElementModel>>(undefined);
 
   constructor() {
     this.activeSlide = new SlideModel();
@@ -61,12 +61,12 @@ export class PPtBuilderService {
 
   public pptElementDeleteSubscription: BehaviorSubject<number> = new BehaviorSubject<number>(undefined);
 
-  public activeElementSubscription = new BehaviorSubject<PptElementModel>(undefined);
+  public activeElementSubscription = new BehaviorSubject<PptBaseElementModel>(undefined);
   public activeSlideSubscription = new BehaviorSubject<SlideModel>(undefined);
   public slideListSubscription = new BehaviorSubject<SlideModel[]>(undefined);
   public slideList: SlideModel[] = [];
   public activeSlide: SlideModel;
-  public activeElement: PptElementModel;
+  public activeElement: PptBaseElementModel;
 
   private isPreviewActive: boolean = true;
 
@@ -101,14 +101,14 @@ export class PPtBuilderService {
       return { inputId: item.inputId, value: (item as any).value } as FormatChangeInputModel;
     });
 
-    let formatChangeHistory = new SlideElementFormatChangeHistory();
+    let formatChangeHistory = new ElementFormatChangeHistory();
     formatChangeHistory.elementId = elementId;
     formatChangeHistory.inputs = historyFormatInputs;
 
     this.setElementChangeHistory(elementId, formatChangeHistory);
   }
 
-  setElementExistenceChangeHistory(el: PptElementModel, isDeleted: boolean = false) {
+  setElementExistenceChangeHistory(el: PptBaseElementModel, isDeleted: boolean = false) {
     if (el) {
       let elExistenceChangeHistory = new ElementExistenceChangeHistory();
       elExistenceChangeHistory.element = el;
@@ -205,7 +205,7 @@ export class PPtBuilderService {
       ctor: changeHistory.constructor.name
     };
 
-    if (changeHistory instanceof SlideElementFormatChangeHistory) {
+    if (changeHistory instanceof ElementFormatChangeHistory) {
       let element = this.activeSlide.elementList.find(item => item.id == changeHistory.elementId);
 
       if (element) {
@@ -352,7 +352,7 @@ export class PPtBuilderService {
     this.slideListSubscription.next(this.slideList);
   }
 
-  setActiveElement(item: PptElementModel) {
+  setActiveElement(item: PptBaseElementModel) {
     let elId = 0;
 
     if (item) {
@@ -365,8 +365,8 @@ export class PPtBuilderService {
     this.elementListAsync.value.forEach(el => (el.isActive = el.id == elId));
   }
 
-  generateElement(elType: PPtElementEnum, options: any): PptElementModel {
-    let el: PptElementModel = new PptElementModel();
+  generateElement(elType: PPtElementEnum, options: any): PptBaseElementModel {
+    let el: PptBaseElementModel = new PptBaseElementModel();
     el.format.formatInputs.x.value = options.x;
     el.format.formatInputs.y.value = options.y;
 
@@ -396,7 +396,7 @@ export class PPtBuilderService {
     return el;
   }
 
-  addElement(el: PptElementModel, addHistory: boolean = true) {
+  addElement(el: PptBaseElementModel, addHistory: boolean = true) {
     el.id = 1;
 
     if (this.activeSlide.elementList.length > 0)
@@ -433,7 +433,7 @@ export class PPtBuilderService {
     return chartEl;
   }
 
-  createShapeElement(el: PptElementModel, type: ShapeTypeEnum): PptElementModel {
+  createShapeElement(el: PptBaseElementModel, type: ShapeTypeEnum): PptBaseElementModel {
     var chartEl = new PptShapeElementModel();
     chartEl.format = new ShapeFormatModel(el.format);
     chartEl.name = 'Shape';
@@ -461,7 +461,7 @@ export class PPtBuilderService {
     clearTimeout(this._setTimeoutHandler);
     clearInterval(this._setIntervalHandler);
   }
-  createChartElement(el: PptElementModel, type: ChartTypeEnum): PptElementModel {
+  createChartElement(el: PptBaseElementModel, type: ChartTypeEnum): PptBaseElementModel {
     let chartEl = new PptBaseChartElementModel(el);
     chartEl.format = new ChartFormatModel();
 
@@ -523,7 +523,7 @@ export class PPtBuilderService {
     return chartEl;
   }
 
-  createTableElement(el: PptElementModel, row: number, col: number): PptTableElementModel {
+  createTableElement(el: PptBaseElementModel, row: number, col: number): PptTableElementModel {
     var tableEl = new PptTableElementModel(row, col);
 
     tableEl.name = 'Table';
@@ -536,7 +536,7 @@ export class PPtBuilderService {
     return tableEl;
   }
 
-  createImageElement(el: PptElementModel, url: string) {
+  createImageElement(el: PptBaseElementModel, url: string) {
     var imageEl = new PptImageElementModel();
     imageEl.format = new ImageFormatModel(el.format);
     imageEl.name = 'Image';
@@ -548,7 +548,7 @@ export class PPtBuilderService {
     return imageEl;
   }
 
-  createTextElement(el: PptElementModel, text: string) {
+  createTextElement(el: PptBaseElementModel, text: string) {
     var textEl = new PptTextElementModel();
     textEl.format = new TextFormatModel(el.format);
 
@@ -694,7 +694,7 @@ export class PPtBuilderService {
   setActiveElementTemplate(template: any) {
     let templateElJsonData = template.data;
 
-    let templateEl = JSON.parse(templateElJsonData) as PptElementModel;
+    let templateEl = JSON.parse(templateElJsonData) as PptBaseElementModel;
 
     let newEl = this.generateElementByElementModel(templateEl, true);
 
@@ -742,8 +742,8 @@ export class PPtBuilderService {
     this.setActiveElement(currentEl);
   }
 
-  generateElementByElementModel(el: PptElementModel, updateFormatInput: boolean = false) {
-    let newEl = new PptElementModel();
+  generateElementByElementModel(el: PptBaseElementModel, updateFormatInput: boolean = false) {
+    let newEl = new PptBaseElementModel();
 
     switch (el.type) {
       case PPtElementEnum.Text:
@@ -796,7 +796,7 @@ export class PPtBuilderService {
       let newSlide = new SlideModel();
       newSlide.import(slide);
 
-      slide.elementList.forEach((el: PptElementModel) => {
+      slide.elementList.forEach((el: PptBaseElementModel) => {
         let newEl = this.generateElementByElementModel(el);
 
         for (const key in el) {

@@ -8,10 +8,10 @@ import {
   AfterViewChecked,
   OnDestroy
 } from '@angular/core';
-import { PptImageElementModel, FormatChangeModel } from '@app/ppt-builder/model';
 declare var $: any;
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import { PptImageElementModel } from '@app/ppt-builder/model';
 
 @Component({
   selector: 'ppt-image-element',

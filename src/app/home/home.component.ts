@@ -4,7 +4,6 @@ import { finalize } from 'rxjs/operators';
 import { QuoteService } from './quote.service';
 import { moveItemInArray, transferArrayItem, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { PPtBuilderService } from '@app/ppt-builder/service/ppt-builder.service';
-import { PptElementModel } from '@app/ppt-builder/model';
 
 @Component({
   selector: 'app-home',
