@@ -282,13 +282,7 @@
         >
         </ppt-color-picker-input>
       </div> -->
-      <div class="row row-margin" *ngIf="element.format.formatInputs.fontColor">
-        <ppt-color-picker-input
-          [input]="element.format.formatInputs.fontColor"
-          (onValuechange)="onInputValuechange($event)"
-        >
-        </ppt-color-picker-input>
-      </div>
+
       <div class="row row-margin" *ngIf="element.format.formatInputs.backgroundColor">
         <ppt-color-picker-input
           [input]="element.format.formatInputs.backgroundColor"
@@ -425,6 +419,20 @@
 
       <div
         class="row row-margin"
+        style="display: flex;"
+        *ngIf="
+          element.format.formatInputs.textAlign && (isTextElement() || element.format.formatInputs.isShowText.value)
+        "
+      >
+        <ppt-radio-button-input
+          [input]="element.format.formatInputs.textAlign"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-radio-button-input>
+      </div>
+
+      <div
+        class="row row-margin"
         *ngIf="element.format.formatInputs.textFontSize && element.format.formatInputs.isShowText.value"
       >
         <ppt-number-input
@@ -437,6 +445,19 @@
       <div
         class="row row-margin"
         *ngIf="
+          element.format.formatInputs.fontColor && (isTextElement() || element.format.formatInputs.isShowText.value)
+        "
+      >
+        <ppt-color-picker-input
+          [input]="element.format.formatInputs.fontColor"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-color-picker-input>
+      </div>
+
+      <div
+        class="row row-margin"
+        *ngIf="
           element.format.formatInputs.text &&
           ((element.shapeType == shapeTypes.line || element.shapeType == shapeTypes.square) &&
             element.format.formatInputs.isShowText.value)
@@ -444,20 +465,6 @@
       >
         <ppt-text-input [input]="element.format.formatInputs.text" (onValuechange)="onInputValuechange($event)">
         </ppt-text-input>
-      </div>
-
-      <div
-        class="row row-margin"
-        style="display: flex;"
-        *ngIf="
-          element.format.formatInputs.textAlign && (isTextElement() || element.format.formatInputs.isShowText.value)
-        "
-      >
-        <ppt-radio-button-input
-          [input]="element.format.formatInputs.textAlign"
-          (onValuechange)="onInputValuechange($event)"
-        >
-        </ppt-radio-button-input>
       </div>
 
       <div
