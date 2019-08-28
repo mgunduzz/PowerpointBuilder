@@ -370,25 +370,6 @@
         <ppt-dropdown-input [input]="element.format.formatInputs.font" (onValuechange)="onInputValuechange($event)">
         </ppt-dropdown-input>
       </div>
-      <div
-        class="row row-margin"
-        style="display: flex;"
-        *ngIf="element.format.formatInputs.textVerticalAlign && element.shapeType == shapeTypes.square"
-      >
-        <ppt-radio-button-input
-          [input]="element.format.formatInputs.textVerticalAlign"
-          (onValuechange)="onInputValuechange($event)"
-        >
-        </ppt-radio-button-input>
-      </div>
-
-      <div class="row row-margin" style="display: flex;" *ngIf="element.format.formatInputs.textAlign">
-        <ppt-radio-button-input
-          [input]="element.format.formatInputs.textAlign"
-          (onValuechange)="onInputValuechange($event)"
-        >
-        </ppt-radio-button-input>
-      </div>
 
       <!-- shape -->
       <div class="row row-margin" *ngIf="element.format.formatInputs.rotate">
@@ -463,6 +444,36 @@
       >
         <ppt-text-input [input]="element.format.formatInputs.text" (onValuechange)="onInputValuechange($event)">
         </ppt-text-input>
+      </div>
+
+      <div
+        class="row row-margin"
+        style="display: flex;"
+        *ngIf="
+          element.format.formatInputs.textAlign && (isTextElement() || element.format.formatInputs.isShowText.value)
+        "
+      >
+        <ppt-radio-button-input
+          [input]="element.format.formatInputs.textAlign"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-radio-button-input>
+      </div>
+
+      <div
+        class="row row-margin"
+        style="display: flex;"
+        *ngIf="
+          element.format.formatInputs.textVerticalAlign &&
+          element.shapeType == shapeTypes.square &&
+          element.format.formatInputs.isShowText.value
+        "
+      >
+        <ppt-radio-button-input
+          [input]="element.format.formatInputs.textVerticalAlign"
+          (onValuechange)="onInputValuechange($event)"
+        >
+        </ppt-radio-button-input>
       </div>
 
       <div
