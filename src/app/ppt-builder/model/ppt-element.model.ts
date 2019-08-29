@@ -974,6 +974,8 @@ export class PptShapeElementModel extends PptElementModel {
     if (selectedlineStyle.value == 'Dashed') {
       pptxShapeItem.Options.lineDash = 'sysDash';
     }
+    let selectedTextAlign = shapeFormat.textAlign.value.find(f => f.selected).value;
+    let selectedTextVerticalAlign = shapeFormat.textVerticalAlign.value.find(f => f.selected).value;
     pptxShapeItem.Options.lineSize = shapeFormat.lineSize.value;
     pptxShapeItem.Options.rotate = shapeFormat.rotate.value;
 
@@ -998,11 +1000,8 @@ export class PptShapeElementModel extends PptElementModel {
           break;
       }
     }
-    debugger;
     if (this.shapeType == ShapeTypeEnum.line) {
-      pptxShapeItem.Options;
-      slide.addShape(pptx.shapes.LINE, pptxShapeItem.Options);
-      if (shapeFormat.isShowText) {
+      if (shapeFormat.isShowText.value) {
         slide.addText(shapeFormat.text.value, {
           x: pptxShapeItem.Options.x,
           y: pptxShapeItem.Options.y - 0.25,
@@ -1011,19 +1010,19 @@ export class PptShapeElementModel extends PptElementModel {
         });
       }
     } else if (this.shapeType == ShapeTypeEnum.square) {
-      debugger;
-      pptxShapeItem.Options;
-      if (shapeFormat.isShowText) {
-        slide.addText(shapeFormat.text.value, {
-          x: pptxShapeItem.Options.x,
-          y: pptxShapeItem.Options.y,
-          fontSize: shapeFormat.textFontSize.value,
-          color: shapeFormat.fontColor.value.replace('#', '')
-        });
+      if (shapeFormat.isShowText.value) {
+        pptxShapeItem.Options.shape = pptx.shapes.RECTANGLE;
+        pptxShapeItem.Options.fill = shapeFormat.color.value.replace('#', '');
+        pptxShapeItem.Options.color = shapeFormat.fontColor.value.replace('#', '');
+        pptxShapeItem.Options.fontSize = shapeFormat.textFontSize.value;
+        pptxShapeItem.Options.align = selectedTextAlign;
+        pptxShapeItem.Options.valign = selectedTextVerticalAlign;
+        pptxShapeItem.Options.lineSize = shapeFormat.lineSize.value;
+        if (selectedlineStyle.value == 'Dashed') {
+          pptxShapeItem.Options.lineDash = 'sysDash';
+        }
+        slide.addText(shapeFormat.text.value, pptxShapeItem.Options);
       }
-      if (shapeFormat.isStroke) pptxShapeItem.Options.line = shapeFormat.shapeBorderColor.value.replace('#', '');
-      slide.addShape(pptx.shapes.RECTANGLE, pptxShapeItem.Options);
-      // slide.addText(shape:pptx.shapes.LINE,);
     }
   }
 }

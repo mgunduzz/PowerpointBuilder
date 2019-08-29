@@ -717,7 +717,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       disabled: false,
       icon: 'fas fa-align-left',
       isText: false,
-      value: 'Sol',
+      value: 'l',
       key: 1,
       selected: true,
       tooltip: 'Sola Yasla'
@@ -726,7 +726,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       disabled: false,
       icon: 'fas fa-align-center',
       isText: false,
-      value: 'Orta',
+      value: 'c',
       key: 2,
       selected: false,
       tooltip: 'Ortala'
@@ -735,7 +735,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       disabled: false,
       icon: 'fas fa-align-right',
       isText: false,
-      value: 'Sağ',
+      value: 'r',
       key: 3,
       selected: false,
       tooltip: 'Sağa Yasla'
@@ -754,7 +754,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       disabled: false,
       icon: 'fas fa-align-left',
       isText: false,
-      value: 'Yukarıda',
+      value: 't',
       key: 1,
       selected: true,
       tooltip: 'Sola Yasla'
@@ -763,7 +763,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       disabled: false,
       icon: 'fas fa-align-center',
       isText: false,
-      value: 'Ortada',
+      value: 'c',
       key: 2,
       selected: false,
       tooltip: 'Ortala'
@@ -772,7 +772,7 @@ export class ShapeFormatModel extends BaseElementFormatModel {
       disabled: false,
       icon: 'fas fa-align-right',
       isText: false,
-      value: 'Aşağıda',
+      value: 'b',
       key: 3,
       selected: false,
       tooltip: 'Sağa Yasla'
