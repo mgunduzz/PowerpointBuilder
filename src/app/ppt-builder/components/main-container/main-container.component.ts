@@ -25,7 +25,7 @@ export class MainContainer implements OnInit, OnDestroy, OnChanges {
       if (el) {
         this.activeElement = el;
         this.isElementHasData = el instanceof PptTableElementModel || el instanceof PptBaseChartElementModel;
-        this._pPtBuilderService.updateActiveElementSubscription();
+        this._pPtBuilderService.updateActiveElementTemplates();
       } else {
         this.activeElement = undefined;
         this.activeElementTemplates = [];
