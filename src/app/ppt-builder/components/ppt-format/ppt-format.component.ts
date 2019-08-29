@@ -77,8 +77,6 @@ export class PptFormatCompontent implements OnInit, OnDestroy {
     changeModel.updateComponent = true;
     changeModel.addToHistory = !isInit;
 
-    debugger;
-
     if (!el) this.element.onFormatChange.next([changeModel]);
     else el.onFormatChange.next([changeModel]);
 

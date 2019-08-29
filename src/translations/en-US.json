@@ -105,5 +105,9 @@
   "Doughnut hole size": "Doughnut Hole Size",
   "Angle of first slice": "Angle of First Slice",
   "SmoothLine": "Smooth Line",
-  "Font": "Font"
+  "Font": "Font",
+  "Border Size": "Border Size",
+  "Value": "Value",
+  "Data Source": "Data Source",
+  "Upload Data": "Upload Data"
 }

@@ -79,7 +79,7 @@
   "Radius": "Yarıçap",
   "Italic": "Italic",
   "Bold": "Kalın",
-  "Stroke": "Kenarlık",
+  "Stroke": "Çerçeve",
   "Text Indent": "Metin Girintisi",
   "Text Align": "Metin Hizalama",
   "Rotate": "Döndürme",
@@ -96,8 +96,8 @@
   "CellBorderColor": "Hücre Kenarlığı Rengi",
   "FontColor": "Yazı Rengi",
   "textVerticalAlign": "Dikey Hizalama",
-  "Shape Border": "Kenarlığı Şekillendir",
-  "Shape Border Color": "Kenarlık Rengi",
+  "Shape Border": "Çerçeve",
+  "Shape Border Color": "Çerçeve Rengi",
   "SpaceBetweenCategory": "Kategori Aralarındaki Boşluk",
   "Title": "Başlık",
   "TitleText": "Başlık Metni",
@@ -105,5 +105,9 @@
   "Doughnut hole size": "Halka Delik Boyutu",
   "Angle of first slice": "İlk Dilimin Açısı",
   "SmoothLine": "Düz Çizgi",
-  "Font": "Yazı Tipi"
+  "Font": "Yazı Tipi",
+  "Border Size": "Çerçeve Boyutu",
+  "Value": "Değer",
+  "Data Source": "Veri kaynağı",
+  "Upload Data": "Veri Yükle"
 }
