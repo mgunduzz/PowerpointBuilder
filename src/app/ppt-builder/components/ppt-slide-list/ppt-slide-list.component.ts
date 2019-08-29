@@ -1,12 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import {
-  PptElementModel,
-  PPtElementEnum,
-  ChartFormatModel,
-  BaseFormatInputModel,
-  SlideModel
-} from '@app/ppt-builder/model';
+import { ChartFormatModel, BaseFormatInputModel, SlideModel } from '@app/ppt-builder/model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, Subscription } from 'rxjs';

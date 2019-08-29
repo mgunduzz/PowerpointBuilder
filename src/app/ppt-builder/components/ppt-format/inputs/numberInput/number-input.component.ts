@@ -3,8 +3,6 @@ import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
 import {
-  PPtElementEnum,
-  PptElementModel,
   BaseFormatInputModel,
   FormatCheckboxInputModel,
   FormatTextInputModel,

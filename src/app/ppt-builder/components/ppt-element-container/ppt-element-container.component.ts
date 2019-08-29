@@ -1,15 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, HostListener, OnChanges, AfterViewInit } from '@angular/core';
 import { PPtBuilderService } from '@app/ppt-builder/service';
-import {
-  PptElementModel,
-  PPtElementEnum,
-  ChartFormatModel,
-  BaseFormatInputModel,
-  SlideModel
-} from '@app/ppt-builder/model';
+
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
+import { PptBaseElementModel } from '@app/ppt-builder/model/elements/ppt-base-element.model';
+import { SlideModel } from '@app/ppt-builder/model/slide.model';
 declare var $: any;
 
 @Component({
@@ -23,7 +19,7 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
   activeElementSub: Subscription;
   elementDeleteSubscription: Subscription;
   activeSlideSub: Subscription;
-  activeElement: PptElementModel;
+  activeElement: PptBaseElementModel;
   activeSlide: SlideModel;
   elementId: number = 1;
   elId: number;
@@ -98,7 +94,7 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
     );
   }
 
-  onElementClick(item: PptElementModel) {
+  onElementClick(item: PptBaseElementModel) {
     if (this._pPtBuilderService.activeElement) {
       if (this._pPtBuilderService.activeElement.id != item.id) this._pPtBuilderService.setActiveElement(item);
     } else this._pPtBuilderService.setActiveElement(item);
@@ -125,7 +121,7 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
     this._pPtBuilderService.deleteElement(id);
   }
 
-  changeHighlight(elId: PptElementModel) {
+  changeHighlight(elId: PptBaseElementModel) {
     // this.elementList.forEach(element => {
     //   if (elId == element.id) {
     //     element.z = 999;
@@ -135,7 +131,7 @@ export class PptElementContainer implements OnInit, OnDestroy, OnChanges {
     // });
   }
 
-  elementListAsync: BehaviorSubject<Array<PptElementModel>>;
+  elementListAsync: BehaviorSubject<Array<PptBaseElementModel>>;
 
   ngOnInit() {
     this.elementListAsync = this._pPtBuilderService.elementListAsync;

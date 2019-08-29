@@ -1,32 +1,32 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { Chart, ChartData } from 'chart.js';
-import {
-  PptElementModel,
-  PPtFormatInputsEnum,
-  FormatCheckboxInputModel,
-  PptBaseChartElementModel,
-  ChartTypeEnum,
-  FormatNumberInputModel,
-  ColumnChartFormatModel,
-  BarChartFormatModel,
-  PieChartFormatModel,
-  DoughnutChartFormatModel,
-  AppComponentBase,
-  PptDefaultChartElementModel,
-  PptDefaultChartDataModel,
-  PptAreaChartElementModel,
-  FormatDropdownInputModel,
-  FormatColorPickerInputModel,
-  LineChartFormatModel,
-  PptPieChartElementModel,
-  PptPieChartDataModel,
-  FormatTextInputModel
-} from '@app/ppt-builder/model';
+
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-stacked100';
 import { $ } from 'protractor';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { Subscription } from 'rxjs';
+import {
+  PptBaseChartElementModel,
+  PptDefaultChartElementModel,
+  PptPieChartElementModel,
+  PptDefaultChartDataModel,
+  PptPieChartDataModel,
+  ChartTypeEnum
+} from '@app/ppt-builder/model';
+import {
+  LineChartFormatModel,
+  FormatCheckboxInputModel,
+  FormatNumberInputModel,
+  FormatDropdownInputModel,
+  FormatColorPickerInputModel,
+  FormatTextInputModel,
+  PPtFormatInputsEnum,
+  ColumnChartFormatModel,
+  BarChartFormatModel,
+  PieChartFormatModel,
+  DoughnutChartFormatModel
+} from '@app/ppt-builder/model';
 
 @Component({
   selector: 'ppt-chart-element',

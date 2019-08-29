@@ -1,52 +1,55 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+
 import {
-  ChartFormatModel,
+  AnalyseApiDataModel,
+  BarChartFormatModel,
   BaseFormatInputModel,
-  PptElementModel,
-  PPtElementEnum,
-  LoadElementModel,
-  PptTableElementModel,
-  TableFormatModel,
-  PptTextElementModel,
-  TextFormatModel,
-  PptImageElementModel,
-  ImageFormatModel,
+  ChartFormatModel,
   ChartTypeEnum,
+  ColumnChartFormatModel,
+  DoughnutChartFormatModel,
+  ElementExistenceChangeHistory,
+  ElementFormatChangeHistory,
+  FormatChangeInputModel,
+  FormatChangeModel,
+  ImageFormatModel,
+  LineChartFormatModel,
+  PieChartFormatModel,
+  PptAreaChartElementModel,
   PptBaseChartElementModel,
+  PptDefaultChartElementModel,
+  PPtElementEnum,
+  PptBaseElementModel,
+  PPtFormatInputsEnum,
+  PptImageElementModel,
+  PptPieChartElementModel,
+  PptScatterChartElementModel,
   PptShapeElementModel,
+  PptTableElementModel,
+  PptTextElementModel,
   ShapeFormatModel,
   ShapeTypeEnum,
-  SlideModel,
-  ColumnChartFormatModel,
-  BarChartFormatModel,
-  PieChartFormatModel,
-  DoughnutChartFormatModel,
-  FormatChangeModel,
   SlideBaseElementChangeHistory,
-  FormatChangeInputModel,
-  PptDefaultChartElementModel,
-  AnalyseApiDataModel,
-  LineChartFormatModel,
-  PptScatterChartElementModel,
-  PptAreaChartElementModel,
-  TableCellModel,
-  PptPieChartElementModel,
-  PPtFormatInputsEnum,
-  ElementFormatChangeHistory as SlideElementFormatChangeHistory,
-  ElementExistenceChangeHistory,
-  ElementFormatChangeHistory
+  SlideModel,
+  TextFormatModel
 } from '../model';
-import { BehaviorSubject, Subject, Observable, of } from 'rxjs';
-declare var $: any;
-import { saveAs } from 'file-saver';
+
 // import * as html2canvas from 'html2canvas';
-import html2canvas from 'html2canvas';
+
+declare var $: any;
+
 var FileSaver = require('file-saver');
 var stringify = require('json-stringify-safe');
 
+/**
+ * Only service for Powerpoint builder(creating elements, export etc)
+ */
 @Injectable()
 export class PPtBuilderService {
-  elementListAsync: BehaviorSubject<PptElementModel[]> = new BehaviorSubject<Array<PptElementModel>>(undefined);
+  elementListAsync: BehaviorSubject<PptBaseElementModel[]> = new BehaviorSubject<Array<PptBaseElementModel>>(undefined);
 
   constructor() {
     this.activeSlide = new SlideModel();
@@ -61,12 +64,12 @@ export class PPtBuilderService {
 
   public pptElementDeleteSubscription: BehaviorSubject<number> = new BehaviorSubject<number>(undefined);
 
-  public activeElementSubscription = new BehaviorSubject<PptElementModel>(undefined);
+  public activeElementSubscription = new BehaviorSubject<PptBaseElementModel>(undefined);
   public activeSlideSubscription = new BehaviorSubject<SlideModel>(undefined);
   public slideListSubscription = new BehaviorSubject<SlideModel[]>(undefined);
   public slideList: SlideModel[] = [];
   public activeSlide: SlideModel;
-  public activeElement: PptElementModel;
+  public activeElement: PptBaseElementModel;
 
   private isPreviewActive: boolean = true;
 
@@ -75,6 +78,9 @@ export class PPtBuilderService {
   public activeElementTemplatesSubscription = new BehaviorSubject<Array<any>>(undefined);
   public undoRedoIndexSubscription = new BehaviorSubject<number>(undefined);
 
+  /**
+   * Updates elements preview image on active slide.
+   */
   setSlidePreview() {
     if (this.isPreviewActive) {
       this.isPreviewActive = false;
@@ -94,6 +100,11 @@ export class PPtBuilderService {
     }
   }
 
+  /**
+   * sets element format changes to active slide format change history.
+   * @param elementId changed element id
+   * @param formatInputs changed element format inputs(width, height etc)
+   */
   setFormatInputChangeToActiveSlideHistory(elementId: number, formatInputs: Array<BaseFormatInputModel>) {
     if (formatInputs.length == 0) return false;
 
@@ -101,14 +112,19 @@ export class PPtBuilderService {
       return { inputId: item.inputId, value: (item as any).value } as FormatChangeInputModel;
     });
 
-    let formatChangeHistory = new SlideElementFormatChangeHistory();
+    let formatChangeHistory = new ElementFormatChangeHistory();
     formatChangeHistory.elementId = elementId;
     formatChangeHistory.inputs = historyFormatInputs;
 
     this.setElementChangeHistory(elementId, formatChangeHistory);
   }
 
-  setElementExistenceChangeHistory(el: PptElementModel, isDeleted: boolean = false) {
+  /**
+   * when element deleted or created, existence status adds to active slide change history
+   * @param el
+   * @param isDeleted
+   */
+  setElementExistenceChangeHistory(el: PptBaseElementModel, isDeleted: boolean = false) {
     if (el) {
       let elExistenceChangeHistory = new ElementExistenceChangeHistory();
       elExistenceChangeHistory.element = el;
@@ -119,6 +135,11 @@ export class PPtBuilderService {
     }
   }
 
+  /**
+   * base method for 'setFormatInputChangeToActiveSlideHistory' and 'setElementExistenceChangeHistory'.
+   * @param elementId
+   * @param changeHistory
+   */
   setElementChangeHistory(elementId: number, changeHistory: SlideBaseElementChangeHistory) {
     if (!this.activeSlide.formatChangeHistory) this.activeSlide.formatChangeHistory = [];
 
@@ -126,6 +147,7 @@ export class PPtBuilderService {
 
     this.activeSlide.historyActiveIndex++;
 
+    //deletes changes after historyActiveIndex,cause cant redo when new changes added
     this.activeSlide.formatChangeHistory.splice(
       this.activeSlide.historyActiveIndex,
       this.activeSlide.formatChangeHistory.length
@@ -133,36 +155,16 @@ export class PPtBuilderService {
 
     this.activeSlide.formatChangeHistory.push(changeHistory);
     this.undoRedoIndexSubscription.next(this.activeSlide.historyActiveIndex);
-
-    let process: any = {
-      type: 'add',
-      index: this.activeSlide.historyActiveIndex,
-      count: this.activeSlide.formatChangeHistory.length,
-      ctor: changeHistory.constructor.name
-    };
-
-    if (changeHistory instanceof ElementFormatChangeHistory) {
-      let el = this.activeSlide.elementList.find(item => item.id == changeHistory.elementId);
-
-      changeHistory.inputs.forEach(item => {
-        for (const key in el.format.formatInputs) {
-          if (el.format.formatInputs.hasOwnProperty(key)) {
-            const inputt = el.format.formatInputs[key] as BaseFormatInputModel;
-            if (inputt.inputId == item.inputId) {
-              process[inputt.name] = (inputt as any).value;
-            }
-          }
-        }
-      });
-    } else if (changeHistory instanceof ElementExistenceChangeHistory) {
-      process['el-' + changeHistory.elementId] = changeHistory.isDeleted ? 'Deleted' : 'Added';
-    }
-
-    console.log(process);
   }
 
+  /**
+   * undo last active slide changes
+   */
   undoActiveSlideFormatChange() {
     if (this.activeSlide.formatChangeHistory.length > 0 && this.activeSlide.historyActiveIndex > 0) {
+      /**
+       * if last change is element existence change(create or delete) historyActiveIndex must not decrease.if element deleted must be created after undo or otherwise
+       */
       if (this.activeSlide.historyActiveIndex == this.activeSlide.formatChangeHistory.length - 1) {
         if (
           this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex] instanceof
@@ -182,7 +184,9 @@ export class PPtBuilderService {
       this.activeSlide.formatChangeHistory.length > 0 &&
       this.activeSlide.historyActiveIndex < this.activeSlide.formatChangeHistory.length - 1
     ) {
-      // if (this.activeSlide.historyActiveIndex < this.activeSlide.formatChangeHistory.length - 1 && this.activeSlide.historyActiveIndex > 0)
+      /**
+       * if first change is element existence change(create or delete) historyActiveIndex must not increase.if element deleted must be created after undo or otherwise
+       */
       if (this.activeSlide.historyActiveIndex == 0) {
         if (
           this.activeSlide.formatChangeHistory[this.activeSlide.historyActiveIndex] instanceof
@@ -197,15 +201,16 @@ export class PPtBuilderService {
     }
   }
 
+  /**
+   * base method for undo , redo process
+   * @param changeHistory changeHistory which applying
+   * @param isUndo is pressed undo
+   */
   undoRedoUpdate(changeHistory: SlideBaseElementChangeHistory, isUndo: boolean = true) {
-    let process: any = {
-      type: isUndo ? 'undo' : 'redo',
-      index: this.activeSlide.historyActiveIndex,
-      count: this.activeSlide.formatChangeHistory.length,
-      ctor: changeHistory.constructor.name
-    };
-
-    if (changeHistory instanceof SlideElementFormatChangeHistory) {
+    /**
+     * if change is format change(width, height etc. changes)
+     */
+    if (changeHistory instanceof ElementFormatChangeHistory) {
       let element = this.activeSlide.elementList.find(item => item.id == changeHistory.elementId);
 
       if (element) {
@@ -218,16 +223,15 @@ export class PPtBuilderService {
           (elFormatInput as any).value = input.value;
 
           changedFormats.push({ updateComponent: true, formatInput: elFormatInput, addToHistory: false });
-
-          process[elFormatInput.name] = (elFormatInput as any).value;
         });
 
         element.onFormatChange.next(changedFormats);
       }
     } else if (changeHistory instanceof ElementExistenceChangeHistory) {
+    /**
+     * if change is element existence change like create or delete
+     */
       let el = changeHistory.element;
-
-      process['el-' + changeHistory.elementId] = changeHistory.isDeleted ? 'Deleted' : 'Added';
 
       if (changeHistory.isDeleted) {
         el.isCreatedByHistory = true;
@@ -260,10 +264,11 @@ export class PPtBuilderService {
     }
 
     this.undoRedoIndexSubscription.next(this.activeSlide.historyActiveIndex);
-    process.index = this.activeSlide.historyActiveIndex;
-    console.log(process);
   }
 
+  /**
+   * adds empty new slide to slideList.
+   */
   addSlide() {
     let lastSlide = this.slideList[this.slideList.length - 1];
 
@@ -277,6 +282,10 @@ export class PPtBuilderService {
     this.setActiveSlide(newSlide);
   }
 
+  /**
+   * sets passed slide to active slide
+   * @param slide slide model from slideList
+   */
   setActiveSlide(slide: SlideModel) {
     this.activeSlide = slide;
 
@@ -297,6 +306,9 @@ export class PPtBuilderService {
   private _setIntervalHandler: any;
   activeSlideNo: number = 1;
 
+  /**
+   * starts slide show
+   */
   startSlide() {
     this.activeSlide = this.slideList[0];
     this.setActiveSlide(this.activeSlide);
@@ -319,6 +331,9 @@ export class PPtBuilderService {
     }, 2000);
   }
 
+  /**
+   * stops slide show
+   */
   stopInterval() {
     $('.element-list-container').removeClass('slide-active');
 
@@ -326,6 +341,10 @@ export class PPtBuilderService {
     clearInterval(this._setIntervalHandler);
   }
 
+  /**
+   *
+   * @param activeSlideId
+   */
   setNextSlideActive(activeSlideId: number) {
     this.activeSlide = this.slideList.find(q => q.id == activeSlideId);
     if (this.activeSlide) {
@@ -348,11 +367,18 @@ export class PPtBuilderService {
     }
   }
 
+  /**
+   * updates listed slides by slides on this service
+   */
   updateSlideList() {
     this.slideListSubscription.next(this.slideList);
   }
 
-  setActiveElement(item: PptElementModel) {
+  /**
+   * sets active element by passed elementModel
+   * @param item Base element model
+   */
+  setActiveElement(item: PptBaseElementModel) {
     let elId = 0;
 
     if (item) {
@@ -365,8 +391,13 @@ export class PPtBuilderService {
     this.elementListAsync.value.forEach(el => (el.isActive = el.id == elId));
   }
 
-  generateElement(elType: PPtElementEnum, options: any): PptElementModel {
-    let el: PptElementModel = new PptElementModel();
+  /**
+   * generates element model by using element types(table, chart).
+   * @param elType enum using for element types
+   * @param options bootstrap element options
+   */
+  generateElement(elType: PPtElementEnum, options: any): PptBaseElementModel {
+    let el: PptBaseElementModel = new PptBaseElementModel();
     el.format.formatInputs.x.value = options.x;
     el.format.formatInputs.y.value = options.y;
 
@@ -396,7 +427,12 @@ export class PPtBuilderService {
     return el;
   }
 
-  addElement(el: PptElementModel, addHistory: boolean = true) {
+  /**
+   * adding element to element list and sets active.
+   * @param el element model
+   * @param addHistory if true it sets active slide change history.for undo redo
+   */
+  addElement(el: PptBaseElementModel, addHistory: boolean = true) {
     el.id = 1;
 
     if (this.activeSlide.elementList.length > 0)
@@ -433,7 +469,7 @@ export class PPtBuilderService {
     return chartEl;
   }
 
-  createShapeElement(el: PptElementModel, type: ShapeTypeEnum): PptElementModel {
+  createShapeElement(el: PptBaseElementModel, type: ShapeTypeEnum): PptBaseElementModel {
     var chartEl = new PptShapeElementModel();
     chartEl.format = new ShapeFormatModel(el.format);
     chartEl.name = 'Shape';
@@ -461,7 +497,7 @@ export class PPtBuilderService {
     clearTimeout(this._setTimeoutHandler);
     clearInterval(this._setIntervalHandler);
   }
-  createChartElement(el: PptElementModel, type: ChartTypeEnum): PptElementModel {
+  createChartElement(el: PptBaseElementModel, type: ChartTypeEnum): PptBaseElementModel {
     let chartEl = new PptBaseChartElementModel(el);
     chartEl.format = new ChartFormatModel();
 
@@ -523,7 +559,7 @@ export class PPtBuilderService {
     return chartEl;
   }
 
-  createTableElement(el: PptElementModel, row: number, col: number): PptTableElementModel {
+  createTableElement(el: PptBaseElementModel, row: number, col: number): PptTableElementModel {
     var tableEl = new PptTableElementModel(row, col);
 
     tableEl.name = 'Table';
@@ -536,7 +572,7 @@ export class PPtBuilderService {
     return tableEl;
   }
 
-  createImageElement(el: PptElementModel, url: string) {
+  createImageElement(el: PptBaseElementModel, url: string) {
     var imageEl = new PptImageElementModel();
     imageEl.format = new ImageFormatModel(el.format);
     imageEl.name = 'Image';
@@ -548,7 +584,7 @@ export class PPtBuilderService {
     return imageEl;
   }
 
-  createTextElement(el: PptElementModel, text: string) {
+  createTextElement(el: PptBaseElementModel, text: string) {
     var textEl = new PptTextElementModel();
     textEl.format = new TextFormatModel(el.format);
 
@@ -573,6 +609,11 @@ export class PPtBuilderService {
     return textEl;
   }
 
+  /**
+   * delete element from element list and activeSlide element list.
+   * @param id element id
+   * @param addHistory if true deleted element adds to activeSlide change history for undo redo.
+   */
   deleteElement(id: number, addHistory: boolean = true) {
     let el = this.activeSlide.elementList.find(o => o.id == id);
 
@@ -587,6 +628,10 @@ export class PPtBuilderService {
     }
   }
 
+  /**
+   * delets passed slide by slide.id
+   * @param slide slide model
+   */
   deleteSlide(slide: SlideModel) {
     if (this.slideList.length > 1) {
       let index = this.slideList.findIndex(item => item.id == slide.id);
@@ -602,6 +647,9 @@ export class PPtBuilderService {
     }
   }
 
+  /**
+   * using for PptxGenjs Export
+   */
   export() {
     const PptxGenJS = require('pptxgenjs');
 
@@ -619,6 +667,9 @@ export class PPtBuilderService {
       }
 
       slideItem.elementList.forEach(el => {
+        /**
+         * using for elements export for PptxGenjs
+         */
         el.generatePptxItem(pptx, slide);
       });
     });
@@ -626,6 +677,10 @@ export class PPtBuilderService {
     pptx.save('Sample Presentation');
   }
 
+  /**
+   * stores active elements as json string at localStorage
+   * @param templateName
+   */
   saveActiveElementAsTemplate(templateName: string) {
     let activeEl = this.activeElement;
     let name = activeEl.constructor.name + '-' + templateName;
@@ -634,10 +689,13 @@ export class PPtBuilderService {
 
     localStorage.setItem(name, elJson);
 
-    this.updateActiveElementSubscription();
+    this.updateActiveElementTemplates();
   }
 
-  updateActiveElementSubscription() {
+  /**
+   * updates active element template list
+   */
+  updateActiveElementTemplates() {
     let allKeys = Object.keys(localStorage);
     let activeElName = this.activeElement.constructor.name;
 
@@ -656,6 +714,9 @@ export class PPtBuilderService {
     this.activeElementTemplatesSubscription.next(templates);
   }
 
+  /**
+   * fake data for elements has dataModal(table, charts).
+   */
   getElementData(): Observable<Array<AnalyseApiDataModel>> {
     let data = Array<AnalyseApiDataModel>();
 
@@ -675,6 +736,9 @@ export class PPtBuilderService {
 
   jsonStr = '';
 
+  /**
+   * stores all slide and its elements as a jsonString on text file
+   */
   saveAsTemplate() {
     let jsonModel: any[] = [];
 
@@ -691,10 +755,14 @@ export class PPtBuilderService {
     saveAs(blob, Math.random() + '.txt');
   }
 
+  /**
+   * apply selected templates for active element.
+   * @param template stores template jsonString.
+   */
   setActiveElementTemplate(template: any) {
     let templateElJsonData = template.data;
 
-    let templateEl = JSON.parse(templateElJsonData) as PptElementModel;
+    let templateEl = JSON.parse(templateElJsonData) as PptBaseElementModel;
 
     let newEl = this.generateElementByElementModel(templateEl, true);
 
@@ -742,8 +810,13 @@ export class PPtBuilderService {
     this.setActiveElement(currentEl);
   }
 
-  generateElementByElementModel(el: PptElementModel, updateFormatInput: boolean = false) {
-    let newEl = new PptElementModel();
+  /**
+   * generates element by element model.
+   * @param el element model
+   * @param updateFormatInput sets passed elements format inputs to generated element.
+   */
+  generateElementByElementModel(el: PptBaseElementModel, updateFormatInput: boolean = false) {
+    let newEl = new PptBaseElementModel();
 
     switch (el.type) {
       case PPtElementEnum.Text:
@@ -788,6 +861,10 @@ export class PPtBuilderService {
     return newEl;
   }
 
+  /**
+   * json string to powerpoint builder.parse all slide and its elements.and adds to mainContainer for listing.
+   * @param rawData
+   */
   jsonStringConvert(rawData: string) {
     this.slideList = [];
     let slides = JSON.parse(rawData) as Array<SlideModel>;
@@ -796,7 +873,7 @@ export class PPtBuilderService {
       let newSlide = new SlideModel();
       newSlide.import(slide);
 
-      slide.elementList.forEach((el: PptElementModel) => {
+      slide.elementList.forEach((el: PptBaseElementModel) => {
         let newEl = this.generateElementByElementModel(el);
 
         for (const key in el) {

@@ -10,22 +10,20 @@ import {
   AfterViewChecked,
   Renderer
 } from '@angular/core';
-import {
-  PptElementModel,
-  PPtFormatInputsEnum,
-  FormatCheckboxInputModel,
-  PptTableElementModel,
-  FormatNumberInputModel,
-  TableCellModel,
-  FormatColorPickerInputModel,
-  FormatChangeModel,
-  FormatDropdownInputModel
-} from '@app/ppt-builder/model';
+
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { DndDropEvent } from 'ngx-drag-drop';
 import { PPtBuilderService } from '@app/ppt-builder/service';
+import {
+  FormatNumberInputModel,
+  FormatColorPickerInputModel,
+  FormatDropdownInputModel,
+  PPtFormatInputsEnum,
+  PptTableElementModel,
+  TableCellModel
+} from '@app/ppt-builder/model';
 declare var $: any;
 
 @Component({

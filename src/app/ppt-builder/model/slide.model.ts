@@ -1,13 +1,15 @@
-import { PptElementModel, BaseElementFormatModel, SlideFormatModel } from '.';
+import { PptBaseElementModel } from './elements/ppt-base-element.model';
 
-export class SlideModel extends PptElementModel {
+import { SlideFormatModel } from './element-format-model';
+
+export class SlideModel extends PptBaseElementModel {
   /**
    *
    */
   constructor() {
     super();
 
-    this.elementList = new Array<PptElementModel>();
+    this.elementList = new Array<PptBaseElementModel>();
     this.formatChangeHistory = new Array<SlideBaseElementChangeHistory>();
     this.format = new SlideFormatModel();
   }
@@ -17,7 +19,7 @@ export class SlideModel extends PptElementModel {
   historyActiveIndex?: number = -1;
   pageNumber: number;
 
-  elementList: Array<PptElementModel>;
+  elementList: Array<PptBaseElementModel>;
   formatChangeHistory?: Array<SlideBaseElementChangeHistory>;
   format: SlideFormatModel;
   backgroundColor: string;
@@ -59,7 +61,7 @@ export class ElementExistenceChangeHistory extends SlideBaseElementChangeHistory
     super();
   }
 
-  element: PptElementModel;
+  element: PptBaseElementModel;
   isDeleted: boolean = false;
 }
 

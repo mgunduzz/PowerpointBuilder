@@ -16,19 +16,17 @@ import {
 import { FormGroup } from '@angular/forms';
 
 import { environment } from '@env/environment';
-import {
-  PPtElementEnum,
-  PptElementModel,
-  FormatNumberInputModel,
-  PPtFormatInputsEnum,
-  BaseFormatInputModel,
-  FormatChangeModel,
-  FormatColorPickerInputModel,
-  FormatCheckboxInputModel
-} from '@app/ppt-builder/model';
 import { PPtBuilderService } from '@app/ppt-builder/service';
 import { CdkDragEnd, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 import { Subscription } from 'rxjs';
+import { PptBaseElementModel, PPtElementEnum, FormatChangeModel } from '@app/ppt-builder/model';
+import {
+  BaseFormatInputModel,
+  FormatNumberInputModel,
+  FormatColorPickerInputModel,
+  FormatCheckboxInputModel,
+  PPtFormatInputsEnum
+} from '@app/ppt-builder/model';
 
 declare var $: any;
 
@@ -38,7 +36,7 @@ declare var $: any;
   styleUrls: ['./base-element-container.component.scss']
 })
 export class BaseElementContainer implements OnInit, OnDestroy, AfterViewInit {
-  @Input('element') element: PptElementModel;
+  @Input('element') element: PptBaseElementModel;
   @Input('type') type: number;
   @Output() highlightChange = new EventEmitter();
 

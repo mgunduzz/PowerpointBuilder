@@ -1,23 +1,21 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
-import {
-  PptElementModel,
-  PPtFormatInputsEnum,
-  FormatCheckboxInputModel,
-  PptTableElementModel,
-  PptTextElementModel,
-  FormatTextInputModel,
-  FormatNumberInputModel,
-  FormatDropdownInputModel,
-  FormatColorPickerInputModel,
-  ShapeTypeEnum,
-  PptShapeElementModel,
-  FormatRadioButtonInputModel
-} from '@app/ppt-builder/model';
+
 import { element } from '@angular/core/src/render3';
 import { ContentEditableFormDirective } from '@app/ppt-builder/directives/content-editable-form.directive';
 import { CdkDragEnd, CdkDragMove } from '@angular/cdk/drag-drop';
 import { PptFormatCompontent } from '@app/ppt-builder/components/ppt-format/ppt-format.component';
 import { Subscription } from 'rxjs';
+import { PptShapeElementModel } from '@app/ppt-builder/model';
+import {
+  ShapeTypeEnum,
+  FormatTextInputModel,
+  FormatDropdownInputModel,
+  FormatCheckboxInputModel,
+  FormatNumberInputModel,
+  FormatColorPickerInputModel,
+  FormatRadioButtonInputModel,
+  PPtFormatInputsEnum
+} from '@app/ppt-builder/model';
 declare var $: any;
 
 @Component({
